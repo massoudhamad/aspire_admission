@@ -1,0 +1,195 @@
+<?php
+session_start();
+require_once 'DB.php';
+$db=new DBHelper();
+$params = array('params' => array());
+
+
+$programmeID=30;
+$academicYearID=3;
+$admissionID=12;
+$programmeCode="acfef0b99101c250761ca3bba28575e04a4a5772";
+$payment_reference_number="873538724873287";
+
+
+$applicantsData=$db->getNacteAdmittedList($programmeID,$academicYearID,$admissionID);
+if(!empty($applicantsData))
+{
+    $x=0;
+    foreach ($applicantsData as $row)
+    {
+        $x++;
+        $applicantID=$row['applicantID'];
+        $userID=$row['userID'];
+        $indexNumber=$db->getData("users","userName","userID",$userID);
+        $fname= $row['firstName'];
+        $mname=$row['middleName'];
+        $lname=$row['lastName'];
+        $gender=$row['gender'];
+        $phoneNumber=$row['phoneNumber'];
+        $dob=$row['dob'];
+        $dateOfBirth=$row['dateOfBirth'];
+        $email=$row['email'];
+        $disabilityStatus=$row['disabilityStatus'];
+        $districtID=$row['districtID'];
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $date = explode("-", $dob);
+            $date1 = $date[2];
+            $date2 = $date[1];
+            $email = strtolower("$fname$date1$date2@gmail.com");
+        }
+        else {
+            $email = strtolower($email);
+        }
+
+        $districtName=$db->getData("district","districtName","districtID",$districtID);
+        $regionID=$db->getData("district","regionID","districtID",$districtID);
+
+        $regionName=$db->getData("region","regionName","regionID",$regionID);
+        //O-Level
+        $olevel=$db->getRows("applicantresults", array('where'=>array('applicantID'=>$applicantID,'examinationLevel'=>'Ordinary'),'order_by applicantID ASC'));
+        if(!empty($olevel))
+        {
+            $formfour=array();$yearO=array();
+            foreach($olevel as $matokeo)
+            {
+                $yearTakenO=$matokeo['yearTaken'];
+                $yearO[]=$yearTakenO;
+                $indexNumberO=$matokeo['indexNumber'];
+                $number=explode("/",$indexNumberO);
+                $centerNumber=$number[0];
+                $iNumber=$number[1];
+                $year=$number[2];
+                //$yearTakenO[]=$year;
+                $indNumber=$centerNumber."/".$iNumber;
+                $formfour[]=$indNumber;
+            }
+        }
+        else
+        {
+            $yearO="-";
+            $indexNumberO="-";
+            $formfour="";
+
+        }
+        //A-level
+
+        $alevel=$db->getRows("applicantresults", array('where'=>array('applicantID'=>$applicantID,'examinationLevel'=>'Advance'),'order_by applicantID ASC'));
+
+        if(!empty($alevel))
+        {
+            $formsix=array();
+            $yaken=array();
+            foreach($alevel as $matokeo)
+            {
+                $yearTakenA=$matokeo['yearTaken'];
+                $indexNumberA=$matokeo['indexNumber'];
+                $number=explode("/",$indexNumberA);
+                $centerNumber=$number[0];
+                $iNumber=$number[1];
+                $year=$number[2];
+                //$yearTakenA=$year;
+                $indNumber=$centerNumber."/".$iNumber;
+                $formsix[]=$indNumber;
+                $yaken[]=$yearTakenA;
+            }
+        }
+        else
+        {
+            $yaken="-";
+            $indexNumberA="-";
+            $formsix="";
+        }
+
+        $equivalentresults=$db->getRows("applicantresults", array('where'=>array('applicantID'=>$applicantID,'examinationLevel'=>'Equivalent'),'order_by applicantID ASC'));
+        if(!empty($equivalentresults))
+        {
+            foreach($equivalentresults as $matokeo)
+            {
+                $yearTaken=$matokeo['yearTaken'];
+                $indexNumber=$matokeo['indexNumber'];
+            }
+        }
+        else
+        {
+            $yearTaken="-";
+            $indexNumber="-";
+        }
+
+
+        $equivalentresults4=$db->getRows("applicantresults", array('where'=>array('applicantID'=>$applicantID,'examinationLevel'=>'Equivalent','examinationAuthority'=>1),'order_by applicantID ASC'));
+        if(!empty($equivalentresults4))
+        {
+            foreach($equivalentresults4 as $matokeo)
+            {
+                $yearTaken4=$matokeo['yearTaken'];
+                $indexNumber4=$matokeo['indexNumber'];
+            }
+        }
+        else
+        {
+            $yearTaken4="-";
+            $indexNumber4="-";
+        }
+
+
+//API URL
+$url = 'http://41.93.40.137/nacteapi/index.php/api/upload';
+//create a new cURL resource
+$ch = curl_init($url);
+//setup request to send json via POST
+$data = array(
+    'authorization' => 'acfef0b99101c250761ca3bba28575e04a4a5772',
+    'firstname' => $fname,
+    'secondname' => $mname,
+    'surname' => $lname,
+    'DOB' => $dob,
+    'gender' => $gender,
+    'impairement' => $disabilityStatus,
+    'form_four_indexnumber' => implode(",",$formfour),
+    'form_four_year' => implode(",",$yearO),
+    'form_six_indexnumber' => implode(",",$formsix),
+    'form_six_year' => implode(",",$yaken),
+    'NTA4_reg' => '',
+    'NTA4_grad_year' => '',
+    'NTA5_reg' => '',
+    'NTA5_grad_year' => '',
+    'mobile_number' => $phoneNumber,
+    'email_address' => $email,
+    'address' => $row['physicalAddress'],
+    'region' => $regionName,
+    'district' => $districtName,
+    'next_kin_name' => $row['nextOfKinName'],
+    'next_kin_phone' => $row['nextOfKinPhoneNumber'],
+    'next_kin_address' => $row['nextOfKinAddress'],
+    'next_kin_relation' => $row['relationship'],
+    'next_kin_region' => $regionName,
+    'nationality' => $row['citizenship'],
+    'programme_id' => $programmeCode,
+    'payment_reference_number' => $payment_reference_number,
+    'application_year' => '2019',
+    'intake' => 'SEPT',
+
+);
+$payload = json_encode(array("user" => $data));
+
+//attach encoded JSON string to the POST fields
+curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+//set the content type to application/json
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+
+//return response instead of outputting
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+//execute the POST request
+$result = curl_exec($ch);
+
+//close cURL resource
+curl_close($ch);
+
+//echo message
+
+    }
+}
