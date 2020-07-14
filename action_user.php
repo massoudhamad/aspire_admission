@@ -67,7 +67,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
                 $message .= '<h1 style="color:#080;">Dear ' . $name . '</h1>';
                 $message .= '<p>Welcome to Aspire UAS, member of SkyChuo Enterprise Resource Planning Management Information System for University/College</p>';
                 $message .= '<p>To activate your account you must login using username and password below:</p>';
-                $message .= '<p style="color:#f40;font-size:18px;">UserName: ' . $username . '<br>Password: ' . $pwd . '</p>';
+                $message .= '<p style="color:#f40;font-size:18px;">UserName: ' . $username . '<br>Password: ' . $password . '</p>';
                 $message .= '<p>Please do not expose your password to any other person. You may change your password at any time if you wish to do so. </p>';
                 $message .= '<p>We hope you enjoy using Aspire UAS and all services offered by other software solutions under SkyChuo package.</p>';
                 $message .= '<p></p>';
@@ -75,7 +75,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
                 $message .= '<p></p>';
                 $message .= '<p>_________________________</p>';
                 $message .= '<p>SkyChuo Account Management Services </p>';
-                $message .= '<p>College of Science, Technology, Engineering, Arts and Matehematics</p>';
+                // $message .= '<p>College of Science, Technology, Engineering, Arts and Matehematics</p>';
                 $message .= '<p>SkyChuo is offered by <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></p>';
                 $message .= '</body></html>';
 // Sending email
