@@ -204,7 +204,6 @@ if(!empty($activeInTake)) {
         foreach($admInTake as $adintake)
         {
             $admissionInTake=$adintake['admissionInTake'];
-
         }
     }
 ?>

@@ -4,9 +4,15 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
+$apiNumber="S1291-0029/1/2003";
+$token="";
+
+$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
+
+
 //$appfees = $db->getData("applicationfees", "fees", "studyLevelID", 3);
-$appfees=$db->getApplicationFees(3);
-echo $appfees;
+//$appfees=$db->getApplicationFees(3);
+//echo $appfees;
 
 /*$academicYear="2018/2019";
 $year=explode("/",$academicYear);

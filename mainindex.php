@@ -561,6 +561,10 @@ case 'zalongwareport':
         break;
 
 
+case 'api_setting':
+        include('api_setting.php');
+        break;
+
 
 
 

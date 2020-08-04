@@ -2,8 +2,9 @@
     <?php
     include '../DB.php';
     $db=new DBHelper();
-        $token=$db->getAPIToken();
-        $indexNumber='S0402/0005/2015';
+
+        //$token=$db->getAPIToken();
+        //$indexNumber='S0402/0005/2015';
          $iNumber=explode("/",$indexNumber);
          $centerNumber=$iNumber[0];
          $number=$iNumber[1];
@@ -11,8 +12,23 @@
          $apiNumber=$centerNumber."-".$number."/1/".$yearTaken;
                  
                        
-         $json=file_get_contents("https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token);
-         $data = json_decode($json,true);
+         //$json=file_get_contents("https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token);
+        $api_token = $db->getAPI("NECTA", "token");
+        if (!empty($api_token)) {
+            foreach ($api_token as $api) {
+                $apitToken = $api['token'];
+            }
+        }
+        $token = $db->getAPIToken($apitToken);
+        $url = "https: //api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response_json = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response_json, true);
+
+         //$data = json_decode($json,true);
          echo "Name is ".$data['particulars']['first_name'];     
                 ?>
                 <table class="table table-striped table-bordered table-condensed">

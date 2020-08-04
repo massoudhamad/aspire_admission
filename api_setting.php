@@ -1,5 +1,5 @@
 <div class="container">
-<h3>Department Management</h3>
+<h3>API Setting</h3>
 <hr>
 <script type="text/javascript">
   $(document).ready(function () {
@@ -7,7 +7,7 @@
                 {
                    "scrollX":true,
                     paging: true,
-                    dom: 'Blfrtip',
+                    //dom: 'Blfrtip',
                     buttons:[
                         {
                             extend:'excel',
@@ -43,7 +43,7 @@
 <div class="row"> 
 <div class="col-md-12">
 <div class="pull-right">
-                <button class="btn btn-success" data-toggle="modal" data-target="#add_new_record_modal">Add New Department</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#add_new_record_modal">Add New API</button>
             </div>   
  </div>
 </div>
@@ -55,19 +55,19 @@ if(!empty($_REQUEST['msg']))
 {
   if($_REQUEST['msg']=="succ")
   {
-    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=api_setting' class='close' data-dismiss='alert'>&times;</a>
     <strong>Department data has been inserted successfully</strong>.
 </div>";
   }
   else if($_REQUEST['msg']=="edited")
   {
-    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=api_setting' class='close' data-dismiss='alert'>&times;</a>
     <strong>Department data has been edited Successfully</strong>.
 </div>";
   }
   else
   {
-    echo "<div class='alert alert-danger fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=api_setting' class='close' data-dismiss='alert'>&times;</a>
     <strong>Error-Sory, Something Wrong happen, Contact System Administrator for more Information</strong>.
 </div>";
   }
@@ -82,46 +82,41 @@ if(!empty($_REQUEST['msg']))
 <?php
           
             $db = new DBHelper();
-            $users = $db->getRows('departments',array('order_by'=>'status DESC'));
+            
 ?>
-<h3 class="text-info">List of Registered Departments</h3>
+<h3 class="text-info">List of Registered API</h3>
 <table  id="departments" class="display nowrap" cellspacing="0" width="100%">
   <thead>
   <tr>
-      <th>No.</th>
-    <th>Department Name</th>
-    <th>Department Code</th>
-    <th>School Name</th>
-    <th>Status</th>
+    <th>Username</th>
+    <th>Token</th>
+    <th>Token Type</th>
+    <th>Source</th>
     <th>Edit</th>
      </tr>
   </thead>
   <tbody>
 <?php 
- if(!empty($users)){ $count = 0; foreach($users as $user){ $count++;
-
-  if($user['status']==1)
-  {
-    $status="Active";
-  }
-  else
-  {
-    $status="Not Active";
-  }
+$api_data = $db->getRows('api_setting', array('order_by' => 'apiSettingID'));
+if (!empty($api_data)) {
+     foreach ($api_data as $api) {
+        $api_id = $api['apiSettingID'];
+        $api_name = $api['userName'];
+        $api_token = $api['token'];
 
  ?>
             <tr>
-                <td><?php echo $count; ?></td>
-                <td><?php echo $user['departmentName']; ?></td>
-                <td><?php echo $user['departmentCode']; ?></td>
-                <td><?php echo $db->getData('schools','schoolName','schoolID',$user['schoolID']);?></td>
-                <td><?php echo $status;?></td>
+                <td><?php echo $api_name; ?></td>
+                <td><?php echo $api_token; ?></td>
+                <td><?php echo $api['tokenType'];?></td>
+                <td><?php echo $api['organizationName'];?></td>
               <td>
-                    <a href="index3.php?sp=edit_department&id=<?php echo $user['departmentID']; ?>" class="glyphicon glyphicon-edit"></a>
+                    <a href="#" class="glyphicon glyphicon-edit"></a>
                    
                 </td>
             </tr>
-            <?php } }?>
+            <?php } 
+        } ?>
 </tbody>
  </table>
  </div></div>  
@@ -133,7 +128,7 @@ if(!empty($_REQUEST['msg']))
 <div class="modal-content">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<form name="" method="post" action="action_department.php">
+<form name="" method="post" action="action_api_setting.php">
 <h4 class="modal-title" id="myModalLabel">Add New Record</h4>
 </div>
 <div class="row">
@@ -141,27 +136,34 @@ if(!empty($_REQUEST['msg']))
 <div class="modal-body">
 
 <div class="form-group">
-<label for="email">Department Name</label>
-<input type="text" id="name" name="name" placeholder="Department Name" class="form-control" />
+<label for="email">Username</label>
+<input type="text" id="username" name="username" placeholder="UserName" class="form-control" />
 </div>
 
 <div class="form-group">
-<label for="email">Department Code</label>
-<input type="text" id="code" name="code" placeholder="Code" class="form-control" />
+<label for="email">Token</label>
+<input type="text" id="token" name="token" placeholder="Code" class="form-control" />
 </div>
 
 <div class="form-group">
-<label for="email">School Name</label>
-<select name="schoolID" class="form-control">
-           <option value="">Select Here</option>   
-            <?php
-           $schools = $db->getRows('schools',array('order_by'=>'schoolID DESC'));
-           if(!empty($schools)){ $count = 0; foreach($schools as $level){ $count++;
-            $schoolName=$level['schoolName'];
-            $schoolID=$level['schoolID'];
-           ?>
-           <option value="<?php echo $schoolID;?>"><?php echo $schoolName;?></option>
-           <?php }}?>
+<label for="email">Token Type</label>
+<select name="tokenType" class="form-control">
+<option value="">Select Here</option>
+<option value="token">Token</option>
+<option value="auth">Authentication</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="email">Source</label>
+<select name="organizationName" class="form-control">
+<option value="">Select Here</option>
+<option value="TCU">TCU</option>
+<option value="NACTE">NACTE</option>
+<option value="NECTA">NECTA</option>
+<option value="MOODLE">MOODLE</option>
+<option value="StAR">Academic Records</option>
+<option value="Finace">Finance</option>
 </select>
 </div>
 

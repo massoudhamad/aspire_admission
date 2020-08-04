@@ -3190,9 +3190,9 @@ where
         return $token;
     }*/
 
-    public function getAPIToken()
+    public function getAPIToken($token)
     {
-        $url = "https://api.necta.go.tz/api/public/auth/";
+        $url = "https://api.necta.go.tz/api/public/auth/".$token;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -4167,6 +4167,25 @@ where
         } catch (PDOException $ex) {
             echo "Getting Data Error" . $ex->getMessage();
         }
+    }
+
+    public function getAPI($orgName,$tType)
+    {
+        try {
+            $data=array();
+            $query = $this->conn->prepare("SELECT
+                userName,token
+            from
+                api_setting
+            where organizationName=:org and tokenType=:ttype");
+            $query->execute(array(':org' => $orgName,':ttype'=>$tType));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data; 
+            } catch (PDOException $ex) {
+                echo "Getting Data Error" . $ex->getMessage();
+            }
     }
 
 

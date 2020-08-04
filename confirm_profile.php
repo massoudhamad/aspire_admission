@@ -190,7 +190,15 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
             $exam_body = $_POST['exam_body'];
             $boolStatus = false;
             if ($exam_body == "NECTA") {
-                $token = $db->getAPIToken();
+                $api_token=$db->getAPI("NECTA","token");
+                if(!empty($api_token))
+                {
+                    foreach($api_token as $api)
+                    {
+                        $apitToken=$api['token'];
+                    }
+                }
+                $token = $db->getAPIToken($apitToken);
                 $indexNumber = strtoupper($_POST['indexNumber']);
                 $indexNumber2 = explode("/", $indexNumber);
                 $center = $indexNumber2[0];
@@ -204,6 +212,14 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                 $index_number = $center . "/" . $number;
                 $json = file_get_contents("https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token);
                 $data = json_decode($json, true);
+                /*$url = "https: //api.necta.go.tz/api/public/particulars/".$apiNumber."/".$token;
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_HTTPGET, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response_json = curl_exec($ch);
+                curl_close($ch);
+                $data = json_decode($response_json, true);*/
+
 
                 if ($data['status']['code'] == 1) {
                     $fname = $data['particulars']['first_name'];

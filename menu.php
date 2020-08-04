@@ -36,7 +36,7 @@ session_start();
                 <li><a href="index3.php?sp=document_upload">Documents Uploads</a></li>
                 <?php
             }
-            if($_SESSION['role_session']==1)
+            if($_SESSION['role_session']==1 || $_SESSION['role_session']==3)
             {
                 ?>
                 <li><a href="index3.php?sp=user">Manage User</a></li>
@@ -133,7 +133,7 @@ session_start();
     </ul>
 </li>
 <?php
-if ($_SESSION['role_session'] == 3) {
+if ($_SESSION['role_session'] == 3 || $_SESSION['role_session']==1) {
 ?>
     <li class="treeview">
         <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>TCU Integration</span> <i class="fa fa-angle-left pull-right"></i></a>
