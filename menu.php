@@ -65,14 +65,14 @@ session_start();
             <li><a href="index3.php?sp=pg_applicants">Applicants List(Postgraduate)</a></li>
             <li><a href="index3.php?sp=approvedlist">List of Approved</a></li>
             <?php
-            if ($_SESSION['role_session'] == 3) {
+            if ($_SESSION['role_session'] == 3 || $_SESSION['role_session'] == 1) {
             ?>
                 <li><a href="index3.php?sp=viewbyremarks">View By Remarks</a></li>
             <?php
             }
             ?>
             <?php
-            if ($_SESSION['role_session'] == 3) {
+            if ($_SESSION['role_session'] == 3 || $_SESSION['role_session'] == 1) {
             ?>
                 <li><a href="index3.php?sp=listallapplicants">List of All Applicants</a></li>
             <?php
