@@ -23,16 +23,21 @@ if($indexNumber) {
         //$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
         
         $token = $db->getAPIToken($apitToken);
-        $json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
-        // $url = "https: //api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
-        // $ch = curl_init($url);
-        // curl_setopt($ch, CURLOPT_HTTPGET, true);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // $response_json = curl_exec($ch);
-        // curl_close($ch);
-        // $data = json_decode($response_json, true);
-
-        $data = json_decode($json, true);
+        //$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
+         $url = "https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response_json = curl_exec($ch);
+        // if (curl_exec($ch) === false) {
+        //     echo 'Curl error: ' . curl_error($ch);
+        // } else {
+        //     echo 'Operation completed without any errors, you have the response';
+        // }
+        curl_close($ch);
+        $data = json_decode($response_json, true);
+    
+        //$data = json_decode($json, true);
         ?>
         <form name="" action="action_confirm_ordinary_results.php" method="post">
         <table class="table table-striped table-bordered table-condensed">

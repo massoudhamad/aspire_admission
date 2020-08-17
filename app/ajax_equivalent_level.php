@@ -6,8 +6,22 @@ $avn=$_POST['avn_number'];
 $applicantID=$_SESSION['applicantID'];
 if($avn) {
     /*if(strlen($db->getAPIToken())>1) {*/
-        $json = file_get_contents("http://41.93.40.137/nacte_api/index.php/api/results/LXLn8KLPfupfrV/a765443108e144df0b6ac9b7523c44d1ee5a32d2/15026014040402/".$avn);
-        $data = json_decode($json, true);
+        $api_token = $db->getAPI("NACTE", "token");
+        if (!empty($api_token)) {
+            foreach ($api_token as $api) {
+                $apitToken = $api['token'];
+            }
+        }
+
+        //$json = file_get_contents("http://41.93.40.137/nacte_api/index.php/api/results/".$apitToken."/".$avn);
+        $url = "http://41.93.40.137/nacte_api/index.php/api/results/".$apitToken."/".$avn;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response_json = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response_json, true);
+
         $fname=$db->getData("applicants","firstName","applicantID",$applicantID);
         $mname=$db->getData("applicants","middleName","applicantID",$applicantID);
         $lname=$db->getData("applicants","lastName","applicantID",$applicantID);
@@ -106,13 +120,13 @@ if ($data['status']['code'] == 200) {
     }
     else
     {
-        echo "<h4 class='text-danger'>Sorry,Invalid Index Number.</h4>";
+         echo "<h4 class='text-danger'>Sorry,Invalid Index Number.</h4>";
     }
     }//end of loop
     }
     else
     {
-         echo "<h4 class='text-danger'>Sorry,Invalid Index Number.</h4>";
+         echo "<h4 class='text-danger'>Sorry,Invalid Token.</h4>";
     }
         /*}else
         {

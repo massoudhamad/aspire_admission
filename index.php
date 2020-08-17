@@ -179,7 +179,7 @@ if(!empty($org))
     }
 }
 
-$activeYear=$user->getRows("academicyears",array('where'=>array('academicYearStatus'=>1),'order_by academicYearID'));
+/* $activeYear=$user->getRows("academicyears",array('where'=>array('academicYearStatus'=>1),'order_by academicYearID'));
 if(!empty($activeYear))
 {
     foreach($activeYear as $ayear)
@@ -205,7 +205,22 @@ if(!empty($activeInTake)) {
         {
             $admissionInTake=$adintake['admissionInTake'];
         }
+    } */
+
+    $admissionSetting=$user->getAdmissionSetting();
+    if(!empty($admissionSetting))
+    {
+        foreach($admissionSetting as $admin)
+        {
+            $academicYear = $admin['academicYear'];
+            $academicYearID = $admin['academicYearID'];
+            $admissionID = $admin['admissionID'];
+            $admissionName = $admin['admissionName'];
+            $admissionRound = $admin['admissionRound'];
+            $endDate = $admin['endDate'];
+        }
     }
+
 ?>
 
         <!-- Top content -->
@@ -281,7 +296,7 @@ if(!empty($activeInTake)) {
                         	<div class="form-box">
                         		<div class="form-top">
 	                        		<div class="form-top-left">
-                                        <h3>Registration for new applicants for <?php echo $admissionInTake;?><?php echo $academicYear;?>-<span class="text-danger">Deadline is <?php echo date('d-m-Y',strtotime($endDate));?></span></h3>
+                                        <h3>Registration for new applicants for <?php echo $admissionName;?>-<?php echo $admissionRound;?>-<span class="text-danger">Deadline is <?php echo date('d-m-Y',strtotime($endDate));?></span></h3>
 	                            		<p>To register please fill in the form below:</p>
 	                        		</div>
 	                        		<div class="form-top-right">

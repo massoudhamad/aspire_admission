@@ -6,7 +6,13 @@ $indexNumber=$_POST['indexNumber'];
 $level=$_POST['level'];
 $applicantID=$_SESSION['applicantID'];
 if($indexNumber) {
-    if(strlen($db->getAPIToken())>1) {
+    $api_token = $db->getAPI("NECTA", "token");
+    if (!empty($api_token)) {
+        foreach ($api_token as $api) {
+            $apitToken = $api['token'];
+        }
+    }
+    if(strlen($db->getAPIToken($apitToken))>1) {
         $iNumber = explode("/", $indexNumber);
         $centerNumber = $iNumber[0];
         $number = $iNumber[1];
@@ -22,9 +28,16 @@ if($indexNumber) {
             $examinationlevel="Advance";
         }
         $apiNumber = $centerNumber . "-" . $number . "/".$iyear."/" . $yearTaken;
-        $token=$db->getAPIToken();
-        $json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
-        $data = json_decode($json, true);
+    
+        $token = $db->getAPIToken($apitToken);
+        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response_json = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response_json, true);
+
         $fname=$db->getData("applicants","firstName","applicantID",$applicantID);
         $mname=$db->getData("applicants","middleName","applicantID",$applicantID);
         $lname=$db->getData("applicants","lastName","applicantID",$applicantID);

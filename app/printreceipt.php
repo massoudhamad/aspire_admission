@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);
 if($_REQUEST['action']=="getPDF")
 {   
     include '../DB.php';
@@ -18,6 +18,10 @@ if($_REQUEST['action']=="getPDF")
             $organizationCode = $org['organizationCode'];
             $organizationPicture = "../img/" . $org['organizationPicture'];
             $studentSupport = $org['student_support'];
+            $orgAddress=$org['organizationAddress'];
+            $orgPhone = $org['organizationPhone'];
+            $orgEmail = $org['organizationEmail'];
+
         }
     } else {
         $organizationName = "Soft Dev Academy";
@@ -181,11 +185,11 @@ if($_REQUEST['action']=="getPDF")
       $pdf->Ln(8);
        $pdf->Cell(6);$pdf->Cell(200,6,"Department of Admission");
       $pdf->Ln(8);
-      $pdf->Cell(6); $pdf->Cell(200,6,"Morogoro Muslim University");
+      $pdf->Cell(6); $pdf->Cell(200,6,$organizationName);
       $pdf->Ln(8);
-       $pdf->Cell(6);$pdf->Cell(200,6,"P.O.BOX 1031, Morogoro-Tanzania");
+       $pdf->Cell(6);$pdf->Cell(200,6,$orgAddress);
       $pdf->Ln(8);
-       $pdf->Cell(6);$pdf->Cell(200,6,"Email:admissions@mum.ac.tz or mumadmit@gmail.com");
+       $pdf->Cell(6);$pdf->Cell(200,6,$orgEmail);
       
    }
    //$pdf->Output();

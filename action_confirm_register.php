@@ -140,6 +140,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     'eauthority' => $exam_body,
                     'applicantsRemarksID' => 7,
                     'admissionID' => $admissionID,
+                    'admissionRound'=>$_POST['admissionRound'],
                     'formfour' => $username,
                     'userID' => $userID
                 );

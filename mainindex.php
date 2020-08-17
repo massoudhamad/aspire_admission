@@ -35,6 +35,10 @@ case 'admission_setting':
     include('admission_setting.php');
     break;
 
+    case 'admission_round':
+        include('admission_round.php');
+        break;
+
 case 'document_upload':
     include('upload_document.php');
     break;

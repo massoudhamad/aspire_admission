@@ -4188,6 +4188,25 @@ where
             }
     }
 
+    public function getAdmissionSetting()
+    {
+        try {
+            $data = array();
+            $query = $this->conn->prepare("SELECT
+                ay.academicYearID,academicYear,admissionID,admissionName,admissionRound,ar.startDate,ar.endDate
+            from
+                academicyears ay,admission_setting ast,admission_round ar
+            where ast.admissionID=ar.admissionSettingID and ay.academicYearID=ast.academicYearID and roundStatus=:st");
+            $query->execute(array(':st' => 1));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $ex) {
+            echo "Getting Data Error" . $ex->getMessage();
+        }
+    }
+
 
 //end of DBHelper Class
 }

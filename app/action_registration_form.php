@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);
 try {
 include '../DB.php';
 $db = new DBHelper();
@@ -36,6 +36,10 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $disability="No";
         $dname=htmlentities($_POST['dname'],ENT_QUOTES);
         $ddescription=htmlentities($_POST['ddescription'],ENT_QUOTES);
+        //idfentification
+        $znzID = htmlentities($_POST['znzID'], ENT_QUOTES);
+        $nidaID = htmlentities($_POST['nidaID'], ENT_QUOTES);
+        $passport = htmlentities($_POST['passport'], ENT_QUOTES);
         //Employment
         $employed=$_POST['employed'];
         $employer=htmlentities($_POST['employer'],ENT_QUOTES);
@@ -100,7 +104,6 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         
         if($employed=="yes")
         {
-            
               $employmentData=array(
               'applicantID'=>$applicantID,
                'employer'=>$employer,
@@ -116,6 +119,22 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             {
                 $insertEmp=$db->insert($tblEmployment,$employmentData);
             }
+        }
+
+        if((!empty($znzID))||(!empty($nidaID))||(!empty($passport)))
+        {
+            $identificationData=array(
+                'applicantID'=>$applicantID,
+                'zanzibarID'=>$znzID,
+                'nationalID'=>$nidaID,
+                'passportNumber'=>$passport
+            );
+                if ($db->isFieldExist("applicant_identification", "applicantID", $applicantID)) {
+                    $condition = array('applicantID' => $applicantID);
+                    $update = $db->update("applicant_identification", $identificationData, $condition);
+                } else {
+                    $insertEmp = $db->insert("applicant_identification", $identificationData);
+                }
         }
         
         if($sponsor=="others")
