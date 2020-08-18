@@ -37,7 +37,7 @@ if($_REQUEST['action']=="getPDF")
             $this->setFont('Arial', 'B', 13); 
             $this->Text(70,30,$organizationName);
             $this->Image($image,15,10,40.98,35.22);
-            $this->Image('../img/logo.jpg',150,10,35.98,37.22);
+            $this->Image('../assets/img/logo.jpg',150,10,35.98,37.22);
             $this->setFont('Arial', 'B', 14); 
             $this->Text(75,40,'APPLICATION RECEIPT');
         }
