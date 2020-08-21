@@ -1,4 +1,4 @@
-<?php $db=new DBHelper();
+<?php $db = new DBHelper();
 ?>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="row">
                     <div class="NECTA">
-                        <form  name="form-get-olevel-data" id="form-get-olevel-data" method="post" onsubmit="return myFunction();">
+                        <form name="form-get-olevel-data" id="form-get-olevel-data" method="post" onsubmit="return myFunction();">
                             <div class="form-group">
                                 <label class="col-lg-2 control-label" for="inputEmail">Form Six/Alevel Index Number</label>
                                 <div class="col-lg-6">
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <input type="hidden" name="level" id="level" value="alevel">
-                                    <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control"/>
+                                    <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control" />
                                 </div>
                             </div>
 
@@ -52,7 +52,20 @@
                 <!-- Modal Start here-->
 
                 <div class="Others">
-                    <form class="form-horizontal" name="register" id="register" action="action_education_background.php" method="post" onsubmit="return validateOtherBody();">
+                    <form name="form-get-olevel-data" id="form-get-olevel-data" method="post" onsubmit="return ">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="inputEmail">Equivalence A-Level Number</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" id="equivalenceNumber" type="text" name="indexNumber">
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="hidden" name="level" id="level" value="alevel">
+                                <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control" />
+                            </div>
+                        </div>
+
+                    </form>
+                    <!-- <form class="form-horizontal" name="register" id="register" action="action_education_background.php" method="post" onsubmit="return validateOtherBody();">
                         <div class="row">
                             <div class="col-lg-4">
                                 <label for="Physical Address">Advanced Level Index Number</label>
@@ -64,12 +77,12 @@
                                 <select name="indexYear" id="indexYear" class="form-control">
                                     <option value="">Select Year</option>
                                     <?php
-                                    $year=date('Y');
-                                    $year1=date('Y')-40;
-                                    for($x=$year;$x>=$year1;$x--)
-                                    {
-                                        echo "<option value='$x'>$x</option>";
-                                    }
+                                    // $year=date('Y');
+                                    // $year1=date('Y')-40;
+                                    // for($x=$year;$x>=$year1;$x--)
+                                    // {
+                                    //     echo "<option value='$x'>$x</option>";
+                                    // }
                                     ?>
                                 </select>
                             </div>
@@ -106,13 +119,17 @@
                                                         <select name="subjectCode[]" id="subjectID" class="form-control" >
                                                             <option value="">Select Subject</option>
                                                             <?php
-                                                            $subject = $db->getRows('subjects',array('where'=>array('stream'=>'2'),'order_by'=>'subjectName ASC'));
-                                                            if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
-                                                                $subjectName=$sbj['subjectName'];
-                                                                $subjectID=$sbj['subjectID'];
+                                                            // $subject = $db->getRows('subjects',array('where'=>array('stream'=>'2'),'order_by'=>'subjectName ASC'));
+                                                            // if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
+                                                            //     $subjectName=$sbj['subjectName'];
+                                                            //     $subjectID=$sbj['subjectID'];
+                                                            //     
+                                                            ?>
+                                                            //     <option value="<?php //echo $subjectID;
+                                                                                    ?>"><?php //echo $subjectName;
+                                                                                                                ?></option>
+                                                            // <?php //}}
                                                                 ?>
-                                                                <option value="<?php echo $subjectID;?>"><?php echo $subjectName;?></option>
-                                                            <?php }}?>
                                                         </select>
 
                                                     </TD>
@@ -140,7 +157,8 @@
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <input type="hidden" name="applicantID" value="<?php echo $applicantID;?>">
+                            <input type="hidden" name="applicantID" value="<?php //echo $applicantID;
+                                                                            ?>">
                             <input type="hidden" name="action_type" value="add"/>
                             <input type="hidden" name="examinationlevel" value="Advance">
                             <input type="hidden" name="examinationaward" value="formsix">
@@ -149,7 +167,7 @@
                         <div class="col-lg-4">
                             <input type="button" name="doExit" value="Cancel" onclick="window.history.go(-1);" class="btn btn-success form-control" />
                         </div>
-                    </form>
+                    </form> -->
                 </div>
             </div>
 
@@ -165,8 +183,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-

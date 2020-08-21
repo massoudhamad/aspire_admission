@@ -77,7 +77,7 @@
                   
                   
                   
-                  <fieldset>
+                  <!-- <fieldset>
                       <legend>Choose Subjects</legend>
                       <table class="table-striped" width="40%">
                                   <thead>
@@ -101,37 +101,37 @@
                         <select name="subjectCode[]" id="subjectID" class="form-control" >
                         <option value="">Select Subject</option>
                         <?php
-                        $subject = $db->getRows('subjects',array('where'=>array('stream'=>'1'),'order_by'=>'subjectName ASC'));
-                        if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
-                         $subjectName=$sbj['subjectName'];
-                         $subjectID=$sbj['subjectID'];
-                        ?>
-                        <option value="<?php echo $subjectID;?>"><?php echo $subjectName;?></option>
-                        <?php }}?>
+                        // $subject = $db->getRows('subjects',array('where'=>array('stream'=>'1'),'order_by'=>'subjectName ASC'));
+                        // if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
+                        //  $subjectName=$sbj['subjectName'];
+                        //  $subjectID=$sbj['subjectID'];
+                        // ?>
+                        // <option value="<?php //echo $subjectID;?>"><?php //echo $subjectName;?></option>
+                        // <?php //}}?>
                        </select>
                         
                     </TD>
                     <TD>
                         <select name="gradeCode[]" id="grade" class="form-control" >
-                           <!-- <option value="">--Select Grade--</option>-->
+                           <!-- <option value="">--Select Grade--</option>
                             <?php
-                                if($ytaken==2014 or $ytaken==2015)
-                                    $gradeRange=2014;
-                                else
-                                    $gradeRange=2013;
-                             $grade = $db->getRows('grades',array('where'=>array('gradeRangeYear'=>$gradeRange,'gradeLevel'=>1),'order_by'=>'gradeID ASC'));
-                             if(!empty($grade)) {
-                                 echo "<option value=''>Please Select Here</option>";
-                                 foreach ($grade as $gd) {
-                                     $gradeID = $gd['gradeID'];
-                                     $gradeCode = $gd['gradeCode'];
-                                     echo "<option value='$gradeID'>$gradeCode</option>";
-                                 }
-                             }
-                             else
-                             {
-                                 echo "<option value=''>No Grade Found</option>";
-                             }
+                            //     if($ytaken==2014 or $ytaken==2015)
+                            //         $gradeRange=2014;
+                            //     else
+                            //         $gradeRange=2013;
+                            //  $grade = $db->getRows('grades',array('where'=>array('gradeRangeYear'=>$gradeRange,'gradeLevel'=>1),'order_by'=>'gradeID ASC'));
+                            //  if(!empty($grade)) {
+                            //      echo "<option value=''>Please Select Here</option>";
+                            //      foreach ($grade as $gd) {
+                            //          $gradeID = $gd['gradeID'];
+                            //          $gradeCode = $gd['gradeCode'];
+                            //          echo "<option value='$gradeID'>$gradeCode</option>";
+                            //      }
+                            //  }
+                            //  else
+                            //  {
+                            //      echo "<option value=''>No Grade Found</option>";
+                            //  }
 ?>
                         </select>
 
@@ -156,12 +156,12 @@
 </div>
                         <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <input type="hidden" name="applicantID" value="<?php echo $applicantID;?>">
+                                <input type="hidden" name="applicantID" value="<?php echo //$applicantID;?>">
                             <input type="hidden" name="action_type" value="add"/>
                             <input type="hidden" name="examinationlevel" value="Ordinary">
                              <input type="hidden" name="examinationaward" value="formfour">
                             <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
-                        </div>
+                        </div> -->
                        <!-- <div class="col-lg-4">
                             <input type="button" name="doExit" value="Cancel" onclick="window.history.go(-1);" class="btn btn-success form-control" />
                         </div>-->
