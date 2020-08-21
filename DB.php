@@ -3950,9 +3950,11 @@ where
         }
     }
 
-    public function getSelectedResubmit($acadID, $admID)
+    public function getSelectedResubmit($acadID, $admID,$round)
     {
+        
         try {
+            if ($round == 'all') {
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
         from
@@ -3971,10 +3973,9 @@ where
             and admissionID=:adminID
             AND (NULLIF(tcu_final, '') IS NULL OR tcu_final NOT LIKE :qual AND tcu_final NOT LIKE :mpt AND tcu_final NOT LIKE :conf AND tcu_final  NOT LIKE :addm )
             order by tcu_status ASC");
-            $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'%Qualified%',':mpt'=>'%Multiple Admission%',':conf'=>'%confirmed%',':addm'=>'%Admitt%'));
-
-
-          /*  $query = $this->conn->prepare("SELECT
+                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID, ':qual' => '%Qualified%', ':mpt' => '%Multiple Admission%', ':conf' => '%confirmed%', ':addm' => '%Admitt%'));
+            } else {
+                $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
         from
             applicants a,
@@ -3989,11 +3990,12 @@ where
             AND p.studyLevelID=:studyID
             and applicantsRemarksID=:remarkID
             and applicationYearID=:appYearID
-            and admissionID=:adminID
-            AND (tcu_final lIKE :didnt OR tcu_final like :over)
+            and admissionID=:adminID and roundName=:round
+            AND (NULLIF(tcu_final, '') IS NULL OR tcu_final NOT LIKE :qual AND tcu_final NOT LIKE :mpt AND tcu_final NOT LIKE :conf AND tcu_final  NOT LIKE :addm )
             order by tcu_status ASC");
-            $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':didnt'=>'%Did%',':over'=>'%over%'));
-            */$data = array();
+                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'%Qualified%',':mpt'=>'%Multiple Admission%',':conf'=>'%confirmed%',':addm'=>'%Admitt%',':round'=>$round));
+            }
+            $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -4006,18 +4008,6 @@ where
     public function searchApplicant($search_text)
     {
         try {
-
-            /*$query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID),applicationNumber,refNumber,indexNumber firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,phoneNumber,email
-            FROM applicants a,applicantresults ar
-            WHERE a.applicantID=ar.applicantID
-            AND (applicationNumber LIKE :search1 OR refNumber LIKE :search2 OR firstName LIKE :search3 OR lastName LIKE :search4 or indexNumber=:search5)
-            AND examinationLevel=:elevl
-            AND a.admissionID=:admID");
-                        $query->execute(array(':search1'=>$search_text,':search2'=>$search_text,':search3'=>$search_text,':search4'=>$search_text,':search5'=>$search_text,':elevl'=>'Ordinary Level',':admID'=>9));
-
-            */
-            /*if($search_keyword=="others") {*/
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),applicationNumber,refNumber,indexNumber,firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,tcu_message,nacte_status,phoneNumber,email
             FROM applicants a,applicantresults ar,academicyears ay
@@ -4027,18 +4017,7 @@ where
             AND examinationLevel=:elevl
             AND ay.academicYearStatus=:st");
                 $query->execute(array(':search' => '%' . $search_text . '%', ':elevl' => 'Ordinary',':st'=>1));
-            //}
-            /*else
-            {
-                $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID),applicationNumber,refNumber,indexNumber,firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,phoneNumber,email
-            FROM applicants a,applicantresults ar 
-            WHERE a.applicantID=ar.applicantID
-            AND indexNumber=:search
-            AND examinationLevel=:elevl
-            AND a.admissionID=:admID");
-                $query->execute(array(':search' => '%' . $search_text . '%', ':elevl' => 'Ordinary', ':admID' => 9));
-            }*/
+            
 
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {

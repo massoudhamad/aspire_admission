@@ -206,7 +206,7 @@ if(!empty($activeInTake)) {
             $admissionInTake=$adintake['admissionInTake'];
         }
     } */
-
+$today = date('Y-m-d');
     $admissionSetting=$user->getAdmissionSetting();
     if(!empty($admissionSetting))
     {
@@ -220,7 +220,14 @@ if(!empty($activeInTake)) {
             $endDate = $admin['endDate'];
         }
     }
-
+    else {
+    $academicYear = "";
+    $academicYearID = "";
+    $admissionID = "";
+    $admissionName = "";
+    $admissionRound = "";
+    $endDate = "";
+    }
 ?>
 
         <!-- Top content -->

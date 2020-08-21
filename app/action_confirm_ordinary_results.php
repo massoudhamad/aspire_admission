@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);
 try {
     include '../DB.php';
     $db = new DBHelper();
@@ -89,10 +89,10 @@ try {
 
             }
     }
-    if($_POST['doExit'])
+   /* if($_POST['doExit'])
     {
         header("Location:index.php?sz=education_background");
-    }
+    }*/
 } catch (PDOException $ex) {
     $db->redirect("index.php?sz=confirm_ordinary_results&msg=error");
 }

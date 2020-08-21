@@ -1,4 +1,4 @@
-<?php $db=new DBHelper();
+<?php $db = new DBHelper();
 ?>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -19,38 +19,48 @@
 
     <div class="row">
         <div class="col-md-10">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <label for="FirstName">Ordinary Level Examination Body</label>
-                            <select name="exam_body" id="exam_body" class="form-control">
-                                <option value="">Select Examination Body</option>
-                                <option value="NECTA">National Examination Council of Tanzania (NECTA)</option>
-                                <option value="Others">Other/Foreign Examination Body</option>
-                            </select>
-                        </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <label for="FirstName">Ordinary Level Examination Body</label>
+                        <select name="exam_body" id="exam_body" class="form-control">
+                            <option value="">Select Examination Body</option>
+                            <option value="NECTA">National Examination Council of Tanzania (NECTA)</option>
+                            <option value="Others">Other/Foreign Examination Body</option>
+                        </select>
                     </div>
-                    <div class="row">
-                        <div class="NECTA">
-                                <form  name="form-get-olevel-data" id="form-get-olevel-data" method="post" onsubmit="return myFunction();">
-                                        <div class="form-group">
-                                            <label class="col-lg-2 control-label" for="inputEmail">Form Four Index Number</label>
-                                            <div class="col-lg-6">
-                                                <input class="form-control" id="indexNumber" type="text" name="indexNumber">
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <input type="hidden" name="level" id="level" value="olevel">
-                                                <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control"/>
-                                            </div>
-                                        </div>
-
-                                </form>
+                </div>
+                <div class="row">
+                    <div class="NECTA">
+                        <form name="form-get-olevel-data" id="form-get-olevel-data" method="post" onsubmit="return myFunction();">
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="inputEmail">Form Four Index Number</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" id="indexNumber" type="text" name="indexNumber">
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="hidden" name="level" id="level" value="olevel">
+                                    <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control" />
+                                </div>
                             </div>
-                    </div>
 
-                        <div class="Others">
-                            <form class="form-horizontal" name="register" id="register" action="action_education_background.php" method="post" onsubmit="return validateOtherBody();">
-                            <div class="row">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="Others">
+                    <form class="form-horizontal" name="register" id="register" action="action_education_background.php" method="post" onsubmit="return validateOtherBody();">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="inputEmail">Equivalence Form Four Index Number</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" id="indexNumber" type="text" name="indexNumber">
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="hidden" name="level" id="level" value="olevel">
+                                <input type="submit" name="doSubmit" value="View Results" class="btn btn-success form-control" />
+                            </div>
+                        </div>
+                        <!-- <div class="row">
                             <div class="col-lg-4">
                                 <label for="Physical Address">Ordinary Level Index Number</label>
                                 <input type="text" name="indexNumberOther" id="indexNumberOther"  class="form-control" required="required" />
@@ -61,12 +71,12 @@
                                 <select name="indexYear" id="indexYear" class="form-control" required="required">
                                     <option value="">Select Year</option>
                                     <?php
-                                    $year=date('Y');
+                                    /* $year=date('Y');
                                     $year1=date('Y')-40;
                                     for($x=$year;$x>=$year1;$x--)
                                     {
                                         echo "<option value='$x'>$x</option>";
-                                    }
+                                    } */
                                     ?>
                                 </select>
                             </div>
@@ -75,11 +85,11 @@
                                 <label for="Physical Address">School/Center Name</label>
                                 <input type="text" name="schoolName" id="schoolName"  class="form-control" placeholder="Enter school/center name"/>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <div class="row">
-                    <fieldset>
+                            <!-- <fieldset>
                         <legend>Choose Subjects</legend>
                         <table class="table-striped" width="40%">
                             <thead>
@@ -102,14 +112,17 @@
 
                                                 <select name="subjectCode[]" id="subjectID" class="form-control" >
                                                     <option value="">Select Subject</option>
-                                                    <?php
-                                                    $subject = $db->getRows('subjects',array('where'=>array('stream'=>'1'),'order_by'=>'subjectName ASC'));
+                                                    
+                                                    /* $subject = $db->getRows('subjects',array('where'=>array('stream'=>'1'),'order_by'=>'subjectName ASC'));
                                                     if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
                                                         $subjectName=$sbj['subjectName'];
                                                         $subjectID=$sbj['subjectID'];
                                                         ?>
-                                                        <option value="<?php echo $subjectID;?>"><?php echo $subjectName;?></option>
-                                                    <?php }}?>
+                                                        <option value="<?php //echo $subjectID;
+                                                                        ?>"><?php //echo $subjectName;
+                                                                                                    ?></option>
+                                                    <?php //}}
+                                                    ?> */
                                                 </select>
 
                                             </TD>
@@ -133,11 +146,12 @@
                             </tr>
                         </table>
 
-                    </fieldset>
+                    </fieldset> -->
                         </div>
-        <div class="col-lg-4"></div>
+                        <!-- <div class="col-lg-4"></div>
         <div class="col-lg-4">
-            <input type="hidden" name="applicantID" value="<?php echo $applicantID;?>">
+            <input type="hidden" name="applicantID" value="<?php // echo $applicantID;
+                                                            ?>">
             <input type="hidden" name="action_type" value="add"/>
             <input type="hidden" name="exam_body" value="Other">
             <input type="hidden" name="examinationlevel" value="Ordinary">
@@ -146,10 +160,10 @@
         </div>
         <div class="col-lg-4">
             <input type="button" name="doExit" value="Cancel" onclick="window.history.go(-1);" class="btn btn-success form-control" />
-        </div>
-        </form>
-    </div>
-</div>
+        </div> -->
+                    </form>
+                </div>
+            </div>
 
             <div class="row">
 
@@ -163,8 +177,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-

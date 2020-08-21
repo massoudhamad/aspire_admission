@@ -145,9 +145,9 @@ session_start();
                 <li><a href="index3.php?sp=resubmit_applicant_tcu">Resubmit Applicant</a></li>
                 <li><a href="index3.php?sp=submit_unselected_tcu">Submit Unselected Applicant</a></li>
                 <li><a href="index3.php?sp=populate_dashboard_tcu">Populate Dashboard</a></li>
-                <li><a href="index3.php?sp=get_admitted_tcu">Get Admitted</a></li>
+                <li><a href="index3.php?sp=get_admitted_tcu">Get Admitted Applicants</a></li>
                 <li><a href="index3.php?sp=get_programmes_tcu">Get Programmes with Admitted</a></li>
-                <li><a href="index3.php?sp=get_status_tcu">Get Status</a></li>
+                <li><a href="index3.php?sp=get_status_tcu">Get Applicant Status</a></li>
                 <li><a href="index3.php?sp=confirm_app_individual">Confirm Individual Applicant</a></li>
                 <li><a href="index3.php?sp=un_confirm_app_individual">UnConfirm Individual Applicant</a></li>
                 <li><a href="index3.php?sp=cancel_applicant">Cance/Reject Applicant</a></li>
