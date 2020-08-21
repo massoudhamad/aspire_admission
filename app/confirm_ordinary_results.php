@@ -218,7 +218,7 @@ if ($_SESSION['eauthority'] == 'NECTA') {
                                                             $gradeRange=2013;
                                                         $grade = $db->getRows('grades',array('where'=>array('gradeRangeYear'=>$gradeRange,'gradeLevel'=>$gradelevel),'order_by'=>'gradeID ASC'));
                                                         if(!empty($grade)) {
-                                                            echo "<option value=''>Please Select Here</option>";
+                                                            echo "<option value=''>Please Select Here Mashallah</option>";
                                                             foreach ($grade as $gd) {
                                                                 $gradeID = $gd['gradeID'];
                                                                 $gradeCode = $gd['gradeCode'];

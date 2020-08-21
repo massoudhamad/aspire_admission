@@ -62,7 +62,7 @@ try {
                             $level="alevel";
                         }
 
-                      /*   if ($db->isSubjectExist($applicantResultID, $subjectCode) == false) {
+                       if ($db->isSubjectExist($applicantResultID, $subjectCode) == false) {
                             $gradeID = $db->getGradeID($gradeCode, $indexYear, 'olevel');
                             $subjectID = $db->getSubjectID($subjectCode, 1);
                             $gradePoints = $db->getData("grades", "gradePoint", "gradeID", $gradeID);
@@ -74,7 +74,7 @@ try {
                                 'status'=>$status
                             );
                             $insert = $db->insert($tblSubjects, $applicantResultData);
-                        } */
+                        } 
                     }
 
                 }
