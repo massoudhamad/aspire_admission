@@ -3331,7 +3331,7 @@ where
                 $gradeLevel = 1;
             $grade = $this->getRows('grades', array('where' => array('gradeCode' => $gradeCode, 'gradeRangeYear' => $gradeRange, 'gradeLevel' => $gradeLevel), 'order_by' => 'gradeID ASC'));
             if (!empty($grade)) {
-                echo "<option value=''>Please Select Here</option>";
+                //echo "<option value=''>Please Select Here</option>";
                 foreach ($grade as $gd) {
                     $gradeID = $gd['gradeID'];
                     return $gradeID;
@@ -3348,7 +3348,7 @@ where
         try {
             $grade = $this->getRows('subjects', array('where' => array('sCode' => $scode, 'stream' => $stream), 'order_by' => 'subjectID ASC'));
             if (!empty($grade)) {
-                echo "<option value=''>Please Select Here</option>";
+                //echo "<option value=''>Please Select Here</option>";
                 foreach ($grade as $gd) {
                     $subjectID = $gd['subjectID'];
                     return $subjectID;
