@@ -112,7 +112,7 @@
                                     $status = "<span class='label label-danger'>Not Active</span>";
 
 
-                                $admissionInTake = $db->getData("admission_setting", "admissionName", "admissionID", $admissionID);
+                                $admissionInTake = $db->getData("admission_setting", "admissionName", "admissionID", $admissionSettingID);
 
                             ?>
                                 <tr>
@@ -146,7 +146,7 @@
 
                                                                 <label for="FirstName">Admission Intake</label>
                                                                 <select name="admissionInTakeID" class="form-control" required="">
-                                                                    <option value="<?php echo $admissionID; ?>"><?php echo $admissionInTake; ?></option>
+                                                                    <option value="<?php echo $admissionSettingID; ?>"><?php echo $admissionInTake; ?></option>
                                                                     <?php
                                                                     $adYear = $db->getRows('admission_setting', array('order_by' => 'academicYearID DESC'));
                                                                     if (!empty($adYear)) {
