@@ -192,8 +192,15 @@ try {
             $appProg="$firstChoice,$secondChoice";
             $othermobile="";
             $programmeAdmittedCode=$programmeAdCode;
-            $user = "MUM";
-            $token = "jQbgVNUWdPk67wZcEv39";
+
+            $api_token = $db->getAPI("TCU", "token");
+            if (!empty($api_token)) {
+                foreach ($api_token as $api) {
+                    $token = $api['token'];
+                    $user = $api['userName'];
+                }
+            }
+            
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <Request>
                 <UsernameToken>
@@ -220,7 +227,7 @@ try {
             </Request>';
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/applicants/submitProgramme");
+            curl_setopt($ch, CURLOPT_URL,"https://api.tcu.go.tz/applicants/submitProgramme");
             curl_setopt($ch, CURLOPT_POST,1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

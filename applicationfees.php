@@ -72,8 +72,6 @@ if(!empty($_REQUEST['msg']))
                 <td><?php echo $db->getData("studylevels","studyLevelName","studyLevelID",$studyLevelID); ?></td>
                 <td><?php echo $db->getData("academicyears","academicYear","academicYearID",$academicYearID) ?></td>
                 <td><?php echo number_format($fees,2); ?></td>
-               
-                
               <td>
                   <a href="action_applicationfees.php?action_type=drop&id=<?php echo $user['applicationFeesID']; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to delete this Application Fees?');"></a>
                    

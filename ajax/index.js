@@ -356,7 +356,39 @@ $(document).ready(function() {
         "order": []
     });
         
-        
+    payment_list = $("#get_programmes_tcu").DataTable({
+            "ajax": "data/get_programmes_tcu.php",
+            "dom": 'Blfrtip',
+            "buttons": [{
+                    extend: 'excel',
+                    title: 'List of Applicants who Admitted ',
+                    footer: false,
+                    exportOptions: {
+                        columns: [0, 1]
+                    }
+                }, ,
+                {
+                    extend: 'print',
+                    title: 'List of Applicants who Admitted',
+                    footer: false,
+                    exportOptions: {
+                        columns: [0, 1]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'List of Applicants who Admitted',
+                    footer: true,
+                    exportOptions: {
+                        columns: [0, 1]
+                    },
+
+                }
+
+            ],
+            "order": []
+        });
+
         
 
 });

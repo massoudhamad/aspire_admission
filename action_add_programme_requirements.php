@@ -8,17 +8,18 @@ $tblName = 'programrequirements';
 if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     if($_REQUEST['action_type'] == 'add'){
         $programmeID=$_POST['programmeID'];
-        //$allowedSubjects=$_POST['allowedSubjects'];
+        $allowedSubjects=$_POST['allowedSubjects'];
         //$excludedSubjects=$_POST['excludedSubjects'];
         $compulsorySubjects=$_POST['compulsorySubjects'];
         $compulsoryGrade=$_POST['compulsoryGrade'];
+        $entryQualification = $_POST['entryQualification'];
         //$minimumPassGrade=$_POST['minimumPassGrade'];
         $numberPassGrade=$_POST['numberPassGrade'];
         $pointsRequired=$_POST['pointsRequired'];
         $gpa=$_POST['gpa'];
         //$nongpa=$_POST['nongpa'];
         
-       /* if($allowedSubjects=="")
+       if($allowedSubjects=="")
         {
             $allowedSubject=0;
         }
@@ -26,15 +27,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         {
             $allowedSubject=1;
         }
-        if($excludedSubjects=="")
-        {
-            $excludedSubject=0;
-        }
-        else
-        {
-           $excludedSubject=1;
-        }*/
-        
+       
         if($compulsorySubjects=="")
         {
             $comSubject=0;
@@ -42,11 +35,25 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         else {
             $comSubject=1;
         }
-        
+        if ($entryQualification == "") {
+            $entry = 0;
+        } else {
+            $entry = 1;
+        }
+         /*if($excludedSubjects=="")
+        {
+            $excludedSubject=0;
+        }
+        else
+        {
+           $excludedSubject=1;
+        }*/
         $programmeData=array(
             'programmeMajorID'=>$programmeID,
             'compulsorySubject'=> $comSubject,
             'compulsorySubjectGrade'=>$compulsoryGrade,
+            'allowedSubject' => $allowedSubject,
+            'entryQualification'=>$entry,
             'numberofPassGrade'=>$numberPassGrade,
             'pointsRequired'=>$pointsRequired,
             'equivalentEntryGPA'=>$gpa
@@ -66,27 +73,8 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         );*/
         $insert=$db->insert($tblName,$programmeData);
         $programmeRequirementID=$insert;
-        //allowed subjects
-        /*$allowed="allowed";
-        for($x=0; $x<count($allowedSubjects); $x++)
-        {
-            $stmt = $db->runQuery("INSERT INTO subjectrequirements (programmeRequirementID,programmeMajorID,subjectID,subjectType) VALUES (:pRID,:pMID,:sub,:subT)");
-            $stmt->bindParam(":pRID",$programmeRequirementID,PDO::PARAM_INT);
-            $stmt->bindParam(":pMID",$programmeID,PDO::PARAM_INT);
-            $stmt->bindParam(":sub",$allowedSubjects[$x],PDO::PARAM_INT);
-            $stmt->bindParam(":subT",$allowed,PDO::PARAM_STR);
-            $stmt->execute();
-        }
-         $excluded="excluded";
-        for($x=0; $x<count($excludedSubjects); $x++)
-        {
-            $stmt = $db->runQuery("INSERT INTO subjectrequirements (programmeRequirementID,programmeMajorID,subjectID,subjectType) VALUES (:pRID,:pMID,:sub,:subT)");
-            $stmt->bindParam(":pRID",$programmeRequirementID,PDO::PARAM_INT);
-            $stmt->bindParam(":pMID",$programmeID,PDO::PARAM_INT);
-            $stmt->bindParam(":sub",$excludedSubjects[$x],PDO::PARAM_INT);
-            $stmt->bindParam(":subT",$excluded,PDO::PARAM_STR);
-            $stmt->execute();
-        }*/
+       
+        //compulsory subjects
          $compulsory="compulsory";
         for($x=0; $x<count($compulsorySubjects); $x++) {
             $compulsoryData = array(
@@ -97,6 +85,50 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             );
             $insertdata=$db->insert("subjectrequirements",$compulsoryData);
         }
+
+        //allowed subjects
+        $allowed = "allowed";
+        for ($x = 0; $x < count($allowedSubjects); $x++) {
+            $allowedData = array(
+                "programmeRequirementID" => $programmeRequirementID,
+                "programmeMajorID" => $programmeID,
+                "subjectID" => $allowedSubjects[$x],
+                "subjectType" => $allowed
+            );
+            $insertdata = $db->insert("subjectrequirements", $allowedData);
+        }
+
+        //equivalentqualification
+        $equivalent="qualification";
+        for ($x = 0; $x < count($entryQualification); $x++) {
+            $equivalentData = array(
+                "programmeRequirementID" => $programmeRequirementID,
+                "programmeMajorID" => $programmeID,
+                "subjectID" => $entryQualification[$x],
+                "subjectType" => $equivalent
+            );
+            $insertdata = $db->insert("subjectrequirements", $equivalentData);
+        }
+        /* for($x=0; $x<count($allowedSubjects); $x++)
+        {
+            $stmt = $db->runQuery("INSERT INTO subjectrequirements (programmeRequirementID,programmeMajorID,subjectID,subjectType) VALUES (:pRID,:pMID,:sub,:subT)");
+            $stmt->bindParam(":pRID",$programmeRequirementID,PDO::PARAM_INT);
+            $stmt->bindParam(":pMID",$programmeID,PDO::PARAM_INT);
+            $stmt->bindParam(":sub",$allowedSubjects[$x],PDO::PARAM_INT);
+            $stmt->bindParam(":subT",$allowed,PDO::PARAM_STR);
+            $stmt->execute();
+        } */
+        /* $excluded="excluded";
+        for($x=0; $x<count($excludedSubjects); $x++)
+        {
+            $stmt = $db->runQuery("INSERT INTO subjectrequirements (programmeRequirementID,programmeMajorID,subjectID,subjectType) VALUES (:pRID,:pMID,:sub,:subT)");
+            $stmt->bindParam(":pRID",$programmeRequirementID,PDO::PARAM_INT);
+            $stmt->bindParam(":pMID",$programmeID,PDO::PARAM_INT);
+            $stmt->bindParam(":sub",$excludedSubjects[$x],PDO::PARAM_INT);
+            $stmt->bindParam(":subT",$excluded,PDO::PARAM_STR);
+            $stmt->execute();
+        }*/
+
        /* for($x=0; $x<count($compulsorySubjects); $x++)
         {
             $stmt = $db->runQuery("INSERT INTO subjectrequirements (programmeRequirementID,programmeMajorID,subjectID,subjectType) VALUES (:pRID,:pMID,:subj,:subT)");

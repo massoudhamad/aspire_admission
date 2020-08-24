@@ -4,10 +4,22 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
-//$indexNumber="S0163/0035/2008";
-$user="MUM";
-$token="jQbgVNUWdPk67wZcEv39";
-//$api="http://197.149.178.22";
+$indexNumber="S0163/0035/2008";
+/* $user = "SUM";
+$token = "EsQIA1agz9q8UxNSk3DZ"; */
+
+$api_token = $db->getAPI("TCU", "token");
+if (!empty($api_token)) {
+    foreach ($api_token as $api) {
+        $token = $api['token'];
+        $user=$api['userName'];
+        $urlform=$api['url'];
+    }
+}
+
+//echo $token."-".$user;
+
+$api="http://197.149.178.22";
 
 // $formfour=$indexNumber;
 // $formsix="S1064/0529/2011";
@@ -41,7 +53,7 @@ echo $status."<br>".$status_descript;*/
 
 //Add Applicant
 
-/*$url=$api."/applicants/add";
+$url=$api."/applicants/add";
 $formfour=$indexNumber;
 $formsix="S1064/0529/2011";
 $category="A";
@@ -70,8 +82,10 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
         $status=$array_data['Response']['ResponseParameters']['StatusCode'];
         $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
+        
 
-        echo $status."<br>".$status_descript;*/
+
+        //echo $status."<br>".$status_descript;
 
    //Submit Applicant Programme Choices
 
@@ -547,7 +561,7 @@ foreach($array_data as $dt) {
 //}
 
 
-$xml = '<?xml version="1.0" encoding="UTF-8"?>
+/* $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <Request>
                 <UsernameToken>
                     <Username>' . $user . '</Username>
@@ -586,8 +600,51 @@ $xml = '<?xml version="1.0" encoding="UTF-8"?>
             curl_close($ch);
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-            var_dump($array_data);
+            var_dump($array_data); */
           //$array_data['Response']['ResponseParameters']['StatusCode']=="200")
+
+
+          //getprogrammeswithadmitted
+        /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
+        <Request>
+        <UsernameToken>
+        <Username>'.$user.'</Username>
+        <SessionToken>'.$token.'</SessionToken>
+        </UsernameToken>
+        </Request>';
+        $url = $api."/admission/getProgrammes";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
+ */
+//var_dump($array_data);
+//$array_data = json_decode(json_encode(simplexml_load_string($data)), true);
+//foreach ($array_data as $dt) {
+    //$progCode = $dt['ResponseParameters']['Programme'];
+    //echo $dt['ResponseParameters']['StatusCode']."<br>";
+    //echo $dt['ResponseParameters']['StatusDescription']."<br>";
+    //foreach ($progCode as $pg) {
+        //$pcode = $pg['ProgrammeCode'];
+        //$number = $pg['NumberOfApplicant'];
+
+        //echo $pcode . " - " . $number . "<br>";
+
+        /* $output['data'][] = array(
+            $pg['ProgrammeCode'],
+            $pg['NumberOfApplicant']
+        );
+    }
+} */
+
+echo json_encode($output);
+
 
 
 ?>

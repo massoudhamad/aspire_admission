@@ -438,6 +438,10 @@ case 'zalongwareport':
             include('tcu_submit_unselected.php');
             break;
 
+    case 'get_programmes_tcu':
+        include('get_programmes_tcu.php');
+        break;
+
 
             case 'search_applicant':
                 include('search_applicant.php');

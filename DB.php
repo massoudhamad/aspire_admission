@@ -4153,7 +4153,7 @@ where
         try {
             $data=array();
             $query = $this->conn->prepare("SELECT
-                userName,token
+                userName,token,url
             from
                 api_setting
             where organizationName=:org and tokenType=:ttype");
@@ -4185,6 +4185,9 @@ where
             echo "Getting Data Error" . $ex->getMessage();
         }
     }
+
+    //tcu
+    //getprogrammeswithadmitted
 
 
 //end of DBHelper Class

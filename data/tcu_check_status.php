@@ -79,10 +79,31 @@ if(!empty($applicantsData))
                 $secondChoice=$pChoice['programCode'];
             }
         }
-        $url="http://api.tcu.go.tz/applicants/checkStatus";
-       $array_data= json_decode(json_encode(simplexml_load_string($db->getTCUStatus($url,$indexNumber))),true);
-        $status=$array_data['RESPONSE']['RESPONSEPARAMETERS']['STATUS'];
-        $status_descript=$array_data['RESPONSE']['RESPONSEPARAMETERS']['STATUS_DESCRIPTION'];
+        
+        
+        $api_token = $db->getAPI("TCU", "token");
+        if (!empty($api_token)) {
+            foreach ($api_token as $api) {
+                $token = $api['token'];
+                $user = $api['userName'];
+                $urlform=$api['url'];
+            }
+        }
+        $url = $urlform."/applicants/checkStatus";
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+        <Request>
+        <UsernameToken>
+        <Username>' . $user . '</Username>
+        <SessionToken>' . $token . '</SessionToken>
+        </UsernameToken>
+        <RequestParameters>
+        <f4indexno>' . $indexNumber . '</f4indexno>
+        </RequestParameters>
+        </Request>';
+
+       $array_data= json_decode(json_encode(simplexml_load_string($db->getTCUStatus($url,$xml))),true);
+        $status=$array_data['Response']['ResponseParameters']['Status'];
+        $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
         $output['data'][] = array(
             $x,
             $name,
