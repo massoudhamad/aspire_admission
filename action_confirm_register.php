@@ -1,8 +1,8 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
-//try {
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);
+try {
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'users';
@@ -189,7 +189,6 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
             $message .= '<p></p>';
             $message .= '<p>_________________________</p>';
             $message .= '<p>SkyChuo Account Management Services </p>';
-            $message .= '<p>Muslim University of Morogoro</p>';
             $message .= '<p>SkyChuo is offered by <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></p>';
             $message .= '</body></html>';
 // Sending email
@@ -213,7 +212,7 @@ else if ($_POST['doExit'] == 'Exit Application') {
         header("Location:index.php?msg=exit");
     }
 
-// } catch(PDOException $ex)
-// {
-//     header("Location:index.php?msg=error");
-// }
+ } catch(PDOException $ex)
+ {
+     header("Location:index.php?msg=error");
+}
