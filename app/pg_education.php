@@ -71,7 +71,6 @@ if(isset($_POST['doExit']))
 
                             <div class="col-lg-12">
                                   <h3>  List of Academic Background Results</h3>
-
                                         <table class="table table-striped" cellspacing="0" width="100%">
                                             <thead>
                                             <tr>

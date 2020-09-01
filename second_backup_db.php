@@ -701,6 +701,8 @@ public function getProgrammeRequired()
     }
 }
 
+    
+
 //Getting Applicants Subject Points
 
 public function getProgrammeChoice($studyID,$applicantID)

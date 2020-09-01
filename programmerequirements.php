@@ -42,6 +42,8 @@ $db = new DBHelper();
         <div class="col-md-12">
             <div class="pull-right">
                 <a href="index3.php?sp=addnewprogrammerequirements"><span class="btn btn-success">Define New Requirements</span></a>
+                <a href="index3.php?sp=updaterequirement"><span class="btn btn-success">Update Requirements</span></a>
+
             </div>
         </div>
     </div>
@@ -157,7 +159,8 @@ $db = new DBHelper();
 
                                 <td>
                                     <a href="action_add_programme_requirements.php?action_type=drop&id=<?php echo $user['programRequirementID']; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to delete this programme requirements?');"></a>
-
+                                    <!-- <a href="index3.php?sp=updaterequirement&id=<?php //echo $user['programRequirementID']; 
+                                                                                        ?>" class="glyphicon glyphicon-plus" onclick="return confirm('Are you sure you want to add this programme requirements?');"></a> -->
                                 </td>
                             </tr>
                         <?php }

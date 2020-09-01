@@ -141,6 +141,54 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         $statusMsg = true;
         header("Location:index3.php?sp=pmapping&msg=succ");
 
+    }elseif($_REQUEST['action_type']=='edit')
+    {
+        $programmeID = $_POST['programmeID'];
+        $allowedSubjects = $_POST['allowedSubjects'];
+        $entryQualification = $_POST['entryQualification'];
+
+        if ($allowedSubjects == "") {
+            $allowedSubject = 0;
+        } else {
+            $allowedSubject = 1;
+        }
+
+        if ($entryQualification == "") {
+            $entry = 0;
+        } else {
+            $entry = 1;
+        }
+
+        $programmeData = array(
+            'programmeMajorID' => $programmeID,
+            'allowedSubject' => $allowedSubject,
+            'entryQualification' => $entry,
+        );
+
+        //allowed subjects
+        $allowed = "allowed";
+        for ($x = 0; $x < count($allowedSubjects); $x++) {
+            $allowedData = array(
+                "programmeRequirementID" => $programmeRequirementID,
+                "programmeMajorID" => $programmeID,
+                "subjectID" => $allowedSubjects[$x],
+                "subjectType" => $allowed
+            );
+            $insertdata = $db->insert("subjectrequirements", $allowedData);
+        }
+
+        //equivalentqualification
+        $equivalent = "qualification";
+        for ($x = 0; $x < count($entryQualification); $x++) {
+            $equivalentData = array(
+                "programmeRequirementID" => $programmeRequirementID,
+                "programmeMajorID" => $programmeID,
+                "subjectID" => $entryQualification[$x],
+                "subjectType" => $equivalent
+            );
+            $insertdata = $db->insert("subjectrequirements", $equivalentData);
+        }
+
     }elseif($_REQUEST['action_type'] == 'drop'){
         if(!empty($_REQUEST['id'])){
             $condition = array('programRequirementID' => $_REQUEST['id']);

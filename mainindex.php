@@ -398,6 +398,16 @@ case 'zalongwareport':
       case 'edit_personal_details':
       include('edit_personal_details.php');
       break;
+
+    case 'edit_api':
+        include('edit_api_setting.php');
+        break;
+
+        
+
+    case 'updaterequirement':
+        include('updatenewrequirement.php');
+        break;
       
       //edit application
       //reports

@@ -1545,6 +1545,28 @@ where
             echo "Getting Data Error: " . $ex->getMessage();
         }
     }
+    public function getProgrammeRequirement()
+    {
+        try {
+            $query = $this->conn->prepare("SELECT programRequirementID,
+    pm.programmeMajorID, programmeMajor
+FROM
+    programmemajor pm,
+    programs p,
+    programrequirements pr
+WHERE
+    p.programID = pm.programmeID
+        AND pm.programmeMajorID = pr.programmeMajorID");
+            $query->execute();
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $ex) {
+            echo "Getting Data Error: " . $ex->getMessage();
+        }
+    }
 
     public function getProgrammeName()
     {
