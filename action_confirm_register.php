@@ -1,8 +1,8 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
-//try {
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);
+try {
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'users';
@@ -212,7 +212,7 @@ else if ($_POST['doExit'] == 'Exit Application') {
         header("Location:index.php?msg=exit");
     }
 
-//  } catch(PDOException $ex)
-//  {
-//      header("Location:index.php?msg=error");
-// }
+} catch(PDOException $ex)
+{
+      header("Location:index.php?msg=error");
+}
