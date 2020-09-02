@@ -3,29 +3,6 @@ session_start();
 include_once "DB.php";
 $db = new DBHelper();
 $error = array();
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Online University Admission System</title>
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script src="js/jquery-1.4.2.min.js"></script>
-    <link href="css/validation.css" rel="stylesheet">
-</head>
-
-<body>
-    <?php
     $org = $db->getRows("organization");
     if (!empty($org)) {
         foreach ($org as $og) {
@@ -159,13 +136,33 @@ $error = array();
     if ($boolStatus == false) {
         header("Location:index.php?msg=$msg");
     }
-    ?>
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online University Admission System</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/form-elements.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/jquery-1.4.2.min.js"></script>
+    <link href="css/validation.css" rel="stylesheet">
+</head>
+
+<body>
+
     <!-- Top content -->
     <div class="row">
         <div class="col-sm-12 col-sm-offset-0 text">
-            <h1 style="color: white; font-weight: bold; font-size: 48px"><?php
-                                                                            echo $orgName;
-                                                                            ?></h1>
+            <h1 style="color: white; font-weight: bold; font-size: 48px"><?php echo $orgName;?></h1>
             <hr border-color="LightSlateGrey">
         </div>
     </div>
