@@ -298,13 +298,19 @@ if(!empty($activeInTake)) {
                                         </div>";
                                                 }
 
+                                                if ($_REQUEST['msg'] == "emailexists") {
+                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
+                                            <strong>Sorry, Your Email exist</strong>.
+                                        </div>";
+                                                }
+
                                                 if ($_REQUEST['msg'] == "exists") {
                                                     echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sory, Your Username/Index Number already exist</strong>.
+                                            <strong>Sorry, Your Index Number already exist</strong>.
                                         </div>";
                                                 } else if ($_REQUEST['msg'] == "error") {
                                                     echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sory, Error-Something wrong happen,Contact System Administrator</strong>.
+                                            <strong>Sorry, Error-Something wrong happen,Contact System Administrator</strong>.
                                         </div>";
                                                 } else if ($_REQUEST['msg'] == "succ") {
                                                     echo "<div class='alert alert-success fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>

@@ -24,10 +24,10 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
     $equivalence_number=$_POST['equivalence_number'];
     //$indexNumber=$indexNumber."/".$exam_year;
     $indexNumber=$indexNumber;
-
+        
         if($admission_level=="UG") {
             if ($admission_level == '' || $exam_body == '' || $fname == '' || $lname == '') {
-                header("Location:index.php");
+                header("Location:index.php?msg=111");
             } else {
 
                 if ($exam_body == "NECTA") {
@@ -42,8 +42,12 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                 $password = $db->PwdHash(strtoupper(trim($_POST['lname'])));
                 if ($db->isFieldExist($tblName, 'userName', $username)) {
                     $boolStatus = false;
-                    $msg = "exists";
-                } else {
+                    $msg = "indexexists";
+                }else if($db->isFieldExist($tblName, 'email', $email))
+                {
+                    $boolStatus = false;
+                    $msg = "emailexists";
+                }else {
                     $gender = $_POST['gender'];
                     $phoneNumber = $_POST['phoneNumber'];
                     $userData = array(
@@ -158,7 +162,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
         }
         else
         {
-            header("location:index.php");
+            header("location:index.php?msg=222");
         }
 
 

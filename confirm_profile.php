@@ -9,13 +9,11 @@ $error = array();
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Online University Admission System</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/form-elements.css">
@@ -24,108 +22,6 @@ $error = array();
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="js/jquery-1.4.2.min.js"></script>
     <link href="css/validation.css" rel="stylesheet">
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-                    /*$("#admission_level").change(function(){
-            $(this).find("option:selected").each(function(){
-                var optionValue = $(this).attr("value");
-                if(optionValue){
-                    $(".UN").not("." + optionValue).hide();
-                    $("." + optionValue).show();
-                } else{
-                    $(".UN").hide();
-                }
-            });
-        }).change();
-    });*/
-    </script>
-
-    <!--<script type="text/javascript">
-        $(document).ready(function(){
-            $("#admission_level").change(function(){
-                $(this).find("option:selected").each(function(){
-                    var optionValue = $(this).attr("value");
-                    if(optionValue=="UG"){
-                        $(".UG").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                        $(".PG").hide();
-                    }
-                    else if(optionValue=="PG")
-                    {
-                        $(".PG").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                        $(".UG").hide();
-                    }
-                    else{
-                        $(".PG").hide();
-                    }
-                });
-            }).change();
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#exam_body").change(function(){
-                $(this).find("option:selected").each(function(){
-                    var optionValue = $(this).attr("value");
-                    if(optionValue=="NECTA"){
-                        $(".NECTA").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                        $(".Others").hide();
-                    }
-                    else if(optionValue=="Others")
-                    {
-                        $(".Others").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                        $(".NECTA").hide();
-                    }
-                    else if(optionValue=="NECTAO")
-                    {
-                        $(".Others").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                        $(".NECTA").hide();
-                    }
-                    else{
-                        $(".Others").hide();
-                    }
-                });
-            }).change();
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#exam_body").change(function(){
-                $(this).find("option:selected").each(function(){
-                    var optionValue = $(this).attr("value");
-                    if(optionValue){
-                        $(".Others").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                    } else{
-                        $(".Others").hide();
-                    }
-                });
-            }).change();
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#exam_body").change(function(){
-                $(this).find("option:selected").each(function(){
-                    var optionValue = $(this).attr("value");
-                    if(optionValue){
-                        $(".NECTAO").not("." + optionValue).hide();
-                        $("." + optionValue).show();
-                    } else{
-                        $(".NECTAO").hide();
-                    }
-                });
-            }).change();
-        });
-    </script>
--->
-
 </head>
 
 <body>
@@ -139,32 +35,6 @@ $error = array();
         }
     }
 
-    /* $activeYear=$db->getRows("academicyears",array('where'=>array('academicYearStatus'=>1),'order_by academicYearID'));
-if(!empty($activeYear))
-{
-    foreach($activeYear as $ayear)
-    {
-        $academicYear=$ayear['academicYear'];
-        $academicYearID=$ayear['academicYearID'];
-    }
-}
-$activeInTake=$db->getRows("admission_setting",array('where'=>array('academicYearID'=>$academicYearID,'yearStatus'=>1),'order_by academicYearID'));
-if(!empty($activeInTake)) {
-    foreach ($activeInTake as $intake) {
-        $admissionID = $intake['admissionID'];
-        $admissionInTakeID = $intake['admissionInTakeID'];
-    }
-}
-
-$admInTake = $db->getRows('admission_intake',array('where'=>array('admissionInTakeID'=>$admissionInTakeID),' order_by'=>' admissionInTakeID ASC'));
-if(!empty($admInTake))
-{
-    foreach($admInTake as $adintake)
-    {
-        $admissionInTake=$adintake['admissionInTake'];
-
-    }
-} */
 
     $admissionSetting = $db->getAdmissionSetting();
     if (!empty($admissionSetting)) {
@@ -195,71 +65,77 @@ if(!empty($admInTake))
             $admission_level = $_POST['admission_level'];
             $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
             $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
-
+            $boolStatus = false;
             if ($admission_level == "UG") {
-                $exam_body = $_POST['exam_body'];
-                $boolStatus = false;
-                if ($exam_body == "NECTA") {
-                    $api_token = $db->getAPI("NECTA", "token");
-                    if (!empty($api_token)) {
-                        foreach ($api_token as $api) {
-                            $apitToken = $api['token'];
+                if($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
+                    $boolStatus = false;
+                    $msg="exists";
+                } else if($db->isFieldExist('users', 'email', $_POST['email'])) {
+                    $boolStatus = false;
+                    $msg = "emailexists";
+                } else {
+                    $exam_body = $_POST['exam_body'];
+                    if ($exam_body == "NECTA") {
+                        $api_token = $db->getAPI("NECTA", "token");
+                        if (!empty($api_token)) {
+                            foreach ($api_token as $api) {
+                                $apitToken = $api['token'];
+                            }
                         }
-                    }
-                    $token = $db->getAPIToken($apitToken);
-                    $indexNumber = strtoupper($_POST['indexNumber']);
-                    $indexNumber2 = explode("/", $indexNumber);
-                    $center = $indexNumber2[0];
-                    $number = $indexNumber2[1];
-                    $year = $indexNumber2[2];
+                        $token = $db->getAPIToken($apitToken);
+                        $indexNumber = strtoupper($_POST['indexNumber']);
+                        $indexNumber2 = explode("/", $indexNumber);
+                        $center = $indexNumber2[0];
+                        $number = $indexNumber2[1];
+                        $year = $indexNumber2[2];
 
-                    $number_kituo = $center . "-" . $number;
-                    $exam_id = 1;
-                    $exam_year = $year;
-                    $apiNumber = $number_kituo . "/" . $exam_id . "/" . $exam_year;
-                    $index_number = $center . "/" . $number;
-                    //$json = file_get_contents("https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token);
-                    //$data = json_decode($json, true);
-                    $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
-                    $ch = curl_init($url);
-                    curl_setopt($ch, CURLOPT_HTTPGET, true);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    $response_json = curl_exec($ch);
-                    curl_close($ch);
-                    $data = json_decode($response_json, true);
+                        $number_kituo = $center . "-" . $number;
+                        $exam_id = 1;
+                        $exam_year = $year;
+                        $apiNumber = $number_kituo . "/" . $exam_id . "/" . $exam_year;
+                        $index_number = $center . "/" . $number;
+                        $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
+                        $ch = curl_init($url);
+                        curl_setopt($ch, CURLOPT_HTTPGET, true);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $response_json = curl_exec($ch);
+                        curl_close($ch);
+                        $data = json_decode($response_json, true);
 
 
-                    if ($data['status']['code'] == 1) {
-                        $fname = $data['particulars']['first_name'];
-                        $mname = $data['particulars']['middle_name'];
-                        $lname = $data['particulars']['last_name'];
-                        $gender = $data['particulars']['sex'];
+                        if ($data['status']['code'] == 1) {
+                            $fname = $data['particulars']['first_name'];
+                            $mname = $data['particulars']['middle_name'];
+                            $lname = $data['particulars']['last_name'];
+                            $gender = $data['particulars']['sex'];
 
-                        if ($gender == "M")
-                            $gender = "Male";
-                        else
-                            $gender = "Female";
+                            if ($gender == "M") {
+                                $gender = "Male";
+                            } else {
+                                $gender = "Female";
+                            }
+                            $phoneNumber = $_POST['phoneNumber'];
+                            $email = $_POST['email'];
+                            $indexYear = $exam_year;
+                            $boolStatus = true;
+                        } else {
+                            $boolStatus = false;
+                            $msg = "apierror";
+                        }
+                    } elseif ($exam_body == "Others") {
+                        $indexNumber = $_POST['indexNumberOther'];
+                        $fname = strtoupper($_POST['fname']);
+                        $mname = strtoupper($_POST['mname']);
+                        $lname = strtoupper($_POST['lname']);
+                        $gender = $_POST['gender'];
                         $phoneNumber = $_POST['phoneNumber'];
-                        $email = $_POST['email'];
-                        $indexYear = $exam_year;
+                        $email = $_POST['emailad'];
+                        $equivalence_number = $_POST['equivalence_number'];
+                        $index_number = $indexNumber;
                         $boolStatus = true;
-                    } else {
-                        $boolStatus = false;
-                        $msg = "apierror";
                     }
-                } else if ($exam_body == "Others") {
-                    $indexNumber = $_POST['indexNumberOther'];
-                    $fname = strtoupper($_POST['fname']);
-                    $mname = strtoupper($_POST['mname']);
-                    $lname = strtoupper($_POST['lname']);
-                    $gender = $_POST['gender'];
-                    $phoneNumber = $_POST['phoneNumber'];
-                    $email = $_POST['emailad'];
-                    $equivalence_number = $_POST['equivalence_number'];
-                    $index_number = $indexNumber;
-                    $boolStatus = true;
                 }
-            } else if ($admission_level == "PG") {
+            }else if ($admission_level == "PG") {
                 //Admission for PHD
                 $fname = strtoupper($_POST['pfname']);
                 $mname = strtoupper($_POST['pmname']);
@@ -267,17 +143,20 @@ if(!empty($admInTake))
                 $gender = $_POST['pgender'];
                 $phoneNumber = $_POST['phoneNumber'];
                 $email = $_POST['email'];
+                if ($db->isFieldExist('users', 'email', $_POST['email'])) {
+                    $boolStatus = false;
+                    $msg = "emailexists";
+                }
+                else {
+                    $boolStatus = true;
+                }
             }
         }
     }
     ?>
     <?php
-    // if(isset($_POST['doExit']))
-    // {
-    //     header("Location:index.php");
-    // }
+    
     if ($boolStatus == false) {
-        //$msg = "index";
         header("Location:index.php?msg=$msg");
     }
     ?>
@@ -526,7 +405,6 @@ if(!empty($admInTake))
                                             <input type="hidden" name="admissionID" value="<?php echo $admissionID; ?>">
                                             <input type="hidden" name="admissionRound" value="<?php echo $admissionRound; ?>">
                                             <input type="hidden" name="applicationYearID" value="<?php echo $applicationYearID; ?>">
-                                            <!--<input type="hidden" name="exam_year" value="<?php /*echo $exam_year;*/ ?>">-->
 
                                             <?php
                                             if ((!empty($fname)) || (!empty($lname))) {
@@ -538,8 +416,6 @@ if(!empty($admInTake))
                                         </div>
                                         <div class="col-sm-6">
                                             <input type="hidden" name="action_type" value="exit" />
-                                            <!--<button type="submit" class="btn" name="doExit">Exit Application</button>-->
-                                            <!--<input type="submit" name="doExit" value="Exit Application" class="btn btn-success form-control"/>-->
                                             <a href='index.php' class="btn btn-danger form-control">Exit Application</a>
                                         </div>
 
@@ -557,29 +433,5 @@ if(!empty($admInTake))
 
     </div>
 
-
-
-    <!-- Javascript -->
-    <script src="assets/js/jquery-1.11.1.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.backstretch.min.js"></script>
-    <script src="assets/js/scripts.js"></script>
-
-
-    <script src="assets/js/jquery.validate.js"></script>
-    <script src="assets/js/validation.js"></script>
-    <script src="assets/js/jquery.mask.min.js"></script>
-
-    <!--[if lt IE 10]>
-<script src="assets/js/placeholder.js"></script>
-<![endif]-->
-    <p>
-        <font color="white"><strong>Programmes| How to apply | FAQ | Support: <?php echo $orgPhone; ?> </strong></font>
-    </p>
-</body>
-<footer class="main-footer">
-    <hr />
-    <p>Aspire UAS. This product is licensed to the <?php echo $orgName; ?> | <strong>&copy;2014-<?php echo date('Y'); ?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></strong></p>
-</footer>
 
 </html>

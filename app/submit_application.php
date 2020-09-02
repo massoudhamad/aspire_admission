@@ -177,20 +177,49 @@ $applicantID = $_SESSION['applicantID'];
 
             </div>
             <br><br>
+            <?php
+            $org = $db->getRows("organization");
+            if (!empty($org)) {
+                foreach ($org as $og) {
+                    $orgName = $og['organizationName'];
+                    $orgPhone = $og['organizationPhone'];
+                    $studentSupport = $og['student_support'];
+                }
+            }
+            $studyLevelID = $db->getStudyLevelID($firstChoice);
+            $appfees = $db->getData("applicationfees", "fees", "studyLevelID", $studyLevelID);
+            $campus = $db->getCampus($firstChoice);
+            if (!empty($campus)) {
+                foreach ($campus as $cp) {
+                    $campusName = $cp['campusName'];
+                    $campusAddress = $cp['campusAddress'];
+                    $accountNumber = $cp['accountNumber'];
+                    $bankName = $cp['bankName'];
+                    $accountName = $cp['accountName'];
+                    $campusname = "$campusName,$campusAddress";
+                }
+            }
+            ?>
 
 
-            <!-- <div class="row">
-                <p><span style="font-size: 24px;"><strong>Please pay application fee through NMB Bank/Agent with the following detail:</strong></span> </p>
+            <div class="row">
+                <p><span style="font-size: 24px;"><strong>Please pay application fee through <?php echo $bankName; ?> Bank/Agent with the following detail:</strong></span> </p>
                 <div class="col-lg-12"><span style="font-size:18px">
-                        Account Number: 23210002513<br>
-                        Account Name: Muslim University of Morogoro<br>
+                        Account Number: <?php echo $accountNumber; ?><br>
+                        Account Name: <?php echo $accountName; ?><br>
 
                         <p><span style="font-size: 24px;"><strong>Fee Categories:</span></p>
-                        Tshs. 25,000/= for Certificate/Diploma Applicant<br>
-                        Tshs. 50,000/= for Postgraduate Applicant<br>
-                        Send your pay-in slip through what Number +255 658 500 528 or +255 765 064 179
-                        </span>
-                </div> -->
+                        <?php
+                        $feescategories = $db->getRows("applicationfees", array('order by studyLevelID DESC'));
+                        foreach ($feescategories as $fee) {
+                            echo "TSHs. " . $fee['fees'] . "/= for " . $db->getData("studylevels", "studyLevelName", "studyLevelID", $fee['studyLevelID']) . "<br>";
+                        }
+                        ?>
+                        <!-- Tshs. 25,000/= for Certificate/Diploma Applicant<br>
+                        Tshs. 50,000/= for Postgraduate Applicant<br> -->
+                        Send your pay-in slip through WhatsApp Numbers: <?php echo $studentSupport;?>
+                    </span>
+                </div>
 
             </div>
 
