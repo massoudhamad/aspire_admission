@@ -192,7 +192,7 @@ $db=new DBHelper();
                                 $level = array();
                                 foreach ($study as $st) {
                                     $qid = $st['qualificationID'];
-                                    if ($qid == 9 || $qid == 10 || $qid == 9)
+                                    if ($qid == 9 || $qid == 10)
                                         $level[] = "5";
                                     else if ($qid == 11)
                                         $level[] = "6";
@@ -364,9 +364,9 @@ $db=new DBHelper();
                                                     } else {
                                                         echo "<option value=''>Please Select Here</option>";
                                                     }
-                                                    //if (!empty($level)) {
-                                                        //foreach ($level as $lv) {
-                                                            $programmeData = $db->getProgrammeMajor(6);
+                                                   // if (!empty($level)) {
+                                                     //   foreach ($level as $lv) {
+                                                            $programmeData = $db->getProgrammeMajor(4);
                                                             if (!empty($programmeData)) {
                                                                 foreach ($programmeData as $pd) {
                                                                     $programmeName = $pd['programmeMajor'];
@@ -376,7 +376,7 @@ $db=new DBHelper();
                                                             } else {
                                                                 echo "<option value=''>No Programme</option>";
                                                             }
-                                                        //}
+                                                       // }
                                                     /*} else {
                                                         echo "<option value=''>No Programe</option>";
                                                     }*/
@@ -408,7 +408,7 @@ $db=new DBHelper();
                                                     }
                                                     /*if (!empty($level)) {
                                                         foreach ($level as $lv) {
-                                                    */        $programmeData = $db->getProgrammeMajor(6);
+                                                    */        $programmeData = $db->getProgrammeMajor(4);
                                                             if (!empty($programmeData)) {
                                                                 foreach ($programmeData as $pd) {
                                                                     $programmeName = $pd['programmeMajor'];
