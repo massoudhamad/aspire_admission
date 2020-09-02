@@ -57,12 +57,17 @@ else
 }
 	$resetButton = '
 	<div class="btn-group">
-	     <a href="action_user.php?action_type=reset&id='.$user['userID'].'" class="glyphicon glyphicon-trash" onclick="return confirm("Are you sure you want to Reset Password of this User?");"></a>
+	     <a href="action_user.php?action_type=reset&id='.$user['userID'].'" class="glyphicon glyphicon-repeat" onclick="return confirm("Are you sure you want to Reset Password of this User?");"></a>
 	</div>';
 	
 	$editButton = '
 	<div class="btn-group">
 	     <a href="index3.php?sp=edit_user&id='.$user['userID'].'" class="glyphicon glyphicon-edit"></a>
+    </div>';
+
+        $dropButton = '
+	<div class="btn-group">
+	     <a href="delete_user.php?action_type=delete_user&id=' . $db->my_simple_crypt($user['userID'],'e') . '" class="glyphicon glyphicon-trash" onclick="return confirm("Are you sure you want to Drop User?");"></a>
 	</div>';
 	
 	
@@ -84,7 +89,8 @@ else
 	    $status,
 	    $blockButton,
 		$resetButton,
-	    $editButton
+        $editButton,
+        $dropButton
 	);
 
 	//$x++;

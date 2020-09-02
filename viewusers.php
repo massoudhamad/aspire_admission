@@ -107,6 +107,7 @@ if(!empty($_REQUEST['msg']))
 	<th>Action</th>
     <th>Reset</th>
     <th>Edit</th>
+    <th>Drop</th>
      </tr>
   </thead>
  </table>
