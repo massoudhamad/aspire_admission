@@ -130,12 +130,11 @@ $error = array();
             }
         }
     }
-    ?>
-    <?php
     
     if ($boolStatus == false) {
         header("Location:index.php?msg=$msg");
-    }
+    }else 
+    {
 ?>
 
 <!DOCTYPE html>
@@ -432,3 +431,4 @@ $error = array();
 
 
 </html>
+                                        <?php }?>
