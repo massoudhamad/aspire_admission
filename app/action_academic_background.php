@@ -48,9 +48,8 @@ try {
         }
 
     }
-    if($_POST['doExit'])
-    {
-        header("Location:index.php?sz=pg_education");
+    if (isset($_POST['doProceed'])) {
+        header("Location:index.php?sz=programmechoice");
     }
 }catch (PDOException $ex)
 {

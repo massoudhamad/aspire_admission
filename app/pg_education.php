@@ -3,10 +3,6 @@ if(isset($_POST['doProceed']))
 {
     $db->redirect("index.php?sz=programmechoice");
 }
-if(isset($_POST['doExit']))
-{
-    $db->redirect("logout.php?logout=true");
-}
 ?>
 <script src="js/jquery-1.4.2.min.js"></script>
 
@@ -125,7 +121,7 @@ if(isset($_POST['doExit']))
                 </div>
                 <!-- End of Equivant Results-->
 
-                <form name="" method="post" action="">
+                <form name="" method="post" action="action_academic_background.php">
                     <div class="col-lg-3">
                         <?php if (!empty($equivalentresults)) { ?>
                         <input type="submit" name="doProceed" value="Proceed to Application"
