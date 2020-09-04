@@ -12,9 +12,9 @@
                 echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
                         <strong>Data saved successfully</strong>.
                     </div>";
-                /*echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
-                        <strong>".$_SESSION['output']."</strong>.
-                    </div>";*/
+                echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: ".$_SESSION['output']."</strong>.
+                    </div>";
             }
         }
         ?>

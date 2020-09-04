@@ -198,6 +198,7 @@ try {
                 foreach ($api_token as $api) {
                     $token = $api['token'];
                     $user = $api['userName'];
+                    $url=$ap['url'];
                 }
             }
             

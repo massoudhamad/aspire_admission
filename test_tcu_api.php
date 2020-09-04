@@ -4,7 +4,7 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
-$indexNumber="S0163/0035/2008";
+$indexNumber= "S5047/0006/2017";
 /* $user = "SUM";
 $token = "EsQIA1agz9q8UxNSk3DZ"; */
 
@@ -19,7 +19,7 @@ if (!empty($api_token)) {
 
 //echo $token."-".$user;
 
-$api="http://197.149.178.22";
+//$api="http://197.149.178.22";
 
 // $formfour=$indexNumber;
 // $formsix="S1064/0529/2011";
@@ -53,9 +53,9 @@ echo $status."<br>".$status_descript;*/
 
 //Add Applicant
 
-$url=$api."/applicants/add";
+$url= $urlform."/applicants/add";
 $formfour=$indexNumber;
-$formsix="S1064/0529/2011";
+$formsix= "";
 $category="A";
 $other_four="";
 $other_six="";
@@ -76,7 +76,7 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
         </RequestParameters>
         </Request>';
 
-        $output=$db->addApplicantTCU($url, $xml);
+        $output=$db->addApplicantTCU($urlform, $xml);
 
         $array_data= json_decode(json_encode(simplexml_load_string($output)),true);
         $status=$array_data['Response']['ResponseParameters']['StatusCode'];

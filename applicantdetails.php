@@ -309,6 +309,7 @@ $applicantID = $_REQUEST['applicantID'];
                                                     $award = $matokeo['award'];
                                                     $gradeType = $matokeo['gradeType'];
                                                     $gradePoints = $matokeo['gradePoints'];
+                                                    $avn_number=$matokeo['avn_number'];
                                                     echo "<tr><td>$schoolName</td><td>$equiNumber</td><td>" . $matokeo['avn_number'] . "</td><td>$yearTaken</td><td>$award</td><td>" . $db->getData("qualificationtype", "qualificationName", "qualificationTypeID", $exam_authority) . "</td><td>$gradeType</td><td>$gradePoints</td>";
                                                     ?>
 
@@ -827,10 +828,15 @@ $applicantID = $_REQUEST['applicantID'];
                             <div class="col-lg-4"></div>
                             <div class="col-lg-3">
                                 <?php
-                                if (!empty($equiSubjects))
+                                if (!empty($equiSubjects)) {
                                     $category = "D";
+                                    $findexNumber=$avn_number;
+                                }
                                 else
+                                {
                                     $category = "A";
+                                    $findexNumber=$findexNumber;
+                                }
                                 ?>
                                 <input type="hidden" name="action_type" value="add" />
                                 <input type="hidden" name="applicantID" value="<?php echo $applicantID; ?>">
