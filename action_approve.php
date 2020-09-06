@@ -1,7 +1,7 @@
 <?php
 session_start();
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT);
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'applicantremarks';
@@ -65,6 +65,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         </Request>';
 
             $output = $db->addApplicantTCU($url, $xml);
+            var_dump($output);
             $array_data = json_decode(json_encode(simplexml_load_string($output)), true);
             $status = $array_data['Response']['ResponseParameters']['StatusCode'];
             $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
@@ -145,7 +146,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         $boolStatus = true;
 
     }
-       if($boolStatus)
+      /*  if($boolStatus)
         {
             header("Location:index3.php?sp=approve&msg=succ");
             $_SESSION['output'] = $msgs;
@@ -153,5 +154,5 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         else
         {
             header("Location:index3.php?sp=approve&msg=unsucc");
-        }
+        } */
 }
