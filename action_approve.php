@@ -15,16 +15,16 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     $other_six="";
 
 
-     $userData = array(
+     /* $userData = array(
          'applicantID'=>$applicantID,
          'remarkID'=>$_POST['remarksID'],
          'comments'=>$_POST['comments'],
          'activeStatus'=>1,
          'userID'=>$_SESSION['user_session']
-        );
+        ); */
     if($_REQUEST['action_type'] == 'add')
     {
-            $applicantdata=array(
+           /*  $applicantdata=array(
               'applicantsRemarksID'=>$_POST['remarksID']  
             );
             $condition= array('applicantID'=>$applicantID);
@@ -34,7 +34,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             );
             $updateAppRemarks=$db->update($tblName,$appRemarksData,$condition);
             
-            $insert = $db->insert($tblName,$userData);
+            $insert = $db->insert($tblName,$userData); */
 
 
         if($db->checkApplicantStudyLevel($applicantID)==1) 
@@ -63,6 +63,8 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         <Otherf6indexno>' . $other_six . '</Otherf6indexno>
         </RequestParameters>
         </Request>';
+
+        echo $url."".$formfour."".$formsix;
 
             $output = $db->addApplicantTCU($url, $xml);
             var_dump($output);
