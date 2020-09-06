@@ -274,15 +274,15 @@ $applicantID = $_REQUEST['applicantID'];
                             <legend>Equivalent Results</legend>
 
                             <?php
-                            $results = $db->getRows("applicantresults", array('where' => array('applicantID' => $applicantID, 'examinationLevel' => 'Equivalent'), 'order_by applicantID ASC'));
-                            if (!empty($results)) {
+                            $equivresults = $db->getRows("applicantresults", array('where' => array('applicantID' => $applicantID, 'examinationLevel' => 'Equivalent'), 'order_by applicantID ASC'));
+                            if (!empty($equivresults)) {
                             ?>
 
                                 <div class="col-lg-12">
                                     <fieldset>
                                         <legend>List of Equivalent Results(Certificate,NTAs,Diploma,Adv.Diploma,Degree)</legend>
                                         <?php
-                                        foreach ($results as $matokeo) {
+                                        foreach ($equivresults as $matokeo) {
                                         ?>
                                             <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                                                 <thead>
@@ -828,7 +828,7 @@ $applicantID = $_REQUEST['applicantID'];
                             <div class="col-lg-4"></div>
                             <div class="col-lg-3">
                                 <?php
-                                if (!empty($equiSubjects)) {
+                                if (!empty($equivresults)) {
                                     $category = "D";
                                     $findexNumber=$avn_number;
                                 }
