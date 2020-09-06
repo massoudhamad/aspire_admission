@@ -48,7 +48,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
                 }
             }
 
-        $url = $urlform . "/applicants/add";
+        $url = $urlform."/applicants/add";
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <Request>
         <UsernameToken>
