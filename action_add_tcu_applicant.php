@@ -17,6 +17,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
                 $urlform=$api['url'];
             }
         }
+
         $url=$urlform."/applicants/add";
         $applicantID=$_REQUEST['applicantID'];
         $formfour=$_REQUEST['formfour'];
@@ -53,15 +54,17 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $condition= array('applicantID'=>$applicantID);
             $updateapplicants=$db->update($tblApplicants, $tcudata, $condition);
             $boolStatus=true;
+            $msgs = $status_descript;
         }
         else {
             $boolStatus=false;
+            $msgs = $status_descript;
         }
     }
     if($boolStatus)
     {
         header("Location:index3.php?sp=add_applicant_tcu&msg=succ");
-        $_SESSION['output']=$output;
+        $_SESSION['output']=$msgs;
     }
     else
     {
