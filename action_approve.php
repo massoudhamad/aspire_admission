@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL | E_STRICT);
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL | E_STRICT);
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'applicantremarks';
@@ -15,16 +15,16 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     $other_six="";
 
 
-     /* $userData = array(
+     $userData = array(
          'applicantID'=>$applicantID,
          'remarkID'=>$_POST['remarksID'],
          'comments'=>$_POST['comments'],
          'activeStatus'=>1,
          'userID'=>$_SESSION['user_session']
-        ); */
+        ); 
     if($_REQUEST['action_type'] == 'add')
     {
-           /*  $applicantdata=array(
+           $applicantdata=array(
               'applicantsRemarksID'=>$_POST['remarksID']  
             );
             $condition= array('applicantID'=>$applicantID);
@@ -34,7 +34,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             );
             $updateAppRemarks=$db->update($tblName,$appRemarksData,$condition);
             
-            $insert = $db->insert($tblName,$userData); */
+            $insert = $db->insert($tblName,$userData); 
 
 
         if($db->checkApplicantStudyLevel($applicantID)==1) 
@@ -67,7 +67,6 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         echo $url."".$formfour."".$formsix;
 
             $output = $db->addApplicantTCU($url, $xml);
-            var_dump($output);
             $array_data = json_decode(json_encode(simplexml_load_string($output)), true);
             $status = $array_data['Response']['ResponseParameters']['StatusCode'];
             $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
@@ -148,7 +147,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         $boolStatus = true;
 
     }
-      /*  if($boolStatus)
+       if($boolStatus)
         {
             header("Location:index3.php?sp=approve&msg=succ");
             $_SESSION['output'] = $msgs;
@@ -156,5 +155,5 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         else
         {
             header("Location:index3.php?sp=approve&msg=unsucc");
-        } */
+        } 
 }
