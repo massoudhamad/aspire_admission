@@ -64,8 +64,6 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         </RequestParameters>
         </Request>';
 
-        echo $url."".$formfour."".$formsix;
-
             $output = $db->addApplicantTCU($url, $xml);
             $array_data = json_decode(json_encode(simplexml_load_string($output)), true);
             $status = $array_data['Response']['ResponseParameters']['StatusCode'];
