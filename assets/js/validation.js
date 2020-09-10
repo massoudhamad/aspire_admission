@@ -11,9 +11,9 @@ $(document).ready(function() {
                 maxlength:15
             },
             equivalence_number: {
-                required: true,
+                required: true/* ,
                 minlength: 15,
-                maxlength: 15
+                maxlength: 15 */
             },
             email: {
                 required: true,
@@ -52,9 +52,9 @@ $(document).ready(function() {
                 minlength:"The Minimum Length is 15"
             },
             equivalence_number: {
-                required: "Please Enter Valid Equivalence Number",
-                maxlength: "The Maximum Length is 15",
-                minlength: "The Minimum Length is 15"
+                required: "Please Enter Valid Equivalence Number"/* ,
+                maxlength: "The Maximum Length is 12",
+                minlength: "The Minimum Length is 12" */
             },
             indexYear: {
                 required: "Please Select Index Year"
@@ -103,7 +103,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#equivalence_number').mask('TQCCCCCCCCCC/SSSS', {
+    $('#equivalence_number').mask('TQCCCCCCCCCC', {
                 'translation': {
             T: {pattern: /[E]/},
             Q: {pattern:/[Q]/},

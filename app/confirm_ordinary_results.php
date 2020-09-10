@@ -103,7 +103,7 @@ if ($_SESSION['eauthority'] == 'NECTA') {
                     <div class="card">
 
 
-                        <form class="form-horizontal" name="form-get-olevel-data" id="form-get-olevel-data" action="" method="post" onsubmit="return ajax_ordinary_level();">
+                        <form class="form-horizontal" name="form-get-olevel-data" id="form-get-olevel-data" action="" method="post" onsubmit="return ajax_ordinary_level_equivalence();">
                             <fieldset>
                                 <legend>Equivalence Form Four Results</legend>
                                 <div class="form-group">
@@ -124,147 +124,12 @@ if ($_SESSION['eauthority'] == 'NECTA') {
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="result">
+            </div>
+        </div>
+    </div>
 <?php
-    /* $applicantID=$_SESSION['applicantID'];
-    $data = $db->getRows('applicantresults', array('where' => array('applicantID' => $_SESSION['applicantID']), 'order_by' => 'applicantID ASC'));
-    if (!empty($data)) {
-        $count = 0;
-        foreach ($data as $dt) {
-            $formfour=$dt['indexNumber'];
-            $yTaken=$dt['yearTaken'];
-        }
-    }
-    ?>
-    <div class="page-title">
-        <div>
-                <h1><i class="fa fa-graduation-cap"></i>Ordinary Level(FIV) Results</h1>
-                <p>Please fill Ordinary Level(FIV) Results</p>
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 15.5%;">
-        <div class="col-lg-12">
-        </div>
-
-
-
-        <div class="row">
-            <div class="col-md-10">
-                <form class="form-horizontal" name="register" id="register" action="action_other_olevel.php" method="post" onsubmit="return validateOtherSchool();">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <label for="FirstName">Ordinary Level Examination Body</label>
-                                <select name="exam_body" id="exam_body" class="form-control" readonly>
-                                    <option value="<?php echo $_SESSION['eauthority']; ?>" selected><?php echo $_SESSION['eauthority']; ?></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <label for="Physical Address">Form Four Index Number</label>
-                                <input type="text" name="indexNumber" id="indexNumber" value="<?php echo $formfour;?>"  class="form-control" readonly/>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <label for="Physical Address">School/Center Name</label>
-                                <input type="text" name="schoolName" id="schoolName" class="form-control" placeholder="Enter school/center name"/>
-                            </div>
-
-                        </div>
-                        <?php
-                            $stream=1;
-                            $gradelevel=1;
-                        ?>
-                        <fieldset>
-                            <legend>Choose Subjects</legend>
-                            <table class="table-striped" width="40%">
-                                <thead>
-                                <tr>
-                                    <td colspan="3">
-                                        <table width="100%">
-                                            <td align="left">CHK</td><td align="left">Subject Name</td><td>Grade</td>
-                                            </td>
-                                        </table>
-                                </tr>
-                                </thead>
-
-                                <tr><tbody>
-
-                                    <td colspan="3">
-                                        <TABLE id="dataTable" width="100%" border="0">
-                                            <TR>
-                                                <TD><INPUT type="checkbox" name="chk"/></TD>
-                                                <TD>
-
-                                                    <select name="subjectCode[]" id="subjectID" class="form-control" >
-                                                        <option value="">Select Subject</option>
-                                                        <?php
-                                                        $subject = $db->getRows('subjects',array('where'=>array('stream'=>$stream),'order_by'=>'subjectName ASC'));
-                                                        if(!empty($subject)){ $count = 0; foreach($subject as $sbj){ $count++;
-                                                            $subjectName=$sbj['subjectName'];
-                                                            $subjectID=$sbj['subjectID'];
-                                                            ?>
-                                                            <option value="<?php echo $subjectID;?>"><?php echo $subjectName;?></option>
-                                                        <?php }}?>
-                                                    </select>
-
-                                                </TD>
-                                                <TD>
-                                                    <select name="gradeCode[]" id="grade" class="form-control" >
-                                                        <?php
-                                                        if($ytaken==2014 or $ytaken==2015)
-                                                            $gradeRange=2014;
-                                                        else
-                                                            $gradeRange=2013;
-                                                        $grade = $db->getRows('grades',array('where'=>array('gradeRangeYear'=>$gradeRange,'gradeLevel'=>$gradelevel),'order_by'=>'gradeID ASC'));
-                                                        if(!empty($grade)) {
-                                                            echo "<option value=''>Please Select Here Mashallah</option>";
-                                                            foreach ($grade as $gd) {
-                                                                $gradeID = $gd['gradeID'];
-                                                                $gradeCode = $gd['gradeCode'];
-                                                                echo "<option value='$gradeID'>$gradeCode</option>";
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            echo "<option value=''>No Grade Found</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </TD>
-
-                                            </TR>
-
-                                        </TABLE></td>
-                                    </tbody></tr>
-                                <tr><td><br></td></tr>
-                                <tr><td><INPUT type="button" class="btn btn-danger form-control" value="Delete" onclick="deleteRow('dataTable')" /></td>
-                                    <td></td>
-                                    <td><INPUT type="button" class="btn btn-primary form-control" value="Add more Subjects" onclick="addRow('dataTable')" /></td>
-
-
-                                </tr>
-                            </table>
-
-                        </fieldset>
-                    </div>
-            </div>
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
-                <input type="hidden" name="applicantID" value="<?php echo $applicantID;?>">
-                <input type="hidden" name="action_type" value="add"/>
-                    <input type="hidden" name="examinationlevel" value="Ordinary">
-                    <input type="hidden" name="examinationaward" value="formfour">
-                <input type="hidden" name="yearTaken" value="<?php echo $yTaken;?>">
-                <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
-            </div>
-            <div class="col-lg-4">
-                <input type="button" name="doExit" value="Cancel" onclick="window.history.go(-1);" class="btn btn-success form-control" />
-            </div>
-            </form>
-        </div>
-    </div>
-
-    <?php */
 }
 ?>

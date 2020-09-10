@@ -328,19 +328,19 @@ if(!empty($activeInTake)) {
 
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                                <select name="admission_level" id="admission_level" class="form-control selectpicker" required>
-                                                                    <option value="">What Level are you applying?</option>
-                                                                    <?php
-                                                                    $admissionLevel = $user->getRows('programme_level', array('where' => array('status' => 1), 'order_by' => 'programmeLevelCode ASC'));
-                                                                    if (!empty($admissionLevel)) {
-                                                                        foreach ($admissionLevel as $alevel) {
-                                                                            $plevelCode = $alevel['programmeLevelCode'];
-                                                                            $plevel = $alevel['programmeLevel'];
-                                                                    ?>
-                                                                            <option value="<?php echo $plevelCode; ?>"><?php echo $plevel; ?></option>
-                                                                    <?php }
-                                                                    } ?>
-                                                                </select>
+                                                    <select name="admission_level" id="admission_level" class="form-control selectpicker" required>
+                                                        <option value="">What Level are you applying?</option>
+                                                        <?php
+                                                        $admissionLevel = $user->getRows('programme_level', array('where' => array('status' => 1), 'order_by' => 'programmeLevelCode ASC'));
+                                                        if (!empty($admissionLevel)) {
+                                                            foreach ($admissionLevel as $alevel) {
+                                                                $plevelCode = $alevel['programmeLevelCode'];
+                                                                $plevel = $alevel['programmeLevel'];
+                                                        ?>
+                                                                <option value="<?php echo $plevelCode; ?>"><?php echo $plevel; ?></option>
+                                                        <?php }
+                                                        } ?>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -351,11 +351,11 @@ if(!empty($activeInTake)) {
 
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                                    <select name="exam_body" id="exam_body" class="form-control selectpicker">
-                                                                        <option value="">Choose Examination Authority for your first sitting at O-Level (FIV)</option>
-                                                                        <option value="NECTA">National Examination Council of Tanzania (NECTA) 1987- To Date</option>
-                                                                        <option value="Others">CSEE Before 1987/GCE/Foreign Examination Authority</option>
-                                                                    </select>
+                                                        <select name="exam_body" id="exam_body" class="form-control selectpicker">
+                                                            <option value="">Choose Examination Authority for your first sitting at O-Level (FIV)</option>
+                                                            <option value="NECTA">National Examination Council of Tanzania (NECTA) 1987- To Date</option>
+                                                            <option value="Others">CSEE Before 1987/GCE/Foreign Examination Authority</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -377,10 +377,17 @@ if(!empty($activeInTake)) {
 	                        			</div>
 										</div>-->
 
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="sr-only" for="equivalence-index-number">Equivalent Number</label>
-                                                            <input type="text" name="equivalence_number" id="equivalence_number" placeholder="Equivalence Number..." class="equivalence-index-number form-control" required>
+                                                            <input type="text" name="equivalence_number" id="equivalence_number" placeholder="Equivalence Number...EQ0000000" class="equivalence-index-number form-control" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="sr-only" for="equivalence-index-number">Examination Year</label>
+                                                            <input type="text" name="exam_year" id="exam_year" placeholder="Equivalence Number.. YYYY" class="equivalence-index-number form-control" required>
                                                         </div>
                                                     </div>
 
@@ -449,11 +456,11 @@ if(!empty($activeInTake)) {
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                                <select name="pgender" id="gender" class="form-control" required>
-                                                                    <option value="">Please select you Gender</option>
-                                                                    <option>Male</option>
-                                                                    <option>Female</option>
-                                                                </select>
+                                                    <select name="pgender" id="gender" class="form-control" required>
+                                                        <option value="">Please select you Gender</option>
+                                                        <option>Male</option>
+                                                        <option>Female</option>
+                                                    </select>
                                                 </div>
 
                                             </div>
@@ -469,19 +476,19 @@ if(!empty($activeInTake)) {
                                             </div>
 
                                             <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="sr-only" for="form-telephone">Email Address</label>
-                                                        <input type="text" name="email" placeholder="Valid email address..." class="form-control required email">
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="form-telephone">Email Address</label>
+                                                    <input type="text" name="email" placeholder="Valid email address..." class="form-control required email">
+                                                </div>
                                             </div>
-                                                
-                                                <!-- <div class="Others">
+
+                                            <!-- <div class="Others">
                                                     <div class="form-group">
                                                         <label class="sr-only" for="form-telephone">Email Address</label><input type="text" name="emailad" placeholder="Valid email address..." class="form-control required email">
                                                     </div>
                                                 </div> -->
 
-                                            </div>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col-sm-12">

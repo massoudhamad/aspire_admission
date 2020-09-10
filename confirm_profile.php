@@ -100,7 +100,7 @@ $error = array();
                             $msg = "apierror";
                         }
                     } elseif ($exam_body == "Others") {
-                        $indexNumber = $_POST['indexNumberOther'];
+                    /* $indexNumber = $_POST['indexNumberOther'];
                         $fname = strtoupper($_POST['fname']);
                         $mname = strtoupper($_POST['mname']);
                         $lname = strtoupper($_POST['lname']);
@@ -109,7 +109,47 @@ $error = array();
                         $email = $_POST['emailad'];
                         $equivalence_number = $_POST['equivalence_number'];
                         $index_number = $indexNumber;
+                        $boolStatus = true; */
+                    $api_token = $db->getAPI("NECTA", "token");
+                    if (!empty($api_token)) {
+                        foreach ($api_token as $api) {
+                            $apitToken = $api['token'];
+                        }
+                    }
+                    $token = $db->getAPIToken($apitToken);
+                    $equivalence_number = $_POST['equivalence_number'];
+                    $exam_id = 1;
+                    $exam_year = $_POST['exam_year'];
+                    $apiNumber = $equivalence_number."/".$exam_id."/".$exam_year;
+                    $indexNumber = $equivalence_number."/".$exam_year;
+                    $url = "https://api.necta.go.tz/api/public/particulars/".$apiNumber."/".$token;
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_HTTPGET, true);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $response_json = curl_exec($ch);
+                    curl_close($ch);
+                    $data = json_decode($response_json, true);
+
+
+                    if ($data['status']['code'] == 1) {
+                        $fname = $data['particulars']['first_name'];
+                        $mname = $data['particulars']['middle_name'];
+                        $lname = $data['particulars']['last_name'];
+                        $gender = $data['particulars']['sex'];
+
+                        if ($gender == "M") {
+                            $gender = "Male";
+                        } else {
+                            $gender = "Female";
+                        }
+                        $phoneNumber = $_POST['phoneNumber'];
+                        $email = $_POST['email'];
+                        $indexYear = $exam_year;
                         $boolStatus = true;
+                    } else {
+                        $boolStatus = false;
+                        $msg = "apierror";
+                    }
                     }
                 }
             }else if ($admission_level == "PG") {
@@ -261,7 +301,7 @@ $error = array();
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-index-number">Index Number</label>
                                                     <input type="text" name="indexNumber" value="<?php echo $indexNumber; ?>" class="form-index-number form-control" readonly>
@@ -270,12 +310,12 @@ $error = array();
 
                                             <input type="hidden" hidden name="indexYear" value="<?php echo $indexYear; ?>">
 
-                                            <div class="col-sm-6">
+                                            <!-- <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-index-number">Equivalence Number</label>
-                                                    <input type="text" name="equivalence_number" value="<?php echo $equivalence_number; ?>" class="form-control" readonly>
+                                                    <input type="text" name="equivalence_number" value="<?php //echo $equivalence_number; ?>" class="form-control" readonly>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                         </div>
 

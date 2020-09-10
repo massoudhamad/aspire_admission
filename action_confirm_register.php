@@ -21,7 +21,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
     $mname = strtoupper($_POST['mname']);
     $lname = strtoupper($_POST['lname']);
     $email = $_POST['email'];
-    $equivalence_number=$_POST['equivalence_number'];
+    //$equivalence_number=$_POST['equivalence_number'];
     //$indexNumber=$indexNumber."/".$exam_year;
     $indexNumber=$indexNumber;
         
@@ -34,7 +34,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     $indexNumber=$indexNumber;
                     $username = strtoupper($indexNumber);
                 } else if ($exam_body == "Others") {
-                    $indexNumber=$equivalence_number;
+                    $indexNumber=$indexNumber;
                     $username = strtoupper($indexNumber);
                 } else {
                     $username = $email;

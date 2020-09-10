@@ -127,6 +127,32 @@ function ajax_ordinary_level() {
     return false;
 }
 
+function ajax_ordinary_level_equivalence() {
+    var indexNumber = document.getElementById("indexNumber").value;
+    var dataString = 'indexNumber=' + indexNumber;
+    var ireg = /^[EePpSsUu][0-9]+[/][0-9]+[/][0-9]{4}$/;
+    if (indexNumber == '') {
+        alert("Please fill all fields");
+    }
+    /*else if(!ireg.test(indexNumber)) {
+               alert("Invalid Index Number Format");
+       }*/
+    else {
+        $('#myPleaseWait').modal('show');
+        $.ajax({
+            type: "POST",
+            url: "ajax_equivalence_results.php",
+            data: dataString,
+            cache: false,
+            success: function (html) {
+                $('#myPleaseWait').modal('hide');
+                $("#result").html(html);
+            }
+        });
+    }
+    return false;
+}
+
 function validateEquivalent()
 {
     var entry_qualification = document.getElementById("entry_qualification");

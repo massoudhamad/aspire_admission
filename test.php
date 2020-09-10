@@ -4,10 +4,26 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
-$apiNumber="S1291-0029/1/2003";
-$token="";
+$apiNumber="EQ2020000793/1/2015";
+$api_token = $db->getAPI("NECTA", "token");
+if (!empty($api_token)) {
+    foreach ($api_token as $api) {
+        $apitToken = $api['token'];
+    }
+}
+$token = $db->getAPIToken($apitToken);
 
-$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
+$url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_HTTPGET, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response_json = curl_exec($ch);
+curl_close($ch);
+$data = json_decode($response_json, true);
+var_dump($data);
+
+
+//$json = file_get_contents("https://api.necta.go.tz/api/public/results/". $apiNumber."/".$token);
 
 
 //$appfees = $db->getData("applicationfees", "fees", "studyLevelID", 3);
