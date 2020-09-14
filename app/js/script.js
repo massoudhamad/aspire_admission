@@ -78,6 +78,34 @@ function deleteRow(tableID) {
         return false;
     }
 
+function equivalence_alevel() {
+    var equivalenceNumber = document.getElementById("equivalenceNumber").value;
+    var indexYear=document.getElementById("indexYear").value;
+    var level = document.getElementById("eqlevel").value;
+    var dataString = 'indexNumber=' + equivalenceNumber +'&yearTaken='+indexYear+'&level=' + level;
+    console.log("Testing");
+   // var ireg = /^[EePpSsUu][0-9]+[/][0-9]+[/][0-9]{4}$/;
+    if (indexNumber == '') {
+        alert("Please fill all fields");
+    } /* else if (!ireg.test(indexNumber)) {
+        alert("Invalid Index Number Format");
+    } */
+    else {
+        $('#myPleaseWait').modal('show');
+        $.ajax({
+            type: "POST",
+            url: "ajax_equivalence_results.php",
+            data: dataString,
+            cache: false,
+            success: function (html) {
+                $('#myPleaseWait').modal('hide');
+                $("#result").html(html);
+            }
+        });
+    }
+    return false;
+}
+
 
 function equivalentfunction() {
     var avn_number = document.getElementById("avn_number").value;

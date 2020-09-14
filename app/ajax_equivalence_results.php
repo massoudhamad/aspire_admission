@@ -14,12 +14,17 @@ if ($indexNumber) {
     }
 
     if (strlen($db->getAPIToken($apitToken)) > 1) {
+        if ($level == "alevel") {
+            $yearTaken=$_POST['yearTaken'];
+            $apiNumber = $eqNumber."/2/".$yearTaken;
+        } else {
         $iNumber = explode("/", $indexNumber);
         $centerNumber = $iNumber[0];
         $yearTaken = $iNumber[1];
-        $apiNumber = $centerNumber . "/1/" . $yearTaken;
+            $apiNumber = $centerNumber."/1/".$yearTaken;
+        }
         $token = $db->getAPIToken($apitToken);
-        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
+        $url = "https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -34,7 +39,7 @@ if ($indexNumber) {
 
         //$data = json_decode($json, true);
 ?>
-        <form name="" action="action_confirm_ordinary_results.php" method="post">
+        <form name="" action="action_save_equivalence_results.php" method="post">
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                     <tr>
@@ -87,7 +92,7 @@ if ($indexNumber) {
                                                     <input type="text" name="subjectName[]" value="<?php echo $vv['subject_name']; ?>" class="form-control" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="subjectName[]" value="<?php echo $vv['fgrade']; ?>" class="form-control" readonly>
+                                                    <input type="text" name="fgrade[]" value="<?php echo $vv['fgrade']; ?>" class="form-control" readonly>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="gradeCode[]" value="<?php echo $vv['grade']; ?>" class="form-control" readonly>
