@@ -2,7 +2,7 @@
   $(document).ready(function () {
       var titleheader = $('#titleheader').text();
       var programmeID=$("#programmeID").val();
-      var academicYearID=$("#academicYearID").val();
+      //var academicYearID=$("#academicYearID").val();
       var admissionID=$("#admissionID").val();
       var sorted=$("#sorted").val();
             $('#selection_list').DataTable(
@@ -11,7 +11,7 @@
                   {
                         type: 'GET',
                         url: 'data/selection_list_direct.php',
-                        data:{programmeID:programmeID,academicYearID:academicYearID,admissionID:admissionID},
+                        data:{programmeID:programmeID,admissionID:admissionID},
                         "serverSide" : true,
                         cache: false
                   },
@@ -89,23 +89,23 @@ $db = new DBHelper();
            ?>
                            </select>
 </div>
-                            <div class="col-lg-3">
+                           <!--  <div class="col-lg-3">
 
                             <label for="MiddleName">Admission Year</label>
                             <select name="admissionYearID" class="form-control" required="">
                               <?php
-                               $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
+                               /* $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
                                if(!empty($adYear)){ 
                                 echo"<option value=''>Please Select Here</option>";
                                 $count = 0; foreach($adYear as $year){ $count++;
                                 $academic_year=$year['academicYear'];
-                                $academic_year_id=$year['academicYearID'];
+                                $academic_year_id=$year['academicYearID']; */
                                ?>
-                               <option value="<?php echo $academic_year_id;?>"><?php echo $academic_year;?></option>
-                               <?php }}
+                               <option value="<?php //echo $academic_year_id;?>"><?php // echo $academic_year;?></option>
+                               <?php //}}
            ?>
                            </select>
-</div>
+</div> -->
 
         <div class="col-lg-3">
 
@@ -118,8 +118,10 @@ $db = new DBHelper();
                     $count = 0; foreach($aitake as $ait){ $count++;
                         $admissionID=$ait['admissionID'];
                         $admissionInTakeID=$ait['admissionInTakeID'];
+                        $admissionName=$ait['admissionName'];
                         ?>
-                        <option value="<?php echo $admissionID;?>"><?php echo $db->getData('admission_intake',"admissionInTake","admissionInTakeID",$admissionInTakeID);?></option>
+                        <option value="<?php echo $admissionID;?>">
+                        <?php echo $admissionName;?></option>
                     <?php }}
                 ?>
             </select>

@@ -83,8 +83,8 @@ session_start();
     <li class="treeview">
         <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>Selection Process</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
-            <li><a href="index3.php?sp=applicant_list_direct">Applicants-Direct</a></li>
-            <li><a href="index3.php?sp=applicant_list_equivalent">Applicants-Equivalent</a></li>
+            <!-- <li><a href="index3.php?sp=applicant_list_direct">Applicants-Direct</a></li>
+            <li><a href="index3.php?sp=applicant_list_equivalent">Applicants-Equivalent</a></li> -->
             <li><a href="index3.php?sp=selection_list">Approved Applicants-Direct</a></li>
             <li><a href="index3.php?sp=selection_list_equivalent">Approved Applicants-Equivalent</a></li>
             <li><a href="index3.php?sp=admitapplicants">Admit Applicants</a></li>

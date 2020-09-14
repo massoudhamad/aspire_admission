@@ -2,7 +2,7 @@
   $(document).ready(function () {
       var titleheader = $('#titleheader').text();
            var programmeID=$("#programmeID").val();
-           var academicYearID=$("#academicYearID").val();
+           //var academicYearID=$("#academicYearID").val();
            var admissionID=$("#admissionID").val();
            var sorted=$("#sorted").val();
             $('#selection_list').DataTable(
@@ -11,7 +11,7 @@
                   {
                         type: 'GET',
                         url: 'data/selection_list_equivalent.php',
-                        data:{programmeID:programmeID,academicYearID:academicYearID,admissionID:admissionID},
+                        data:{programmeID:programmeID,admissionID:admissionID},
                         "serverSide" : true,
                         cache: false
                   },
@@ -88,24 +88,24 @@ $db = new DBHelper();
            ?>
                            </select>
 </div>
-<div class="col-lg-3">
+<!-- <div class="col-lg-3">
 
                             <label for="MiddleName">Admission Year</label>
                             <select name="admissionYearID" class="form-control" required="">
                               <?php
-                               $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
+                              /*  $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
                                if(!empty($adYear)){ 
                                 echo"<option value=''>Please Select Here</option>";
                                 $count = 0; foreach($adYear as $year){ $count++;
                                 $academic_year=$year['academicYear'];
-                                $academic_year_id=$year['academicYearID'];
+                                $academic_year_id=$year['academicYearID']; */
                                ?>
-                               <option value="<?php echo $academic_year_id;?>"><?php echo $academic_year;?></option>
-                               <?php }}
+                               <option value="<?php //echo $academic_year_id;?>"><?php //echo $academic_year;?></option>
+                               <?php //}}
            ?>
                            </select>
 </div>
-        <div class="col-lg-3">
+ -->        <div class="col-lg-3">
 
             <label for="MiddleName">Admission Intake</label>
             <select name="admissionID" class="form-control" required="">
@@ -116,8 +116,11 @@ $db = new DBHelper();
                     $count = 0; foreach($aitake as $ait){ $count++;
                         $admissionID=$ait['admissionID'];
                         $admissionInTakeID=$ait['admissionInTakeID'];
+                        $admissionName=$ait['admissionName'];
                         ?>
-                        <option value="<?php echo $admissionID;?>"><?php echo $db->getData('admission_intake',"admissionInTake","admissionInTakeID",$admissionInTakeID);?></option>
+                        <option value="<?php echo $admissionID;?>">
+                        <?php echo $admissionName;?>
+                    </option>
                     <?php }}
                 ?>
             </select>
@@ -142,15 +145,14 @@ $db = new DBHelper();
             $admissionInTakeID=$db->getData('admission_setting','admissionInTakeID','admissionID',$admissionID);
            
             $studyLevelID=$db->getData("programs","studyLevelID","programID",$programmeID);
-            if($studyLevelID==1 || $studyLevelID==2)
+            //if($studyLevelID==1 || $studyLevelID==2)
                 $value="10";
-            else
-                $value="6";
+            //else
+              //  $value="6";
                     
          ?>
         <input type="hidden" id="sorted" value="<?php echo $value;?>">
         <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
-         <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
         <div class="col-lg-12">
             <h4><span id="titleheader">List of Approved Applicants for <?php echo $db->getData("programs","programName","programID",$programmeID); ?>

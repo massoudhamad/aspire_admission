@@ -4,9 +4,9 @@ require_once '../DB.php';
 $db=new DBHelper();
 $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
-$academicYearID=$_GET['academicYearID'];
 $admissionID=$_GET['admissionID'];
 
+$academicYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
  $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,1);
  if(!empty($applicantsData))
 {
