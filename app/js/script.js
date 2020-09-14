@@ -80,16 +80,13 @@ function deleteRow(tableID) {
 
 function equivalence_alevel() {
     var equivalenceNumber = document.getElementById("equivalenceNumber").value;
-    var indexYear=document.getElementById("indexYear").value;
+    var indexYear = document.getElementById("yearTaken").value;
     var level = document.getElementById("eqlevel").value;
     var dataString = 'indexNumber=' + equivalenceNumber +'&yearTaken='+indexYear+'&level=' + level;
-    console.log("Testing");
-   // var ireg = /^[EePpSsUu][0-9]+[/][0-9]+[/][0-9]{4}$/;
-    if (indexNumber == '') {
+    //console.log("Testing");
+    if (equivalenceNumber == "") {
         alert("Please fill all fields");
-    } /* else if (!ireg.test(indexNumber)) {
-        alert("Invalid Index Number Format");
-    } */
+    }
     else {
         $('#myPleaseWait').modal('show');
         $.ajax({
