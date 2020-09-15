@@ -115,12 +115,12 @@ if ($indexNumber) {
                 <input type="hidden" name="action_type" value="add" />
                 <?php if ($level == "alevel") {
                 ?>
-                    <input type="text" name="examinationlevel" value="Advance">
+                    <input type="hidden" name="examinationlevel" value="Advance">
                     <input type="hidden" name="examinationaward" value="formsix">
                 <?php
                 } else {
                 ?>
-                    <input type="text" name="examinationlevel" value="Ordinary">
+                    <input type="hidden" name="examinationlevel" value="Ordinary">
                     <input type="hidden" name="examinationaward" value="formfour">
                 <?php
                 }

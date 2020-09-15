@@ -116,7 +116,7 @@ $db=new DBHelper();
     }
     if($applicantResultStatus==0 && $admissionLevel=="UG")
     {
-        echo $applicantResultStatus;
+        //echo $applicantResultStatus;
         ?>
         <p>
             <span class="text-danger" style="font-size: 18px;">Please fill Education Background first then select Study Plan</span>
