@@ -442,18 +442,18 @@
                     ?>
                     <div class="col-lg-12">
                         <fieldset>
-                            <legend>Advanced Level Results</legend>
+                            <legend>Equivalance Advanced Level Results</legend>
 
                             <?php
-                            $resultseq = $db->getRows("applicantresults", array('where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Advance'), 'order_by applicantID ASC'));
-                            if (!empty($results)) {
+                            $resultseqa = $db->getRows("applicantresults", array('where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Advance'), 'order_by applicantID ASC'));
+                            if (!empty($resultseqa)) {
                             ?>
 
                                 <div class="col-lg-12">
                                     <fieldset>
                                         <legend>List of Registered Subjects for Advanced Level (Form FVI)</legend>
                                         <?php
-                                        foreach ($resultseq as $mat) {
+                                        foreach ($resultseqa as $mata) {
                                         ?>
                                             <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                                                 <thead>
@@ -468,12 +468,12 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $applicantResultID = $matokeo['applicantResultID'];
-                                                    $schoolName = $matokeo['schoolName'];
-                                                    $yearTaken = $matokeo['yearTaken'];
-                                                    $indexNumber = $matokeo['indexNumber'];
-                                                    $exam_authority = $matokeo['examinationAuthority'];
-                                                    $resultStatus = $matokeo['resultStatus'];
+                                                    $applicantResultID = $mata['applicantResultID'];
+                                                    $schoolName = $mata['schoolName'];
+                                                    $yearTaken = $mata['yearTaken'];
+                                                    $indexNumber = $mata['indexNumber'];
+                                                    $exam_authority = $mata['examinationAuthority'];
+                                                    $resultStatus = $mata['resultStatus'];
                                                     if ($resultStatus == 1) {
                                                         $vstatus = "Verified";
                                                     } else {
@@ -523,7 +523,9 @@
 
                         </fieldset>
                     </div>
-                    <!--End of Advanced Level Results-->
+                    <?php
+                    //end
+                    ?>
                     <form name="" method="post" action="action_education_background.php">
                         <div class="col-lg-9"></div>
 
@@ -532,8 +534,8 @@
                         </div>
 
                     </form>
+
             <?php
-                    //end
                 }
             } else {
 

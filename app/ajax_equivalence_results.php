@@ -15,16 +15,16 @@ if ($indexNumber) {
 
     if (strlen($db->getAPIToken($apitToken)) > 1) {
         if ($level == "alevel") {
-            $yearTaken=$_POST['yearTaken'];
-            $apiNumber = $eqNumber."/2/".$yearTaken;
+            $yearTaken = $_POST['yearTaken'];
+            $apiNumber = $indexNumber . "/2/" . $yearTaken;
         } else {
-        $iNumber = explode("/", $indexNumber);
-        $centerNumber = $iNumber[0];
-        $yearTaken = $iNumber[1];
-            $apiNumber = $centerNumber."/1/".$yearTaken;
+            $iNumber = explode("/", $indexNumber);
+            $centerNumber = $iNumber[0];
+            $yearTaken = $iNumber[1];
+            $apiNumber = $centerNumber . "/1/" . $yearTaken;
         }
         $token = $db->getAPIToken($apitToken);
-        $url = "https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
+        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -113,8 +113,19 @@ if ($indexNumber) {
             <div class="col-lg-4">
                 <input type="hidden" name="applicantID" value="<?php echo $applicantID; ?>">
                 <input type="hidden" name="action_type" value="add" />
-                <input type="hidden" name="examinationlevel" value="Ordinary">
-                <input type="hidden" name="examinationaward" value="formfour">
+                <?php if ($level == "alevel") {
+                ?>
+                    <input type="text" name="examinationlevel" value="Advance">
+                    <input type="hidden" name="examinationaward" value="formsix">
+                <?php
+                } else {
+                ?>
+                    <input type="text" name="examinationlevel" value="Ordinary">
+                    <input type="hidden" name="examinationaward" value="formfour">
+                <?php
+                }
+                ?>
+
                 <input type="hidden" name="indexNumber" value="<?php echo $indexNumber; ?>">
                 <input type="hidden" name="yearTaken" value="<?php echo $yearTaken; ?>">
                 <input type="hidden" name="numbersubjects" value="<?php echo $count; ?>">

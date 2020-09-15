@@ -17,29 +17,47 @@ error_reporting (E_ALL | E_STRICT);
             $examinationaward = $_POST['examinationaward'];
             $indexNumber = $_POST['indexNumber'];
             $numberSubjects=$_POST['numbersubjects'];
-            if ($examinationaward == "formfour")
-                $award = "CSEE";
-            else
+
+            if ($examinationlevel == "Advance") {
+                $applicantResultStatus = 0;
                 $award = "ACSEE";
+                $levelStatus=0;
+            }
+            else
+            {
+                $award = "CSEE";
+                $applicantResultStatus = 1;
+                $levelStatus=1;
+            }
             $applicationYearID = $db->getData('applicants', 'applicationYearID', 'applicantID', $applicantID);
             $examNumber = strtoupper($indexNumber);
 
                 $userData = array(
                     "schoolName" => addslashes($schoolName),
                     "applicationYearID" => $applicationYearID,
+                    "applicantID"=>$applicantID,
                     "yearTaken" => $indexYear,
                     "indexNumber" => $examNumber,
                     "examinationAuthority" => $exam_body,
                     "examinationLevel" => $examinationlevel,
                     "award" => $award,
                     "gradeType" => 'Points',
-                    "applicantResultStatus" => 1,
-                    "levelStatus" => 1,//First Sit
+                    "applicantResultStatus" => $applicantResultStatus,
+                    "levelStatus" => $levelStatus,//First Sit
                     "resultStatus" => 1//Verified or not Verified
                 );
-                $condition = array('applicantID' => $applicantID);
-                $insert = $db->update($tblName, $userData, $condition);
-                $applicantResultID = $db->getData('applicantresults', 'applicantResultID', 'applicantID', $applicantID);
+                if($examinationlevel=="Advance")
+                {
+                    $insert = $db->insert($tblName, $userData);
+                    $applicantResultID = $insert;
+                }
+                else 
+                {
+                    $condition = array('applicantID' => $applicantID);
+                    $insert = $db->update($tblName, $userData, $condition);
+                    $applicantResultID = $db->getData('applicantresults', 'applicantResultID', 'applicantID', $applicantID);
+                }
+                
                 $points = 0;
             foreach($_POST["subjectName"] as $code => $subjectName) {
                 foreach ($_POST["gradeCode"] as $grade => $gradeCode) {
