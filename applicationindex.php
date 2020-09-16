@@ -278,9 +278,9 @@ if ($login == 0) {
                                 }
 
                             }
-                            else if($remarkID==2 && $db->checkApplicantStudyLevel($applicantID)==1) {
+                            /* else if($remarkID==2 && $db->checkApplicantStudyLevel($applicantID)==1) {
                                 echo "Pending";
-                            } else {
+                            } */ else {
                                 echo $db->getData("remarks", "remark", "remarkID", $remarkID);
                             }
                             ?>
@@ -300,8 +300,8 @@ if ($login == 0) {
                             ?><td>
                             <a href="#" target="_blank">
                                 <span class="text text-success">Print Admission Letter</span></a>
-                           <!-- <a href="printadmissionletter.php?action=getPDF&applicantID=<?php /*echo $applicantID;*/?>" target="_blank">
-                                <span class="text text-success">Print Admission Letter</span></a>-->
+                           <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID;?>" target="_blank">
+                                <span class="text text-success">Print Admission Letter</span></a>
                             </td>
                             <?php
                         }
