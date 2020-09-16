@@ -465,7 +465,26 @@ if ($login == 0) {
     }?>
     <?php
     $today=date('Y-m-d');
-    $semester= $db->getRows('admission_setting',array(' order_by'=>' startDate ASC'));
+    $admissionSetting = $db->getAdmissionSetting();
+    if (!empty($admissionSetting)) {
+        foreach ($admissionSetting as $admin) {
+            $academicYear = $admin['academicYear'];
+            $academicYearID = $admin['academicYearID'];
+            $admissionID = $admin['admissionID'];
+            $admissionName = $admin['admissionName'];
+            $admissionRound = $admin['admissionRound'];
+            $endDate = $admin['endDate'];
+        }
+    } else {
+        $academicYear = "";
+        $academicYearID = "";
+        $admissionID = "";
+        $admissionName = "";
+        $admissionRound = "";
+        $endDate = "";
+    }
+
+    /* $semester= $db->getRows('admission_setting',array(' order_by'=>' startDate ASC'));
     if(!empty($semester)) {
         foreach ($semester as $sm) {
             $academicYearID = $sm['academicYearID'];
@@ -473,7 +492,7 @@ if ($login == 0) {
             $endDate = $sm['endDate'];
             $admissionID = $sm['admissionID'];
         }
-    }
+    } */
 
     if($today<=$endDate)
     {

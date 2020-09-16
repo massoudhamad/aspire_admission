@@ -4,7 +4,10 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
-$apiNumber="EQ2020000794/2/2018";
+//$apiNumber="EQ2020000794/2/2018";
+
+$apiNumber = "S5047-0541/2/2017";
+
 $api_token = $db->getAPI("NECTA", "token");
 if (!empty($api_token)) {
     foreach ($api_token as $api) {

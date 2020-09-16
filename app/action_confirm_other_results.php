@@ -1,8 +1,8 @@
 <?php
 session_start();
-//ini_set ('display_errors', 1);
-//error_reporting (E_ALL | E_STRICT);
-try {
+ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT);
+//try {
     include '../DB.php';
     $db = new DBHelper();
     $tblName = 'applicantresults';
@@ -98,6 +98,6 @@ try {
     {
         header("Location:index.php?sz=education_background");
     }
-} catch (PDOException $ex) {
+/* } catch (PDOException $ex) {
     $db->redirect("index.php?sz=education_background&msg=error");
-}
+} */
