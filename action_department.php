@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT);
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'departments';
@@ -27,6 +29,28 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $update = $db->update($tblName,$userData,$condition);
             $statusMsg = true;
             header("Location:index3.php?sp=departments&msg=edited");
+        }
+    }
+    //block/unlock user status
+    elseif ($_REQUEST['action_type'] == 'block') {
+        if (!empty($_GET['id'])) {
+            $userData = array(
+                'status' => 0
+            );
+            $condition = array('programmeLevelID' => $_GET['id']);
+            $update = $db->update("programme_level", $userData, $condition);
+            $statusFlag = true;
+            header("Location:index3.php?sp=application_level&msg=block");
+        }
+    } elseif ($_REQUEST['action_type'] == 'unblock') {
+        if (!empty($_GET['id'])) {
+            $userData = array(
+                'status' => 1
+            );
+            $condition = array('programmeLevelID' => $_GET['id']);
+            $update = $db->update("programme_level", $userData, $condition);
+            $statusFlag = true;
+            header("Location:index3.php?sp=application_level&msg=unblock");
         }
     }
 }

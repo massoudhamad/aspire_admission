@@ -33,6 +33,8 @@ session_start();
                 <li><a href="index3.php?sp=agents">Manage Agents</a></li>
                 <li><a href="index3.php?sp=admission_setting">Admission Setting</a></li>
                 <li><a href="index3.php?sp=admission_round">Admission Rounds</a></li>
+                <li><a href="index3.php?sp=application_level">Application Levels</a></li>
+                <li><a href="index3.php?sp=admission_letter_setting">Admission Letter Setting</a></li>
                 <li><a href="index3.php?sp=programme_batch">Programme Batch</a></li>
                 <li><a href="index3.php?sp=document_upload">Documents Uploads</a></li>
             <?php

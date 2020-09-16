@@ -188,11 +188,6 @@ case 'zalongwareport':
       case 'addnewuser':
       include('addnewuser.php');
       break;
-
-
-
-      
-      
      
      case 'programmefeesall':
      include('programmefeesall.php');
@@ -201,6 +196,10 @@ case 'zalongwareport':
       case 'addnewprogrammerequirements':
       include('addnewprogrammerequirements.php');
       break;
+        
+    case 'application_level':
+        include('application_level.php');
+        break;
   
       //Edit Data
       case 'edit_user':
