@@ -278,9 +278,12 @@ if ($login == 0) {
                                 }
 
                             }
-                            /* else if($remarkID==2 && $db->checkApplicantStudyLevel($applicantID)==1) {
-                                echo "Pending";
-                            } */ else {
+                            else if($remarkID==2 && $db->checkApplicantStudyLevel($applicantID)==1) {
+                                //echo "Pending";
+                                echo $db->getData("remarks", "remark", "remarkID",
+                                    $remarkID
+                                );
+                            } else {
                                 echo $db->getData("remarks", "remark", "remarkID", $remarkID);
                             }
                             ?>
