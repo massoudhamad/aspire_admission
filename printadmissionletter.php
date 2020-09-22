@@ -7,13 +7,19 @@ if($_REQUEST['action']=="getPDF")
     require('fpdf.php');
     $applicantID=$_REQUEST['applicantID'];
     $today=date('d-M-Y H:i:s');
+
+   
     class PDF extends FPDF
-    {		
-        function Banner()
+    {
+        function Banner($organizationName, $image)
         {
-           $today=date('M d,Y');
-                //Logo . 
-            $this->Image('img/mum.png',10,5,200,45);
+            $today = date('M d,Y');
+            //Logo . 
+            $this->setFont('Arial', 'B', 13);
+            $this->Text(70, 30, $organizationName);
+            $this->Image($image, 15, 10, 40.98, 35.22);
+            $this->setFont('Arial', 'B', 14);
+            $this->Text(75, 40, 'Admission Letter');
         }
         function BasicTable($header)
         {  
@@ -28,13 +34,13 @@ if($_REQUEST['action']=="getPDF")
             //Position at 1.5 cm from bottom
             $this->SetY(-15);
             $this->SetFont('Arial','I',8);
-            $this->Cell(260,0,'Muslim University of Morogoro '.$today2,0,1,'L');
+            $this->Cell(260,0,'Muslim University of Morogoro33 '.$today2,0,1,'L');
 
         }
     }
     $pdf=new PDF();
     $pdf->AliasNbPages();
-    $pdf->AddPage(P);
+    $pdf->AddPage();
     $pdf->setFont('Arial', '', 8);
     $applicantsData=$db->getRows('applicants',array('where'=>array('applicantID'=>$applicantID),'order_by'=>'applicantID ASC'));
    if(!empty($applicantsData)){ 

@@ -12,24 +12,31 @@ error_reporting(E_ALL | E_STRICT);
             $tmp_dir = $_FILES['image']['tmp_name'];
             $imgSize = $_FILES['image']['size'];
 
+            $sigFile = $_FILES['signature']['name'];
+            $sig_tmp_dir = $_FILES['signature']['tmp_name'];
+            $sigSize = $_FILES['signature']['size'];
+
             if (empty($imgFile)) {
                 $errMSG = "Please Select Image File.";
                 header("Location:index3.php?sp=organization&msg=".$errMSG);
             } else {
                 $upload_dir = 'img/'; // upload directory
                 $imgExt = strtolower(pathinfo($imgFile, PATHINFO_EXTENSION)); // get image extension
+                $sigimgExt = strtolower(pathinfo($sigFile, PATHINFO_EXTENSION)); // get image extension
 
                 // valid image extensions
                 $valid_extensions = array('jpeg', 'jpg', 'png'); // valid extensions
 
                 // rename uploading image
                 $userpic = rand(1000, 1000000) . "." . $imgExt;
+                $signature=rand(2000,2000000).".".$sigimgExt;
 
                 // allow valid image file formats
                 if (in_array($imgExt, $valid_extensions)) {
                     // Check file size '5MB'
                     if ($imgSize < 5000000) {
-                        move_uploaded_file($tmp_dir, $upload_dir . $userpic);
+                        move_uploaded_file($tmp_dir, $upload_dir.$userpic);
+                        move_uploaded_file($sig_tmp_dir,$upload_dir.$signature);
                     } else {
                         $errMSG = "Sorry, your file is too large.";
                         header("Location:index3.php?sp=organization&msg=".$errMSG);
@@ -53,12 +60,10 @@ error_reporting(E_ALL | E_STRICT);
                     'organizationReference' => $_POST['refnumber'],
                     'student_support'=>$_POST['student_support'],
                     'starLink'=>$_POST['star_link'],
-                    'name1'=>$_POST['name1'],
-                    'title1'=>$_POST['title1'],
-                    'name2'=>$_POST['name2'],
-                    'title2'=>$_POST['title2'],
-                    'name3'=>$_POST['name3'],
-                    'title3'=>$_POST['title3'],
+                    'office_name'=>$_POST['office_name'],
+                    'contact_person'=>$_POST['contact_person'],
+                    'title'=>$_POST['title'],
+                    'signature'=>$signature,
                     'organizationPicture' => $userpic
                 );
 
@@ -82,12 +87,9 @@ error_reporting(E_ALL | E_STRICT);
                     'organizationReference' => $_POST['refnumber'],
                     'starLink'=>$_POST['star_link'],
                     'student_support'=>$_POST['student_support'],
-                    'name1'=>$_POST['name1'],
-                    'title1'=>$_POST['title1'],
-                    'name2'=>$_POST['name2'],
-                    'title2'=>$_POST['title2'],
-                    'name3'=>$_POST['name3'],
-                    'title3'=>$_POST['title3']
+                    'office_name' => $_POST['office_name'],
+                    'contact_person' => $_POST['contact_person'],
+                    'title' => $_POST['title']
                 );
                 $condition = array('organizationID' => $_POST['id']);
                 $update = $db->update($tblName, $userData, $condition);
@@ -95,16 +97,19 @@ error_reporting(E_ALL | E_STRICT);
                 $imgFile = $_FILES['image']['name'];
                 $tmp_dir = $_FILES['image']['tmp_name'];
                 $imgSize = $_FILES['image']['size'];
+
+
                 if(!empty($imgFile)){
                     $upload_dir = 'img/'; // upload directory
-
                     $imgExt = strtolower(pathinfo($imgFile,PATHINFO_EXTENSION)); // get image extension
+
 
                     // valid image extensions
                     $valid_extensions = array('png','jpg','jpeg'); // valid extensions
 
                     // rename uploading image
                     $userpic = rand(1000,1000000).".".$imgExt;
+
 
                     // allow valid image file formats
                     if(in_array($imgExt, $valid_extensions)){
@@ -128,6 +133,42 @@ error_reporting(E_ALL | E_STRICT);
                         $boolStaus=false;
                     }
                 }
+
+            //Signature
+            $sigFile = $_FILES['signature']['name'];
+            $sig_tmp_dir = $_FILES['signature']['tmp_name'];
+            $sigSize = $_FILES['signature']['size'];
+            if (!empty($sigFile)) {
+                $upload_dir = 'img/'; // upload directory
+                $sigimgExt = strtolower(pathinfo($sigFile, PATHINFO_EXTENSION)); // get image extension
+
+
+                // valid image extensions
+                $valid_extensions = array('png', 'jpg'); // valid extensions
+
+                // rename uploading image
+                $signature = rand(2000, 2000000) . "." . $sigimgExt;
+
+
+                // allow valid image file formats
+                if (in_array($sigimgExt, $valid_extensions)) {
+                    // Check file size '5MB'
+                    if ($imgSize < 5000000) {
+                        move_uploaded_file($sig_tmp_dir, $upload_dir . $signature);
+                        $signatureData = array(
+                            'signature' => $signature
+                        );
+                        $condition = array('organizationID' => $_POST['id']);
+                        $update = $db->update($tblName, $signatureData, $condition);
+                    } else {
+                        $errMSG = "Sorry, your image file is too large.";
+                        $boolStaus = false;
+                    }
+                } else {
+                    $errMSG = "Sorry, only png,jpg files are allowed.";
+                    $boolStaus = false;
+                }
+            }
                 $statusMsg = true;
                 header("Location:index3.php?sp=organization&msg=succ");
             }

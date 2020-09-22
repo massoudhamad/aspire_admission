@@ -336,27 +336,27 @@ if ($login == 0) {
                             }
                             else
                             {
-                                if($nacte_status==1)
-                                {
+                                //if($nacte_status==1)
+                                //{
                                     ?>
                                     <td>
                                         <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
                                            target="_blank">
                                             <span class="text text-success">Download Admission Letter</span></a>
                                         <br><br>
-                                        <a href="offer.pdf" target="_blank">
-                                            <span class="text text-success">Download Univ.Instructions</span></a>
+                                        <!-- <a href="offer.pdf" target="_blank">
+                                            <span class="text text-success">Download Univ.Instructions</span></a> -->
                                     </td>
                                     <?php
-                                }
-                                else
-                                {
+                                //}
+                                //else
+                                //{
                                     ?>
-                                    <td>
+                                    <!-- <td>
                                         We are waiting for NACTE to prove your names inorder to print Admission Letters
-                                    </td>
+                                    </td> -->
                                     <?php
-                                }
+                                //}
                             }
                         }
                         /*else if($remarkID==3 && $tcu_final=="Multiple Admission")

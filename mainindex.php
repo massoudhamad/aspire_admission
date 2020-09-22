@@ -229,8 +229,13 @@ case 'zalongwareport':
   
       case 'edit_subject':
       include('edit_subject.php');
-      break;	  
-      
+      break;
+
+
+        
+    case 'admission_letter_setting':
+        include('admission_letter_setting.php');
+        break;
       //Admission Information
       case 'approve':
       include('approveapplicants.php');

@@ -8,14 +8,37 @@ if($_REQUEST['action']=="getPDF")
     $db=new DBHelper();
     require('fpdf.php');
     $applicantID=$_REQUEST['applicantID'];
-    $today=date('d-M-Y H:i:s');
+    $today=date('d-M-Y');
+
+    $organization = $db->getRows('organization', array('order_by' => 'organizationName DESC'));
+    if (!empty($organization)) {
+        foreach ($organization as $org) {
+            $organizationName = $org['organizationName'];
+            $organizationCode = $org['organizationCode'];
+            $organizationPicture = "../img/" . $org['organizationPicture'];
+            $studentSupport = $org['student_support'];
+            $orgAddress = $org['organizationAddress'];
+            $orgPhone = $org['organizationPhone'];
+            $orgEmail = $org['organizationEmail'];
+            $contact_person=$org['contact_person'];
+            $office_name=$org['office_name'];
+            $title=$org['title'];
+            $signature="../img/".$org['signature'];
+        }
+    } else {
+        $organizationName = "Soft Dev Academy";
+        $organizationCode = "SDVA";
+        $organizationPicture = "../img/SkyChuo.png";
+    }
     class PDF extends FPDF
     {		
-        function Banner()
+        function Banner($organizationName,$image)
         {
-           $today=date('M d,Y');
-                //Logo . 
-            $this->Image('images/letterhead.png',10,5,200,45);
+            $this->setFont('Arial', 'B', 13);
+            $this->Text(70, 30, $organizationName);
+            $this->Image($image, 15, 10, 190, 50);
+            $this->setFont('Arial', 'B', 14);
+            /* $this->Text(75, 40, 'Admission Letter'); */
         }
         function BasicTable($header)
         {
@@ -27,11 +50,15 @@ if($_REQUEST['action']=="getPDF")
         }
         function Footer()
         {
+            global $organizationName;
+            global $applicationYear;
             $today2=date('Y-m-d H:i:s');
             //Position at 1.5 cm from bottom
             $this->SetY(-15);
             $this->SetFont('Arial','I',8);
-            $this->Cell(260,0,'Muslim University of Morogoro '.$today2,0,1,'L');
+            //$this->Line(-30,-16,-15,-15);
+            $this->Cell(100,0,$organizationName.$today2,0,1,'L');
+            $this->Cell(200,0,"Admission Letter".$applicationYear,0,1,'R');
 
         }
     }
@@ -43,18 +70,18 @@ if($_REQUEST['action']=="getPDF")
    if(!empty($applicantsData)){ 
    foreach($applicantsData as $apps)
    {
-
        $gender=$apps['gender'];
        $fname= $apps['firstName'];
        $mname=$apps['middleName'];
        $lname=$apps['lastName'];
        $address=$apps['physicalAddress'];
        $phoneNumber=$apps['phoneNumber'];
+       $applicationYear=$db->getData("academicyears","academicYear","academicYearID",$apps['applicationYearID']);
        if($gender=="Male")
            $sex="Mr.";
        else 
            $sex="Ms.";
-       $name="$sex $fname $mname $lname";
+       $name="Dear $sex $fname $mname $lname";
 
 
        $programmeAdmitted=$db->getRows("applicantapplication", array('where'=>array('applicantID'=>$_SESSION['applicantID'],'admissionStatus'=>1),'order_by applicantID ASC'));
@@ -99,7 +126,7 @@ if($_REQUEST['action']=="getPDF")
            $studyLevelID='';
        }*/
 
-      $pdf->Banner();
+      $pdf->Banner($organizationName, $organizationPicture);
       $pdf->Ln(40); 
       $pdf->setFont('Arial', 'B', 12);
       $pdf->Cell(6);
@@ -107,35 +134,33 @@ if($_REQUEST['action']=="getPDF")
       $pdf->setFont('Arial', '', 12);
       if($studyLevelID==1)
       {
-          $pdf->Cell(50); $pdf->Cell(98,6,"21 August,2019");
+          $pdf->Cell(50); $pdf->Cell(98,6,$today);
       }
       else
       {
-          $pdf->Cell(50); $pdf->Cell(98,6,"21 August,2019");
+          $pdf->Cell(50); $pdf->Cell(98,6, $today);
       }
-      $pdf->Cell(50); $pdf->Cell(98,6,"21 August,2019");
+      $pdf->Cell(50); $pdf->Cell(98,6, $today);
       $pdf->Ln(8);
       $pdf->setFont('Arial', 'B', 11);
       $pdf->Cell(6);$pdf->Cell(101,6,"". iconv('ISO-8859-1', 'windows-1252', html_entity_decode($name)),"0");
+
+            $pdf->Ln(8);
+            $pdf->setFont('Arial', 'B', 11);
+            $pdf->Cell(6);
+            $programmeName=$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID);
+            $pdf->Cell(101, 6, "" . iconv('ISO-8859-1', 'windows-1252',"Program of Study: ".html_entity_decode($programmeName)), "0");
       
       $pdf->Ln(10);
       $pdf->setFont('Arial', 'B', 12);
-      $pdf->Cell(6);$pdf->Cell(170,6,"RE.: OFFER OF ADMISSION TO MUSLIM UNIVERSITY OF MOROGORO");
-
-
-      
-
+      $pdf->Cell(6);$pdf->Cell(170,6,"RE.: OFFER OF ADMISSION TO ".strtoupper($organizationName));
 
      $pdf->Ln(8);
       $pdf->setFont('Arial', '', 11);
       //pdf content
-       $pdf->Cell(6);$pdf->Cell(200,6,"We are hereby pleased to inform you that following your application to the Muslim University of Morogoro(MUM)");
-       $pdf->Ln(6);
-      /* $pdf->Cell(6);
-       $pdf->setFont('Arial', 'B', 11);*/
-       $pdf->Cell(6);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "The Admission Board of the ".$organizationName." is pleased to inform you that you have been admitted into the said program in the academic year ". $applicationYear);
+      
        $pdf->setFont('Arial', '', 11);
-       $pdf->Cell(200,6,"for the academic year 2019/2020, you have been offered admission in the ");
 
        $header=array('Programme Name','Duration','Faculty');
        $pdf->Ln(6);
@@ -159,49 +184,37 @@ if($_REQUEST['action']=="getPDF")
        $pdf->Ln(6);
        $pdf->Cell(6);
        $pdf->setFont('Arial', '', 11);
-       if($studyLevelID==1)
+       $dates=$db->getRows("admission_letter_setting",array('where'=>array('studyLevelID'=>$studyLevelID)));
+       if(!empty($dates))
        {
-            $startDate=" Saturday 2nd November, 2019 at 8.30am ";
-            $endDate=" Sunday 10th November, 2019 at 04.00pm ";
+           foreach($dates as $dt)
+           {
+               $orientationDate=$dt['orientationDate'];
+               $registrationDate=$dt['registrationDate'];
+           }
        }
-       else
-       {
-
-           $startDate=" Tuesday 15th October, 2019 at 8.30 ";
-           $endDate=" Monday 28th October, 2019 at 04.00pm ";
-       }
-       $pdf->Cell(200,6,"Registration and Orientation of new students will be on ".$startDate." and will end on");
-
-       $pdf->Ln(6);
-       $pdf->Cell(6);
-       $pdf->setFont('Arial', '', 11);
-       $pdf->Cell(200,6,$endDate.". The venue will be ICT Complex, Computer Room 1 for registration");
-
-
-       $pdf->Ln(6);
-       $pdf->Cell(6);
-       $pdf->setFont('Arial', '', 11);
-       $pdf->Cell(200,6,"and Assembly Hall for Orientation.");
-
-     
-
-
-     
+       
+       $pdf->MultiCell(0,6, "Orientation and Registration of new students will be on ". date("d-m-Y",strtotime($orientationDate))." and ". date("d-m-Y",strtotime($registrationDate))." respectively.");
+       
      $pdf->Ln(10);
      $pdf->Cell(6);
      $pdf->setFont('Arial', 'I', 11);
      $pdf->Cell(85,6,"Sincerely yours,");
     $pdf->Ln(12);
-    $pdf->Image('images/signature.png',15,145,25,25);
+    $pdf->Image($signature,15,155,25,25);
+    $pdf->Cell(6);
      $pdf->Ln(18);
      $pdf->Cell(6);
      $pdf->setFont('Arial', 'B', 11);
-     $pdf->Cell(85,6,"For: DVC(Academic)");
+     $pdf->Cell(85,6,$contact_person);
      $pdf->Ln(6);
+    $pdf->Cell(6);
+    $pdf->Cell(85, 6, $title);
+    $pdf->Ln(6);
      $pdf->Cell(6);
      $pdf->setFont('Arial', 'B', 11);
-     $pdf->Cell(85,6,"Muslim University of Morogoro");
-     $pdf->Image('images/stamp.png',45,145,25,25);
+     $pdf->Cell(85,6,$organizationName);
+     //$pdf->Image('images/stamp.png',45,145,25,25);
   
 
    
