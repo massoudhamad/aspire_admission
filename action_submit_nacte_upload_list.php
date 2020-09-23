@@ -107,6 +107,13 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     $indexNumber4 = "-";
                 }
 
+                $api = $db->getAPI("NACTE", "verification");
+                if (!empty($api)) {
+                    foreach ($api as $ap) {
+                        $token = $ap['token'];
+                        //$url = $ap['url'];
+                    }
+                }
 
                 //API URL
                 $url = 'http://41.93.40.137/nacteapi/index.php/api/upload1';
@@ -114,7 +121,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $ch = curl_init($url);
                 //setup request to send json via POST
                 $data = array(
-                    'authorization' => 'acfef0b99101c250761ca3bba28575e04a4a5772',
+                    'authorization' => $token,
                     'firstname' => $fname,
                     'secondname' => $mname,
                     'surname' => $lname,
@@ -142,7 +149,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     'nationality' => $row['citizenship'],
                     'programme_id' => $programmeCode,
                     'payment_reference_number' => $payment_reference_number,
-                    'application_year' => '2019',
+                    'application_year' => '2020',
                     'intake' => 'SEPT',
 
                 );

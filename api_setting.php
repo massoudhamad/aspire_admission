@@ -103,7 +103,7 @@
                 <td><?php echo $api_token; ?></td>
                 <td><?php echo $api['tokenType']; ?></td>
                 <td>
-                  <a href="index3.php?sp=edit_api&id=<?php echo $api['apiSettingID'];?>" class="glyphicon glyphicon-edit"></a>
+                  <a href="index3.php?sp=edit_api&id=<?php echo $api['apiSettingID']; ?>" class="glyphicon glyphicon-edit"></a>
                 </td>
               </tr>
           <?php }
@@ -139,10 +139,15 @@
 
             <div class="form-group">
               <label for="email">Token Type</label>
-              <select name="tokenType" class="form-control">
+              <select name="tokenType" class="form-control" required>
                 <option value="">Select Here</option>
                 <option value="token">Token</option>
                 <option value="auth">Authentication</option>
+                <option value="institution">Institution Details</option>
+                <option value="verification">Verification</option>
+                <option value="error">Error and Feedback</option>
+                <option value="balance">Get Balance</option>
+
               </select>
             </div>
 
@@ -158,6 +163,11 @@
                 <option value="Finace">Finance</option>
                 <option value="OUT">OUT</option>
               </select>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Source</label>
+              <input type="text" name="url" class="form-control" required>
             </div>
 
 
