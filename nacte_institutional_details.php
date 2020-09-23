@@ -97,7 +97,6 @@ $db = new DBHelper();
                         /*$url = "http://41.93.40.137/nacteapi/index.php/api/institutions/tkn/kld8b98d00092dad/ape/9aebe24ff1476ed3db07c6e4707dda3a71def9b097f8677e102b5fd731260061/Co/ed1e8be1b3fb2eafb19d59675449289873531733";*/
                         //$url= "https://www.nacte.go.tz/nacteapi/index.php/api/institutions/".$token;
                         
-                        echo $url;
 
                         $ch = curl_init($url);
                         curl_setopt($ch, CURLOPT_HTTPGET, true);
