@@ -166,7 +166,7 @@
             </div>
 
             <div class="form-group">
-              <label for="email">Source</label>
+              <label for="email">URL</label>
               <input type="text" name="url" class="form-control" required>
             </div>
 
