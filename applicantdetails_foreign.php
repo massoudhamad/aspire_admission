@@ -137,7 +137,7 @@ $applicantID = $_REQUEST['applicantID'];
                                     <fieldset>
                                         <legend>List of Registered Subjects for Advanced Level (Form FVI)</legend>
                                         <?php
-                                        foreach ($results as $matokeo) {
+                                        foreach($results as $matokeo) {
                                         ?>
                                             <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                                                 <thead>
@@ -165,7 +165,7 @@ $applicantID = $_REQUEST['applicantID'];
                                             </table>
 
                                             <?php
-                                            $resultSubjects = $db->getRows("applicantsubjects", array('where' => array('applicantResultID' => $applicantResultID), 'order_by applicantResultID ASC'));
+                                            $resultSubjects = $db->getRows("applicantsubjects_equivalence", array('where' => array('applicantResultID' => $applicantResultID), 'order_by applicantResultID ASC'));
                                             if (!empty($resultSubjects)) {
                                             ?>
                                                 <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
@@ -281,8 +281,7 @@ $applicantID = $_REQUEST['applicantID'];
                                                             $count++;
                                                             $applicantSubjectID = $subject['applicantSubjectID'];
                                                             $subjectCode = $subject['subjectName'];
-                                                            $grade = $subject['grade'];
-
+                                                            $grade = $subject['gradeCode'];
                                                             echo "<tr><td>$count</td><td>$subjectCode</td><td>$grade</td>";
                                                         ?>
 
