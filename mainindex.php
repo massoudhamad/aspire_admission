@@ -258,6 +258,10 @@ case 'zalongwareport':
       case 'applicantdetails':
       include('applicantdetails.php');
       break;
+
+    case 'applicantdetails_foreign':
+        include('applicantdetails_foreign.php');
+        break;
   
       
       case 'approvedlist':

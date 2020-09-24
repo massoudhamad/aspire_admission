@@ -38,7 +38,7 @@ if (!empty($applicantsData)) {
         }
         $actionButton = '
 	<div class="btn-group">
-	    <a href="index3.php?sp=applicantdetails&applicantID=' . $row['applicantID'] . '"><span class="glyphicon glyphicon-edit"></span> Approve</a>
+	    <a href="index3.php?sp=applicantdetails_foreign&applicantID=' . $row['applicantID'] . '"><span class="glyphicon glyphicon-edit"></span> Approve</a>
 	</div>';
 
         $output['data'][] = array(
