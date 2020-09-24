@@ -129,6 +129,7 @@ $db = new DBHelper();
             <th>Phone Number</th>
             <th>Ref.Number</th>
             <th>Programme</th>
+            <th>Comments</th>
             <th>Details</th>
             <th>Drop</th>   
      </tr>
@@ -150,7 +151,7 @@ if(!empty($applicantsData))
                $fname= $row['firstName'];
                $mname=$row['middleName'];
                $lname=$row['lastName'];
-               $refNumber=$row['refNumber'];
+               $refNumber=$row['formfour'];
                $name="$fname $mname $lname";
     
                $programmeChoice=$db->getRows("applicantapplication", array('where'=>array('applicantID'=>$applicantID,'choice'=>1),'order_by applicantID ASC'));
@@ -164,17 +165,29 @@ if(!empty($applicantsData))
                           }
                       }
                
-	$actionButton = '
+	 $actionButton = '
 	<div class="btn-group">
 	    <a href="index3.php?sp=applicantinfo&applicantID='.$row['applicantID'].'"><span class="glyphicon glyphicon-edit"></span> Details</a>
-	</div>';
+	</div>'; 
 
         $dropButton = '
 	<div class="btn-group">
 	    <a href="delete_application.php?action_type=delete&applicantID='.$row['applicantID'].'" class="glyphicon glyphicon-trash" onclick="return confirm("Are you sure You want to delete this applicant?");">Drop</a>
-	</div>';
+    </div>';
 
-        echo "<tr><td>$x</td><td><input type='checkbox' class='checkbox_class' name='id[]' value='$applicantID'></td><td>$name</td><td>".$row['gender']."</td><td>".$row['phoneNumber']."</td><td>".$row['refNumber']."</td><td>".$programmeChoice."</td><td>".$actionButton."</td><td>".$dropButton."</td></tr>";
+                    $appremarks = $db->getRows("applicantremarks", array('where' => array('applicantID' => $applicantID)));
+                    if (!empty($appremarks)) {
+                        foreach ($appremarks as $remark) {
+                            $userID = $remark['userID'];
+                            $processDate = $remark['processDate'];
+                            $comments=$remark['comments'];
+                        }
+                    } else {
+                        $userID = "";
+                        $processDate = "";
+                    }
+
+        echo "<tr><td>$x</td><td><input type='checkbox' class='checkbox_class' name='id[]' value='$applicantID'></td><td>$name</td><td>".$row['gender']."</td><td>".$row['phoneNumber']."</td><td>".$row['formfour']."</td><td>".$programmeChoice."</td><td>$comments</td><td>".$actionButton."</td><td>".$dropButton."</td></tr>";
 }
 }
                 
