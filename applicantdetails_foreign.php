@@ -305,10 +305,10 @@ $applicantID = $_REQUEST['applicantID'];
                     </div>
                     <!-- End of Equivant Results-->
 
-                    <div class="col-lg-9"></div>
+                    <!-- <div class="col-lg-9"></div>
                     <div class="col-lg-3">
-                        <a href="index3.php?sp=edit_educational_background&applicantID=<?php echo $applicantID; ?>"><span class="btn btn-primary">Edit Education Background</a>
-                    </div>
+                        <a href="index3.php?sp=edit_educational_background&applicantID=<?php //echo $applicantID; ?>"><span class="btn btn-primary">Edit Education Background</a>
+                    </div> -->
 
                 </div>
                 <?php
@@ -371,12 +371,12 @@ $applicantID = $_REQUEST['applicantID'];
 
             </fieldset>
             <div class="row"><br></div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-9"></div>
                 <div class="col-lg-3">
-                    <a href="index3.php?sp=edit_programme_choice&applicantID=<?php echo $applicantID; ?>"><span class="btn btn-primary">Edit Programme Choice</a>
+                    <a href="index3.php?sp=edit_programme_choice&applicantID=<?php //echo $applicantID; ?>"><span class="btn btn-primary">Edit Programme Choice</a>
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
@@ -716,12 +716,12 @@ $applicantID = $_REQUEST['applicantID'];
 
 
                     <br />
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-9"></div>
                         <div class="col-lg-3">
-                            <a href="index3.php?sp=edit_personal_details&applicantID=<?php echo $applicantID; ?>"><span class="btn btn-primary">Edit Personal Details</span></a>
+                            <a href="index3.php?sp=edit_personal_details&applicantID=<?php //echo $applicantID; ?>"><span class="btn btn-primary">Edit Personal Details</span></a>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row"><br><br></div>
                     <div class="row">
                         <form name="" method="post" id="register" action="action_approve.php">

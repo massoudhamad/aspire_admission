@@ -20,7 +20,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
          'remarkID'=>$_POST['remarksID'],
          'comments'=>$_POST['comments'],
          'activeStatus'=>1,
-         'userID'=>$_SESSION['user_session']
+         'userID'=> $_POST['userID']
         ); 
     if($_REQUEST['action_type'] == 'add')
     {
