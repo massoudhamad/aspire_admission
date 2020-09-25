@@ -132,7 +132,7 @@ if(!empty($applicantsData))
             $eIndexNumber,
             $firstChoice,
             $programmeData,
-            'MUM',
+            $_SESSION['orgCode'],
             $admission_category,
             $regName
         );

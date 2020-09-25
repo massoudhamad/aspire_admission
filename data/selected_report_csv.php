@@ -132,7 +132,7 @@ if(!empty($applicantsData))
             $formsix[0],
             $eIndexNumber,
             $programmeName,
-            'MUM',
+            $_SESSION['orgCode'],
             $applicantCategory
         );
 

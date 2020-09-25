@@ -155,7 +155,7 @@ if(!empty($applicantsData))
             $formfour[0],
             $programmeName,
             $registrationNumber,
-            'MUM'
+            $_SESSION['orgCode']
         );
         
     }

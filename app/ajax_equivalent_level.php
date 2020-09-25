@@ -28,7 +28,7 @@ if($avn) {
 if ($data['status']['code'] == 200) {
     foreach($data['params'] as $value)
     {
-        if (($value['firstname'] == $fname) && ($value['middlename'] == $mname) && ($value['surname'] == $lname)) {
+       // if (($value['firstname'] == $fname) && ($value['middlename'] == $mname) && ($value['surname'] == $lname)) {
             ?>
 <form name="" action="action_confirm_equivalent_result.php" method="post">
     <div class="col-lg-12">
@@ -117,11 +117,11 @@ if ($data['status']['code'] == 200) {
     </div>
 
     <?php
-    }
+    /*}
     else
     {
          echo "<h4 class='text-danger'>Sorry,Invalid Index Number.</h4>";
-    }
+    }*/
     }//end of loop
     }
     else

@@ -8,6 +8,17 @@ require_once("session.php");
   $user_privilege=$_SESSION['role_session'];
   $user_array=array(1,3,4);
   //if(($user_privilege != 1) || ($user_privilege != 3) || ($user_privilege != 4))
+
+  $org = $auth_user->getRows("organization");
+  if (!empty($org)) {
+    foreach ($org as $og) {
+      $orgName = $og['organizationName'];
+      $orgCode=$og['organizationCode'];
+      $_SESSION['orgCode'] = $orgCode;
+      $_SESSION['orgName']=$orgName;
+    }
+  }
+
   if(!in_array($user_privilege, $user_array))
   {
       //echo $user_privilege;

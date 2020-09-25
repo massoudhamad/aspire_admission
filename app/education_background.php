@@ -342,7 +342,7 @@
                                                                                                                                     } ?> </td> </tr> </tbody> </table> <?php
                                                                                                                                                                     }
                                                                                                                                                                 } ?> </fieldset> </div> <?php
-                                                                                                                } ?> <label class="col-lg-12 control-label">If you have Advanced Level Results, Click Here <a href="index.php?sz=alevel"><span class="btn btn-primary"> Add Advanced Level Results</span></a></label>
+                                                                                                                                                                                    } ?> <label class="col-lg-12 control-label">If you have Advanced Level Results, Click Here <a href="index.php?sz=alevel"><span class="btn btn-primary"> Add Advanced Level Results</span></a></label>
 
                                         </fieldset>
                                     </div>
@@ -523,6 +523,81 @@
 
                         </fieldset>
                     </div>
+                    <!--Equivalent Results-->
+                    <div class="col-lg-12">
+                        <hr>
+                    </div>
+                    <div class="col-lg-12">
+                        <fieldset>
+                            <legend>Equivalent Results</legend>
+
+                            <?php
+                            $equivalentresults = $db->getRows("applicantresults", array('where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Equivalent'), 'order_by applicantID ASC'));
+                            if (!empty($equivalentresults)) {
+                            ?>
+
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <legend>List of Equivalent Results(Certificate,NTAs,Diploma,Adv.Diploma,Degree)</legend>
+                                        <?php
+                                        foreach ($equivalentresults as $matokeo) {
+                                        ?>
+                                            <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Institute Name</th>
+                                                        <th>Reg. Number</th>
+                                                        <th>AVN Number</th>
+                                                        <th>Year Taken</th>
+                                                        <th>Programme Name</th>
+                                                        <th>Qualification</th>
+                                                        <th>Grade Type</th>
+                                                        <th>Points</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $applicantResultID = $matokeo['applicantResultID'];
+                                                    $schoolName = $matokeo['schoolName'];
+                                                    $yearTaken = $matokeo['yearTaken'];
+                                                    $indexNumber = $matokeo['indexNumber'];
+                                                    $exam_authority = $matokeo['examinationAuthority'];
+                                                    $exam_level = $matokeo['examinationLevel'];
+                                                    $award = $matokeo['award'];
+                                                    $gradeType = $matokeo['gradeType'];
+                                                    $gradePoints = $matokeo['gradePoints'];
+                                                    echo "<tr><td>$schoolName</td><td>$indexNumber</td><td>" . $matokeo['avn_number'] . "</td><td>$yearTaken</td><td>$award</td><td>" . $db->getData("qualificationtype", "qualificationName", "qualificationTypeID", $exam_authority) . "</td><td>$gradeType</td><td>$gradePoints</td>"; ?>
+                                                    <td>
+                                                        <?php
+                                                        if ($matokeo['resultStatus'] == 1) {
+                                                            echo "No";
+                                                        } else {
+                                                        ?>
+                                                            <a href="action_equivalent_results.php?action_type=dropSchool&id=<?php echo $applicantResultID; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to drop this results?');">Drop</a>
+                                                        <?php
+                                                        } ?>
+                                                    </td>
+                                                    <?php
+                                                    echo "</tr>"
+                                                    ?>
+                                                </tbody>
+                                            </table>
+
+                                        <?php
+                                        } ?>
+                                    </fieldset>
+                                </div>
+
+                            <?php
+                            } else {
+                            ?>
+                                <label class="col-lg-12 control-label">If you have Equivalent Level Results, Click Here <a href="index.php?sz=equivalent"><span class="btn btn-primary"> Add Equivalent Level Results</span></a></label>
+                            <?php
+                            } ?>
+                        </fieldset>
+                    </div>
+                    <!-- End of Equivalent Results -->
                     <?php
                     //end
                     ?>
