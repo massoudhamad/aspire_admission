@@ -33,8 +33,11 @@ if(!empty($applicantsData))
         $refNumber=$row['refNumber'];
         $applicantsRemarksID=$row['applicantsRemarksID'];
         $name="$fname $mname $lname";
+        $formfour=$row['formfour'];
+        $phoneNumber=$row['phoneNumber'];
 
-        /*$programmeChoice=$db->getRows("applicantapplication", array('where'=>array('applicantID'=>$applicantID,'choice'=>1),'order_by applicantID ASC'));
+
+        $programmeChoice=$db->getRows("applicantapplication", array('where'=>array('applicantID'=>$applicantID,'choice'=>1),'order_by applicantID ASC'));
         if(!empty($programmeChoice))
         {
             foreach ($programmeChoice as $pChoice)
@@ -43,9 +46,9 @@ if(!empty($applicantsData))
                 $firstChoice=$pChoice['programmeMajorID'];
                 $programmeChoice=$db->getData("programmemajor","programmeMajor","programmeMajorID",$firstChoice);
             }
-        }*/
+        }
 
-        $actionButton = '
+        /* $actionButton = '
 	<div class="btn-group">
 	    <a href="index3.php?sp=applicantinfo&applicantID='.$row['applicantID'].'"><span class="glyphicon glyphicon-edit"></span> Details</a>
 	</div>';
@@ -53,16 +56,17 @@ if(!empty($applicantsData))
         $dropButton = '
 	<div class="btn-group">
 	    <a href="delete_application.php?action_type=delete&applicantID='.$row['applicantID'].'" class="glyphicon glyphicon-trash" onclick="return confirm("Are you sure You want to delete this applicant?");">Drop</a>
-	</div>';
+	</div>'; */
 
         $output['data'][] = array(
             $x,
             $name,
             $row['gender'],
+            $formfour,
+            $phoneNumber,
+            $programmeChoice,
             $row['refNumber'],
-            $db->getData("remarks","remark","remarkID",$applicantsRemarksID),
-            $actionButton,
-            $dropButton
+            $db->getData("remarks","remark","remarkID",$applicantsRemarksID)
         );
 
         //$x++;

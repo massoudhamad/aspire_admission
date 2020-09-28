@@ -9,10 +9,13 @@
                     <th>No.</th>
                     <th>Name</th>
                     <th>Gender</th>
+                    <th>Index Number</th>
+                    <th>Phone Number</th>
+                    <th>Programme Name</th>
                     <th>Ref.Number</th>
                     <th>Remarks</th>
-                    <th>Details</th>
-                    <th>Drop</th>
+                    <!-- <th>Details</th>
+                    <th>Drop</th> -->
                 </tr>
                 </thead>
             </table>

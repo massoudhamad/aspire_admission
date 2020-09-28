@@ -143,7 +143,7 @@ $db = new DBHelper();
         <?php 
         if(isset($_POST['doSearch'])=="Search Records")
         {
-            $academicYearID=$_POST['admissionYearID'];
+            //$academicYearID=$_POST['admissionYearID'];
             $programmeID=$_POST['programmeID'];
             $admissionID=$_POST['admissionID'];
             $admissionInTakeID=$db->getData('admission_setting','admissionInTakeID','admissionID',$admissionID);
@@ -157,7 +157,7 @@ $db = new DBHelper();
         ?>
         <input type="hidden" id="sorted" value="<?php echo $value;?>">
         <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
-         <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
+        <!--  <input type="hidden" id="academicYearID" value="<?php //echo $academicYearID;?>"> -->
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
          
         <div class="col-lg-12">
