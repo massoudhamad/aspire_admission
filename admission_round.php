@@ -122,13 +122,13 @@
                                     <td><?php echo $startDate; ?></td>
                                     <td><?php echo $endDate; ?></td>
                                     <td><?php echo $status; ?></td>
-                                    <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#message<?php echo $admissionID; ?>">
+                                    <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#message<?php echo $admissionRoundID; ?>">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                             <span><strong></strong></span></td>
                                     <!--<td><a href="action_semester_setting.php?action_type=delete&id=<?php /*echo $admissionID; */ ?>"
                                 class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to delete this Semester Setting?');"></a></td>-->
                                 </tr>
-                                <div id="message<?php echo $admissionID; ?>" class="modal fade" role="dialog">
+                                <div id="message<?php echo $admissionRoundID; ?>" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
 
                                         <!-- Modal content-->
