@@ -282,8 +282,21 @@ $academicYearID = $db->getData("admission_setting", "academicYearID", "admission
                             $eIndexNumber=$avnNumber;
                         else
                             $eIndexNumber=$eregno;
-                        
-                        
+
+
+                $appremarks = $db->getRows("applicantremarks", array('where' => array('applicantID' => $applicantID)));
+                if (!empty($appremarks)) {
+                    foreach ($appremarks as $remark) {
+                        $userID = $remark['userID'];
+                        $processDate = $remark['processDate'];
+                        $comments = $remark['comments'];
+                    }
+                } else {
+                    $userID = "";
+                    $processDate = "";
+                    $comments = "";
+                }
+
                 $output['data'][] = array(
 		        $i,
 		        $name,
@@ -300,7 +313,8 @@ $academicYearID = $db->getData("admission_setting", "academicYearID", "admission
                 $award,
                 $db->getData("qualificationtype","qualificationName","qualificationTypeID",$exam_authority),
                 $schoolName,   
-		$programmeData
+                $programmeData,
+                $comments
                 );
                       
                      }

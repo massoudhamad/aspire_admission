@@ -260,8 +260,21 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                               $combination=$db->getData("programmemajor","major","programmeMajorID",$programmeMajorID);
                           }
                       }
-                      
-                     
+
+
+
+                $appremarks = $db->getRows("applicantremarks", array('where' => array('applicantID' => $applicantID)));
+                if (!empty($appremarks)) {
+                    foreach ($appremarks as $remark) {
+                        $userID = $remark['userID'];
+                        $processDate = $remark['processDate'];
+                        $comments=$remark['comments'];
+                    }
+                } else {
+                    $userID = "";
+                    $processDate = "";
+                    $comments="";
+                }
                       
                 $output['data'][] = array(
 		        $i,
@@ -274,7 +287,8 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                 implode(",",$formsix),
                 implode(",",$adata),
                 $atotalPoints,
-		        $programmeData
+                $programmeData,
+                $comments
                 );
                       
                      }

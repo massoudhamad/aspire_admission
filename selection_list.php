@@ -179,6 +179,7 @@ $db = new DBHelper();
                <th>Advanced Subjects</th>
                <th>Points</th>
                <th>Sec. Choice</th>
+               <th>Comments</th>
            </tr>     
          </thead>
          <tbody>
