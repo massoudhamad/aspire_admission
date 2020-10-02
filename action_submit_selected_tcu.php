@@ -252,7 +252,7 @@ try {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
             $data = curl_exec($ch);
-            var_dump($data);
+            //var_dump($data);
             curl_close($ch);
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
@@ -278,10 +278,10 @@ try {
 
         }
        if ($boolStatus) {
-            header("Location:index3.php?sp=admitapplicants&msg=succ");
+            header("Location:index3.php?sp=submit_selected_tcu&msg=succ");
             $_SESSION['output'] = $msgs;
         } else {
-            header("Location:index3.php?sp=admitapplicants&msg=unsucc");
+            header("Location:index3.php?sp=submit_selected_tcu&msg=unsucc");
             $_SESSION['output'] = $msgs;
         }
 
@@ -298,5 +298,5 @@ try {
     }
 } catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
-    $db->redirect("index3.php?sp=admitapplicants&msg=error");
+    $db->redirect("index3.php?sp=submit_selected_tcu&msg=error");
 }
