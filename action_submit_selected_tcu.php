@@ -23,6 +23,7 @@ try {
                     $phoneNumber = $data['phoneNumber'];
                     $email = $data['email'];
                     $entryQualification = $data['entryQualification'];
+                    $email=$data['email'];
                 }
             }
             else
@@ -41,7 +42,7 @@ try {
                 $nationality=$nationality;
 
 
-            if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            /* if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $email=$email;
                 $tcu_status=41;
             }
@@ -51,8 +52,20 @@ try {
                 $date2 = $date[1];
                 $email = "$lname$date1$date2@gmail.com";
                 $tcu_status=41;
-            }
+            } */
             $email=strtolower(trim($email));
+
+            $nationalID = $db->getRows("applicant_identification",array('where'=>array('applicantID'=>$applicantID)));
+            if (!empty($nationalID)) {
+                foreach ($nationalID as $nid) {
+                    $nida=$nid['nationalID'];
+                }
+            }
+            else 
+            {
+                $nida = "";
+            }
+            
 
             if($disabiliyStatus=="Yes")
             {
@@ -222,12 +235,13 @@ try {
                     <Nationality>' . $nationality . '</Nationality>
                     <Impairment>' . $dname . '</Impairment>
                     <DateOfBirth>' . $dob . '</DateOfBirth>
+                    <NationalIdNumber>'.$nida.'</NationalIdNumber>
                     <Otherf4indexno>' . $fourfour . '</Otherf4indexno>
                     <Otherf6indexno>' . $sixsix . '</Otherf6indexno>
                 </RequestParameters>
             </Request>';
 
-            $url = $urlform . "/applicants/submitProgramme";
+            $url = $urlform."/applicants/submitProgramme";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,$url);

@@ -19,8 +19,8 @@ if (!empty($api_token)) {
 
 //echo $token."-".$user;
 
-//$api="http://197.149.178.22";
-$api = "https://api.tcu.go.tz";
+$api= "http://41.59.90.200";
+//$api = "https://api.tcu.go.tz";
 
 // $formfour=$indexNumber;
 // $formsix="S1064/0529/2011";
@@ -54,14 +54,14 @@ echo $status."<br>".$status_descript;*/
 
 //Add Applicant
 
-$url= $urlform."/applicants/add";
+ $url= $api."/applicants/add";
 $formfour=$indexNumber;
 $formsix= "P0326/0510/2020";
 $category="A";
 $other_four="";
-$other_six="";
+$other_six=""; 
 
-
+/*
 $xml='<?xml version="1.0" encoding="UTF-8"?>
         <Request>
         <UsernameToken>
@@ -79,10 +79,12 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 
         $output=$db->addApplicantTCU($url, $xml);
 
+        var_dump($output);
+
         $array_data= json_decode(json_encode(simplexml_load_string($output)),true);
         $status=$array_data['Response']['ResponseParameters']['StatusCode'];
         $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
-
+  */
         
 
 
@@ -90,38 +92,14 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 
    //Submit Applicant Programme Choices
 
-/*
- <?xml version=”1.0” encoding=”UTF-8”?>
-<Request>
-<UsernameToken>
-<Username>UDSM</Username>
-<SessionToken>OTcyMURGMTY5QTRENU3MUJ</SessionToken>
-</UsernameToken>
-<RequestParameters>
-<f4indexno> S1001/0012/2018</f4indexno >
-<f6indexno> S1001/0562/2018 </f6indexno>
-<SelectedProgrammes>UD023, UD038, UD022</SelectedProgrammes>
-<MobileNumber> 0766345678</MobileNumber>
-<OtherMobileNumber> 0766345678</OtherMobileNumber>
-<EmailAddress> steve2014@hotmail.com </EmailAddress>
-<Category>A</Category>
-<AdmissionStatus>provisional admission </AdmissionStatus>
-<ProgrammeAdmitted>UD038</ProgrammeAdmitted>
-<Reason>eligible</Reason>
-<Nationality >Tanzanian</Nationality>
-<Impairment>None</Impairment>
-<DateOfBirth>1980-12-09</DateOfBirth>
-<Otherf4indexno>S0001/0001/2009, S0001/0001/2010</Otherf4indexno>
-<Otherf6indexno> S0001/0501/2009, S0001/0501/2010</Otherf6indexno>
-</RequestParameters>
-</Request>
- */
 
-/*$appProg = "SUM01,SUM03";
+
+ 
+$appProg = "SUM01,SUM03";
 $formindexnumber=$indexNumber;
 $findexNumber=$formsix;
 $phoneNumber="0773500429";
-$email="massoudhamad@gmail.com";
+$email="massoudhamad22@gmail.com";
 $programmeAdmittedCode="SMU03";
 $nationality="Tanzania";
 $othermobile="";
@@ -130,10 +108,12 @@ $dname="None";
 $dob="1999-01-02";
 $fourfour="";
 $sixsix="";
+
+
 $xml = '<?xml version="1.0" encoding="UTF-8"?>
 <Request>
     <UsernameToken>
-        <Username>' . $user . '</Username>
+        <Username>'.$user.'</Username>
         <SessionToken>' . $token . '</SessionToken>
     </UsernameToken>
     <RequestParameters>
@@ -145,15 +125,16 @@ $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <EmailAddress>' . $email . '</EmailAddress>
         <Category>'.$category.'</Category>
         <AdmissionStatus>provisional admission </AdmissionStatus>
-        <ProgrammeAdmitted>' . $programmeAdmittedCode . '</ProgrammeAdmitted>
+        <ProgrammeAdmitted>'.$programmeAdmittedCode . '</ProgrammeAdmitted>
         <Reason>eligible</Reason>
         <Nationality>' . $nationality . '</Nationality>
         <Impairment>' . $dname . '</Impairment>
         <DateOfBirth>' . $dob . '</DateOfBirth>
+        <NationalIdNumber></NationalIdNumber>
         <Otherf4indexno>' . $fourfour . '</Otherf4indexno>
         <Otherf6indexno>' . $sixsix . '</Otherf6indexno>
     </RequestParameters>
-</Request>';
+</Request>'; 
 
 $ch = curl_init();
 $url=$api."/applicants/submitProgramme";
@@ -163,13 +144,14 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
 $data = curl_exec($ch);
+var_dump($data);
 curl_close($ch);
 
 $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
 $status=$array_data['Response']['ResponseParameters']['StatusCode'];
 $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
-echo $status."<br>".$status_descript;*/
+//echo $status."<br>".$status_descript; 
 
 //Confirm Applicant Selection
 /*
@@ -644,7 +626,7 @@ foreach($array_data as $dt) {
     }
 } */
 
-echo json_encode($output);
+//echo json_encode($output);
 
 
 

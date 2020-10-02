@@ -233,10 +233,10 @@ $db = new DBHelper();
                             <th width="10"><input type="checkbox" name="select_all" id="select_all"></th>
                             <th>Name</th>
                             <th>Gender</th>
+                            <th>NIDA ID</th>
                             <th>Form IV</th>
                             <th>Form V</th>
                             <th>Programmes</th>
-                            <th>TCU Status</th>
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Adm.Status</th>
@@ -272,6 +272,15 @@ $db = new DBHelper();
                                 $entryQualification = $data['entryQualification'];
                                 $tcu_status = $data['tcu_status'];
                                 $tcu_final = $data['tcu_final'];
+
+                                $nationalID = $db->getRows("applicant_identification", array('where' => array('applicantID' => $applicantID)));
+                                if (!empty($nationalID)) {
+                                    foreach ($nationalID as $nid) {
+                                        $nida = $nid['nationalID'];
+                                    }
+                                } else {
+                                    $nida = "";
+                                }
 
                                 if ($entryQualification == 0)
                                     $category = "A";
@@ -400,6 +409,7 @@ $db = new DBHelper();
                                 echo "<tr><td>$i</td>
                            <td>$box</td>
                            <td>$name</td>
+                           <td>$nida</td>
                            <td>$gender</td>
                            <td>" . $formfour[0] . "</td>
                            <td>" . $findexNumber . "</td>
