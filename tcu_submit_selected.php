@@ -409,12 +409,11 @@ $db = new DBHelper();
                                 echo "<tr><td>$i</td>
                            <td>$box</td>
                            <td>$name</td>
-                           <td>$nida</td>
                            <td>$gender</td>
+                           <td>$nida</td>
                            <td>" . $formfour[0] . "</td>
                            <td>" . $findexNumber . "</td>
                            <td>" . "$firstChoice,$secondChoice" . "</td>
-                           <td>$tcu_final</td>
                            <td>$phoneNumber</td>
                            <td>$email</td>
                            <td>Provisional Admission</td>
