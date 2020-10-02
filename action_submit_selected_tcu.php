@@ -240,20 +240,36 @@ try {
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
             //var_dump($array_data);
+            $status = $array_data['Response']['ResponseParameters']['StatusCode'];
+            $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
+
             if($array_data['Response']['ResponseParameters']['StatusCode']=="200")
             {
                 $userData = array(
                     'email'=>$email,
-                    'tcu_status' => $tcu_status
+                    'tcu_status' => 2
                 );
                 $condition = array('applicantID' => $applicantID);
                 $updateapp = $db->update("applicants", $userData, $condition);
+                $boolStatus = true;
+                $msgs = $status_descript;
                 $status = true;
                 $jj++;
+            }
+            else 
+            {
+                $msgs = $status_descript;
             }
 
 
         }
+        if ($boolStatus) {
+            header("Location:index3.php?sp=admitapplicants&msg=succ");
+            $_SESSION['output'] = $msgs;
+        } else {
+            header("Location:index3.php?sp=admitapplicants&msg=unsucc");
+        } 
+
        /* if($status)
         {
             header("Location:index3.php?sp=submit_selected_tcu&msg=succ&count=".$jj);
@@ -266,6 +282,6 @@ try {
         }*/
     }
 } catch (PDOException $ex) {
-    echo "Error".$ex->getMessage();
-    //$db->redirect("index3.php?sp=admitapplicants&msg=error");
+    //echo "Error".$ex->getMessage();
+    $db->redirect("index3.php?sp=admitapplicants&msg=error");
 }

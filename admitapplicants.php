@@ -41,7 +41,21 @@ $db = new DBHelper();
     <div class="row">
         <div class="col-md-12">
             <?php
-            if(!empty($_REQUEST['msg']))
+            if (!empty($_REQUEST['msg'])) {
+                if ($_REQUEST['msg'] == "unsucc") {
+                    echo "<div class='alert alert-danger fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>Sorry, Error: We are unable to save your data in TCU Database.</strong>
+                    </div>";
+                } else {
+                    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>Data saved successfully</strong>.
+                    </div>";
+                    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
+                }
+            }
+            /* if(!empty($_REQUEST['msg']))
             {
                 if($_REQUEST['msg']=="succ")
                 {
@@ -55,7 +69,7 @@ $db = new DBHelper();
     <strong>Sorry no data saved in database</strong>.
 </div>";
                 }
-            }
+            } */
             ?>
 
 
