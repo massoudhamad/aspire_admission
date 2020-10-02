@@ -198,7 +198,7 @@ try {
                 foreach ($api_token as $api) {
                     $token = $api['token'];
                     $user = $api['userName'];
-                    $url=$ap['url'];
+                    $urlform=$ap['url'];
                 }
             }
             
@@ -227,8 +227,10 @@ try {
                 </RequestParameters>
             </Request>';
 
+            $url = $urlform . "/applicants/submitProgramme";
+
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,"https://api.tcu.go.tz/applicants/submitProgramme");
+            curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_POST,1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -237,7 +239,7 @@ try {
             curl_close($ch);
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-            var_dump($array_data);
+            //var_dump($array_data);
             if($array_data['Response']['ResponseParameters']['StatusCode']=="200")
             {
                 $userData = array(

@@ -180,10 +180,21 @@ $db = new DBHelper();
                     <?php
 
                     $db=new DBHelper();
-                    /*$url = "http://41.93.40.137/nacteapi/index.php/api/feedbackcorrection/ape/414635b331df03033330f4559c33c0c507a708b089e229e47805965d3db20d1f-c867fa3555f1bbdce788b7daa05ccc0b1922936e/piac/".$programmeID."-2019-SEPTEMBER";*/
+                /*$url = "http://41.93.40.137/nacteapi/index.php/api/feedbackcorrection/ape/414635b331df03033330f4559c33c0c507a708b089e229e47805965d3db20d1f-c867fa3555f1bbdce788b7daa05ccc0b1922936e/piac/".$programmeID."-2019-SEPTEMBER";*/
+
+                $api = $db->getAPI("NACTE", "error");
+                if (!empty($api)) {
+                    foreach ($api as $ap) {
+                        $token = $ap['token'];
+                        $url = $ap['url'];
+                    }
+                }
+
+                
 
 
-                    $url = "http://41.93.40.137/nacteapi/index.php/api/feedbackcorrection/ape/4bcfb97efbdd6c962fbd15bfb5c06c076a6fd3207ef3cddfef235adaf19cd530-f2303bcf210751c150a0d949be56533272ee36fd/piac/".$programmeID."-2019-SEPTEMBER";
+                    $url = $url.$programmeID."-2020-SEPTEMBER";
+                    var_dump($url);
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPGET, true);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -191,16 +202,15 @@ $db = new DBHelper();
                     curl_close($ch);
                     $response = json_decode($response_json, true);
 
-                    //var_dump($response);
+                    var_dump($response);
                     $params = $response['params'];
 
-                    //var_dump($params);
+                    var_dump($params);
 
                     $count=1;
                     foreach($params as $rp) {
                         $programmeID = $rp['programme_id'];
                         $studentVerificationID = $rp['student_verification_id'];
-                        /*echo "<tr><td>$count</td>";*/
                         echo "<td>".$rp['student_verification_id']."</td>";
                         /*echo "<td>".$rp['user_id']."</td>";*/
                         echo "<td>".$rp['programme_id']."</td>";

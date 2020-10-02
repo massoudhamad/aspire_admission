@@ -147,6 +147,7 @@
                 <option value="verification">Verification</option>
                 <option value="error">Error and Feedback</option>
                 <option value="balance">Get Balance</option>
+                <option value="verified">Get Verified</option>
 
               </select>
             </div>
