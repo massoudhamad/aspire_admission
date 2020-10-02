@@ -44,7 +44,7 @@ $db = new DBHelper();
             if (!empty($_REQUEST['msg'])) {
                 if ($_REQUEST['msg'] == "unsucc") {
                     echo "<div class='alert alert-danger fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
-                        <strong>Sorry, Error: We are unable to save your data in TCU Database.</strong>
+                        <strong>Sorry, Error: We are unable to save your data in TCU Database.TCU Status: " . $_SESSION['output'] . "</strong>
                     </div>";
                 } else {
                     echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>

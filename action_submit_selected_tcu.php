@@ -5,7 +5,7 @@ try {
     $db = new DBHelper();
     $tblName = 'applicants';
 
-    $status=false;
+    $boolStatus=false;
     if(isset($_POST['doAdmit']) == 'Submit Applicants')
     {
         $jj=0;
@@ -246,14 +246,12 @@ try {
             if($array_data['Response']['ResponseParameters']['StatusCode']=="200")
             {
                 $userData = array(
-                    'email'=>$email,
                     'tcu_status' => 2
                 );
                 $condition = array('applicantID' => $applicantID);
                 $updateapp = $db->update("applicants", $userData, $condition);
                 $boolStatus = true;
                 $msgs = $status_descript;
-                $status = true;
                 $jj++;
             }
             else 
@@ -268,6 +266,7 @@ try {
             $_SESSION['output'] = $msgs;
         } else {
             header("Location:index3.php?sp=admitapplicants&msg=unsucc");
+            $_SESSION['output'] = $msgs;
         } 
 
        /* if($status)
