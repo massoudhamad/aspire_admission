@@ -211,9 +211,10 @@ try {
                 foreach ($api_token as $api) {
                     $token = $api['token'];
                     $user = $api['userName'];
-                    $urlform=$ap['url'];
+                    $urlform=$api['url'];
                 }
             }
+
             
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <Request>
@@ -243,6 +244,7 @@ try {
 
             $url = $urlform."/applicants/submitProgramme";
 
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_POST,1);
@@ -250,10 +252,10 @@ try {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
             $data = curl_exec($ch);
+            var_dump($data);
             curl_close($ch);
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-            //var_dump($array_data);
             $status = $array_data['Response']['ResponseParameters']['StatusCode'];
             $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
 
@@ -275,13 +277,13 @@ try {
 
 
         }
-        if ($boolStatus) {
+       if ($boolStatus) {
             header("Location:index3.php?sp=admitapplicants&msg=succ");
             $_SESSION['output'] = $msgs;
         } else {
             header("Location:index3.php?sp=admitapplicants&msg=unsucc");
             $_SESSION['output'] = $msgs;
-        } 
+        }
 
        /* if($status)
         {
