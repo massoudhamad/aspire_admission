@@ -120,13 +120,19 @@ $db = new DBHelper();
             <?php
             if (!empty($_REQUEST['msg'])) {
                 if ($_REQUEST['msg'] == "succ") {
-                    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=resubmit_applicant_tcu' class='close' data-dismiss='alert'>&times;</a>
+                    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
     <strong>" . $_REQUEST['count'] . " of records has been submitted in TCU</strong>.
 </div>";
+                    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
                 } else if ($_REQUEST['msg'] == "unsucc") {
-                    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=resubmit_applicant_tcu' class='close' data-dismiss='alert'>&times;</a>
+                    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
     <strong>Sorry no data saved in database</strong>.
 </div>";
+                    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
                 }
             }
             ?>
@@ -238,7 +244,6 @@ $db = new DBHelper();
             $roundName = $_POST['roundName'];
             $academicYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
 
-            echo $programID."-".$admissionID."-".$academicYearID;
 
         ?>
             <!-- <input type="hidden" id="programmeID" value="<?php /*echo $programmeID;*/ ?>">
@@ -249,7 +254,7 @@ $db = new DBHelper();
                 <h4><span id="titleheader">List of UnSelected Applicants for <?php echo $db->getData("sector", "sectorName", "sectorID", $programmeID); ?>
                         <?php echo $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID); ?></span></h4>
             </div>
-            <form name="register" id="register" method="post" action="action_resubmit_selected_tcu.php">
+            <form name="register" id="register" method="post" action="action_submit_unselected_tcu.php">
                 <table id="selection_list" class="display nowrap" cellspacing="0">
                     <thead>
                         <tr>
