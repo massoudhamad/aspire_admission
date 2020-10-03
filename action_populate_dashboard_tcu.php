@@ -9,27 +9,19 @@ $tblApplicants='applicants';
 if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     if($_REQUEST['action_type'] == 'add')
     {
-        $user="MUM";
-        $token="jQbgVNUWdPk67wZcEv39";
-        $url="http://api.tcu.go.tz/dashboard/populate";
 
         $programmeCode=$_REQUEST['programmeCode'];
         $male=$_REQUEST['males'];
         $female=$_REQUEST['female'];
 
-        /*$xml='<?xml version="1.0" encoding="UTF-8"?>
-        <Request>
-        <UsernameToken>
-        <username>'.$user.'</username>
-        <SessionToken>'.$token.'</SessionToken>
-        </UsernameToken>
-        <requestParameters>
-        <institutioncode>'.$user.'</institutioncode >
-        <Programme>'.$programmeCode.'</Programme>
-        <Males>'.$male.'</Males>
-        <Females>'.$female.'</Females>
-        </requestParameters>
-        </Request>';*/
+        $api_token = $db->getAPI("TCU", "token");
+        if (!empty($api_token)) {
+            foreach ($api_token as $api) {
+                $token = $api['token'];
+                $user = $api['userName'];
+                $urlform = $api['url'];
+            }
+        }
 
         $xml='<?xml version="1.0" encoding="UTF-8"?>
         <Request>
@@ -45,14 +37,33 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         </Request>';
 
 
-        $output=$db->addApplicantTCU($url, $xml);
+        //$output=$db->addApplicantTCU($url, $xml);
+        $url = $urlform . "/dashboard/populate";
 
-        $boolStatus=true;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+        $data = curl_exec($ch);
+        //var_dump($data);
+        curl_close($ch);
+
+        $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
+        $status = $array_data['Response']['ResponseParameters']['StatusCode'];
+        $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
+
+        if ($array_data['Response']['ResponseParameters']['StatusCode'] == "200") {
+            $boolStatus = true;
+        }
+
     }
     if($boolStatus)
     {
         header("Location:index3.php?sp=populate_dashboard_tcu&msg=succ");
-        $_SESSION['output']=$output;
+        $_SESSION['output']= $status_descript;
     }
     else
     {
