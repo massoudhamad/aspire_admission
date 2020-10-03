@@ -278,7 +278,7 @@ try {
 
         }
        if ($boolStatus) {
-            header("Location:index3.php?sp=submit_selected_tcu&msg=succ");
+            header("Location:index3.php?sp=submit_selected_tcu&msg=succ&count=".$jj);
             $_SESSION['output'] = $msgs;
         } else {
             header("Location:index3.php?sp=submit_selected_tcu&msg=unsucc");

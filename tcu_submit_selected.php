@@ -130,6 +130,9 @@ $db = new DBHelper();
                     echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
     <strong>Sorry no data saved in database</strong>.
 </div>";
+                    echo "<div class='alert alert-data fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
                 }
             }
             ?>
