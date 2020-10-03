@@ -126,8 +126,14 @@ $db = new DBHelper();
                     <?php
 
                     $db=new DBHelper();
-                    $user="MUM";
-                    $token="jQbgVNUWdPk67wZcEv39";
+            $api_token = $db->getAPI("TCU", "token");
+            if (!empty($api_token)) {
+                foreach ($api_token as $api) {
+                    $token = $api['token'];
+                    $user = $api['userName'];
+                    $urlform = $api['url'];
+                }
+            }
                     $programmeCode=$programmeID;
 
                     $xml='<?xml version="1.0" encoding="UTF-8"?>

@@ -98,8 +98,9 @@ $db = new DBHelper();
     <?php
     if(isset($_POST['doSearch'])=="Search Records") {
         $programmeID = $_POST['programmeID'];
-        $user="MUM";
-        $token="jQbgVNUWdPk67wZcEv39";
+     
+
+
         $programmeCode=$programmeID;
         ?>
         <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
@@ -128,16 +129,24 @@ $db = new DBHelper();
                         <tbody>
                         <?php
 
+                        $api_token = $db->getAPI("TCU", "token");
+                        if (!empty($api_token)) {
+                            foreach ($api_token as $api) {
+                                $token = $api['token'];
+                                $user = $api['userName'];
+                                $urlform = $api['url'];
+                            }
+                        }
+
                         $xml='<?xml version="1.0" encoding="UTF-8"?>
                         <Request>
                         <UsernameToken>
-                        <username>'.$user.'</username>
+                        <Username>'.$user.'</Username>
                         <SessionToken>'.$token.'</SessionToken>
                         </UsernameToken>
-                        <requestParameters>
-                        <InstitutionCode>'.$user.'</InstitutionCode >
-                        <Programme>'.$programmeCode.'</Programme>
-                        </requestParameters>
+                        <RequestParameters>
+                        <ProgrammeCode>'.$programmeCode.'</ProgrammeCode>
+                        </RequestParameters>
                         </Request>';
 
                         $ch = curl_init();
@@ -149,16 +158,18 @@ $db = new DBHelper();
                         $data = curl_exec($ch);
                         curl_close($ch);
                         $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
+                        $status = $array_data['Response']['RequestParameters']['StatusCode'];
+                        $status_descr= $array_data['Response']['RequestParameters']['StatusDescription'];
 
-                        $applicants=$array_data['requestParameters']['Applicant'];
+                        $applicants=$array_data['Response']['RequestParameters']['Applicant'];
                         $count=0;
                         foreach($applicants as $app) {
                             $count++;
-                            $formfour = $app['F4indexno'];
-                            $formsix = $app['F6indexno'];
-                            $mobileNumber=$app['Mobilenumber'];
-                            $email = $app['Emailaddress'];
-                            $status=$app['Admissionstatus'];
+                            $formfour = $app['f4indexno'];
+                            $formsix = $app['f6indexno'];
+                            $mobileNumber=$app['MobileNumber'];
+                            $email = $app['EmailAddress'];
+                            $Admissionstatus=$app['AdmissionStatus'];
                             ?>
                             <?php
                             echo "<tr><td>$count</td>";

@@ -137,34 +137,45 @@ $db = new DBHelper();
                     <?php
 
 $db=new DBHelper();
-$user="MUM";
-$token="jQbgVNUWdPk67wZcEv39";
+
 $programmeCode=$programmeID;
-$xml='<?xml version="1.0" encoding="UTF-8"?>
+            $api_token = $db->getAPI("TCU", "token");
+            if (!empty($api_token)) {
+                foreach ($api_token as $api) {
+                    $token = $api['token'];
+                    $user = $api['userName'];
+                    $urlform = $api['url'];
+                }
+            }
+
+            $url = $urlform . "/applicants/getStatus";
+
+            $programmeCode = $programmeID;
+            $xml = '<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
-<Username>'.$user.'</Username>
-<SessionToken>'.$token.'</SessionToken>
+<username>' . $user . '</username>
+<SessionToken>' . $token . '</SessionToken>
 </UsernameToken>
 <RequestParameters>
-<ProgrammeCode>'.$programmeCode.'</ProgrammeCode>
+<ProgrammeCode>' . $programmeCode . '</ProgrammeCode>
 </RequestParameters>
 </Request>';
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/applicants/getStatus");
-curl_setopt($ch, CURLOPT_POST,1);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
 $data = curl_exec($ch);
 curl_close($ch);
-$array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-$applicants=$array_data['Response']['ResponseParameters']['Applicant'];
-
-//var_dump($array_data);
-
-$count=1;
+            //echo $data;
+$array_data = json_decode(json_encode(simplexml_load_string($data)), true);
+$status = $array_data['Response']['ResponseParameters']['StatusCode'];
+$status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
+$applicants = $array_data['Response']['ResponseParameters']['Applicant'];
+$count = 0;
 foreach($applicants as $app) {
     $formfour = $app['f4indexno'];
     $status = $app['AdmissionStatusCode'];

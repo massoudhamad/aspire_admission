@@ -3,8 +3,7 @@ require_once '../DB.php';
 $db=new DBHelper();
 $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
-$user="MUM";
-$token="jQbgVNUWdPk67wZcEv39";
+
 $programmeCode=$programmeID;
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>

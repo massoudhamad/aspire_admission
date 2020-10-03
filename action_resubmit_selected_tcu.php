@@ -190,8 +190,16 @@ try {
             }
 
             $appProg="$firstChoice,$secondChoice";
-                 $user = "MUM";
-                 $token = "jQbgVNUWdPk67wZcEv39";
+
+            $api_token = $db->getAPI("TCU", "token");
+            if (!empty($api_token)) {
+                foreach ($api_token as $api) {
+                    $token = $api['token'];
+                    $user = $api['userName'];
+                    $urlform = $api['url'];
+                }
+            }
+
                  $xml = '<?xml version="1.0" encoding="UTF-8"?>
                      <Request>
                      <UsernameToken>
@@ -226,7 +234,7 @@ try {
                   curl_close($ch);
 
                   $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-                  if($array_data['RESPONSE']['RESPONSEPARAMETERS']['ERROR_CODE']=="200")
+                  if($array_data['Response']['ResponseParameters']['StatusCode']=="200")
                   {
                         $userData = array(
                             'email'=>$email,

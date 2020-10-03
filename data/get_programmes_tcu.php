@@ -2,9 +2,6 @@
 require_once '../DB.php';
 $db = new DBHelper();
 $output = array('data' => array());
-        //$url = "https://api.tcu.go.tz/admission/getProgrammes";
-        //$url = "http://197.149.178.22/admission/getProgrammes";
-
         $api_token = $db->getAPI("TCU", "token");
         if (!empty($api_token)) {
             foreach ($api_token as $api) {
@@ -33,8 +30,6 @@ $output = array('data' => array());
         $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
         foreach ($array_data as $dt) {
             $progCode = $dt['ResponseParameters']['Programme'];
-            //echo $dt['ResponseParameters']['StatusCode']."<br>";
-            //echo $dt['ResponseParameters']['StatusDescription']."<br>";
             foreach ($progCode as $pg) {
                 $pcode=$pg['ProgrammeCode'];
                 $number=$pg['NumberOfApplicant'];

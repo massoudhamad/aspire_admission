@@ -1,8 +1,17 @@
 <?php
+session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT);
 require_once 'DB.php';
 $db=new DBHelper();
-$user="MUM";
-$token="jQbgVNUWdPk67wZcEv39";
+$api_token = $db->getAPI("TCU", "token");
+if (!empty($api_token)) {
+    foreach ($api_token as $api) {
+        $token = $api['token'];
+        $user = $api['userName'];
+        $urlform = $api['url'];
+    }
+}
 $formfour=$_POST['formfour'];
 $confirmationcode=$_POST['confirmationCode'];
 
@@ -36,11 +45,12 @@ if($status != 217)
 {
     $userData = array(
         'tcu_final' => $status,
-        'tcu_message'=>$status_desc
+        'tcu_message'=>$status_desc,
+        'tcu_confirmation_code'=>$confirmationcode
     );
-    $condition = array('formfour' => $formfour,'admissionID'=>1);
+    $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
 }
-header("Location:index3.php?sp=get_status_tcu&msg=".$status."&status=".$status_desc);
+header("Location:index3.php?sp=confirm_app_individual&msg=succ&code=".$status."&status=".$status_desc);
 
 

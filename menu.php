@@ -157,15 +157,8 @@ session_start();
                 <li><a href="index3.php?sp=get_list_of_confirmed_tcu">Get List of Confirmed</a></li>
                 <li><a href="index3.php?sp=get_verification_list">Get Verification List</a></li>
                 <li><a href="index3.php?sp=internal_transfer">Internal Transfer</a></li>
-                <li><a href="index3.php?sp=external_transfer">External Transfer 2</a></li>
+                <li><a href="index3.php?sp=external_transfer">External Transfer</a></li>
                 <li><a href="index3.php?sp=enrollment_submission">Enrollment Submission</a></li>
-
-
-
-                <!--<li><a href="index3.php?sp=selectedapplicants">Selected Reports(TCU&NACTE)</a></li>
-                          <li><a href="index3.php?sp=enrolmentreport">Enrollment Reports(TCU&NACTE)</a></li>
-                          <li><a href="index3.php?sp=tcuenrolmentreport">TCU All Enrollment</a></li>
-                          <li><a href="index3.php?sp=nactereport">Approved NACTE</a></li>-->
 
             </ul>
         </li>
