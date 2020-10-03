@@ -202,7 +202,7 @@ $db = new DBHelper();
 
                 <label for="MiddleName">Admission Round</label>
                 <select name="roundName" class="form-control" required="">
-                    
+
                     <?php
                     $adround = $db->getRows('round', array('order_by' => 'roundID ASC'));
                     if (!empty($adround)) {
@@ -213,7 +213,7 @@ $db = new DBHelper();
                             $count++;
                             $roundName = $around['roundName'];
                     ?>
-                            <option value="<?php echo $roundName; ?>"><?php echo  $roundName;?></option>
+                            <option value="<?php echo $roundName; ?>"><?php echo  $roundName; ?></option>
                     <?php }
                     }
                     ?>
@@ -235,8 +235,10 @@ $db = new DBHelper();
         if (isset($_POST['doSearch']) == "Search Records") {
             $programmeID = $_POST['sectorID'];
             $admissionID = $_POST['admissionID'];
-            $roundName=$_POST['roundName'];
-            $academicYearID=$db->getData("admission_setting","academicYearID","academicYearID",$admissionID);
+            $roundName = $_POST['roundName'];
+            $academicYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
+
+            echo $programID."-".$admissionID."-".$academicYearID;
 
         ?>
             <!-- <input type="hidden" id="programmeID" value="<?php /*echo $programmeID;*/ ?>">
@@ -244,7 +246,7 @@ $db = new DBHelper();
             <input type="hidden" id="admissionID" value="<?php /*echo $admissionID;*/ ?>">-->
 
             <div class="col-lg-12">
-                <h4><span id="titleheader">List of Selected Applicants for <?php echo $db->getData("sector", "sectorName", "sectorID", $programmeID); ?>
+                <h4><span id="titleheader">List of UnSelected Applicants for <?php echo $db->getData("sector", "sectorName", "sectorID", $programmeID); ?>
                         <?php echo $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID); ?></span></h4>
             </div>
             <form name="register" id="register" method="post" action="action_resubmit_selected_tcu.php">
@@ -255,9 +257,9 @@ $db = new DBHelper();
                             <th width="10"><input type="checkbox" name="select_all" id="select_all"></th>
                             <th>Name</th>
                             <th>Gender</th>
-                            <th>TCU Status</th>
+                            <th>NIDA ID</th>
                             <th>Form IV</th>
-                            <th>Form V</th>
+                            <th>Form VI</th>
                             <th>Programmes</th>
                             <th>Phone Number</th>
                             <th>Email</th>
@@ -274,7 +276,7 @@ $db = new DBHelper();
                     <tbody>
 
                         <?php
-                        $applicantsData = $db->getSelectedResubmit($academicYearID, $admissionID,$roundName);
+                        $applicantsData = $db->getSubmitUnSelectedListTCU($programID, $academicYearID, $admissionID);
                         if (!empty($applicantsData)) {
                             $i = 0;
                             foreach ($applicantsData as $data) {
@@ -293,10 +295,14 @@ $db = new DBHelper();
                                 $tcu_status = $data['tcu_status'];
                                 $tcu_final = $data['tcu_final'];
 
-                                if (empty($tcu_final))
-                                    $tcu_final = "NAN";
-                                else
-                                    $tcu_final = $tcu_final;
+                                $nationalID = $db->getRows("applicant_identification", array('where' => array('applicantID' => $applicantID)));
+                                if (!empty($nationalID)) {
+                                    foreach ($nationalID as $nid) {
+                                        $nida = $nid['nationalID'];
+                                    }
+                                } else {
+                                    $nida = "";
+                                }
 
                                 if ($entryQualification == 0)
                                     $category = "A";
@@ -404,37 +410,39 @@ $db = new DBHelper();
                                 $sixsix = implode(",", $six);
 
                                 $name = "$fname $mname $lname";
-                        ?>
-                        <?php
-                                if ($tcu_status == 32 || $tcu_status == 32) {
+                        
+                                if ($tcu_status == 2) {
                                     $box = "NA";
                                 } else {
                                     $box = "<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";
                                 }
 
 
-                                /*if($tcu_status==2 || $tcu_status==21)
-                        {
-                            $box="NA";
-                        }
-                        else if (filter_var($email, FILTER_VALIDATE_EMAIL))
-                            $box="<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";
-                        else
-                            $box="<a href='action_submit_selected_applicant_tcu.php?action_type=submit_app&applicantID=$applicantID'>Add</a>";*/
-                                //if($tcu_final!="Qualified" || $tcu_final != "Multiple Admission") {
+                                $appremarks = $db->getRows("applicantremarks", array('where' => array('applicantID' => $applicantID)));
+                                if (!empty($appremarks)) {
+                                    foreach ($appremarks as $remark) {
+                                        $userID = $remark['userID'];
+                                        $processDate = $remark['processDate'];
+                                        $comments = $remark['comments'];
+                                    }
+                                } else {
+                                    $userID = "";
+                                    $processDate = "";
+                                }
+                            
                                 echo "<tr><td>$i</td>
                            <td>$box</td>
                            <td>$name</td>
                            <td>$gender</td>
-                           <td>$tcu_final</td>
+                           <td>$nida</td>
                            <td>" . $formfour[0] . "</td>
                            <td>" . $findexNumber . "</td>
                            <td>" . "$firstChoice,$secondChoice" . "</td>
                            <td>$phoneNumber</td>
                            <td>$email</td>
-                           <td>Provisional Admission</td>
+                           <td>Not Admitted</td>
                            <td>$programmeCode</td>
-                           <td>Eligible</td>
+                           <td>$comments</td>
                            <td>$nationality</td>
                           <td>$dname</td>
                           <td>$dob</td>

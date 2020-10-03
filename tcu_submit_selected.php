@@ -403,17 +403,7 @@ $db = new DBHelper();
                                 }
 
 
-                        /* if($tcu_status==2 || $tcu_status==21)
-                        {
-                            $box="NA";
-                        }else
-                        {
-                            $box="<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";
-                        } */
-                        /*else
-                            $box="<a href='action_submit_selected_applicant_tcu.php?action_type=submit_app&applicantID=$applicantID'>Add</a>"
-                            */
-                                echo "<tr><td>$i</td>
+                            echo "<tr><td>$i</td>
                            <td>$box</td>
                            <td>$name</td>
                            <td>$gender</td>

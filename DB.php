@@ -611,12 +611,12 @@ where
             AND aa.programmeMajorID = pm.programmeMajorID
             AND p.programID = pm.programmeID
             AND p.studyLevelID=:studyID
-            and (applicantsRemarksID=:remarkID or applicantsRemarksID=:remark2_ID or applicantsRemarksID=:remark3_ID or applicantsRemarksID=:remark4_ID)
+            and (applicantsRemarksID=:remarkID or applicantsRemarksID=:remark2_ID or applicantsRemarksID=:remark3_ID)
             and applicationYearID=:appYearID
             and admissionID=:adminID
             AND NULLIF(tcu_final, '') IS NULL 
             order by tcu_status ASC");
-                $query->execute(array(':studyID' => 1, ':remarkID' => 2,':remark2_ID'=>4,':remark3_ID'=>5,':remark4_ID'=>1, ':appYearID' => $acadID, ':adminID' => $admID));
+                $query->execute(array(':studyID' => 1, ':remarkID' => 2,':remark2_ID'=>4,':remark3_ID'=>5, ':appYearID' => $acadID, ':adminID' => $admID));
             } else {
                 $query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
