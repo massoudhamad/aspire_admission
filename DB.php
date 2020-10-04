@@ -1154,10 +1154,10 @@ where
         and pm.programmeMajorID=aa.programmeMajorID
         and a.applicantID = aa.applicantID
         and aa.applicantID=:appID
-        and choice = :chc
+        
         and admissionStatus=:status
         ");
-            $query->execute(array(':appID' => $appID, ':chc' => $choice, ':status' => 1));
+            $query->execute(array(':appID' => $appID, ':status' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
