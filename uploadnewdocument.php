@@ -8,6 +8,7 @@ if(isset($_POST['doSubmit']))
     $title = $_POST['title'];// user name
     $schoolID = $_POST['schoolID'];// user email
     $academicYearID=$_POST['admissionYearID'];
+
     $imgFile = $_FILES['user_image']['name'];
     $tmp_dir = $_FILES['user_image']['tmp_name'];
     $imgSize = $_FILES['user_image']['size'];
@@ -60,8 +61,23 @@ if(isset($_POST['doSubmit']))
     // if no error occured, continue ....
     if(!isset($errMSG))
     {
-        for($x=0;$x<count($schoolID);$x++)
+        foreach ($_POST['schoolID'] as $schoolID) {
+            $userData=array(
+                'schoolID'=>$schoolID,
+                'academicYearID'=>$academicYearID,
+                'title'=>$title,
+                'url'=>$userpic
+            );
+            $insert= $db->insert('upload',$userData);
+            $status=true;
+        }
+        /* for($x=0;$x<count($schoolID);$x++)
         {
+            $schoolID=$_POST['schoolID'.$x];
+            $academicYearID=$_POST['academicYearID'];
+            $title=$_POST['title'];
+            
+            
             $stmt = $db->runQuery("INSERT INTO upload(schoolID,academicYearID,title,url)VALUES(:school,:academicYear,:ttl,:upic)");
             $stmt->bindParam(':school',$schoolID[$x],PDO::PARAM_STR);
             $stmt->bindParam(':academicYear',$academicYearID,PDO::PARAM_INT);
@@ -69,7 +85,7 @@ if(isset($_POST['doSubmit']))
             $stmt->bindParam(':upic',$userpic,PDO::PARAM_STR);
             $stmt->execute();
             $status=true;
-        }
+        } */
         if($status)
         {
             $successMSG = "new record succesfully inserted ...";
