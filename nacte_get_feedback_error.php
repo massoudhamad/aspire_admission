@@ -194,7 +194,7 @@ $db = new DBHelper();
 
 
                     $url = $url.$programmeID."-2020-SEPTEMBER";
-                    var_dump($url);
+                    //var_dump($url);
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPGET, true);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
