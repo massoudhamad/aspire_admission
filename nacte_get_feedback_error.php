@@ -202,10 +202,10 @@ $db = new DBHelper();
                     curl_close($ch);
                     $response = json_decode($response_json, true);
 
-                    var_dump($response);
+                    //var_dump($response);
                     $params = $response['params'];
 
-                    var_dump($params);
+                    //var_dump($params);
 
                     $count=1;
                     foreach($params as $rp) {
