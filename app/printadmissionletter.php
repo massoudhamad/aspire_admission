@@ -218,8 +218,8 @@ if($_REQUEST['action']=="getPDF")
   
 
    
-$pdf->Output();
-//$pdf->Output("admissionletter.pdf","D");
+//$pdf->Output();
+$pdf->Output("admissionletter.pdf","D");
    }
   }
 }
