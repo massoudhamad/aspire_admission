@@ -289,14 +289,14 @@ if ($login == 0) {
                                         } else if ($remarkID == 3) {
                                             if ($db->checkApplicantStudyLevel($applicantID == 1)) {
                                                 //checkstatus
-                                                if ($tcu_final == 225) {
-                                            ?>
+                                               /*  if ($tcu_final == 225) {
+                                                ?>
                                                     <td>
                                                         <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
                                                         <br><br> <a href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request Confirmation Code</a>
                                                     </td>
                                                 <?php
-                                                }
+                                                } */
                                                 ?>
                                                 <td>
                                                     <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">

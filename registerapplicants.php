@@ -126,6 +126,7 @@ if(!empty($_REQUEST['msg']))
                <th width="5">SNo</th>
 <!--               <th width="10"><input type="checkbox" name="select_all" id="select_all"></th>
 -->               <th>Name</th>
+<th>Index Number</th>
                <th>Sex</th>
                <th>Phone Number</th>
                <th>Index Number</th>
@@ -150,11 +151,12 @@ if(!empty($_REQUEST['msg']))
                          $phoneNumber=$data['phoneNumber'];
                          $userID=$data['userID'];
                          $name="$fname $mname $lname";
+                         $formfour=$data['formfour'];
                          
                          echo "<tr><td>$i</td>";
                          /*<td><input type='checkbox' class='checkbox_class' name='id[]' value='$applicantID'></td>*/
                                 echo "<td><a href='index3.php?sp=view_applicant_info&applicantID=$applicantID'>$name</a></td>";
-                                 echo "<td>$gender</td><td>$phoneNumber</td><td>".$db->getData("users","userName","userID",$userID)."</td><td>$refNumber</td></tr>";
+                                 echo "<td>$gender</td><td>$formfour</td><td>$phoneNumber</td><td>".$db->getData("users","userName","userID",$userID)."</td><td>$refNumber</td></tr>";
                      }
                  }
                 
