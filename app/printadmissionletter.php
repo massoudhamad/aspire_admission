@@ -76,6 +76,8 @@ if($_REQUEST['action']=="getPDF")
        $lname=$apps['lastName'];
        $address=$apps['physicalAddress'];
        $phoneNumber=$apps['phoneNumber'];
+       $formfour=$apps['formfour'];
+       $applicantNumber=$apps['applicationNumber'];
        $applicationYear=$db->getData("academicyears","academicYear","academicYearID",$apps['applicationYearID']);
        if($gender=="Male")
            $sex="Mr.";
@@ -219,7 +221,7 @@ if($_REQUEST['action']=="getPDF")
 
    
 //$pdf->Output();
-$pdf->Output("admissionletter.pdf","D");
+$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
    }
   }
 }
