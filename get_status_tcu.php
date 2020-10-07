@@ -151,10 +151,21 @@ $programmeCode=$programmeID;
             $url = $urlform . "/applicants/getStatus";
 
             $programmeCode = $programmeID;
-            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                    /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
 <username>' . $user . '</username>
+<SessionToken>' . $token . '</SessionToken>
+</UsernameToken>
+<RequestParameters>
+<ProgrammeCode>' . $programmeCode . '</ProgrammeCode>
+</RequestParameters>
+</Request>'; */
+
+$xml = '<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<Username>' . $user . '</Username>
 <SessionToken>' . $token . '</SessionToken>
 </UsernameToken>
 <RequestParameters>
@@ -169,6 +180,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
 $data = curl_exec($ch);
+//var_dump($data);
 curl_close($ch);
             //echo $data;
 $array_data = json_decode(json_encode(simplexml_load_string($data)), true);

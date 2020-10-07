@@ -54,13 +54,13 @@ echo $status."<br>".$status_descript;*/
 
 //Add Applicant
 
- $url= $api."/applicants/add";
+ /*$url= $api."/applicants/add";
 $formfour=$indexNumber;
 $formsix= "P0326/0510/2020";
 $category="A";
 $other_four="";
-$other_six=""; 
-
+$other_six="";
+*/
 /*
 $xml='<?xml version="1.0" encoding="UTF-8"?>
         <Request>
@@ -85,17 +85,17 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
         $status=$array_data['Response']['ResponseParameters']['StatusCode'];
         $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
   */
-        
-
-
-        //echo $status."<br>".$status_descript;
-
-   //Submit Applicant Programme Choices
 
 
 
- 
-$appProg = "SUM01,SUM03";
+//echo $status."<br>".$status_descript;
+
+//Submit Applicant Programme Choices
+
+
+
+
+/* $appProg = "SUM01,SUM03";
 $formindexnumber=$indexNumber;
 $findexNumber=$formsix;
 $phoneNumber="0773500429";
@@ -149,7 +149,7 @@ curl_close($ch);
 
 $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
 $status=$array_data['Response']['ResponseParameters']['StatusCode'];
-$status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
+$status_descript=$array_data['Response']['ResponseParameters']['StatusDescription']; */
 
 //echo $status."<br>".$status_descript; 
 
@@ -584,11 +584,11 @@ foreach($array_data as $dt) {
 
             $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
             var_dump($array_data); */
-          //$array_data['Response']['ResponseParameters']['StatusCode']=="200")
+//$array_data['Response']['ResponseParameters']['StatusCode']=="200")
 
 
-          //getprogrammeswithadmitted
-        /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
+//getprogrammeswithadmitted
+/* $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <Request>
         <UsernameToken>
         <Username>'.$user.'</Username>
@@ -610,16 +610,16 @@ foreach($array_data as $dt) {
 //var_dump($array_data);
 //$array_data = json_decode(json_encode(simplexml_load_string($data)), true);
 //foreach ($array_data as $dt) {
-    //$progCode = $dt['ResponseParameters']['Programme'];
-    //echo $dt['ResponseParameters']['StatusCode']."<br>";
-    //echo $dt['ResponseParameters']['StatusDescription']."<br>";
-    //foreach ($progCode as $pg) {
-        //$pcode = $pg['ProgrammeCode'];
-        //$number = $pg['NumberOfApplicant'];
+//$progCode = $dt['ResponseParameters']['Programme'];
+//echo $dt['ResponseParameters']['StatusCode']."<br>";
+//echo $dt['ResponseParameters']['StatusDescription']."<br>";
+//foreach ($progCode as $pg) {
+//$pcode = $pg['ProgrammeCode'];
+//$number = $pg['NumberOfApplicant'];
 
-        //echo $pcode . " - " . $number . "<br>";
+//echo $pcode . " - " . $number . "<br>";
 
-        /* $output['data'][] = array(
+/* $output['data'][] = array(
             $pg['ProgrammeCode'],
             $pg['NumberOfApplicant']
         );
@@ -627,6 +627,43 @@ foreach($array_data as $dt) {
 } */
 
 //echo json_encode($output);
+
+$programmeCode="SUM03";
+
+/*$xml = '<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<username>' . $user . '</Username>
+<SessionToken>' . $token . '</SessionToken>
+</UsernameToken>
+<RequestParameters>
+<ProgrammeCode>' . $programmeCode . '</ProgrammeCode>
+</RequestParameters>
+</Request>';
+*/
+
+$xml='<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<Username>'.$user.'</Username>
+<SessionToken>'.$token.'</SessionToken>
+</UsernameToken>
+<RequestParameters>
+<ProgrammeCode>'.$programmeCode.'</ProgrammeCode>
+</RequestParameters>
+</Request>';
+
+$url = $api . "/applicants/getStatus";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+$data = curl_exec($ch);
+
+var_dump($data);
+curl_close($ch);
 
 
 
