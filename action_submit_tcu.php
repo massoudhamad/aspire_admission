@@ -1,7 +1,7 @@
 <?php
 session_start();
-/*ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);*/
+/* ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); */
 try {
     include 'DB.php';
     $db = new DBHelper();
@@ -11,6 +11,7 @@ try {
         $jj=0;
         if(!empty($_POST['formfour'])) {
             $count=0;
+            $admissionID=$_POST['admissionID'];
             foreach ($_POST['formfour'] as $key => $four) {
                     $four=$_POST['formfour'][$key];
                     $status=$_POST['status'][$key];
@@ -20,8 +21,8 @@ try {
                             'tcu_final' => $status,
                             'tcu_message'=>$status_des
                          );
-                         $condition = array('formfour'=>$four,'admissionID'=>1,'tcu_status'=>NULL);
-                         $updateapp = $db->update($tblName, $userData, $condition);
+                         $condition = array('formfour'=>$four,'admissionID'=>$admissionID,'tcu_status'=>NULL);
+                        $updateapp = $db->update($tblName, $userData, $condition);
                          $status = true;
                          $jj++;
                 }
@@ -37,7 +38,7 @@ try {
         {
 
             header("Location:index3.php?sp=get_status_tcu&msg=unsucc");
-        }
+        } 
 
 } catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
