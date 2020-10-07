@@ -33,6 +33,13 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $email=$row['email_address'];
 
 
+                $api = $db->getAPI("NACTE", "verification");
+                if (!empty($api)) {
+                    foreach ($api as $ap) {
+                        $token = $ap['token'];
+                        //$url = $ap['url'];
+                    }
+                }
 
                 //API URL
                 $url = 'http://41.93.40.137/nacteapi/index.php/api/addcorrection';
@@ -58,7 +65,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
 "NTA5_grad_year": "<NTA5_grad_year>",*/
 
                 $data = array(
-                    'authorization' => 'acfef0b99101c250761ca3bba28575e04a4a5772',
+                    'authorization' => $token,
                     'student_verification_id'=>$verificationID,
                     'programme_ID'=>$programmeID,
                     'firstname' => $firstName,
@@ -109,6 +116,6 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
      else
      {
          header("Location:index3.php?sp=nacte_add_correction&msg=unsucc");
-     }
+     } 
 }
 

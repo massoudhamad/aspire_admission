@@ -21,7 +21,7 @@ try {
                             'tcu_final' => $status,
                             'tcu_message'=>$status_des
                          );
-                         $condition = array('formfour'=>$four,'admissionID'=>$admissionID,'tcu_status'=>NULL);
+                         $condition = array('formfour'=>$four,'admissionID'=>$admissionID);
                         $updateapp = $db->update($tblName, $userData, $condition);
                          $status = true;
                          $jj++;

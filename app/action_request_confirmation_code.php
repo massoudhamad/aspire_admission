@@ -1,8 +1,7 @@
 <?php
 require_once '../DB.php';
 $db=new DBHelper();
-$user="SUM";
-$token="EsQIA1agz9q8UxNSk3DZ";
+
 $formfour=$_POST['formfour'];
 $mobile_number=$_POST['mobile_number'];
 

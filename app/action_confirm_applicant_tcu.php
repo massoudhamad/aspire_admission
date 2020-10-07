@@ -44,7 +44,7 @@ if($status != 217)
         'tcu_final' => $status,
         'tcu_message'=>$status_desc
     );
-    $condition = array('formfour' => $formfour,'admissionID'=>1);
+    $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
 }
 header("Location:index.php?msg=".$status."&status=".$status_desc);
