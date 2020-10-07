@@ -153,7 +153,7 @@ $db = new DBHelper();
                                 <th>Form Four</th>
                                 <th>Status Code</th>
                                 <th>Description</th>
-                                <!-- <th>Action</th> -->
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
