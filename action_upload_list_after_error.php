@@ -104,18 +104,18 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $status = true;
                 $jj++;
 
-                //var_dump($result);
+                var_dump($result);
 
             }
         }
     }
-    if($status)
+    /* if($status)
      {
          header("Location:index3.php?sp=nacte_add_correction&msg=succ&count=".$jj);
      }
      else
      {
          header("Location:index3.php?sp=nacte_add_correction&msg=unsucc");
-     } 
+     }  */
 }
 
