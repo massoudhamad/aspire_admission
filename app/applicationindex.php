@@ -121,8 +121,7 @@ if ($login == 0) {
                             ?>
                                 <h3 class="card-title">Please review your status,you may call admission office for more information</h3>
                             <?php
-                            } else if ($nacte_status == 1) 
-                            {
+                            } else if ($nacte_status == 1) {
                             ?>
                                 <h3><span class="text-danger">Congratulations,You have been admitted for <?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID); ?></span></h3>
                             <?php
@@ -193,29 +192,31 @@ if ($login == 0) {
                                                     if ($db->checkApplicantStudyLevel($applicantID) == 1) {
                                                         if (!empty($tcu_final)) {
                                                             echo $tcu_message . "<br>";
-                                                            if ($tcu_final == 225) {
-                                                                ?>
-                                                                <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
-                                                                <br><a href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request Confirmation Code</a><br>
-                                                                <?php 
-                                                                echo "Admitted<br>";
-                                                                echo "<b>Programme Admitted:</b><br>";
-                                                                $progAdd = $db->getAdmittedProgrammeMajor($applicantID);
-                                                                if (!empty($progAdd)) {
-                                                                    foreach ($progAdd as $pChoice) {
-                                                                        $programmeCode = $pChoice['programCode'];
-                                                                        $programmeName = $pChoice['programmeMajor'];
-                                                                    }
-                                                                } else {
-                                                                    $programmeCode = "";
-                                                                    $programmeName = "";
+                                                            //if ($tcu_final == 225) {
+                                                ?>
+                                                            If you have Multiple Admission, Please <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
+                                                            <br>If you have Multiple Admission, Please <a href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request Confirmation Code</a><br>
+                                                            <?php
+                                                            /* echo "Admitted<br>";
+                                                            echo "<b>Programme Admitted:</b><br>";
+                                                            $progAdd = $db->getAdmittedProgrammeMajor($applicantID);
+                                                            if (!empty($progAdd)) {
+                                                                foreach ($progAdd as $pChoice) {
+                                                                    $programmeCode = $pChoice['programCode'];
+                                                                    $programmeName = $pChoice['programmeMajor'];
                                                                 }
-                                                                echo $programmeName . "<br>";
-                                                            } 
-                                                        
+                                                            } else {
+                                                                $programmeCode = "";
+                                                                $programmeName = "";
+                                                            }
+                                                            echo $programmeName . "<br>"; */
+                                                            // } 
+
                                                             ?>
-                                                           <!--  <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php // echo $indexNumber; ?>'>Click Here to Confirm</a>
-                                                            <br><a href='index.php?sz=request_confirmation_code&formfour=<?php //echo $indexNumber; ?>'>Request Confirmation Code</a><br> -->
+                                                            <!--  <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php // echo $indexNumber; 
+                                                                                                                        ?>'>Click Here to Confirm</a>
+                                                            <br><a href='index.php?sz=request_confirmation_code&formfour=<?php //echo $indexNumber; 
+                                                                                                                            ?>'>Request Confirmation Code</a><br> -->
 
                                                             <?php //echo"Please <a href='index.php?sz=confirm_applicant_tcu&formfour=$indexNumber'>Click to Confirm</a><br>";
                                                             echo "<b>Programme Admitted:</b><br>";
@@ -290,7 +291,7 @@ if ($login == 0) {
                                         } else if ($remarkID == 3) {
                                             if ($db->checkApplicantStudyLevel($applicantID == 1)) {
                                                 //checkstatus
-                                               /*  if ($tcu_final == 225) {
+                                                /*  if ($tcu_final == 225) {
                                                 ?>
                                                     <td>
                                                         <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
@@ -298,7 +299,7 @@ if ($login == 0) {
                                                     </td>
                                                 <?php
                                                 } */
-                                                ?>
+                                            ?>
                                                 <td>
                                                     <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
                                                         <span class="text text-success">Download Admission Letter</span></a>

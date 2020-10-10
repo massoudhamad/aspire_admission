@@ -347,6 +347,10 @@ case 'zalongwareport':
         include('register_applicant.php');
         break;
 
+    case 'request_confirmation_code':
+        include('request_confirmation_code.php');
+        break;
+
 
     case 'preview_form':
         include('preview_form.php');

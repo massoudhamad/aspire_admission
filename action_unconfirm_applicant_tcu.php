@@ -28,7 +28,7 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 </Request>';
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/admission/confirm");
+curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/admission/unconfirm");
 curl_setopt($ch, CURLOPT_POST,1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -41,7 +41,7 @@ $status_desc=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
 /*header("Location:index3.php?sp=confirm_app_list_tcu&msg=".$status."&status=".$status_desc);*/
 
-if($status == 212)
+if($status == 218)
 {
     $userData = array(
         'tcu_final' => $status,
@@ -50,7 +50,5 @@ if($status == 212)
     );
     $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
-}
-header("Location:index3.php?sp=confirm_app_individual&msg=succ&code=".$status."&status=".$status_desc);
-
-
+} 
+header("Location:index3.php?sp=un_confirm_app_individual&msg=succ&code=".$status."&status=".$status_desc);

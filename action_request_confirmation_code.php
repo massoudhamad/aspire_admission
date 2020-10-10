@@ -1,9 +1,11 @@
 <?php
-session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL | E_STRICT);
 require_once 'DB.php';
 $db=new DBHelper();
+
+$formfour=$_POST['formfour'];
+$mobile_number=$_POST['mobile_number'];
+$email=$_POST['email_address'];
+
 $api_token = $db->getAPI("TCU", "token");
 if (!empty($api_token)) {
     foreach ($api_token as $api) {
@@ -12,8 +14,7 @@ if (!empty($api_token)) {
         $urlform = $api['url'];
     }
 }
-$formfour=$_POST['formfour'];
-$confirmationcode=$_POST['confirmationCode'];
+
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
@@ -23,12 +24,15 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 </UsernameToken>
 <RequestParameters>
 <f4indexno>'.$formfour.'</f4indexno>
-<ConfirmationCode>'.$confirmationcode.'</ConfirmationCode>
+<MobileNumber>'.$mobile_number. '</MobileNumber>
+<EmailAddress>'.$email.'</ EmailAddress>
 </RequestParameters>
 </Request>';
 
+
+$url=$urlform."/admission/requestConfirmationCode";
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/admission/confirm");
+curl_setopt($ch, CURLOPT_URL,$url);
 curl_setopt($ch, CURLOPT_POST,1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -39,18 +43,15 @@ $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
 $status=$array_data['Response']['ResponseParameters']['StatusCode'];
 $status_desc=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
-/*header("Location:index3.php?sp=confirm_app_list_tcu&msg=".$status."&status=".$status_desc);*/
-
-if($status == 212)
+/*if($status != 217)
 {
     $userData = array(
         'tcu_final' => $status,
-        'tcu_message'=>$status_desc,
-        'tcu_confirmation_code'=>$confirmationcode
+        'tcu_message'=>$status_desc
     );
     $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
-}
-header("Location:index3.php?sp=confirm_app_individual&msg=succ&code=".$status."&status=".$status_desc);
+}*/
+header("Location:index3.php?sp=request_confirmation_code&msg=".$status."&status=".$status_desc);
 
 

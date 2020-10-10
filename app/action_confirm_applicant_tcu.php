@@ -38,7 +38,7 @@ $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
 $status=$array_data['Response']['ResponseParameters']['StatusCode'];
 $status_desc=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
-if($status != 217)
+if($status == 212)
 {
     $userData = array(
         'tcu_final' => $status,

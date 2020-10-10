@@ -153,7 +153,8 @@ session_start();
                 <li><a href="index3.php?sp=confirm_app_individual">Confirm Individual Applicant</a></li>
                 <li><a href="index3.php?sp=un_confirm_app_individual">UnConfirm Individual Applicant</a></li>
                 <li><a href="index3.php?sp=cancel_applicant">Cance/Reject Applicant</a></li>
-                <li><a href="index3.php?sp=confirm_app_list_tcu">Confirm Applicant</a></li>
+                <li><a href="index3.php?sp=request_confirmation_code">Request Confirmation Code</a></li>
+                <!-- <li><a href="index3.php?sp=confirm_app_list_tcu">Confirm Applicant</a></li> -->
                 <li><a href="index3.php?sp=get_list_of_confirmed_tcu">Get List of Confirmed</a></li>
                 <li><a href="index3.php?sp=get_verification_list">Get Verification List</a></li>
                 <li><a href="index3.php?sp=internal_transfer">Internal Transfer</a></li>

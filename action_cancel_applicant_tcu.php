@@ -41,7 +41,7 @@ if($status == 200)
         'tcu_final' => $status,
         'tcu_message'=>$status_desc
     );
-    $condition = array('formfour' => $formfour,'admissionID'=>12);
+    $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
 }
 header("Location:index3.php?sp=cancel_applicant&msg=".$status."&status=".$status_desc);

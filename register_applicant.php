@@ -675,6 +675,7 @@ if (!empty($applicantsData)) {
                         <input type="hidden" name="applicantID" value="<?php echo $applicantID; ?>">
                         <input type="hidden" name="programmeID" value="<?php echo $programmeID; ?>">
                         <input type="hidden" name="formfour" value="<?php echo $_REQUEST['formfour']; ?>">
+                        <input type="hidden" name="academicYearID" value="<?php echo $applicationYearID;?>">
                         <div class="col-lg-3">
                             <input type="hidden" name="action_type" value="edit" />
                             <input type="submit" name="doSubmit" value="Update Records" class="btn btn-success form-control" />

@@ -1,5 +1,24 @@
 <div class="row">
-    <form name="" method="post" id="register" action="action_external_transfer_tcu.php">
+    <div class="col-md-12">
+        <?php
+        if (!empty($_REQUEST['msg'])) {
+            if ($_REQUEST['msg'] == "succ") {
+                echo "<div class='alert alert-success fade in'><a href='index3.php?sp=un_confirm_app_individual' class='close' data-dismiss='alert'>&times;</a>
+    <strong> Status Code = " . $_REQUEST['code'] . " and Description = " . $_REQUEST['status'] . " submitted in TCU</strong>.
+</div>";
+            } else if ($_REQUEST['msg'] == "unsucc") {
+                echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=un_confirm_app_individual' class='close' data-dismiss='alert'>&times;</a>
+    <strong>Sorry no data saved in database</strong>.
+</div>";
+            }
+        }
+        ?>
+
+
+    </div>
+</div>
+<div class="row">
+    <form name="" method="post" id="register" action="action_unconfirm_applicant_tcu.php">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
@@ -14,7 +33,7 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="studyLevel">Form Four Index Number</label>
-                        <input type="text" name="formfoursec" class="form-control" required>
+                        <input type="text" name="formfour" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -22,17 +41,18 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="studyLevel">Unconfirmation Code</label>
-                        <input type="text" name="formsix" class="form-control" required>
+                        <input type="text" name="confirmationCode" class="form-control" required>
                     </div>
                 </div>
             </div>
 
-           
+
 
             <div class="row">
                 <div class="col-lg-4">
-                    <input type="hidden" name="formfour" value="<?php echo $_REQUEST['formfour']; ?>">
-                    <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
+                    <!--                     <input type="hidden" name="formfour" value="<?php //echo $_REQUEST['formfour']; 
+                                                                                            ?>">
+ --> <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
                     </a>
                 </div>
             </div>

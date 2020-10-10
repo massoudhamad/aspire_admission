@@ -1478,7 +1478,7 @@ where
     {
         try {
             $query = $this->conn->prepare("SELECT 
-            programDuration,schoolName,p.studyLevelID
+            programDuration,schoolCode,regCode,schoolName,p.studyLevelID
         from
             schools s,
             departments d,
@@ -2892,6 +2892,25 @@ WHERE
             }
             return $regNumber;
 
+        } catch (PDOException $ex) {
+            echo "Getting Data Error: " . $ex->getMessage();
+        }
+    }
+
+    public function getZUMaxRegNumber($schoolCode)
+    {
+        try {
+            $query = $this->conn->prepare("SELECT
+            MAX(regNumber) as regNumber
+        from
+            applicantregistration
+        where
+                schoolCode =:code");
+            $query->execute(array(':code' => $schoolCode));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $regNumber = $row['regNumber'];
+            }
+            return $regNumber;
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
