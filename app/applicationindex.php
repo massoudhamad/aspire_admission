@@ -192,12 +192,12 @@ if ($login == 0) {
                                                     if ($db->checkApplicantStudyLevel($applicantID) == 1) {
                                                         if (!empty($tcu_final)) {
                                                             echo $tcu_message . "<br>";
-                                                            //if ($tcu_final == 225) {
+                                                            if ($tcu_final == 225 || $tcu_final == 205) {
                                                 ?>
                                                             If you have Multiple Admission, Please <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
                                                             <br>If you have Multiple Admission, Please <a href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request Confirmation Code</a><br>
                                                             <?php
-                                                            /* echo "Admitted<br>";
+                                                            echo "Admitted<br>";
                                                             echo "<b>Programme Admitted:</b><br>";
                                                             $progAdd = $db->getAdmittedProgrammeMajor($applicantID);
                                                             if (!empty($progAdd)) {
@@ -209,8 +209,8 @@ if ($login == 0) {
                                                                 $programmeCode = "";
                                                                 $programmeName = "";
                                                             }
-                                                            echo $programmeName . "<br>"; */
-                                                            // } 
+                                                            echo $programmeName . "<br>"; 
+                                                            } 
 
                                                             ?>
                                                             <!--  <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php // echo $indexNumber; 
