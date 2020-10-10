@@ -72,7 +72,7 @@
     <div class="row">
         <div class="col-md-12">
             <!--<form name="register" id="register" method="post" action="action_external_transfer_tcu.php">-->
-            <table id="example" class="display" cellspacing="0" width="100%">
+            <!-- <table id="example" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -85,7 +85,7 @@
                 <tbody>
                     <?php
 
-                    $db = new DBHelper();
+                    /* $db = new DBHelper();
                     $transferList = $db->getTransferredListProgrammeCode('External');
                     foreach ($transferList as $app) {
                         $count++;
@@ -98,10 +98,10 @@
                         echo "<td>$code</td>";
                         echo "<td>" . $app['tcu_status'] . "</td>";
                         echo "</tr>";
-                        $count++;
-                    }
+                        $count++; 
+                    }*/
                     ?></tbody>
-            </table>
+            </table> -->
 
         </div>
     </div>
