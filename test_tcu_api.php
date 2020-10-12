@@ -4,7 +4,7 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
-$indexNumber= "S0700/0126/2017";
+//$indexNumber= "S0700/0126/2017";
 /* $user = "SUM";
 $token = "EsQIA1agz9q8UxNSk3DZ"; */
 
@@ -19,7 +19,7 @@ if (!empty($api_token)) {
 
 //echo $token."-".$user;
 
-$api= "http://41.59.90.200";
+//$api= "http://41.59.90.200";
 //$api = "https://api.tcu.go.tz";
 
 // $formfour=$indexNumber;
@@ -628,7 +628,7 @@ foreach($array_data as $dt) {
 
 //echo json_encode($output);
 
-$programmeCode="SUM03";
+//$programmeCode="SUM03";
 
 /*$xml = '<?xml version="1.0" encoding="UTF-8"?>
 <Request>
@@ -642,7 +642,9 @@ $programmeCode="SUM03";
 </Request>';
 */
 
-$xml='<?xml version="1.0" encoding="UTF-8"?>
+
+
+/* $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
 <Username>'.$user.'</Username>
@@ -660,7 +662,29 @@ curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-$data = curl_exec($ch);
+$data = curl_exec($ch); */
+
+$xml='<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<Username>'.$user.'</Username>
+< SessionToken>'.$token.'</SessionToken>
+</UsernameToken>
+<RequestParameters >
+<f4indexno>S1170/0046/2017</f4indexno>
+<ConfirmationCode>6E53GRKGC</ConfirmationCode>
+</RequestParameters>
+</Request>';
+
+$url = "http://api.tcu.go.tz/admission/unconfirm"; //$api . "/admission/";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+$data = curl_exec($ch); 
+
 
 var_dump($data);
 curl_close($ch);

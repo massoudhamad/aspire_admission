@@ -15,13 +15,25 @@ if (!empty($api_token)) {
 $formfour=$_POST['formfour'];
 $confirmationcode=$_POST['confirmationCode'];
 
-$xml='<?xml version="1.0" encoding="UTF-8"?>
+/* $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
 <Username>'.$user.'</Username>
 <SessionToken>'.$token.'</SessionToken>
 </UsernameToken>
 <RequestParameters>
+<f4indexno>'.$formfour.'</f4indexno>
+<ConfirmationCode>'.$confirmationcode.'</ConfirmationCode>
+</RequestParameters>
+</Request>'; */
+
+$xml = '<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<Username>' . $user . '</Username>
+< SessionToken>' . $token . '</SessionToken>
+</UsernameToken>
+<RequestParameters >
 <f4indexno>'.$formfour.'</f4indexno>
 <ConfirmationCode>'.$confirmationcode.'</ConfirmationCode>
 </RequestParameters>
@@ -46,7 +58,6 @@ if($status == 218)
     $userData = array(
         'tcu_final' => $status,
         'tcu_message'=>$status_desc,
-        'tcu_confirmation_code'=>$confirmationcode
     );
     $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);

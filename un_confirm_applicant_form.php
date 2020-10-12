@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="studyLevel">Unconfirmation Code</label>
+                        <label for="studyLevel">Confirmation Code</label>
                         <input type="text" name="confirmationCode" class="form-control" required>
                     </div>
                 </div>

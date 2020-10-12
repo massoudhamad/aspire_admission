@@ -46,7 +46,6 @@ if($status == 212)
     $userData = array(
         'tcu_final' => $status,
         'tcu_message'=>$status_desc,
-        'tcu_confirmation_code'=>$confirmationcode
     );
     $condition = array('formfour' => $formfour);
     $updateapp = $db->update("applicants", $userData, $condition);
