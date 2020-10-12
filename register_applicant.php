@@ -143,7 +143,7 @@ if (!empty($applicantsData)) {
                         ?>
                             <legend>
                                 <h1>
-                                    <div class="pull-right"><a href="printform.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank"> Print Form</a></div>
+                                    <!-- <div class="pull-right"><a href="printform.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank"> Print Form</a></div> -->
                                 </h1>
                             </legend>
                         <?php

@@ -3,7 +3,7 @@ session_start();
 ini_set ('display_errors', 1);
 error_reporting (E_ALL | E_STRICT);
 
-//try {
+try {
     include 'DB.php';
     $db = new DBHelper();
     $tblName = 'applicants';
@@ -172,6 +172,14 @@ error_reporting (E_ALL | E_STRICT);
                         $finalNumber=1;
                     }
 
+                if ($db->count_digit($finalNumber) >= 3) {
+                    $finalNumber = $finalNumber;
+                } else if ($db->count_digit($finalNumber) >= 2) {
+                    $finalNumber = "0" . $finalNumber;
+                } else if ($db->count_digit($finalNumber) >= 1) {
+                    $finalNumber = "00" . $finalNumber;
+                }
+
 
                     if ($studyLevelID==1) {
                         $registrationNumber=$regYear."".$levelCode."".$regCode.$finalNumber;
@@ -229,11 +237,10 @@ error_reporting (E_ALL | E_STRICT);
                     'regNumber' => $finalNumber,
                     'schoolCode'=>$schoolCode
                 );
-            var_dump($regData);
             $insert = $db->insert("applicantregistration", $regData);
 
 
-            /* $conditions = array('applicantID' => $applicantID);
+            $conditions = array('applicantID' => $applicantID);
             $data = array(
                 'applicantsRemarksID' => 6
             );
@@ -242,9 +249,11 @@ error_reporting (E_ALL | E_STRICT);
             $appData = array(
                 'applicantID' => $applicantID,
                 'remarkID' => 6,
-                'programID' => $programmeID
+                'programID' => $programmeID,
+                'userID'=>$_SESSION['user_session'],
+                'processDate'=> date("Y-m-d H:i:s")
             );
-            $insert = $db->insert("applicantremarks", $appData); */
+            $insert = $db->insert("applicantremarks", $appData); 
             //upload image
             $imgFile = $_FILES['photo']['name'];
             $tmp_dir = $_FILES['photo']['tmp_name'];
@@ -283,17 +292,17 @@ error_reporting (E_ALL | E_STRICT);
             $boolStatus = true;
             
 
-            /* if($boolStatus)
+            if($boolStatus)
              {
                  header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=succ");
              }
              else
              {
                  header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=unsucc");
-             } */
+             } 
         }
     }
 
-/* } catch (PDOException $ex) {
+ } catch (PDOException $ex) {
     header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=error");
-} */
+} 
