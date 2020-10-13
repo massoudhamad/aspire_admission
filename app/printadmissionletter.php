@@ -24,6 +24,7 @@ if($_REQUEST['action']=="getPDF")
             $office_name=$org['office_name'];
             $title=$org['title'];
             $signature="../img/".$org['signature'];
+            $mumStamp ="../img/mumStamp.png";
         }
     } else {
         $organizationName = "Soft Dev Academy";
@@ -33,10 +34,28 @@ if($_REQUEST['action']=="getPDF")
     class PDF extends FPDF
     {		
         function Banner($organizationName,$image)
-        {
-            $this->setFont('Arial', 'B', 13);
-            $this->Text(70, 30, $organizationName);
-            $this->Image($image, 15, 10, 190, 50);
+        { 
+            
+          $bannerPOBOX = "P.O. BOX 1031 Morogoro, Tanzania.";
+          $bannerTel = "Tel: +255 23 2600256; Fax: +255 23 2600286";
+          $bannerEmail = "E-mail address: mum@mum.ac.tz,"; 
+          $bannerWebsite ="Website: www.mum.ac.tz";
+
+            $organizationName = strtoupper($organizationName);  
+            $this->setFont('Arial', 'B', 16);
+            $this->Text(56, 15, $organizationName);
+            $this->setFont('Arial', '', 15);
+            $this->Text(66, 21, $bannerPOBOX);
+            $this->setFont('Arial', '', 11);
+            $this->Text(70, 26, $bannerTel);
+            $this->setFont('Arial', '', 11);
+            $this->Text(80, 31, $bannerEmail);
+            $this->setFont('Arial', '', 11);
+            $this->Text(89, 36, $bannerWebsite);
+
+            $this->Image($image, 15, 8, 36, 34);
+            $this->Line(200, 45, 15, 45);
+
             $this->setFont('Arial', 'B', 14);
             /* $this->Text(75, 40, 'Admission Letter'); */
         }
@@ -222,7 +241,7 @@ if($_REQUEST['action']=="getPDF")
       $pdf->Cell(6);$pdf->Cell(170,6,"RE.: OFFER OF ADMISSION TO ".strtoupper($organizationName));
 
             $pdf->SetAlpha(0.3);
-            $pdf->Image($organizationPicture, 20, 90, 180,100);
+            $pdf->Image($organizationPicture, 30, 50, 150,150);
             $pdf->SetAlpha(1);
 
 
@@ -272,7 +291,8 @@ if($_REQUEST['action']=="getPDF")
      $pdf->setFont('Arial', 'I', 11);
      $pdf->Cell(85,6,"Sincerely yours,");
     $pdf->Ln(12);
-    $pdf->Image($signature,15,155,25,25);
+    $pdf->Image($signature,20,155,25,25);
+    $pdf->Image($mumStamp,30,198,40,40);
     $pdf->Cell(6);
      $pdf->Ln(18);
      $pdf->Cell(6);
