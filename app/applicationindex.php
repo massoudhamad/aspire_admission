@@ -313,8 +313,8 @@ if ($login == 0) {
                                                 //{
                                             ?>
                                                 <td>
-                                                    <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <!-- <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a> -->
                                                     <!-- <br><br>
                                          <a href="printfees.pdf?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
                                             <span class="text text-success">Download Univ.Fees Structure</span></a>
