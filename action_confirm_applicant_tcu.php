@@ -13,7 +13,19 @@ if (!empty($api_token)) {
     }
 }
 $formfour=$_POST['formfour'];
-$confirmationcode=$_POST['confirmationCode'];
+$confirmationcode=$_POST['confirmationcode'];
+
+/* $xml='<?xml version="1.0" encoding="UTF-8"?>
+<Request>
+<UsernameToken>
+<Username>'.$user.'</Username>
+<SessionToken>'.$token.'</SessionToken>
+</UsernameToken>
+<RequestParameters>
+<f4indexno>'.$formfour.'</f4indexno>
+<ConfirmationCode>'.$confirmationcode.'</ConfirmationCode>
+</RequestParameters>
+</Request>'; */
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
@@ -26,6 +38,7 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 <ConfirmationCode>'.$confirmationcode.'</ConfirmationCode>
 </RequestParameters>
 </Request>';
+
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/admission/confirm");
