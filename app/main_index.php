@@ -124,6 +124,10 @@ switch((isset($_GET['sz'])?$_GET['sz'] : ''))
         include 'request_confirmation_code.php';
         break;
 
+    case 'un_confirm_applicant_tcu':
+        include 'un_confirm_applicant_tcu.php';
+        break;
+
 
         case 'pg_education':
             include 'pg_education.php';

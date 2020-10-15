@@ -50,6 +50,7 @@
                         $organizationPicture = "../img/" . $org['organizationPicture'];
                         $studentSupport = $org['student_support'];
                         $orgCode=$org['organizationCode'];
+                        $_SESSION['orgCode']=$orgCode;
                     }
                 } else {
                     $organizationName = "Soft Dev Academy";
