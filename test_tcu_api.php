@@ -694,11 +694,8 @@ if (!empty($apitoken)) {
     }
 }
 
-$index_no = 'N18-642-3079';
-$index_no = 'N18-642-1486';
-$index_no = 'N18-642-0666'; //sample regno
-$index_no = 'N19-642-0590'; //sample regno
-$index_no = 'N19-642-1666'; //sample regno
+$index_no = 'N19-642-0405';
+
 $key = 'SUM';
 $token = 'ee59f56dfdc562e77b0385fbc6298f6b';
 
