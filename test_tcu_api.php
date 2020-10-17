@@ -54,7 +54,7 @@ echo $status."<br>".$status_descript;*/
 
 //Add Applicant
 
- /*$url= $api."/applicants/add";
+/*$url= $api."/applicants/add";
 $formfour=$indexNumber;
 $formsix= "P0326/0510/2020";
 $category="A";
@@ -664,7 +664,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
 $data = curl_exec($ch); */
 
-$xml='<?xml version="1.0" encoding="UTF-8"?>
+/* $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
 <Username>'.$user.'</Username>
@@ -683,11 +683,46 @@ curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-$data = curl_exec($ch); 
+$data = curl_exec($ch);  */
 
+//Test OUT API
+$apitoken = $db->getAPI("OUT", "token");
+if (!empty($apitoken)) {
+    foreach ($apitoken as $api) {
+        $token = $api['token'];
+        $user = $api['userName'];
+    }
+}
 
-var_dump($data);
+$index_no = 'N18-642-3079';
+$index_no = 'N18-642-1486';
+$index_no = 'N18-642-0666'; //sample regno
+$index_no = 'N19-642-0590'; //sample regno
+$index_no = 'N19-642-1666'; //sample regno
+$key = 'SUM';
+$token = 'ee59f56dfdc562e77b0385fbc6298f6b';
+
+$xml = '<?xml version="1.0" encoding="UTF-8"?>
+        <Request>
+        <UsernameToken>
+        <Username>' . $key . '</Username>
+        <SessionToken>' . $token . '</SessionToken>
+        </UsernameToken>
+        <RequestParameters>
+        <RegNo>' . $index_no . '</RegNo>
+        </RequestParameters>
+        </Request>';
+
+$data_string = $xml;
+$ch = curl_init('http://196.216.247.11/index.php/results/student');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$headers = ['Content-Type: application/xml', 'OUT-Com: default.sp.in'];
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+$result = curl_exec($ch);
 curl_close($ch);
+var_dump($result);
 
 
 

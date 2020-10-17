@@ -178,6 +178,31 @@ function ajax_ordinary_level_equivalence() {
     return false;
 }
 
+
+//Open University
+function foundationProgrammefunction() {
+    var out_reg_number = document.getElementById("out_reg_number").value;
+    var dataString = 'out_reg_number=' + out_reg_number;
+    //var ireg=/^[EePpSsUu][0-9]+[/][0-9]+[/][0-9]{4}$/;
+    if (out_reg_number == ''){
+        alert("Please fill all fields");
+    }
+    else {
+        $('#myPleaseWait').modal('show');
+        $.ajax({
+            type: "POST",
+            url: "ajax_foundation_programme.php",
+            data: dataString,
+            cache: false,
+            success: function(html) {
+                $('#myPleaseWait').modal('hide');
+                $("#result").html(html);
+            }
+        });
+    }
+    return false;
+}
+
 function validateEquivalent()
 {
     var entry_qualification = document.getElementById("entry_qualification");
@@ -289,16 +314,26 @@ $(document).ready(function(){
                 $(".diploma").not("." + optionValue).show();
                 $("." + optionValue).show();
                 $(".Others").hide();
-            }
-                else if(optionValue==1 || optionValue==3 || optionValue==9)
+                $(".OUT").hide();
+                }
+                else if(optionValue==11)
+                {
+                    $(".OUT").not("." + optionValue).show();
+                    $("." + optionValue).show();
+                    $(".Others").hide();
+                    $(".diploma").hide();
+                }
+                else if(optionValue==1 || optionValue==3 || optionValue==9 || optionValue==10)
                 {
                     $(".Others").not("." + optionValue).show();
                     $("." + optionValue).show();
                     $(".diploma").hide();
+                     $(".OUT").hide();
                 }
                 else {
                     $(".diploma").hide();
                     $(".Others").hide();
+                     $(".OUT").hide();
                 }
         });
     }).change();
