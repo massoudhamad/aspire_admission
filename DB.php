@@ -2711,13 +2711,15 @@ WHERE
     }
 
     //Admitted list for the report
-    public function getAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID)
+    public function getAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID,$roundname)
     {
 
         try {
             $data = array();
-            $query = $this->conn->prepare("SELECT 
-            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+            if($roundname=='all')
+            {
+                $query = $this->conn->prepare("SELECT 
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
             applicants a,
             programmemajor pm,
@@ -2730,7 +2732,27 @@ WHERE
                 AND admissionStatus=:admStatus
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
-            $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+                $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+            }
+            else 
+            {
+                $query = $this->conn->prepare("SELECT 
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+        from
+            applicants a,
+            programmemajor pm,
+            applicantapplication aa
+        where
+            a.applicantID = aa.applicantID
+                AND pm.programmeMajorID = aa.programmeMajorID
+                AND aa.programmeMajorID=:progMajorID
+                AND applicantsRemarksID=:remark
+                AND admissionStatus=:admStatus
+                AND applicationYearID=:appYearID
+                AND admissionID=:aid
+                AND admissionRound=:round");
+                $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+            }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -2741,12 +2763,14 @@ WHERE
     }
 
 
-    public function getAllAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID)
+    public function getAllAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID,$roundname)
     {
         try {
             $data = array();
-            $query = $this->conn->prepare("SELECT 
-            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+            if($roundname=='all')
+            {
+                $query = $this->conn->prepare("SELECT 
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
             applicants a,
             programmemajor pm,
@@ -2761,7 +2785,28 @@ WHERE
                 AND admissionStatus=:admStatus
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
-            $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+                $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+            }
+            else{
+                $query = $this->conn->prepare("SELECT 
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+        from
+            applicants a,
+            programmemajor pm,
+            programs p,
+            applicantapplication aa
+        where
+            a.applicantID = aa.applicantID
+                AND pm.programmeMajorID = aa.programmeMajorID
+                AND p.programID = pm.programmeID
+                AND pm.programmeID=:progID
+                AND applicantsRemarksID=:remark
+                AND admissionStatus=:admStatus
+                AND applicationYearID=:appYearID
+                AND admissionID=:aid
+                AND admissionRound=:round");
+                $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+            }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
