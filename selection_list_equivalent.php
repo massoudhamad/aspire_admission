@@ -3,6 +3,7 @@
         var titleheader = $('#titleheader').text();
         var programmeID = $("#programmeID").val();
         //var academicYearID=$("#academicYearID").val();
+        var roundName = $("#roundName").val();
         var admissionID = $("#admissionID").val();
         var sorted = $("#sorted").val();
         $('#selection_list').DataTable({
@@ -11,7 +12,8 @@
                 url: 'data/selection_list_equivalent.php',
                 data: {
                     programmeID: programmeID,
-                    admissionID: admissionID
+                    admissionID: admissionID,
+                    roundName: roundName
                 },
                 "serverSide": true,
                 cache: false
@@ -31,7 +33,7 @@
                     title: titleheader,
                     footer: true,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
                     }
                 },
                 {
@@ -46,7 +48,7 @@
                     title: titleheader,
                     footer: false,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
                     }
                 },
                 {
@@ -54,7 +56,7 @@
                     title: titleheader,
                     footer: true,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
                     },
                     orientation: 'landscape',
                 }
@@ -105,7 +107,7 @@ $db = new DBHelper();
                                 ?>
                                <option value="<?php //echo $academic_year_id;
                                                 ?>"><?php //echo $academic_year;
-                                                                                    ?></option>
+                                                    ?></option>
                                <?php //}}
                                 ?>
                            </select>
@@ -135,6 +137,26 @@ $db = new DBHelper();
                 </select>
             </div>
             <div class="col-lg-3">
+                <label for="MiddleName">Admission Round</label>
+                <select name="roundName" class="form-control" required="">
+                    <?php
+                    $round = $db->getRows('round', array('order_by' => 'roundID ASC'));
+                    if (!empty($round)) {
+                        echo "<option value=''>Please Select Here</option>";
+                        echo "<option value='all'>All Round</option>";
+                        $count = 0;
+                        foreach ($round as $rnd) {
+                            $count++;
+                            $roundName = $rnd['roundName'];
+                    ?>
+                            <option value="<?php echo $roundName; ?>"><?php echo $roundName; ?></option>
+                    <?php }
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
                 <label for=""></label>
 
                 <input type="submit" name="doSearch" value="Search Records" class="btn btn-primary form-control" />
@@ -150,6 +172,7 @@ $db = new DBHelper();
             $academicYearID = $_POST['admissionYearID'];
             $programmeID = $_POST['programmeID'];
             $admissionID = $_POST['admissionID'];
+            $roundName = $_POST['roundName'];
             $admissionInTakeID = $db->getData('admission_setting', 'admissionInTakeID', 'admissionID', $admissionID);
 
             $studyLevelID = $db->getData("programs", "studyLevelID", "programID", $programmeID);
@@ -162,6 +185,8 @@ $db = new DBHelper();
             <input type="hidden" id="sorted" value="<?php echo $value_s; ?>">
             <input type="hidden" id="programmeID" value="<?php echo $programmeID; ?>">
             <input type="hidden" id="admissionID" value="<?php echo $admissionID; ?>">
+            <input type="hidden" id="roundName" value="<?php echo $roundName; ?>">
+
             <div class="col-lg-12">
                 <h4><span id="titleheader">List of Approved Applicants for <?php echo $db->getData("programs", "programName", "programID", $programmeID); ?>
                         <?php echo $db->getData('admission_intake', "admissionInTake", "admissionInTakeID", $admissionInTakeID); ?>

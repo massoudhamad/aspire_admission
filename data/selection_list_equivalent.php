@@ -5,9 +5,11 @@ $db=new DBHelper();
 $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
 $admissionID=$_GET['admissionID'];
+$roundName = $_GET['roundName'];
+
 
 $academicYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
- $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,1);
+ $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,1,$roundName);
  if(!empty($applicantsData))
 {
     $i=0;
