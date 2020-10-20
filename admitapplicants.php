@@ -76,7 +76,7 @@ $db = new DBHelper();
 
     <div class="row">
         <form name="" method="post" action="">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
 
                 <label for="MiddleName">Programme Name</label>
                 <select name="programmeID" class="form-control chosen-select" required="">
@@ -115,7 +115,7 @@ $db = new DBHelper();
                 </select>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-2">
 
                 <label for="MiddleName">Admission Intake</label>
                 <select name="admissionID" class="form-control" required="">
@@ -130,6 +130,26 @@ $db = new DBHelper();
                             $admissionName = $ait['admissionName'];
                     ?>
                             <option value="<?php echo $admissionID; ?>"><?php echo $admissionName; ?></option>
+                    <?php }
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-lg-2">
+                <label for="MiddleName">Admission Round</label>
+                <select name="roundName" class="form-control" required="">
+                    <?php
+                    $round = $db->getRows('round', array('order_by' => 'roundID ASC'));
+                    if (!empty($round)) {
+                        echo "<option value=''>Please Select Here</option>";
+                        echo "<option value='all'>All Round</option>";
+                        $count = 0;
+                        foreach ($round as $rnd) {
+                            $count++;
+                            $roundName = $rnd['roundName'];
+                    ?>
+                            <option value="<?php echo $roundName; ?>"><?php echo $roundName; ?></option>
                     <?php }
                     }
                     ?>
@@ -191,6 +211,7 @@ $db = new DBHelper();
             $entry = $_POST['entry'];
             $choice = $_POST['choice'];
             $admissionID = $_POST['admissionID'];
+            $roundName = $_POST['roundName'];
             $applicationYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
 
             //$applicationYearID = $_POST['admissionYearID'];
@@ -231,7 +252,7 @@ $db = new DBHelper();
 
                     <tbody>
                         <?php
-                        $applicantsData = $db->getApproved($programmeID, $choice, 2, $entry, $applicationYearID, $admissionID);
+                        $applicantsData = $db->getApproved($programmeID, $choice, 2, $entry, $applicationYearID, $admissionID,$roundName);
                         if (!empty($applicantsData)) {
                             $count = 0;
                             foreach ($applicantsData as $data) {

@@ -2570,11 +2570,13 @@ WHERE
     }
 
     //admit fnct
-    public function getApproved($progrID, $choice, $remarksID,$entry, $applicationYearID, $admissionID)
+    public function getApproved($progrID, $choice, $remarksID,$entry, $applicationYearID, $admissionID,$roundname)
     {
         try {
             $data = array();
-            $query = $this->conn->prepare("SELECT 
+            if($roundname=='all')
+            {
+                $query = $this->conn->prepare("SELECT 
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
         from
             applicants a,
@@ -2589,7 +2591,28 @@ WHERE
                 AND entryQualification=:entry
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
-            $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID,':entry'=>$entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+                $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID, ':entry' => $entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
+            }
+            else 
+            {
+                $query = $this->conn->prepare("SELECT 
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
+        from
+            applicants a,
+            programmemajor pm,
+            applicantapplication aa
+        where
+            a.applicantID = aa.applicantID
+                AND pm.programmeMajorID = aa.programmeMajorID
+                AND aa.programmeMajorID=:progMajorID
+                AND choice = :chc
+                AND applicantsRemarksID=:remark
+                AND entryQualification=:entry
+                AND applicationYearID=:appYearID
+                AND admissionID=:aid
+                AND admissionRound=:round");
+                $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID,':entry'=>$entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+            }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
