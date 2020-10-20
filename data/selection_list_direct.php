@@ -4,11 +4,11 @@ require_once '../DB.php';
 $db=new DBHelper();
 $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
-//$academicYearID=$_GET['academicYearID'];
+$roundName=$_GET['roundName'];
 $admissionID=$_GET['admissionID'];
 $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",$admissionID);
 
- $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,0);
+ $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,0,$roundName);
  if(!empty($applicantsData))
 {
     $i=0;

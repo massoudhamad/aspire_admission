@@ -348,10 +348,12 @@ class DBHelper
         }
     }
 
-    public function getApplicantsApproved($pID, $acadID, $admID, $entry)
+    public function getApplicantsApproved($pID, $acadID, $admID, $entry,$roundname)
     {
         try {
-            $query = $this->conn->prepare("SELECT 
+            if($roundname=='all')
+            {
+                $query = $this->conn->prepare("SELECT 
     DISTINCT(a.applicantID), firstName, middleName, lastName, gender
 from
     applicants a,
@@ -367,9 +369,32 @@ where
         AND a.admissionID = :aid
         and choice = :chc
         and applicantsRemarksID = :remarkID
-        and entryQualification=:entry");
-            $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry));
-            $data = array();
+        and entryQualification=:entry
+       ");
+                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry));
+            }
+            else
+            {
+                $query = $this->conn->prepare("SELECT 
+    DISTINCT(a.applicantID), firstName, middleName, lastName, gender
+from
+    applicants a,
+    applicantapplication aa,
+    programs p,
+    programmemajor pm
+where
+    a.applicantID = aa.applicantID
+        and pm.programmeMajorID=aa.programmeMajorID
+	and p.programID=pm.programmeID 
+        and pm.programmeID = :progID
+        and a.applicationYearID = :appYearID
+        AND a.admissionID = :aid
+        and choice = :chc
+        and applicantsRemarksID = :remarkID
+        and entryQualification=:entry
+        AND admissionRound=:round");
+                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry,':round'=>$roundname));
+            }$data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
