@@ -23,12 +23,12 @@ if(isset($_POST['doAdmit']) == 'Save Records')
                     else
                     {
                         $stcode=213;
-                    }
+                    } 
                     $userData = array(
                         'tcu_message' => $st,
                         'tcu_final'=>$stcode
                         );
-                    $condition = array('formfour' => $four,'admissionID'=>12);
+                    $condition = array('formfour' => $four);
                     $updateapp = $db->update($tblName, $userData, $condition);
                     $status = true;
                     $jj++;
