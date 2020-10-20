@@ -14,26 +14,34 @@ if(isset($_POST['doAdmit']) == 'Save Records')
     if(!empty($_POST['formfour'])) {
         $count=0;
         foreach ($_POST['formfour'] as $ffour => $four) {
-            foreach ($_POST['status'] as $stt => $st) {
-                if ($ffour == $stt) {
-                    if($st=="confirmed")
+            $number=explode("-",$four);
+            $formfour=$number[0];
+            $admissionstatus=$number[1];
+           /*  $formfour=$_POST['formfour4'][$key];
+            $status=$_POST['status'][$key];
+            echo $key; */
+            //foreach ($_POST['status'] as $stt => $st) {
+                //if ($ffour == $stt) {
+                    //echo $ffour."-". $formfour.":".$status."<br>";
+                    if($admissionstatus=="confirmed")
                     {
                         $stcode=214;
                     }
                     else
                     {
                         $stcode=213;
-                    } 
+                    }  
                     $userData = array(
-                        'tcu_message' => $st,
+                        'tcu_message' => $admissionstatus,
                         'tcu_final'=>$stcode
                         );
-                    $condition = array('formfour' => $four);
+                    $condition = array('formfour' => $formfour); 
                     $updateapp = $db->update($tblName, $userData, $condition);
                     $status = true;
+                   // echo $formfour."". $admissionstatus;
                     $jj++;
-                }
-            }
+                //}
+           // }
             $count++;
         }
     }
@@ -47,7 +55,7 @@ if($status)
  {
 
      header("Location:index3.php?sp=get_list_of_confirmed_tcu&msg=unsucc");
- }
+ } 
 
 } catch (PDOException $ex) {
     $db->redirect("index3.php?sp=get_list_of_confirmed_tcu&msg=error");
