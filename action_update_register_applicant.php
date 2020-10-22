@@ -181,14 +181,17 @@ try {
                 }
 
 
-                    if ($studyLevelID==1) {
+                    if ($studyLevelID == 1) {
                         $registrationNumber=$regYear."".$levelCode."".$regCode.$finalNumber;
-                    } elseif ($studyLevelID==2) {
-                        $regCode=explode("/", $regCode);
-                        $registrationNumber=$regYear."".$levelCode."".$regCode[1].$finalNumber;
+                    } elseif ($studyLevelID == 2) {
+                        //$regCode=explode("/", $regCode);
+                        /* $registrationNumber=$regYear."".$levelCode."".$regCode[1].$finalNumber; */
+                        $regCode=600000;
+                        $registrationNumber = $regYear . "" . $levelCode . "".$regCode.$finalNumber;
                     } elseif ($studyLevelID == 3) {
-                        $regCode = explode("/", $regCode);
-                        $registrationNumber = $regYear . "" . $levelCode . "" . $regCode[0] . $finalNumber;
+                        //$regCode = explode("/", $regCode);
+                        $regCode=10;
+                        $registrationNumber = $regYear . "" . $levelCode . "" . $regCode . $finalNumber;
                     } elseif ($studyLevelID==4) {
                         //$levelCode=$
                     }

@@ -436,6 +436,7 @@ $applicantID=$_REQUEST['applicantID'];
                 $empStatus=$apps['employmentStatus'];
                 $sponsor=$apps['sponsor'];
                 $tcu_status=$apps['tcu_final'];
+                $tcu_message=$apps['tcu_message'];
                 $nacte_status=$apps['nacte_status'];
                 $applicantRemarksID=$apps['applicantsRemarksID']
                 ?>
@@ -778,7 +779,7 @@ $applicantID=$_REQUEST['applicantID'];
                                         if($db->checkApplicantStudyLevel($applicantID)==1)
                                         {
                                             ?>
-                                            <input type="text" name="tcu_status" value="<?php echo $tcu_status;?>" class="form-control" readonly>
+                                            <input type="text" name="tcu_status" value="<?php echo $tcu_message;?>" class="form-control" readonly>
                                             <?php
                                         }
                                         else
@@ -834,7 +835,8 @@ $applicantID=$_REQUEST['applicantID'];
 
                             <?php
                             if ($db->checkApplicantStudyLevel($applicantID) == 1) {
-                                if ($tcu_status == "Qualified" || $tcu_status == "Admitted" || $tcu_status == "Multiple Admission") {
+                                //if ($tcu_status == "Qualified" || $tcu_status == "Admitted" || $tcu_status == "Multiple Admission") {
+                                    if($tcu_status==214 || $tcu_status == 226 || $tcu_status == 225){
                                     ?>
                                     <div class="col-lg-4">
                                         <a href="index3.php?sp=register_applicant&applicantID=<?php echo $applicantID; ?>&formfour=<?php echo $indexNumber; ?>"><span

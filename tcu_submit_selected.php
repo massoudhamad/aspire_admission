@@ -241,7 +241,7 @@ $db = new DBHelper();
                             <th>Gender</th>
                             <th>NIDA ID</th>
                             <th>Form IV</th>
-                            <th>Form V</th>
+                            <th>Form VI</th>
                             <th>Programmes</th>
                             <th>Phone Number</th>
                             <th>Email</th>
@@ -253,6 +253,7 @@ $db = new DBHelper();
                             <th>Date of Birth</th>
                             <th>Other Form IV</th>
                             <th>Other Form VI</th>
+                            <th>Category</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -421,6 +422,7 @@ $db = new DBHelper();
                           <td>$dob</td>
                           <td>$fourfour</td>
                           <td>$sixsix</td>
+                          <td>$category</td>
                            </tr>";
                             }
                         }
