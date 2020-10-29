@@ -25,7 +25,8 @@ try {
                             'tcu_final' => $status,
                             'tcu_message'=> $admissionstatus
                          );
-                         $condition = array('formfour'=>$four,'admissionID'=>$admissionID);
+                         $condition = array('formfour'=> $formfour);
+                         //var_dump($userData);
                         $updateapp = $db->update($tblName, $userData, $condition);
                          $status = true;
                          $jj++;

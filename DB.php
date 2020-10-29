@@ -2737,7 +2737,7 @@ WHERE
             else 
             {
                 $query = $this->conn->prepare("SELECT 
-            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
             applicants a,
             programmemajor pm,
@@ -2789,7 +2789,7 @@ WHERE
             }
             else{
                 $query = $this->conn->prepare("SELECT 
-            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final
+            a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
             applicants a,
             programmemajor pm,
