@@ -13,13 +13,17 @@ try {
             $count=0;
             $admissionID=$_POST['admissionID'];
             foreach ($_POST['formfour'] as $key => $four) {
-                    $four=$_POST['formfour'][$key];
+                $number = explode("-", $four);
+                $formfour = $number[0];
+                $status=$number[1];
+                $admissionstatus = $number[2];
+                    /* $four=$_POST['formfour'][$key];
                     $status=$_POST['status'][$key];
-                    $status_des=$_POST['status_des'][$key];
+                    $status_des=$_POST['status_des'][$key]; */
                     set_time_limit(0);
                         $userData = array(
                             'tcu_final' => $status,
-                            'tcu_message'=>$status_des
+                            'tcu_message'=> $admissionstatus
                          );
                          $condition = array('formfour'=>$four,'admissionID'=>$admissionID);
                         $updateapp = $db->update($tblName, $userData, $condition);

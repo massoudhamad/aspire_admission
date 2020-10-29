@@ -175,17 +175,17 @@ $db = new DBHelper();
 
                             $programmeCode = $programmeID;
                             /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
-<Request>
-<UsernameToken>
-<username>' . $user . '</username>
-<SessionToken>' . $token . '</SessionToken>
-</UsernameToken>
-<RequestParameters>
-<ProgrammeCode>' . $programmeCode . '</ProgrammeCode>
-</RequestParameters>
-</Request>'; */
+                            <Request>
+                            <UsernameToken>
+                            <username>' . $user . '</username>
+                            <SessionToken>' . $token . '</SessionToken>
+                            </UsernameToken>
+                            <RequestParameters>
+                            <ProgrammeCode>' . $programmeCode . '</ProgrammeCode>
+                            </RequestParameters>
+                            </Request>'; */
 
-                            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+$xml = '<?xml version="1.0" encoding="UTF-8"?>
 <Request>
 <UsernameToken>
 <Username>' . $user . '</Username>
@@ -203,7 +203,7 @@ $db = new DBHelper();
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
                             $data = curl_exec($ch);
-                            //var_dump($data);
+                           // var_dump($data);
                             curl_close($ch);
                             //echo $data;
                             $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
@@ -224,8 +224,9 @@ $db = new DBHelper();
                                 } else {
                                     $confirm = "No";
                                 }
+                                $number = $formfour . "-" . $status."-".$status_des;
                                 echo "<tr><td>$count</td>";
-                                echo " <td><input type='checkbox' class='checkbox_class' name='formfour[]' value='$formfour'></td>";
+                                echo " <td><input type='checkbox' class='checkbox_class' name='formfour[]' value='$number'></td>";
                                 echo "<td>$formfour</td>
     <td>$status</td>
     <td>$status_des</td>
