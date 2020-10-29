@@ -3719,7 +3719,8 @@ where
                 lastName,
                 gender,
                 phoneNumber,
-                entryQualification
+                entryQualification,
+                formfour
                 
             FROM
                 applicants a,

@@ -19,15 +19,17 @@ if(!empty($applicantsData))
         $mname=$row['middleName'];
         $lname=$row['lastName'];
         $entryQualification=$row['entryQualification'];
+        $formfour=$row['formfour'];
 
-        if($entryQualification==0)
+        /* if($entryQualification==0)
             $category="A";
         else
-            $category="D";
+            $category="D"; */
+
         $name="$fname $mname $lname";
 
 
-        $oindexumber=$db->getIndexNumber($applicantID,"Ordinary");
+        /* $oindexumber=$db->getIndexNumber($applicantID,"Ordinary");
         if(!empty($oindexumber))
         {
             $formfour=array();
@@ -41,10 +43,10 @@ if(!empty($applicantsData))
         {
             $formfour[]="";
             $indexNumber="";
-        }
+        } */
 
 
-        $aindexumber=$db->getIndexNumber($applicantID,"Advance");
+        /* $aindexumber=$db->getIndexNumber($applicantID,"Advance");
         $formsix=array();
         if(!empty($aindexumber))
         {
@@ -78,7 +80,7 @@ if(!empty($applicantsData))
             {
                 $secondChoice=$pChoice['programCode'];
             }
-        }
+        } */
         
         
         $api_token = $db->getAPI("TCU", "token");
@@ -97,22 +99,18 @@ if(!empty($applicantsData))
         <SessionToken>' . $token . '</SessionToken>
         </UsernameToken>
         <RequestParameters>
-        <f4indexno>' . $indexNumber . '</f4indexno>
+        <f4indexno>' . $formfour . '</f4indexno>
         </RequestParameters>
         </Request>';
 
        $array_data= json_decode(json_encode(simplexml_load_string($db->getTCUStatus($url,$xml))),true);
-        $status=$array_data['Response']['ResponseParameters']['Status'];
+        $status=$array_data['Response']['ResponseParameters']['StatusCode'];
         $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
         $output['data'][] = array(
             $x,
             $name,
             $row['gender'],
-            $category,
-            $indexNumber,
-            $findexNumber,
-            $firstChoice,
-            $secondChoice,
+            $formfour,
             $status,
             $status_descript
         );

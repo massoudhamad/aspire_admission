@@ -140,7 +140,7 @@ if(isset($_POST['doSearch'])=="Search Records") {
     <h2>List of applicants for TCU Status</h2>
     <hr>
     <div class="col-lg-12">
-        <h4><span id="titleheader">List of Applicants Applicants for <?php echo $db->getData("programmemajor","programmeMajor","programmeMajorID",$programmeID); ?>
+        <h4><span id="titleheader">List of Applicants  for <?php echo $db->getData("programmemajor","programmeMajor","programmeMajorID",$programmeID); ?>
                 <?php echo $db->getData("academicyears","academicYear","academicYearID",$applicationYearID);?></span></h4>
     </div>
 <hr>
@@ -152,13 +152,9 @@ if(isset($_POST['doSearch'])=="Search Records") {
                 <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Name</th>
+                   <th>Name</th>
                     <th>Gender</th>
-                    <th>Category</th>
                     <th>Index Number</th>
-                    <th>Form Six</th>
-                    <th>Choice 1</th>
-                    <th>Choice 2</th>
                     <th>Status</th>
                     <th>Description</th>
                 </tr>
