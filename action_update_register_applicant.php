@@ -186,7 +186,8 @@ try {
                     } elseif ($studyLevelID == 2) {
                         //$regCode=explode("/", $regCode);
                         /* $registrationNumber=$regYear."".$levelCode."".$regCode[1].$finalNumber; */
-                        $regCode=600000;
+                        //$regCode=600000;
+                        $regCode = 20;
                         $registrationNumber = $regYear . "" . $levelCode . "".$regCode.$finalNumber;
                     } elseif ($studyLevelID == 3) {
                         //$regCode = explode("/", $regCode);
