@@ -565,6 +565,16 @@ case 'zalongwareport':
         include('enrollment_submission.php');
         break;
 
+    case 'submit_nondegree':
+        include('submit_non_degree_tcu.php');
+        break;
+
+    case 'get_admitted_non_degree':
+        include('get_admitted_non_degree_tcu.php');
+        break;
+
+
+
         //nacte intergration
     case 'institution_details':
         include('nacte_institutional_details.php');

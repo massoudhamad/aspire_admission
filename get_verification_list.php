@@ -115,7 +115,8 @@ $db = new DBHelper();
                             <th>No.</th>
                             <!--<th width="10"><input type="checkbox" name="select_all" id="select_all"></th>-->
                             <th>Form Four</th>
-                            <th>Admission Status</th>
+                            <th>Status Code</th>
+                            <th>Description</th>
                         </tr>
                         </thead>
 
@@ -160,7 +161,8 @@ $db = new DBHelper();
                         foreach($applicants as $app) {
                             $count++;
                             $formfour = $app['f4indexno'];
-                            $status=$app['AdmissionStatus'];
+                            $status=$app['VerificationStatusCode'];
+                            $statusDescription=$app['AdmissionStatus'];
 
                             ?>
                             <input type="text" hidden name="status[]" value="<?php echo $status;?>">
@@ -169,6 +171,7 @@ $db = new DBHelper();
                            /* echo" <td><input type='checkbox' class='checkbox_class' name='formfour[]' value='$formfour'></td>";*/
                             echo "<td>$formfour</td>
                         <td>$status</td>
+                        <td>$statusDescription</td>
                         </tr>";
                             $count++;
                         }

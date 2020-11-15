@@ -148,7 +148,7 @@ try {
                 }
 
                 if ($studyLevelID == 1) {
-                    $levelCode = "20";
+                    $levelCode = 20;
                 } elseif ($studyLevelID == 2 || $studyLevelID == 3) {
                     $levelCode = 10;
                 } elseif ($studyLevelID == 4) {
@@ -195,9 +195,12 @@ try {
                         $registrationNumber = $regYear . "" . $levelCode . "" . $regCode . $finalNumber;
                     } elseif ($studyLevelID==4) {
                         //$levelCode=$
+                        $regCode=80;
+                        $registrationNumber = $regYear . "" . $levelCode . "" . $regCode . $finalNumber;
                     }
                 }
             } elseif ($_SESSION['orgCode']=="SUMAIT") {
+                
             } elseif ($_SESSION['orgCode'] == "IPA") {
             } elseif ($_SESSION['orgCode'] == "MUM") {
                 $studyLevelID=$db->getStudyLevelIDData($programmeID);
