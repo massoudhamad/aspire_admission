@@ -2980,7 +2980,7 @@ WHERE
 
 
 //getMaximumNumber
-    /*public function getMaxRegNumber($studyLevelID,$academicYearID)
+    public function getMaxMUMRegNumber($studyLevelID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -2988,10 +2988,8 @@ WHERE
         from
             applicantregistration
         where
-                academicYearID=:acadID
-                AND
                 studyLevelID =:stdID");
-            $query->execute(array(':acadID'=>$academicYearID,':stdID' => $studyLevelID));
+            $query->execute(array(':stdID' => $studyLevelID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $regNumber = $row['regNumber'];
             }
@@ -3000,7 +2998,7 @@ WHERE
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
-    }*/
+    }
 
     //getMaximumNumber
     public function getMaxRegNumber($programmeID)
