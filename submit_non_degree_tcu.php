@@ -237,7 +237,7 @@ $db = new DBHelper();
                                 if ($entryQualification == 0) {
                                     $category = "Advance";
                                 } else {
-                                    $category = "Diploma";
+                                    $category = "Certificate";
                                 }
 
 
