@@ -774,7 +774,7 @@ where
     {
         try {
                 $query = $this->conn->prepare("SELECT
-                DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
+                DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
             from
                 applicants a,
                 applicantapplication aa,
