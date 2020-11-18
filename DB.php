@@ -770,7 +770,7 @@ where
 
 
     //get non degree applicants TCU
-    public function getSubmitSelectedListNonDegreeTCU($acadID, $admID)
+    public function getSubmitSelectedListNonDegreeTCU($admID)
     {
         try {
                 $query = $this->conn->prepare("SELECT
@@ -786,11 +786,9 @@ where
                 AND aa.admissionStatus = :adminStatus
                 AND p.programID = pm.programmeID
                 and (p.studyLevelID=:studyc or p.studyLevelID=:studyd)
-                and applicantsRemarksID=:remarkID
-                and applicationYearID=:appYearID
-                and admissionID=:adminID
-                and organizationID=:orgID");
-                $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 3, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':orgID'=>1));
+                and (applicantsRemarksID=:remarkID1 or applicantsRemarksID=:remarkID2 or applicantsRemarksID=:remarkID3)
+                and admissionID=:adminID");
+                $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 3, 'remarkID1' => 3, 'remarkID2' => 2,'remarkID3' => 6, ':adminID' => $admID));
             
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -3800,6 +3798,7 @@ where
                 dateOfBirth as dob,
                 phoneNumber,
                 email,
+                gender,
                 disabilityStatus,
                 citizenship,
                 entryQualification

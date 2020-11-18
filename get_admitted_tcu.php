@@ -149,6 +149,7 @@ $db = new DBHelper();
                         </RequestParameters>
                         </Request>';
 
+
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/admission/getAdmitted");
                         curl_setopt($ch, CURLOPT_POST,1);
@@ -157,7 +158,10 @@ $db = new DBHelper();
                         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
                         $data = curl_exec($ch);
                         curl_close($ch);
+            
+
                         $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
+                        var_dump($array_data);
                         $status = $array_data['Response']['RequestParameters']['StatusCode'];
                         $status_descr= $array_data['Response']['RequestParameters']['StatusDescription'];
 
