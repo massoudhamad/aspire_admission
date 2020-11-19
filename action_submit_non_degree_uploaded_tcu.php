@@ -1,8 +1,8 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL | E_STRICT);
-//try {
+/* ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT); */
+try {
     include 'DB.php';
     $db = new DBHelper();
     $tblName = 'applicants';
@@ -113,7 +113,7 @@ error_reporting(E_ALL | E_STRICT);
                 }
             }
         
-/* } catch (PDOException $ex) {
+} catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
     $db->redirect("index3.php?sp=upload_non_degree&msg=error");
-} */
+} 
