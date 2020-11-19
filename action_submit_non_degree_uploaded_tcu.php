@@ -9,7 +9,7 @@ try {
     if (isset($_POST['doAdmit']) == 'Submit Applicants') {
         $jj=0;
         foreach ($_POST['id'] as $id) {
-            $applicantsData = $db->getRows("applicants_non_degree",array('where'=>array('id'=>$id)));
+            $applicantsData = $db->getRows("applicants_non_degree", array('where'=>array('id'=>$id)));
             if (!empty($applicantsData)) {
                 $i = 0;
                 $api_token = $db->getAPI("TCU", "token");
@@ -36,15 +36,16 @@ try {
                     $entryQualification = $data['category'];
                     $tcu_status = $data['tcu_status'];
 
-                    if ($entryQualification == 1)
+                    if ($entryQualification == 1) {
                         $category = "Advance";
-                    else
+                    } else {
                         $category = "Certificate";
+                    }
             
 
             
 
-            $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                    $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <Request>
                 <UsernameToken>
                     <Username>' . $user . '</Username>
@@ -64,42 +65,40 @@ try {
                 </RequestParameters>
             </Request>';
 
-            //var_dump($xml);
+                    //var_dump($xml);
 
-            $url = $urlform. "/applicants/submitAdmittedNonDegree";
+                    $url = $urlform. "/applicants/submitAdmittedNonDegree";
 
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-            $data = curl_exec($ch);
-            //var_dump($data);
-            curl_close($ch);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+                    $data = curl_exec($ch);
+                    //var_dump($data);
+                    curl_close($ch);
 
-            $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
-            $status = $array_data['Response']['ResponseParameters']['StatusCode'];
-            $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
+                    $array_data=json_decode(json_encode(simplexml_load_string($data)), true);
+                    $status = $array_data['Response']['ResponseParameters']['StatusCode'];
+                    $status_descript = $array_data['Response']['ResponseParameters']['StatusDescription'];
 
-            if($array_data['Response']['ResponseParameters']['StatusCode']=="200")
-            {
-                $userData = array(
+                    if ($array_data['Response']['ResponseParameters']['StatusCode']=="200") {
+                        $userData = array(
                     'tcu_status' => 12
                 );
-                $condition = array('applicants_non_degree' => $id);
-                $updateapp = $db->update("applicants_non_degree", $userData, $condition);
-                $boolStatus = true;
-                $msgs = $status_descript;
-                $jj++;
+                        $condition = array('applicants_non_degree' => $id);
+                        $updateapp = $db->update("applicants_non_degree", $userData, $condition);
+                        $boolStatus = true;
+                        $msgs = $status_descript;
+                        $jj++;
+                    } else {
+                        $msgs = $status_descript;
+                    }
+                }
             }
-            else
-            {
-                $msgs = $status_descript;
-            }  
         }
-    }
                 if ($boolStatus) {
                     header("Location:index3.php?sp=submit_nondegree&msg=succ&count=".$jj);
                     $_SESSION['output'] = $msgs;
@@ -107,6 +106,7 @@ try {
                     header("Location:index3.php?sp=submit_nondegree&msg=unsucc");
                     $_SESSION['output'] = $msgs;
                 }
+            }
         
 } catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
