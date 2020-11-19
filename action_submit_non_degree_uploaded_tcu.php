@@ -41,6 +41,10 @@ try {
                     } else {
                         $category = "Certificate";
                     }
+
+                    $disabiliyStatus="None";
+
+                    
             
 
             
