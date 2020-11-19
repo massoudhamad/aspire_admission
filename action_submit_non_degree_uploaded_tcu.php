@@ -26,12 +26,11 @@ error_reporting(E_ALL | E_STRICT);
                     $i++;
                     $name = $data['name'];
                     $formfour = $data['formfour'];
-                    $formsix = $data['fromsix'];
+                    $formsix = $data['formsix'];
                     $certreg = $data['certreg'];
                     $gender = $data['gender'];
 
                     $dob = $data['dob'];
-                    $disabiliyStatus = $data['imapairment'];
                     $nationality = $data['nationality'];
                     $programmeCode = $data['progcode'];
                     $programmeName = $data['progname'];
@@ -94,7 +93,7 @@ error_reporting(E_ALL | E_STRICT);
                         $userData = array(
                     'tcu_status' => 12
                 );
-                        $condition = array('applicants_non_degree' => $id);
+                        $condition = array('id' => $id);
                         $updateapp = $db->update("applicants_non_degree", $userData, $condition);
                         $boolStatus = true;
                         $msgs = $status_descript;
