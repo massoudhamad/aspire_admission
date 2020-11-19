@@ -104,15 +104,15 @@ try {
             }
         }
                 if ($boolStatus) {
-                    header("Location:index3.php?sp=submit_nondegree&msg=succ&count=".$jj);
+                    header("Location:index3.php?sp=upload_non_degree&msg=succ&count=".$jj);
                     $_SESSION['output'] = $msgs;
                 } else {
-                    header("Location:index3.php?sp=submit_nondegree&msg=unsucc");
+                    header("Location:index3.php?sp=upload_non_degree&msg=unsucc");
                     $_SESSION['output'] = $msgs;
                 }
             }
         
 } catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
-    $db->redirect("index3.php?sp=submit_nondegree&msg=error");
+    $db->redirect("index3.php?sp=upload_non_degree&msg=error");
 }

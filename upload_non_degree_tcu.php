@@ -10,13 +10,19 @@ $db = new DBHelper();
             <?php
             if (!empty($_REQUEST['msg'])) {
                 if ($_REQUEST['msg'] == "succ") {
-                    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
-    <strong>Data saved in database Successfully</strong>.
+                    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+    <strong>" . $_REQUEST['count'] . " of records has been submitted in TCU</strong>.
 </div>";
+                    echo "<div class='alert alert-success fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
                 } else if ($_REQUEST['msg'] == "unsucc") {
-                    echo "<div class='alert alert-danger fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
     <strong>Sorry no data saved in database</strong>.
 </div>";
+                    echo "<div class='alert alert-danger fade in'><a href='index3.php?sp=submit_selected_tcu' class='close' data-dismiss='alert'>&times;</a>
+                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
+                    </div>";
                 }
             }
             ?>
@@ -24,6 +30,7 @@ $db = new DBHelper();
 
         </div>
     </div>
+
 
     <div class="row">
         <form name="" method="post" action="action_upload_non_degree_tcu.php" enctype="multipart/form-data">
@@ -76,7 +83,7 @@ $db = new DBHelper();
                         $i = 0;
                         foreach ($applicantsData as $data) {
                             $i++;
-                            $id=$data['id'];
+                            $id = $data['id'];
                             $name = $data['name'];
                             $formfour = $data['formfour'];
                             $formsix = $data['fromsix'];
