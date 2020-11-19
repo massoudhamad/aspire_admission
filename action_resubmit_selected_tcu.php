@@ -1,6 +1,6 @@
 <?php
 session_start();
-try {
+//try {
     include 'DB.php';
     $db = new DBHelper();
     $tblName = 'applicants';
@@ -14,183 +14,165 @@ try {
             //getbasic information of applicants
             $applicantdetails=$db->getApplicantDetails($applicantID);
             if(!empty($applicantdetails)) {
-                foreach ($applicantdetails as $data) {
-                    $fname = $data['firstName'];
-                    $lname = $data['lastName'];
-                    $dob = $data['dob'];
-                    $disabiliyStatus = $data['disabilityStatus'];
-                    $nationality = $data['citizenship'];
-                    $phoneNumber = $data['phoneNumber'];
-                    $email = $data['email'];
-                    $entryQualification = $data['entryQualification'];
-                }
+            foreach ($applicantdetails as $data) {
+                $fname = $data['firstName'];
+                $lname = $data['lastName'];
+                $dob = $data['dob'];
+                $disabiliyStatus = $data['disabilityStatus'];
+                $nationality = $data['citizenship'];
+                $phoneNumber = $data['phoneNumber'];
+                $email = $data['email'];
+                $entryQualification = $data['entryQualification'];
+                $email = $data['email'];
             }
-            else
-            {
-                $dob = "";
-                $disabiliyStatus = "";
-                $nationality = "";
-                $phoneNumber = "";
-                $email = "";
-                $entryQualification = "";
-            }
+        } else {
+            $dob = "";
+            $disabiliyStatus = "";
+            $nationality = "";
+            $phoneNumber = "";
+            $email = "";
+            $entryQualification = "";
+        }
 
-            if(empty($nationality))
-                $nationality="Tanzanian";
-            else
-                $nationality=$nationality;
+        if (empty($nationality))
+            $nationality = "Tanzanian";
+        else
+            $nationality = $nationality;
 
 
-            if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        /* if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $email=$email;
-                $tcu_status=32;
+                $tcu_status=41;
             }
             else {
                 $date = explode("-", $dob);
                 $date1 = $date[2];
                 $date2 = $date[1];
                 $email = "$lname$date1$date2@gmail.com";
-                $tcu_status=32;
-            }
-            $email=strtolower(trim($email));
+                $tcu_status=41;
+            } */
+        $email = strtolower(trim($email));
 
-            if($disabiliyStatus=="Yes")
-            {
-                $disability=$db->getRows("disability", array('where'=>array('applicantID'=>$applicantID),'order_by applicantID ASC'));
-                if(!empty($equivalentresults))
-                {
-                    foreach($disability as $disab)
-                    {
-                        $dname=$disab['disabilityName'];
-                    }
+        $nationalID = $db->getRows("applicant_identification", array('where' => array('applicantID' => $applicantID)));
+        if (!empty($nationalID)) {
+            foreach ($nationalID as $nid) {
+                $nida = $nid['nationalID'];
+            }
+        } else {
+            $nida = "";
+        }
+
+
+        if ($disabiliyStatus == "Yes") {
+            $disability = $db->getRows("disability", array('where' => array('applicantID' => $applicantID), 'order_by applicantID ASC'));
+            if (!empty($equivalentresults)) {
+                foreach ($disability as $disab) {
+                    $dname = $disab['disabilityName'];
                 }
             }
-            else {
-                $dname="None";
-            }
+        } else {
+            $dname = "None";
+        }
 
-            if ($entryQualification == 0)
-                $category = "A";
+        if ($entryQualification == 0)
+        $category = "A";
+        else
+            $category = "D";
+
+        $oindexumber = $db->getIndexNumber($applicantID, "Ordinary");
+        if (!empty($oindexumber)) {
+            $formfour = array();
+            foreach ($oindexumber as $fnumber) {
+                $indexNumber = $fnumber['indexNumber'];
+                $formfour[] = $indexNumber;
+            }
+        } else {
+            $formfour[] = "";
+        }
+
+        $formindexnumber = $formfour[0];
+
+
+        $aindexumber = $db->getIndexNumber($applicantID, "Advance");
+        $formsix = array();
+        if (!empty($aindexumber)) {
+            $formsix = array();
+            foreach ($aindexumber as $fsixnumber) {
+                $ffindexNumber = $fsixnumber['indexNumber'];
+                $formsix[] = $ffindexNumber;
+            }
+        } else {
+            $formsix[] = "";
+        }
+
+
+
+
+        $programmeFirstChoice = $db->getProgramme($applicantID, 1);
+        if (!empty($programmeFirstChoice)) {
+            foreach ($programmeFirstChoice as $pChoice) {
+                $firstChoice = $pChoice['programCode'];
+            }
+        } else {
+            $firstChoice = "";
+        }
+
+        $programmeChoice = $db->getProgramme($applicantID, 2);
+        if (!empty($programmeChoice)) {
+            foreach ($programmeChoice as $pChoice) {
+                $secondChoice = $pChoice['programCode'];
+            }
+        } else {
+            $secondChoice = "";
+        }
+
+        $equivalentresults = $db->getRows("applicantresults", array('where' => array('applicantID' => $applicantID, 'examinationLevel' => 'Equivalent'), 'order_by applicantID ASC'));
+        if (!empty($equivalentresults)) {
+            foreach ($equivalentresults as $matokeo) {
+                $eIndexNumber = $matokeo['indexNumber'];
+                $avn_number = $matokeo['avn_number'];
+            }
+        } else {
+            $eIndexNumber = "";
+            $avn_number = "";
+        }
+
+
+        if ($category == "A")
+            $findexNumber = $formsix[0];
+        else {
+            if ($avn_number == "")
+                $findexNumber = $eIndexNumber;
             else
-                $category = "D";
+            $findexNumber = $avn_number;
+        }
 
-            $oindexumber=$db->getIndexNumber($applicantID,"Ordinary");
-            if(!empty($oindexumber))
-            {
-                $formfour=array();
-                foreach ($oindexumber as $fnumber) {
-                    $indexNumber=$fnumber['indexNumber'];
-                    $formfour[]=$indexNumber;
-                }
 
+        $four = array();
+        for ($x = 1; $x < count($formfour); $x++) {
+            $four[] = $formfour[$x];
+        }
+
+        $six = array();
+        for ($x = 1; $x < count($formsix); $x++) {
+            $six[] = $formsix[$x];
+        }
+        $fourfour = implode(",", $four);
+        $sixsix = implode(",", $six);
+
+        $programmeAdmitted = $db->getAdmittedProgramme($applicantID, 1);
+        if (!empty($programmeAdmitted)) {
+            foreach ($programmeAdmitted as $padmitt) {
+                $programmeAdCode = $padmitt['programCode'];
+                $programmeAdName = $padmitt['programName'];
             }
-            else
-            {
-                $formfour[]="";
-            }
+        }
 
-            $formindexnumber=$formfour[0];
+        $appProg = "$firstChoice,$secondChoice";
+        $othermobile = "";
+        $programmeAdmittedCode = $programmeAdCode;
 
-
-            $aindexumber=$db->getIndexNumber($applicantID,"Advance");
-            $formsix=array();
-            if(!empty($aindexumber))
-            {
-                $formsix=array();
-                foreach ($aindexumber as $fsixnumber) {
-                    $ffindexNumber=$fsixnumber['indexNumber'];
-                    $formsix[]=$ffindexNumber;
-                }
-
-            }
-            else
-            {
-                $formsix[]="";
-            }
-
-
-
-
-            $programmeFirstChoice=$db->getProgramme($applicantID,1);
-            if(!empty($programmeFirstChoice))
-            {
-                foreach ($programmeFirstChoice as $pChoice)
-                {
-                    $firstChoice=$pChoice['programCode'];
-                }
-            }
-            else
-            {
-                $firstChoice="";
-            }
-
-            $programmeChoice=$db->getProgramme($applicantID,2);
-            if(!empty($programmeChoice))
-            {
-                foreach ($programmeChoice as $pChoice)
-                {
-                    $secondChoice=$pChoice['programCode'];
-                }
-            }
-            else
-            {
-                $secondChoice="";
-            }
-
-            $equivalentresults=$db->getRows("applicantresults", array('where'=>array('applicantID'=>$applicantID,'examinationLevel'=>'Equivalent'),'order_by applicantID ASC'));
-            if(!empty($equivalentresults))
-            {
-                foreach($equivalentresults as $matokeo)
-                {
-                    $eIndexNumber=$matokeo['indexNumber'];
-                    $avn_number=$matokeo['avn_number'];
-                }
-            }
-            else
-            {
-                $eIndexNumber="";
-                $avn_number="";
-
-            }
-
-
-            if($category=="A")
-                $findexNumber=$formsix[0];
-            else
-            {
-                if($avn_number=="")
-                    $findexNumber=$eIndexNumber;
-                else
-                    $findexNumber=$avn_number;
-            }
-
-
-            $four=array();
-            for($x=1;$x<count($formfour);$x++)
-            {
-                $four[]=$formfour[$x];
-            }
-
-            $six=array();
-            for($x=1;$x<count($formsix);$x++)
-            {
-                $six[]=$formsix[$x];
-            }
-            $fourfour=implode(",",$four);
-            $sixsix=implode(",",$six);
-
-            $programmeAdmitted=$db->getAdmittedProgramme($applicantID,1);
-            if(!empty($programmeAdmitted))
-            {
-                foreach ($programmeAdmitted as $padmitt)
-                {
-                    $programmeAdCode=$padmitt['programCode'];
-                    $programmeAdName=$padmitt['programName'];
-                }
-            }
-
-            $appProg="$firstChoice,$secondChoice";
-
+        
             $api_token = $db->getAPI("TCU", "token");
             if (!empty($api_token)) {
                 foreach ($api_token as $api) {
@@ -200,29 +182,60 @@ try {
                 }
             }
 
-                 $xml = '<?xml version="1.0" encoding="UTF-8"?>
+                 /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
                      <Request>
                      <UsernameToken>
-                     <username>' . $user . '</username>
-                     <SessionToken>' . $token . '</SessionToken>
+                        <Username>' . $user . '</Username>
+                        <SessionToken>' . $token . '</SessionToken>
                      </UsernameToken>
-                     <requestParameters>
-                     <institutionCode>'.$user.'</institutionCode>
-                     <f4indexno>'.$formindexnumber.'</f4indexno >
+                     <RequestParameters>
+                     <f4indexno>'.$formindexnumber.'</f4indexno>
                      <f6indexno>'.$findexNumber . '</f6indexno>
-                     <Selectedprogrammes>' . $appProg . '</Selectedprogrammes>
-                     <Mobilenumber>' . $phoneNumber . '</Mobilenumber>
-                     <Emailaddress>' . $email . '</Emailaddress>
+                     <SelectedProgrammes>' . $appProg . '</SelectedProgrammes>
+                     <MobileNumber>' . $phoneNumber . '</MobileNumber>
+                     <EmailAddress>' . $email . '</EmailAddress>
                      <AdmissionStatus>provisional admission </AdmissionStatus>
-                     <Programme_admitted>' . $programmeAdCode . '</Programme_admitted>
-                     <reason>eligible</reason>
-                     <nationality>'.$nationality.'</nationality>
-                     <impairment>'.$dname.'</impairment>
-                     <dateOfBirth>'.$dob.'</dateOfBirth>
-                     <Other_f4indexno>'.$fourfour.'</Other_f4indexno>
-                     <Other_f6indexno>'.$sixsix.'</Other_f6indexno>
-                     </requestParameters>
-                     </Request>';
+                     <ProgrammeAdmitted>' . $programmeAdCode . '</ProgrammeAdmitted>
+                     <Category>'.$category.'</Category>
+                     <Reason>eligible</Reason>
+                     <Nationality>'.$nationality.'</Nationality>
+                     <Impairment>'.$dname.'</Impairment>
+                     <DateOfBirth>'.$dob.'</DateOfBirth>
+                     <Otherf4indexno>'.$fourfour.'</Otherf4indexno>
+                     <Otherf6indexno>'.$sixsix.'</Otherf6indexno>
+                     </RequestParameters>
+                     </Request>'; */
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+            <Request>
+                <UsernameToken>
+                    <Username>' . $user . '</Username>
+                    <SessionToken>' . $token . '</SessionToken>
+                </UsernameToken>
+                <RequestParameters>
+                    <f4indexno>' . $formindexnumber . '</f4indexno >
+                    <f6indexno>' . $findexNumber . '</f6indexno>
+                    <SelectedProgrammes>' . $appProg . '</SelectedProgrammes>
+                    <MobileNumber>' . $phoneNumber . '</MobileNumber>
+                    <OtherMobileNumber>' . $othermobile . '</OtherMobileNumber>
+                    <EmailAddress>' . $email . '</EmailAddress>
+                    <Category>' . $category . '</Category>
+                    <AdmissionStatus>provisional admission </AdmissionStatus>
+                    <ProgrammeAdmitted>' . $programmeAdmittedCode . '</ProgrammeAdmitted>
+                    <Reason>eligible</Reason>
+                    <Nationality>' . $nationality . '</Nationality>
+                    <Impairment>' . $dname . '</Impairment>
+                    <DateOfBirth>' . $dob . '</DateOfBirth>
+                    <NationalIdNumber>' . $nida . '</NationalIdNumber>
+                    <Otherf4indexno>' . $fourfour . '</Otherf4indexno>
+                    <Otherf6indexno>' . $sixsix . '</Otherf6indexno>
+                </RequestParameters>
+            </Request>';
+
+
+                     
+
+                     
 
                     $ch = curl_init();
                   curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/applicants/resubmit");
@@ -231,6 +244,9 @@ try {
                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                   curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
                   $data = curl_exec($ch);
+
+                  var_dump($data);
+
                   curl_close($ch);
 
                   $array_data=json_decode(json_encode(simplexml_load_string($data)),true);
@@ -249,7 +265,7 @@ try {
             //echo $array_data['RESPONSE']['RESPONSEPARAMETERS']['STATUS'];
 
         }
-        if($status)
+        /* if($status)
         {
             header("Location:index3.php?sp=resubmit_applicant_tcu&msg=succ&count=".$jj);
 
@@ -258,8 +274,8 @@ try {
         {
 
             header("Location:index3.php?sp=resubmit_applicant_tcu&msg=unsucc");
-        }
+        } */
     }
-} catch (PDOException $ex) {
+/* } catch (PDOException $ex) {
     $db->redirect("index3.php?sp=resubmit_applicant_tcu&msg=error");
-}
+} */

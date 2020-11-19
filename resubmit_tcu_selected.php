@@ -211,7 +211,7 @@ $db = new DBHelper();
                         $count = 0;
                         foreach ($adround as $around) {
                             $count++;
-                            $roundName = $around['round'];
+                            $roundName = $around['roundName'];
                     ?>
                             <option value="<?php echo $roundName; ?>"><?php echo  $roundName;?></option>
                     <?php }
