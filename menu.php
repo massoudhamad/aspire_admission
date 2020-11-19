@@ -160,6 +160,7 @@ session_start();
                 <li><a href="index3.php?sp=internal_transfer">Internal Transfer</a></li>
                 <li><a href="index3.php?sp=external_transfer">External Transfer</a></li>
                 <li><a href="index3.php?sp=submit_nondegree">Submit Non-Degree</a></li>
+                <li><a href="index3.php?sp=upload_non_degree">Upload Non-Degree</a></li>
                 <li><a href="index3.php?sp=get_admitted_non_degree">Get Admitted Non-Degree</a></li>
                 <li><a href="index3.php?sp=enrollment_submission">Enrollment Submission</a></li>
 

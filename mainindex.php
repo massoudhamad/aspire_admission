@@ -569,6 +569,10 @@ case 'zalongwareport':
         include('submit_non_degree_tcu.php');
         break;
 
+    case 'upload_non_degree':
+        include('upload_non_degree_tcu.php');
+        break;
+
     case 'get_admitted_non_degree':
         include('get_admitted_non_degree_tcu.php');
         break;
