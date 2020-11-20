@@ -336,6 +336,8 @@ $db = new DBHelper();
                                     foreach ($aindexumber as $fsixnumber) {
                                         $indexNumber = $fsixnumber['indexNumber'];
                                         $formsix[] = $indexNumber;
+                                        $yearTaken=$fsixnumber['yearTaken'];
+                                        $examinationAuthority=$fsixnumber['examinationAuthority'];
                                     }
                                 } else {
                                     $formsix[] = "";
@@ -389,6 +391,12 @@ $db = new DBHelper();
                                     else
                                         $findexNumber = $avn_number;
                                 }
+
+                                if($examinationAuthority=='Others')
+                                {
+                                    $findexNumber=$findexNumber."/".$yearTaken;
+                                }
+                                
 
 
                                 $four = array();
