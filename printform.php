@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);  
+//ini_set ('display_errors', 1);
+//error_reporting (E_ALL | E_STRICT);  
 if($_REQUEST['action']=="getPDF")
 {
     include 'DB.php';
@@ -122,7 +122,7 @@ if($_REQUEST['action']=="getPDF")
 
             $name="$fname $mname $lname";
 
-            $pdf->Image('img/logo.jpg',170,300,35.98,37.22);
+            //$pdf->Image('img/logo.jpg',170,300,35.98,37.22);
 
             $districtName=$db->getData('district','districtName','districtID',$districtID);
             $regionID=$db->getData('district','regionID','districtID',$districtID);
