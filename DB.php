@@ -4193,7 +4193,7 @@ where
     {
         try {
                 $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID),applicationNumber,applicationYearID,refNumber,indexNumber,firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,tcu_message,nacte_status,phoneNumber,email
+            DISTINCT(a.applicantID),applicationNumber,a.applicationYearID,refNumber,indexNumber,firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,tcu_message,nacte_status,phoneNumber,email
             FROM applicants a,applicantresults ar,academicyears ay
             WHERE a.applicantID=ar.applicantID
             AND ay.academicYearID=a.applicationYearID
