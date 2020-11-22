@@ -1,14 +1,32 @@
 <?php
 session_start();
 /* ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT); */
+error_reporting (E_ALL | E_STRICT);  */
 if($_REQUEST['action']=="getPDF")
 {
     include 'DB.php';
     $db=new DBHelper();
     require('fpdf.php');
     $applicantID=$_REQUEST['applicantID'];
+    $academicYearID=$_REQUEST['academicYearID'];
+    $academicYear = $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID);
     $today=date('d-M-Y H:i:s');
+
+    $organization = $db->getRows('organization', array('order_by' => 'organizationName DESC'));
+    if (!empty($organization)) {
+        foreach ($organization as $org) {
+            $organizationName = $org['organizationName'];
+            $organizationCode = $org['organizationCode'];
+            $orgAddress = $org['organizationAddress'];
+            $orgPhone = $org['organizationPhone'];
+            $orgEmail = $org['organizationEmail'];
+        }
+    } else {
+        $organizationName = "Soft Dev Academy";
+        $organizationCode = "SDVA";
+        $organizationPicture = "../img/SkyChuo.png";
+    }
+
     class PDF extends FPDF
     {
         function Banner()
@@ -60,7 +78,7 @@ if($_REQUEST['action']=="getPDF")
             //Position at 1.5 cm from bottom
             $this->SetY(-15);
             $this->SetFont('Arial','I',8);
-            $this->Cell(260,0,'Muslim University of Morogoro '.$today2,0,1,'L');
+            $this->Cell(260,0,'Printed Date'.$today2,0,1,'L');
 
         }
     }
@@ -100,6 +118,8 @@ if($_REQUEST['action']=="getPDF")
             $applicantsRemarksID=$apps['applicantsRemarksID'];
             $studentPicture=$apps['studentPicture'];
 
+            
+
             $name="$fname $mname $lname";
 
             $pdf->Image('img/logo.jpg',170,300,35.98,37.22);
@@ -122,7 +142,9 @@ if($_REQUEST['action']=="getPDF")
 
 
             $pdf->Banner();
-            $pdf->Image('student_images/'.$studentPicture,170,8,35.98,37.22);
+            if (!empty($studentPicture)) {
+                $pdf->Image('student_images/'.$studentPicture, 170, 8, 35.98, 37.22);
+            }
             $pdf->Ln(40);
             $pdf->setFont('Arial', 'B', 12);
             $pdf->Cell(6);
@@ -133,7 +155,7 @@ if($_REQUEST['action']=="getPDF")
             $pdf->Ln(8);
             $pdf->setFont('Arial', '', 11);
             $pdf->Cell(6);$pdf->Cell(140,6,"Prog.Name:".$programmeAdName,0);
-            $pdf->Cell(6);$pdf->Cell(50,6,"Academic Year:2019/2020",0);
+            $pdf->Cell(6);$pdf->Cell(50,6,"Academic Year:". $academicYear,0);
 
             $pdf->Ln(10);
             $pdf->setFont('Arial', 'B', 12);
@@ -194,10 +216,10 @@ if($_REQUEST['action']=="getPDF")
 
             $pdf->Ln(10);
             $pdf->setFont('Arial', '', 12);
-            $pdf->Cell(6);$pdf->Cell(180,6,"8. Next of Kin: ".strtoupper($nkin)." Address:".strtoupper($naddress)." Phone:".strtoupper($nphone)." Relationship:".strtoupper($nrelation));
+            $pdf->Cell(6);$pdf->MultiCell(180,6,"8. Next of Kin: ".strtoupper($nkin)." Address:".strtoupper($naddress)." Phone:".strtoupper($nphone)." Relationship:".strtoupper($nrelation));
 
 
-            $pdf->Ln(10);
+            $pdf->Ln(6);
             $pdf->setFont('Arial', '', 12);
             if($dstatus=="No") {
                 $disabilityName = "None";
@@ -368,19 +390,11 @@ if($_REQUEST['action']=="getPDF")
 
             $pdf->Ln(10);
             $pdf->setFont('Arial', 'I', 10);
-            $pdf->Cell(8);$pdf->Cell(190,6,"1. I affirm that ALL information, which I have provided here, is correct, and complete in
-every detail.");
+            $pdf->Cell(8);$pdf->MultiCell(180,6,"1. I affirm that ALL information, which I have provided here, is correct, and complete in every detail.");
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"2. I acknowledge that the Muslim University of Morogoro preserves the right at any stage to
-vary or reverse any decision ");
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6," regarding my admission or enrolment to the University made
-on the basis of incorrect or incomplete Information which");
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"I have given here.");
+            $pdf->Cell(8);$pdf->MultiCell(180,6,"2. I acknowledge that the ".$organizationName." preserves the right at any stage to vary or reverse any decision regarding my admission or enrolment to the University made on the basis of incorrect or incomplete Information which I have given here.");
 
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"3.  I acknowledge receipt of joining instructions for academic year 201892020 and confirm my acceptance of a place ");
+            
 
             $programme=$db->getStudyLevelID($programmeID);
             if(!empty($programme))
@@ -400,32 +414,21 @@ on the basis of incorrect or incomplete Information which");
             }
 
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"   at the Muslim University of Morogoro in ".$sname);
+            $pdf->Cell(8);$pdf->MultiCell(180, 6, "3.  I acknowledge receipt of joining instructions for academic year " . $academicYear . " and confirm my acceptance of a place at the ".$organizationName." in ".$sname);
 
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"4. I confirm that I will pay all University fees which I am liable for my course of study in
-time, and I am aware that otherwise");
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6," action against me shall be taken according to the University regulations.");
+            $pdf->Cell(8);$pdf->MultiCell(190,6,"4. I confirm that I will pay all University fees which I am liable for my course of study in time, and I am aware that otherwise action against me shall be taken according to the University regulations.");
 
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"5. I understand that the University has limited accommodation facilities for Students on the Campus and I shall therefore");
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6," be prepared to look for Alternative off-campus accommodation.");
+            $pdf->Cell(8);$pdf->MultiCell(190,6,"5. I understand that the University has limited accommodation facilities for Students on the Campus and I shall therefore  be prepared to look for Alternative off-campus accommodation.");
 
 
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"6. I am a ware of the terms, conditions, regulations and by- laws of the University as may be
-approved by the Council from");
-             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6," time to time, and I promise to abide by these.");
+            $pdf->Cell(8);$pdf->MultiCell(190,6,"6. I am a ware of the terms, conditions, regulations and by- laws of the University as may be approved by the Council from time to time, and I promise to abide by these.");
 
 
             $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6,"7. I promise solemnly to see the truth, to study diligently, to live circumspectly, to obey
-University Authority and those to");
-            $pdf->Ln(6);
-            $pdf->Cell(8);$pdf->Cell(190,6," whom my obedience is required, and to do all I can to promote the good of the academic community.");
+            $pdf->Cell(8);$pdf->MultiCell(190,6,"7. I promise solemnly to see the truth, to study diligently, to live circumspectly, to obey University Authority and those to whom my obedience is required, and to do all I can to promote the good of the academic community.");
 
 
 
@@ -445,26 +448,30 @@ University Authority and those to");
 
             $today_date=date("l jS \of F Y h:i:s A");
 
-            $getUsers=$db->getRows("users",array('where'=>array('userID'=>$_SESSION['user_session'])));
+            $getUsers=$db->getRows("applicantremarks",array('where'=>array('applicantID'=>$applicantID)));
             if(!empty($getUsers))
             {
                 foreach($getUsers as $usr)
                 {
-                    $ufname=$usr['firstName'];
-                    $ulname=$usr['lastName'];
+                    $userID=$usr['userID'];
+                    $processDate= $usr['processDate'];
                 }
             }
             else
             {
-                $ufname="";
-                $ulname="";
+                $userID="";
+                $processDate="";
             }
+
+            $ufname=$db->getData("users","firstName","userID",$userID);
+            $ulname = $db->getData("users", "lastName", "userID", $userID);
 
             $uname="$ufname $ulname";
 
             $pdf->Ln(15);
             $pdf->setFont('Arial', '', 11);
-            $pdf->Cell(6); $pdf->Cell(180,6,"Registration Officer Name: ".$uname,"0");
+            $pdf->Cell(6); $pdf->Cell(120,6,"Registration Officer Name: ".$uname,"0");
+            $pdf->Cell(90, 6, "Process Date: " . $processDate, "0");
             $pdf->Ln(15);
             $pdf->Cell(6); $pdf->Cell(85,6,"Signature:_____________________","0");
             $pdf->Cell(100,6,"Date: ".$today_date,"0");

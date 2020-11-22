@@ -12,8 +12,18 @@
 
     $token=$response['token'];
     echo $token."<br>";
-    $apiNumber="S1291-0029/1/2003";
-    $json = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
+    $apiNumber="S4002-0678/2/2020";
+
+
+        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response_json = curl_exec($ch);
+
+        var_dump($response_json);
+
+    /* $json = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
 
     $chd = curl_init($json);
     curl_setopt($chd, CURLOPT_HTTPGET, true);
@@ -33,6 +43,6 @@
     else
     {
         echo "hjsadsahj";
-    }
+    } */
 
 ?>

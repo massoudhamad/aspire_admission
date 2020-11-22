@@ -686,7 +686,7 @@ curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
 $data = curl_exec($ch);  */
 
 //Test OUT API
-$apitoken = $db->getAPI("OUT", "token");
+/* $apitoken = $db->getAPI("OUT", "token");
 if (!empty($apitoken)) {
     foreach ($apitoken as $api) {
         $token = $api['token'];
@@ -719,7 +719,7 @@ $headers = ['Content-Type: application/xml', 'OUT-Com: default.sp.in'];
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 $result = curl_exec($ch);
 curl_close($ch);
-var_dump($result);
+var_dump($result); */
 
 
 

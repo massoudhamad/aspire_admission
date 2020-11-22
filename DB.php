@@ -3019,6 +3019,25 @@ WHERE
         }
     }
 
+    public function getMaxSUMAITRegNumber($programmeID,$academicYearID)
+    {
+        try {
+            $query = $this->conn->prepare("SELECT
+            MAX(regNumber) as regNumber
+        from
+            applicantregistration
+        where
+                programmeID =:majorID and academicYearID=:acadID");
+            $query->execute(array(':majorID' => $programmeID,':acadID'=>$academicYearID));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $regNumber = $row['regNumber'];
+            }
+            return $regNumber;
+        } catch (PDOException $ex) {
+            echo "Getting Data Error: " . $ex->getMessage();
+        }
+    }
+
     public function getZUMaxRegNumber($schoolCode)
     {
         try {

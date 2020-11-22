@@ -1,9 +1,9 @@
 <?php
 session_start();
-//ini_set ('display_errors', 1);
-//error_reporting (E_ALL | E_STRICT); 
+ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); 
 
-try {
+//try {
     include 'DB.php';
     $db = new DBHelper();
     $tblName = 'applicants';
@@ -200,6 +200,59 @@ try {
                     }
                 }
             } elseif ($_SESSION['orgCode']=="SUMAIT") {
+                $programme = $db->getStudyLevelID($programmeID);
+                if (!empty($programme)) {
+                    foreach ($programme as $cp) {
+                        $studyLevelID = $cp['studyLevelID'];
+                        $schoolCode = $cp['schoolCode'];
+                    }
+                } else {
+                    $studyLevelID = '';
+                    $schoolCode = "";
+                }
+                //$studyLevelID = $db->getStudyLevelIDData($programmeID);
+                if ($studyLevelID == 5)
+                    $studyLevelID == 2;
+                else
+                    $studyLevelID = $studyLevelID;
+
+                if ($studyLevelID == 1)
+                    $regCode = '04';
+                else if ($studyLevelID == 2)
+                    $regCode = '03';
+                else if ($studyLevelID == 3)
+                    $regCode = '02';
+                //This is for year
+                $academicYear = $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID);
+                $year = explode("/", $academicYear);
+                $year1 = $year[0];
+
+                $subYear = substr($year1, 2);
+
+                //applicantregistration table
+                if ($db->isApplicantIDExist($applicantID)) {
+                } else {
+                    //19/BC/001
+                    $regNumber = $db->getMaxSUMAITRegNumber($programmeID,$academicYearID);
+                    if (!empty($regNumber)) {
+                        $finalNumber = $regNumber + 1;
+                    }
+                    else {
+                        $finalNumber=1;
+                    }
+
+                    if ($db->count_digit($finalNumber) >= 3) {
+                        $finalNumber = $finalNumber;
+                    } elseif ($db->count_digit($finalNumber) >= 2) {
+                        $finalNumber = "0" . $finalNumber;
+                    } elseif ($db->count_digit($finalNumber) >= 1) {
+                        $finalNumber = "00" . $finalNumber;
+                    }
+                    $majorCode = $db->getData("programmemajor", "majorCode", "programmeMajorID", $programmeID);
+
+                    $registrationNumber = $subYear . "/" . $majorCode . "/" . $finalNumber;
+
+                }
             } elseif ($_SESSION['orgCode'] == "IPA") {
             } elseif ($_SESSION['orgCode'] == "MUM") {
             //$studyLevelID = $db->getStudyLevelIDData($programmeID);
@@ -363,6 +416,6 @@ try {
         }
     }
 
-  } catch (PDOException $ex) {
+  /* } catch (PDOException $ex) {
     header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=error");
-}  
+}   */
