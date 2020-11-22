@@ -90,6 +90,7 @@
                 {
                     $count++;
                     $applicantID=$std['applicantID'];
+                    $applicationYearID=$std['applicationYearID'];
                     $fname=$std['firstName'];
                     $mname=$std['middleName'];
                     $lname=$std['lastName'];
@@ -129,7 +130,7 @@
 
                     if($remarksID==6)
                     {
-                        $print="<a href='printform.php?action=getPDF&applicantID=$applicantID' target='_blank'>Print</a>";
+                        $print="<a href='printform.php?action=getPDF&applicantID=$applicantID&academicYearID=$applicationYearID' target='_blank'>Print</a>";
                     }
                     else
                     {
