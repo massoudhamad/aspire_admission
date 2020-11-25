@@ -1,9 +1,9 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT); 
+/*ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); */
 
-//try {
+try {
     include 'DB.php';
     $db = new DBHelper();
     $tblName = 'applicants';
@@ -416,6 +416,6 @@ error_reporting (E_ALL | E_STRICT);
         }
     }
 
-  /* } catch (PDOException $ex) {
+  } catch (PDOException $ex) {
     header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=error");
-}   */
+}   
