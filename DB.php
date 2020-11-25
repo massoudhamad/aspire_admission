@@ -713,11 +713,28 @@ where
             and applicantsRemarksID=:remarkID
             and applicationYearID=:appYearID
             and admissionID=:adminID
-            /*AND (tcu_final NOT LIKE :qual AND tcu_final NOT LIKE :mpt AND tcu_final NOT LIKE :conf )*/
-            /*AND tcu_final IS NULL*/
-            AND NULLIF(tcu_final, '') IS NULL 
             order by tcu_status ASC");
                 $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID));
+                /* $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,tcu_status,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
+        from
+            applicants a,
+            applicantapplication aa,
+            programs p,
+            programmemajor pm
+        where
+            a.applicantID=aa.applicantID
+            AND aa.programmeMajorID = pm.programmeMajorID
+            AND aa.admissionStatus = :adminStatus
+            AND p.programID = pm.programmeID
+            AND p.studyLevelID=:studyID
+            and applicantsRemarksID=:remarkID
+            and applicationYearID=:appYearID
+            and admissionID=:adminID
+        
+            AND NULLIF(tcu_final, '') IS NULL 
+            order by tcu_status ASC");
+                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID)); */
                 /*                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'%Qualified%',':mpt'=>'%Multiple Admission%',':conf'=>'%confirmed%'));*/
 
                 /*$query = $this->conn->prepare("SELECT

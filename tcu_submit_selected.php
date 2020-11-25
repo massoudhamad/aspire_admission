@@ -397,11 +397,11 @@ $db = new DBHelper();
                                 $name = "$fname $mname $lname";
                         ?>
                         <?php
-                                if ($tcu_status == 2) {
+                                /* if ($tcu_status == 2) {
                                     $box = "NA";
-                                } else {
+                                } else { */
                                     $box = "<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";
-                                }
+                               // }
 
 
                             echo "<tr><td>$i</td>
