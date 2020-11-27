@@ -58,7 +58,7 @@ $traData = array(
 );
 $updateapp = $db->insert("applicant_transfer", $traData);
 //}
-header("Location:index3.php?sp=tcu_internal_transfer&msg=".$status."&status=".$status_desc);
+header("Location:index3.php?sp=internal_transfer&msg=".$status."&status=".$status_desc);
 
 
 ?>

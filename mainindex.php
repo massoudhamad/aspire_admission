@@ -554,7 +554,8 @@ case 'zalongwareport':
 
 
     case 'internal_transfer':
-        include('tcu_internal_transfer.php');
+        /* include('tcu_internal_transfer.php'); */
+        include('internal_transfer_tcu.php');
         break;
 
     case 'external_transfer':
