@@ -12,7 +12,7 @@ $db = new DBHelper();
                 buttons:[
                     {
                         extend:'csvHtml5',
-                        title: titleheader,
+                        /* title: titleheader, */
                         customize: function (csv) {
                             return titleheader+"\n"+  csv +"\n";
                         }
@@ -194,7 +194,6 @@ $db = new DBHelper();
                         <th>Phone Number</th>
                         <th>Hosteller</th>
                         <th>Sponsor</th>
-                        <th>Nationality</th>
 
                     </tr>
                     </thead>
@@ -252,7 +251,7 @@ $db = new DBHelper();
 
                             echo "<tr>";
                             echo"<td>$fname</td><td>$mname</td><td>$lname</td>"
-                                . "<td>$gender</td><td>$regNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td><td>$hosteller</td><td>$sponsor</td><td>$nationality</td>";
+                                . "<td>$gender</td><td>$regNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td><td>$hosteller</td><td>$sponsor</td>";
                             ?>
                             </tr>
                             <?php
