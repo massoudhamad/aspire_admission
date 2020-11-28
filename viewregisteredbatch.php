@@ -13,9 +13,9 @@ $db = new DBHelper();
                     {
                         extend:'csvHtml5',
                         /* title: titleheader, */
-                        customize: function (csv) {
+                        /* customize: function (csv) {
                             return titleheader+"\n"+  csv +"\n";
-                        }
+                        } */
                     },
                     {
                         extend: 'pdfHtml5',
