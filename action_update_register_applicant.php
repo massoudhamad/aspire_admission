@@ -254,6 +254,44 @@ try {
 
                 }
             } elseif ($_SESSION['orgCode'] == "IPA") {
+                $programme = $db->getStudyLevelID($programmeID);
+                if (!empty($programme)) {
+                    foreach ($programme as $cp) {
+                        $studyLevelID = $cp['studyLevelID'];
+                        $schoolCode = $cp['schoolCode'];
+                    }
+                } else {
+                    $studyLevelID = '';
+                    $schoolCode = "";
+                }
+                $academicYear = $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID);
+                $year = explode("/", $academicYear);
+                $year1 = $year[0];
+
+                $subYear = substr($year1, 2);
+
+                //applicantregistration table
+                if ($db->isApplicantIDExist($applicantID)) {
+                } else {
+                    //BA/IPA/001/HRM.2020
+                    $regNumber = $db->getMaxSUMAITRegNumber($programmeID, $academicYearID);
+                    if (!empty($regNumber)) {
+                        $finalNumber = $regNumber + 1;
+                    } else {
+                        $finalNumber = 1;
+                    }
+
+                    if ($db->count_digit($finalNumber) >= 3) {
+                        $finalNumber = $finalNumber;
+                    } elseif ($db->count_digit($finalNumber) >= 2) {
+                        $finalNumber = "0" . $finalNumber;
+                    } elseif ($db->count_digit($finalNumber) >= 1) {
+                        $finalNumber = "00" . $finalNumber;
+                    }
+                    $majorCode = $db->getData("programmemajor", "majorCode", "programmeMajorID", $programmeID);
+
+                    $registrationNumber = "BA/IPA/".$finalNumber."/".$majorCode.".".$year1;
+                }
             } elseif ($_SESSION['orgCode'] == "MUM") {
             //$studyLevelID = $db->getStudyLevelIDData($programmeID);
 
@@ -418,4 +456,4 @@ try {
 
   } catch (PDOException $ex) {
     header("Location:index3.php?sp=register_applicant&applicantID=$applicantID&formfour=$formfour&msg=error");
-}   
+}  

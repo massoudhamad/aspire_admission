@@ -9,15 +9,22 @@ require_once("session.php");
   $user_array=array(1,3,4);
   //if(($user_privilege != 1) || ($user_privilege != 3) || ($user_privilege != 4))
 
-  $org = $auth_user->getRows("organization");
-  if (!empty($org)) {
-    foreach ($org as $og) {
-      $orgName = $og['organizationName'];
-      $orgCode=$og['organizationCode'];
+  $organization = $auth_user->getRows('organization', array('order_by' => 'organizationName DESC'));
+  if (!empty($organization)) {
+    foreach ($organization as $org) {
+      $organizationName = $org['organizationName'];
+      $organizationCode = $org['organizationCode'];
+      $organizationPicture = "../img/" . $org['organizationPicture'];
+      $studentSupport = $org['student_support'];
+      $orgCode = $org['organizationCode'];
       $_SESSION['orgCode'] = $orgCode;
-      $_SESSION['orgName']=$orgName;
     }
+  } else {
+    $organizationName = "Soft Dev Academy";
+    $organizationCode = "SDVA";
+    $organizationPicture = "../img/SkyChuo.png";
   }
+
 
   if(!in_array($user_privilege, $user_array))
   {
