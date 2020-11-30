@@ -164,6 +164,8 @@ $db = new DBHelper();
             $programmeID=$_POST['sectorID'];
             $admissionID=$_POST['admissionID'];
 
+            $academicYear= $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID);
+
             ?>
              <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
           <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
@@ -221,6 +223,8 @@ $db = new DBHelper();
                         $sponsor=$data['sponsor'];
                         $registrationNumber=$data['registrationNumber'];
                         $tcu_status=$data['tcu_status'];
+
+
 
                         if($disabiliyStatus=="Yes")
                         {
@@ -358,8 +362,8 @@ $db = new DBHelper();
                             <td>$formfour[0]</td>
                             <td>$programmeName</td>
                             <td>$registrationNumber</td>
-                            <td>MUM</td>
-                            <td>2019/2020</td>";
+                            <td>".$_SESSION['orgCode']."</td>
+                            <td>$academicYear</td>";
 
                     }
                 }
