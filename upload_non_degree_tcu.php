@@ -103,11 +103,11 @@ $db = new DBHelper();
                             else
                                 $category = "Certificate";
 
-                            if ($tcu_status == 12) {
+                            /* if ($tcu_status == 12) {
                                 $box = "NA";
-                            } else {
+                            } else { */
                                 $box = "<input type='checkbox' class='checkbox_class' name='id[]' value='$id'>";
-                            }
+                            //}
 
                             echo "<tr><td>$i</td>
                            <td>$box</td>

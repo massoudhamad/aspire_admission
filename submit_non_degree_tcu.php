@@ -343,11 +343,11 @@ $db = new DBHelper();
 
                                 $name = "$fname $mname $lname"; ?>
                             <?php
-                                if ($tcu_status == 12) {
+                                /* if ($tcu_status == 12) {
                                     $box = "NA";
-                                } else {
+                                } else { */
                                     $box = "<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";
-                                }
+                                //}
 
                                 if (empty($eIndexNumber)) {
                                     if ($category == "Advance") {
