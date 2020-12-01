@@ -261,7 +261,7 @@ $db = new DBHelper();
                             ?>
                             <td>
                             <?php
-                            if($_SESSION['role_session']==3) {
+                            if(($_SESSION['role_session']==3)||($_SESSION['role_session'] == 1)) {
                                 ?>
                                 <a data-toggle="modal"
                                    href="transferapplicant.php?id=<?php echo $applicantID; ?>&programmeMajorID=<?php echo $programmeMajorID; ?>

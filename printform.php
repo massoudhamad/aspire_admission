@@ -91,9 +91,13 @@ if($_REQUEST['action']=="getPDF")
         foreach($applicantsData as $apps)
         {
             $applicantID=$apps['applicantID'];
-            $fname=$apps['firstName'];
+            /* $fname=$apps['firstName'];
             $mname=$apps['middleName'];
-            $lname=$apps['lastName'];
+            $lname=$apps['lastName']; */
+            $fname = str_replace("&#039;", "'", $apps['firstName']);
+            $mname = $apps['middleName'];
+            $mname = str_replace("&#039;", "'", $mname);
+            $lname = str_replace("&#039;", "'", $apps['lastName']);
             $oname=$apps['otherNames'];
             $gender=$apps['gender'];
             $pobirth=$apps['placeOfBirth'];
