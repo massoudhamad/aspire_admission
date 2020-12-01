@@ -327,10 +327,29 @@ try {
                 } else {
                 //$regNumber = $db->getMaxRegNumber($studyLevelID);
                 $regNumber = $db->getMaxMUMRegNumber($studyLevelID);
-                    $finalNumber = $regNumber + 1;
+                    if (!empty($regNumber)) {
+                        $finalNumber = $regNumber + 1;
+                    } else {
+                        $finalNumber = 1;
+                    }
+                    //$finalNumber = $regNumber + 1;
                     if ($studyLevelID == 1) {
                         $registrationNumber = "MUM" . $year1 . "-" . $regCode . "-0" . $finalNumber;
-                    } else {
+                    } else if($studyLevelID==4){
+
+                    if($db->count_digit($finalNumber) >= 5) {
+                            $finalNumber = $finalNumber;
+                        } else if ($db->count_digit($finalNumber) >= 4) {
+                            $finalNumber = "0" . $finalNumber;
+                        } else if ($db->count_digit($finalNumber) >= 3) {
+                            $finalNumber = "00" . $finalNumber;
+                        }else if ($db->count_digit($finalNumber) >= 2) {
+                            $finalNumber = "000" . $finalNumber;
+                        } else if ($db->count_digit($finalNumber) >= 1) {
+                            $finalNumber = "0000" . $finalNumber;
+                        }
+                        $registrationNumber = "MUM/MAED/2020/".$finalNumber;
+                    }else {
                         $numlength = strlen((string)$finalNumber);
 
                         if ($numlength == 5) {
