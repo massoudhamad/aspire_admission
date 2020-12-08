@@ -192,9 +192,11 @@ $db = new DBHelper();
                         <th>Form IV</th>
                         <th>Entry</th>
                         <th>Phone Number</th>
-                        <th>Hosteller</th>
+                        <!-- <th>Hosteller</th>
                         <th>Sponsor</th>
-
+                        <th>Nationality</th>
+                        <th>National ID</th>
+ -->
                     </tr>
                     </thead>
 
@@ -249,9 +251,23 @@ $db = new DBHelper();
                                 $formfour="None";
                             }
 
+                            $nida=$db->getRows("applicant_identification",array('where'=>array('applicantID'=>$applicantID)));
+                            if(!empty($nida))
+                            {
+                                foreach($nida as $nd)
+                                {
+                                    $nationalID=$nd['nationalID'];
+                                }
+                            }
+                            else
+                            {
+                                $nationalID="";
+                            }
+
                             echo "<tr>";
                             echo"<td>$fname</td><td>$mname</td><td>$lname</td>"
-                                . "<td>$gender</td><td>$regNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td><td>$hosteller</td><td>$sponsor</td>";
+                                . "<td>$gender</td><td>$regNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td>";
+                                /*<td>$hosteller</td><td>$sponsor</td><td>$nationality</td><td>$nationalID</td>*/
                             ?>
                             </tr>
                             <?php
