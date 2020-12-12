@@ -207,12 +207,12 @@ $db = new DBHelper();
                     }
                     else
                     {
-                        $applicantsData=$db->getRegisteredBatchApplicants($programmeMajorID,$admissionID);
+                       $applicantsData=$db->getRegisteredBatchApplicants($programmeMajorID,$admissionID);
 
                     }
                     if(!empty($applicantsData))
                     {
-                        $i=0;$_SESSION['applicantID']=array();
+                        $i=0;
                         foreach ($applicantsData as $data)
                         {
                             $i++;
@@ -221,7 +221,6 @@ $db = new DBHelper();
                             $mname=$data['middleName'];
                             $lname=$data['lastName'];
                             $gender=substr($data['gender'],0,1);
-                            $regNumber=$data['registrationNumber'];
                             $phoneNumber=$data['phoneNumber'];
                             $dob=$data['dateOfBirth'];
                             $addNumber=$data['applicationNumber'];
@@ -231,6 +230,7 @@ $db = new DBHelper();
                             $sponsor=$data['sponsor'];
                             $hosteller=$data['hosteller'];
                             $nationality=$data['citizenship'];
+                            $registrationNumber = $data['registrationNumber'];
 
                             if($entry==0)
                                 $entry=1;
@@ -251,6 +251,18 @@ $db = new DBHelper();
                                 $formfour="None";
                             }
 
+
+                            /* $regData = $db->getAllRegisteredNumber($applicantID);
+                            if(!empty($regData))
+                            {
+                                foreach($regData as $reg)
+                                {
+                                    $registrationNumber=$reg['registrationNumber'];
+                                }
+                            } */
+
+
+
                             $nida=$db->getRows("applicant_identification",array('where'=>array('applicantID'=>$applicantID)));
                             if(!empty($nida))
                             {
@@ -266,7 +278,7 @@ $db = new DBHelper();
 
                             echo "<tr>";
                             echo"<td>$fname</td><td>$mname</td><td>$lname</td>"
-                                . "<td>$gender</td><td>$regNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td>";
+                                . "<td>$gender</td><td>$registrationNumber</td><td>$dob</td><td>$addNumber</td><td>".$formfour."</td><td>$entry</td><td>$phoneNumber</td>";
                                 /*<td>$hosteller</td><td>$sponsor</td><td>$nationality</td><td>$nationalID</td>*/
                             ?>
                             </tr>

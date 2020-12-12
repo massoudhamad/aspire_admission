@@ -2870,7 +2870,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-                DISTINCT(registrationNumber),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
+                DISTINCT(aa.applicantID),registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
         from
             applicants a,
             programmemajor pm,
@@ -2883,7 +2883,8 @@ WHERE
                 AND pm.programmeID=:progID
                 AND applicantsRemarksID=:remark
                 AND applicationYearID=:appYearID
-                AND admissionID=:aid");
+                AND admissionID=:aid
+                AND regNumber IS NOT NULL");
             $query->execute(array(':progID' => $progrID, ':remark' => 6,':appYearID' => $applicationYearID, ':aid' => $admissionID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -2900,19 +2901,20 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-                DISTINCT(registrationNumber),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
+                DISTINCT(aa.applicantID),registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
         from
             applicants a,
             programmemajor pm,
             programs p,
             applicantregistration aa
         where
-            a.applicantID = aa.applicantID
+                 a.applicantID = aa.applicantID
                 AND pm.programmeMajorID = aa.programmeID
                 AND p.programID = pm.programmeID
                 AND pm.programmeID=:progID
                 AND applicantsRemarksID=:remark
-                AND admissionID=:aid");
+                AND admissionID=:aid
+                AND regNumber IS NOT NULL");
             $query->execute(array(':progID' => $progrID, ':remark' => 6, ':aid' => $admissionID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -2923,6 +2925,27 @@ WHERE
         }
     }
 
+    public function getAllRegisteredNumber($applicantID)
+    {
+        try {
+            $data = array();
+            $query = $this->conn->prepare("SELECT 
+                DISTINCT(registrationNumber)
+        from
+            applicantregistration
+        where
+            applicantID=:appID");
+            $query->execute(array(':appID' => $applicantID));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $ex) {
+            echo "Error-Data" . $ex->getMessage();
+        }
+    }
+
+    
 
     public function calculateColor($applicantID, $studyID, $stat)
     {
@@ -3106,7 +3129,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
+            DISTINCT(ar.applicantID),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
         from
             applicants a,
             programmemajor pm,
@@ -3115,7 +3138,8 @@ WHERE
             a.applicantID = ar.applicantID
                 AND pm.programmeMajorID = ar.programmeID
                 AND ar.programmeID=:progMajorID
-                AND admissionID=:adID");
+                AND admissionID=:adID
+                AND regNumber IS NOT NULL");
             $query->execute(array(':progMajorID' => $progrID,':adID'=>$adminID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
