@@ -2870,7 +2870,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-                DISTINCT(a.applicantID),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
+                DISTINCT(registrationNumber),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
         from
             applicants a,
             programmemajor pm,
@@ -2900,7 +2900,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-                DISTINCT(a.applicantID),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
+                DISTINCT(registrationNumber),applicantRegistrationID,registrationNumber, firstName, middleName, lastName, gender,dateOfBirth,phoneNumber,userID,entryQualification,hosteller,sponsor,applicationNumber,citizenship
         from
             applicants a,
             programmemajor pm,
