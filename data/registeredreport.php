@@ -263,6 +263,7 @@ if(!empty($applicantsData))
                 $award=$matokeo['award'];
                 $gradeType=$matokeo['gradeType'];
                 $gradePoints=$matokeo['gradePoints'];
+                $avn_number=$matokeo['avn_number'];
             }
         }
         else
@@ -271,12 +272,22 @@ if(!empty($applicantsData))
             $schoolName="";
             $yearTaken="";
             $award="";
+            $avn_number="";
         }
 
         if($atotalPoints=="")
             $atotalPoints=$gradePoints;
         else
             $atotalPoints=$atotalPoints;
+
+
+        
+            if ($avn_number == "")
+                $findexNumber = $formsix[0];
+            else
+                $findexNumber = $avn_number;
+
+
 
         $output['data'][] = array(
             $fname,
@@ -292,7 +303,7 @@ if(!empty($applicantsData))
             //implode(",",$formfour),
             $formfour[0],
             //implode(",",$formsix),
-            $formsix[0],
+            $findexNumber,
             $eIndexNumber,
             $programmeCode,
             $programmeName,

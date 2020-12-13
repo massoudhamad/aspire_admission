@@ -512,7 +512,7 @@ where
                 $query->execute(array(':studyID' => 1, ':remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));*/
 
                 $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,nextOfKinName,nextofKinPhoneNumber,a.tcu_status
+            DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,a.tcu_status
         from
             applicants a,
             applicantregistration aa
@@ -543,7 +543,7 @@ where
                 and admissionID=:adminID");
                 $query->execute(array(':studyc' => 2, ':studyd' => 3, ':studydd' => 4, ':remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));*/
                 $query = $this->conn->prepare("SELECT
-                DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,nextOfKinName,nextofKinPhoneNumber
+                DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber
             from
                 applicants a,
                 applicantregistration aa

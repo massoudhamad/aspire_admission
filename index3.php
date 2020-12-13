@@ -18,6 +18,7 @@ require_once("session.php");
       $studentSupport = $org['student_support'];
       $orgCode = $org['organizationCode'];
       $_SESSION['orgCode'] = $orgCode;
+      $_SESSION['orgName']=$organizationName;
     }
   } else {
     $organizationName = "Soft Dev Academy";
