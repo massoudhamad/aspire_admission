@@ -81,6 +81,10 @@ case 'selectedapplicants':
         include('registered_report.php');
         break;
 
+    case 'nhif_report':
+        include('nhif_report.php');
+        break;
+
     case 'list_registered_report':
         include('list_registered_applicants.php');
         break;

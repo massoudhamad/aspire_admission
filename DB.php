@@ -1551,7 +1551,7 @@ where
     {
         try {
             $query = $this->conn->prepare("SELECT 
-            programDuration,schoolCode,regCode,schoolName,p.studyLevelID
+            programmeMajor,programDuration,schoolCode,regCode,schoolName,p.studyLevelID
         from
             schools s,
             departments d,
@@ -3239,6 +3239,29 @@ WHERE
         }
     }
 
+    public function getNHIFReport($admID)
+    {
+        try {
+            $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName,formfour, lastName,phoneNumber,maritalStatus, gender,dateOfBirth,citizenship,programmeID,registrationNumber,ar.createdDate
+        from
+            applicants a,
+            applicantregistration ar
+        where
+            a.applicantID=ar.applicantID
+            and applicantsRemarksID=:remarkID
+            and admissionID =:adid AND regNumber IS NOT NULL");
+            $query->execute(array('remarkID' => 6, ':adid' => $admID));
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
     public function getApplicantTCUEnrollmentList($applicantID,$acadID, $admID)
     {
         try {
@@ -3263,6 +3286,8 @@ WHERE
             echo "Getting Data error: " . $exception->getMessage();
         }
     }
+
+    
 
 
 //getEnrollment Programme
