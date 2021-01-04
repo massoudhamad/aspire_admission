@@ -225,6 +225,10 @@ $db = new DBHelper();
                         $tcu_status=$data['tcu_status'];
 
 
+                        $dBirth=explode("-",$dob);
+                        $birthYear=$dBirth[2];
+
+
 
                         if($disabiliyStatus=="Yes")
                         {
@@ -285,10 +289,10 @@ $db = new DBHelper();
                         {
                             $study="Certificate/NTA4/Diploma in Medical";
                         }
-                        /*else if($studyLevelID==4)
+                        else if($studyLevelID==4)
                         {
-                            $study="Certificate";
-                        }*/
+                            $study="Master";
+                        }
                         else if($studyLevelID==5)
                         {
                             $study="NTA5";
@@ -350,7 +354,7 @@ $db = new DBHelper();
                             <td>$lname</td>
                             <td>$gender</td>
                             <td>".strtoupper($nationality)."</td>
-                            <td>$dob</td>
+                            <td>$birthYear</td>
                             <td>$study</td>
                             <td>$fieldspecialization</td>
                             <td>First Year</td>

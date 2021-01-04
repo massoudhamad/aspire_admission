@@ -35,6 +35,9 @@ try {
                     $sponsor=$data['sponsor'];
                     $registrationNumber=$data['registrationNumber'];
 
+                    $dBirth=explode("-",$dob);
+                        $birthYear=$dBirth[2];
+
 
                     if($disabiliyStatus=="Yes")
                     {
@@ -154,7 +157,7 @@ try {
                 <F4indexno>'.$formfour[0].'</F4indexno>
                 <Gender>'.$gender.'</Gender>
                 <Nationality>'.strtoupper($nationality).'</Nationality>
-                <DateOfBirth>'.$dob.'</DateOfBirth>
+                <DateOfBirth>'. $birthYear.'</DateOfBirth>
                 <ProgrammeCategory>'.$study.'</ProgrammeCategory>
                 <Specialization>'.$fieldspecialization.'</Specialization>
                 <AdmissionYear>2020/2021</AdmissionYear>
