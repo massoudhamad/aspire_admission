@@ -124,10 +124,11 @@ try {
 
 
 
-                    $user = "MUM";
-                    $token = "jQbgVNUWdPk67wZcEv39";
+                   /*  $user = "MUM";
+                    $token = "jQbgVNUWdPk67wZcEv39"; */
 
 
+                    
 
             $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <Request>
@@ -145,7 +146,7 @@ try {
                 <DateOfBirth>'.$dob.'</DateOfBirth>
                 <ProgrammeCategory>'.$study.'</ProgrammeCategory>
                 <Specialization>'.$fieldspecialization.'</Specialization>
-                <AdmissionYear>2019/2020</AdmissionYear>
+                <AdmissionYear>2020/2021</AdmissionYear>
                 <ProgrammeCode>'.$programmeCode.'</ProgrammeCode>
                 <RegistrationNumber>'.$registrationNumber.'</RegistrationNumber>
                 <ProgrammeName>'.$programmeName.'</ProgrammeName>
@@ -158,8 +159,19 @@ try {
                 </RequestParameters>
             </Request>';
 
+                    $api_token = $db->getAPI("TCU", "token");
+                    if (!empty($api_token)) {
+                        foreach ($api_token as $api) {
+                            $token = $api['token'];
+                            $user = $api['userName'];
+                            $urlform = $api['url'];
+                        }
+                    }
+
+                    $url = $urlform . "/applicants/submitEnrolledStudents";
+
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL,"http://api.tcu.go.tz/applicants/submitEnrolledStudents");
+            curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_POST,1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
