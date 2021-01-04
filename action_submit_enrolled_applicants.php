@@ -205,7 +205,7 @@ try {
         }
          if($status)
          {
-             header("Location:index3.php?sp=enrollment_submission&msg=succ&count=".$jj);
+             header("Location:index3.php?sp=enrollment_submission&msg=succ&&msg=succ&".$statusCode."and&".$StatusDescription."&count=".$jj);
 
          }
          else
