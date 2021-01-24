@@ -6,7 +6,7 @@ $db=new DBHelper();
 
 //$apiNumber="EQ2020000794/2/2018";
 
-$apiNumber = "S5047-0541/2/2017";
+$apiNumber = "S1291-0029/1/2017";
 
 $api_token = $db->getAPI("NECTA", "token");
 if (!empty($api_token)) {
@@ -20,6 +20,7 @@ $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_HTTPGET, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $response_json = curl_exec($ch);
 curl_close($ch);
 $data = json_decode($response_json, true);

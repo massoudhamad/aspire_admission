@@ -3,103 +3,103 @@ session_start();
 include_once "DB.php";
 $db = new DBHelper();
 $error = array();
-    $org = $db->getRows("organization");
-    if (!empty($org)) {
-        foreach ($org as $og) {
-            $orgName = $og['organizationName'];
-            $orgPicture = $og['organizationPicture'];
-            $orgPhone = $og['organizationPhone'];
-        }
+$org = $db->getRows("organization");
+if (!empty($org)) {
+    foreach ($org as $og) {
+        $orgName = $og['organizationName'];
+        $orgPicture = $og['organizationPicture'];
+        $orgPhone = $og['organizationPhone'];
     }
+}
 
 
-    $admissionSetting = $db->getAdmissionSetting();
-    if (!empty($admissionSetting)) {
-        foreach ($admissionSetting as $admin) {
-            $academicYear = $admin['academicYear'];
-            $academicYearID = $admin['academicYearID'];
-            $admissionID = $admin['admissionID'];
-            $admissionName = $admin['admissionName'];
-            $admissionRound = $admin['admissionRound'];
-            $endDate = $admin['endDate'];
-        }
+$admissionSetting = $db->getAdmissionSetting();
+if (!empty($admissionSetting)) {
+    foreach ($admissionSetting as $admin) {
+        $academicYear = $admin['academicYear'];
+        $academicYearID = $admin['academicYearID'];
+        $admissionID = $admin['admissionID'];
+        $admissionName = $admin['admissionName'];
+        $admissionRound = $admin['admissionRound'];
+        $endDate = $admin['endDate'];
     }
+}
 
-    if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
-        if ($_REQUEST['action_type'] == 'confirm') {
-            $academicYear = $db->getData("academicyears", "academicYear", "academicYearStatus", 1);
-            $year = explode("/", $academicYear);
-            $year1 = $year[0];
-            $year1Sub = substr((string)$year1, 2, 3); //17
-            $year2 = $year[1];
-            $year2Sub = substr((string)$year2, 2, 3);
+if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
+    if ($_REQUEST['action_type'] == 'confirm') {
+        $academicYear = $db->getData("academicyears", "academicYear", "academicYearStatus", 1);
+        $year = explode("/", $academicYear);
+        $year1 = $year[0];
+        $year1Sub = substr((string)$year1, 2, 3); //17
+        $year2 = $year[1];
+        $year2Sub = substr((string)$year2, 2, 3);
+        $applicationNumber = $year1Sub . $year2Sub . rand(1, 99999);
+        if ($db->isFieldExist('applicants', 'applicationNumber', $applicationNumber))
             $applicationNumber = $year1Sub . $year2Sub . rand(1, 99999);
-            if ($db->isFieldExist('applicants', 'applicationNumber', $applicationNumber))
-                $applicationNumber = $year1Sub . $year2Sub . rand(1, 99999);
-            else
-                $applicationNumber = $applicationNumber;
+        else
+            $applicationNumber = $applicationNumber;
 
-            $admission_level = $_POST['admission_level'];
-            $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
-            $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
-            $boolStatus = false;
-            if ($admission_level == "UG") {
-                if($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
-                    $boolStatus = false;
-                    $msg="exists";
-                } else if($db->isFieldExist('users', 'email', $_POST['email'])) {
-                    $boolStatus = false;
-                    $msg = "emailexists";
-                } else {
-                    $exam_body = $_POST['exam_body'];
-                    if ($exam_body == "NECTA") {
-                        $api_token = $db->getAPI("NECTA", "token");
-                        if (!empty($api_token)) {
-                            foreach ($api_token as $api) {
-                                $apitToken = $api['token'];
-                            }
+        $admission_level = $_POST['admission_level'];
+        $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
+        $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
+        $boolStatus = false;
+        if ($admission_level == "UG") {
+            if ($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
+                $boolStatus = false;
+                $msg = "exists";
+            } else if ($db->isFieldExist('users', 'email', $_POST['email'])) {
+                $boolStatus = false;
+                $msg = "emailexists";
+            } else {
+                $exam_body = $_POST['exam_body'];
+                if ($exam_body == "NECTA") {
+                    $api_token = $db->getAPI("NECTA", "token");
+                    if (!empty($api_token)) {
+                        foreach ($api_token as $api) {
+                            $apitToken = $api['token'];
                         }
-                        $token = $db->getAPIToken($apitToken);
-                        $indexNumber = strtoupper($_POST['indexNumber']);
-                        $indexNumber2 = explode("/", $indexNumber);
-                        $center = $indexNumber2[0];
-                        $number = $indexNumber2[1];
-                        $year = $indexNumber2[2];
+                    }
+                    $token = $db->getAPIToken($apitToken);
+                    $indexNumber = strtoupper($_POST['indexNumber']);
+                    $indexNumber2 = explode("/", $indexNumber);
+                    $center = $indexNumber2[0];
+                    $number = $indexNumber2[1];
+                    $year = $indexNumber2[2];
 
-                        $number_kituo = $center . "-" . $number;
-                        $exam_id = 1;
-                        $exam_year = $year;
-                        $apiNumber = $number_kituo . "/" . $exam_id . "/" . $exam_year;
-                        $index_number = $center . "/" . $number;
-                        $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
-                        $ch = curl_init($url);
-                        curl_setopt($ch, CURLOPT_HTTPGET, true);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        $response_json = curl_exec($ch);
-                        curl_close($ch);
-                        $data = json_decode($response_json, true);
+                    $number_kituo = $center . "-" . $number;
+                    $exam_id = 1;
+                    $exam_year = $year;
+                    $apiNumber = $number_kituo . "/" . $exam_id . "/" . $exam_year;
+                    $index_number = $center . "/" . $number;
+                    $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_HTTPGET, true);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    $response_json = curl_exec($ch);
+                    curl_close($ch);
+                    $data = json_decode($response_json, true);
 
+                    if ($data['status']['code'] == 1) {
+                        $fname = $data['particulars']['first_name'];
+                        $mname = $data['particulars']['middle_name'];
+                        $lname = $data['particulars']['last_name'];
+                        $gender = $data['particulars']['sex'];
 
-                        if ($data['status']['code'] == 1) {
-                            $fname = $data['particulars']['first_name'];
-                            $mname = $data['particulars']['middle_name'];
-                            $lname = $data['particulars']['last_name'];
-                            $gender = $data['particulars']['sex'];
-
-                            if ($gender == "M") {
-                                $gender = "Male";
-                            } else {
-                                $gender = "Female";
-                            }
-                            $phoneNumber = $_POST['phoneNumber'];
-                            $email = $_POST['email'];
-                            $indexYear = $exam_year;
-                            $boolStatus = true;
+                        if ($gender == "M") {
+                            $gender = "Male";
                         } else {
-                            $boolStatus = false;
-                            $msg = "apierror";
+                            $gender = "Female";
                         }
-                    } elseif ($exam_body == "Others") {
+                        $phoneNumber = $_POST['phoneNumber'];
+                        $email = $_POST['email'];
+                        $indexYear = $exam_year;
+                        $boolStatus = true;
+                    } else {
+                        $boolStatus = false;
+                        $msg = "apierror";
+                    }
+                } elseif ($exam_body == "Others") {
                     /* $indexNumber = $_POST['indexNumberOther'];
                         $fname = strtoupper($_POST['fname']);
                         $mname = strtoupper($_POST['mname']);
@@ -120,12 +120,13 @@ $error = array();
                     $equivalence_number = $_POST['equivalence_number'];
                     $exam_id = 1;
                     $exam_year = $_POST['exam_year'];
-                    $apiNumber = $equivalence_number."/".$exam_id."/".$exam_year;
-                    $indexNumber = $equivalence_number."/".$exam_year;
-                    $url = "https://api.necta.go.tz/api/public/particulars/".$apiNumber."/".$token;
+                    $apiNumber = $equivalence_number . "/" . $exam_id . "/" . $exam_year;
+                    $indexNumber = $equivalence_number . "/" . $exam_year;
+                    $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPGET, true);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                     $response_json = curl_exec($ch);
                     curl_close($ch);
                     $data = json_decode($response_json, true);
@@ -150,28 +151,27 @@ $error = array();
                         $boolStatus = false;
                         $msg = "apierror";
                     }
-                    }
                 }
-            }else if ($admission_level == "PG") {
-                //Admission for PHD
-                $fname = strtoupper($_POST['pfname']);
-                $mname = strtoupper($_POST['pmname']);
-                $lname = strtoupper($_POST['plname']);
-                $gender = $_POST['pgender'];
-                $phoneNumber = $_POST['phoneNumber'];
-                $email = $_POST['email'];
-                if ($db->isFieldExist('users', 'email', $_POST['email'])) {
-                    $boolStatus = false;
-                    $msg = "emailexists";
-                }
-                else {
-                    $boolStatus = true;
-                }
+            }
+        } else if ($admission_level == "PG") {
+            //Admission for PHD
+            $fname = strtoupper($_POST['pfname']);
+            $mname = strtoupper($_POST['pmname']);
+            $lname = strtoupper($_POST['plname']);
+            $gender = $_POST['pgender'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $email = $_POST['email'];
+            if ($db->isFieldExist('users', 'email', $_POST['email'])) {
+                $boolStatus = false;
+                $msg = "emailexists";
+            } else {
+                $boolStatus = true;
             }
         }
     }
-    
-    if ($boolStatus == false) {
+}
+
+if ($boolStatus == false) {
         header("Location:index.php?msg=$msg");
     }else 
     {
@@ -201,7 +201,7 @@ $error = array();
     <!-- Top content -->
     <div class="row">
         <div class="col-sm-12 col-sm-offset-0 text">
-            <h1 style="color: white; font-weight: bold; font-size: 48px"><?php echo $orgName;?></h1>
+            <h1 style="color: white; font-weight: bold; font-size: 48px"><?php echo $orgName; ?></h1>
             <hr border-color="LightSlateGrey">
         </div>
     </div>
@@ -313,7 +313,8 @@ $error = array();
                                             <!-- <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-index-number">Equivalence Number</label>
-                                                    <input type="text" name="equivalence_number" value="<?php //echo $equivalence_number; ?>" class="form-control" readonly>
+                                                    <input type="text" name="equivalence_number" value="<?php //echo $equivalence_number; 
+                                                                                                        ?>" class="form-control" readonly>
                                                 </div>
                                             </div> -->
 
@@ -471,4 +472,5 @@ $error = array();
 
 
 </html>
-                                        <?php }?>
+<?php }
+?>

@@ -28,15 +28,17 @@ if($indexNumber) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $response_json = curl_exec($ch);
-        // if (curl_exec($ch) === false) {
-        //     echo 'Curl error: ' . curl_error($ch);
-        // } else {
-        //     echo 'Operation completed without any errors, you have the response';
-        // }
-        curl_close($ch);
+        /* if (curl_exec($ch) === false) {
+            echo 'Curl error: ' . curl_error($ch);
+        } else {
+             echo 'Operation completed without any errors, you have the response';
+        }
+        curl_close($ch); */
         $data = json_decode($response_json, true);
-    
+        if($data['status']['code']==1)
+        {
         //$data = json_decode($json, true);
         ?>
         <form name="" action="action_confirm_ordinary_results.php" method="post">
@@ -119,14 +121,17 @@ if($indexNumber) {
         </form>
         <?php
 
-        //}
+        }
+        else 
+        {
+            echo $data['status']['message']."<br>Please Contact Admission Officer OR Send this message to him/her, Contact may found from top of the page";
+        }
         ?>
         </div>
 
         <?php
     } else {
-        echo "<h3 class='text-danger'>Sorry,NECTA API Results are not obtained, please <a href='index.php?sz=ordinary_results&id=" . $_SESSION['applicantID'] . "&inumber=" . $indexNumber . "'>click here</a> 
-    to add results manually</h3>";
+        echo "<h3 class='text-danger'>Sorry,NECTA API Results are not obtained<br>Please Contact Admission Officer OR Send this message to him/her, Contact may found from top of the page</h3>";
     }
 }
 ?>

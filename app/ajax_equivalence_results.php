@@ -28,6 +28,7 @@ if ($indexNumber) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $response_json = curl_exec($ch);
         /* if (curl_exec($ch) === false) {
             echo 'Curl error: ' . curl_error($ch);
