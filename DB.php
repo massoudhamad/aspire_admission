@@ -550,11 +550,10 @@ where
                 
             where
                 a.applicantID=aa.applicantID
-                and (aa.studyLevelID=:studyc or aa.studyLevelID=:studyd or aa.studyLevelID=:studydd)
+                and (aa.studyLevelID=:studyc or aa.studyLevelID=:studyd)
                 and applicantsRemarksID=:remarkID
-                and applicationYearID=:appYearID
-                and admissionID=:adminID");
-                $query->execute(array(':studyc' => 2, ':studyd' => 3, ':studydd' => 4, ':remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));
+                and applicationYearID=:appYearID");
+                $query->execute(array(':studyc' => 2, ':studyd' => 3, ':remarkID' => 6, ':appYearID' => $acadID));
             }
 
             $data = array();
