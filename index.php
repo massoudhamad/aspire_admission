@@ -345,7 +345,7 @@ if(!empty($activeInTake)) {
                                             </div>
 
                                         </div>
-                                        <div class="UG">
+                                   <!--  <div class="UG"> -->
                                             <div class="row">
 
 
@@ -370,12 +370,6 @@ if(!empty($activeInTake)) {
 
 
                                                 <div class="Others">
-                                                    <!--<div class="col-sm-6">
-										<div class="form-group">
-				                    		<label class="sr-only" for="form-index-number">Index Number</label>
-				                        	<input type="text" name="indexNumberOther" id="indexNumberOther" placeholder="Index Number..." class="form-index-number form-control" id="form-index-number">
-	                        			</div>
-										</div>-->
 
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
@@ -426,10 +420,10 @@ if(!empty($activeInTake)) {
 
                                                 </div>
                                             </div>
-                                        </div>
+                                       <!--  </div> -->
 
                                         <!-- Postgraduate -->
-                                        <div class="PG">
+                                       <!--  <div class="PG">
                                             <div class="row">
 
                                                 <div class="col-sm-6">
@@ -465,7 +459,7 @@ if(!empty($activeInTake)) {
 
                                             </div>
                                         </div>
-
+ -->
 
                                         <div class="row">
                                             <div class="col-sm-6">

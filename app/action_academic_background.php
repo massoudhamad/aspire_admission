@@ -8,6 +8,7 @@ try {
         if($_REQUEST['action_type'] == 'add'){
             $instituteName=$_POST['instituteName'];
             $programmeName=$_POST['programmeName'];
+            $registrationNumber=$_POST['registrationNumber'];
             $cgpa=$_POST['cgpa'];
             $qualificationTypeID=$_POST['qualificationTypeID'];
             $startYear=$_POST['startYear'];
@@ -16,6 +17,7 @@ try {
                 'applicantID'=>$_SESSION['applicantID'],
                 'programmeName' => $programmeName,
                 'institutionName'=>$instituteName,
+                'registrationNumber'=>$registrationNumber,
                 'startYear'=>$startYear,
                 'endYear'=>$endYear,
                 'gpa'=>$cgpa,

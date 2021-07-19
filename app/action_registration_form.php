@@ -164,7 +164,15 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     {
         //header("Location:index.php?sz=personalinfo&msg=succ");
         //header("Location:index.php?sz=payments");
-        header("Location:index.php?sz=submit");
+        
+        if($_SESSION['admissionLevel']=="PG")
+        {
+            header("Location:index.php?sz=working");
+        }
+        else 
+        {
+            header("Location:index.php?sz=submit");
+        }
     }
     else
     {

@@ -37,7 +37,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $insert = $db->insert($tblName,$userData); 
 
 
-        if($db->checkApplicantStudyLevel($applicantID)==1) 
+        if(($db->checkApplicantStudyLevel($applicantID)==1) && ($_POST['remarksID']==2)) 
         {
             $api_token = $db->getAPI("TCU", "token");
             if (!empty($api_token)) {

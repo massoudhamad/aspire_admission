@@ -217,47 +217,80 @@ $applicantID = $_SESSION['applicantID'];
                         ?>
                         <!-- Tshs. 25,000/= for Certificate/Diploma Applicant<br>
                         Tshs. 50,000/= for Postgraduate Applicant<br> -->
-                        Send your pay-in slip through WhatsApp Numbers: <?php echo $studentSupport;?>
+                        Send your pay-in slip through WhatsApp Numbers: <?php echo $studentSupport; ?>
                     </span>
                 </div>
 
             </div>
 
             <?php
-            if (empty($programmeChoice) && (empty($programmeChoice2))) {
+            $attachment = $db->getRows("attachment", array('where' => array('applicantID' => $applicantID), 'order by attachmentID DESC'));
+            if ($_SESSION['admissionLevel'] == "PG") {
+                if (empty($programmeChoice) && (empty($programmeChoice2))) {
             ?>
-                <h2 class="text-danger">Sorry,please choose your study plan in step 3(Study Plan)</h2>
-            <?php
-            } else if ($appinfostatus == 0) {
-            ?>
-                <h2 class="text-danger">Sorry,please complete your profile(Personal Information) in step 4</h2>
-            <?php
-            } else if ($db->checkApplicantStudyLevel($_SESSION['applicantID']) != 1) {
-                /*if (empty($payments)) {
-                    */ ?>
-                <!--
+                    <h2 class="text-danger">Sorry,please choose your study plan in step 3(Study Plan)</h2>
+                <?php
+                } elseif ($appinfostatus == 0) {
+                ?>
+                    <h2 class="text-danger">Sorry,please complete your profile(Personal Information) in step 4</h2>
+                <?php
+                } else if (empty($attachment)) {
+                ?>
+                    <h2 class="text-danger">Sorry,please attach your Bachelor/Master/Personal Picture</h2>
+                    <?php }
+                    else {
+                        ?>
+                    <div class="row">
+                        <div class="col-lg-9"></div>
+                        <?php
+                        if ($remarkID == 7 || $remarkID == 5 || $remarkID == 1) {
+                        ?>
+                            <form name="" method="post" action="">
+                                <div class="col-lg-3">
+                                    <a class="submitapplication" data-id="<?php echo $_SESSION['applicantID']; ?>" href="javascript:void(0)">
+                                        <input type="submit" name="doProceed" value="Submit Application" class="btn btn-success form-control" /></a>
+                                </div>
+                            </form>
+                    <?php
+                        }
+                    }
+                    ?>
+                    </div>
+                    <?php
+                } else {
+                    if (empty($programmeChoice) && (empty($programmeChoice2))) {
+                    ?>
+                        <h2 class="text-danger">Sorry,please choose your study plan in step 3(Study Plan)</h2>
+                    <?php
+                    } elseif ($appinfostatus == 0) {
+                    ?>
+                        <h2 class="text-danger">Sorry,please complete your profile(Personal Information) in step 4</h2>
+                    <?php
+                    } elseif ($db->checkApplicantStudyLevel($_SESSION['applicantID']) != 1) {
+                        /*if (empty($payments)) {
+                        */ ?>
+                        <!--
                     <h2 class="text-danger">Sorry,please complete your Payments in step 5</h2>
                     --><?php
                         /*                }*/
                         /* else
                 {*/
                         ?><div class="row">
-                    <div class="col-lg-9"></div>
-                    <?php
-                    if ($remarkID == 7 || $remarkID == 5 || $remarkID == 1) {
-                    ?>
-                        <form name="" method="post" action="">
-                            <div class="col-lg-3">
-                                <a class="submitapplication" data-id="<?php echo $_SESSION['applicantID']; ?>" href="javascript:void(0)">
-                                    <input type="submit" name="doProceed" value="Submit Application" class="btn btn-success form-control" /></a>
-                            </div>
-                        </form>
-                    <?php
-                    }
-                    ?>
-                </div><?php
-                        //}
-                    } else {
+                            <div class="col-lg-9"></div>
+                            <?php
+                            if ($remarkID == 7 || $remarkID == 5 || $remarkID == 1) {
+                            ?>
+                                <form name="" method="post" action="">
+                                    <div class="col-lg-3">
+                                        <a class="submitapplication" data-id="<?php echo $_SESSION['applicantID']; ?>" href="javascript:void(0)">
+                                            <input type="submit" name="doProceed" value="Submit Application" class="btn btn-success form-control" /></a>
+                                    </div>
+                                </form>
+                            <?php
+                            } ?>
+                        </div><?php
+                                //}
+                                /* } else {
 
                         ?>
                 <div class="row">
@@ -272,13 +305,14 @@ $applicantID = $_SESSION['applicantID'];
                             </div>
                         </form>
                     <?php
-                        }
-                    ?>
-                </div>
+                        } */
+                                ?>
         </div>
-    <?php
-                    }
-    ?>
     </div>
+<?php
+                    }
+                }
+?>
+</div>
 </div>
 </div>

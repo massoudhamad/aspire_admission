@@ -43,7 +43,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
         $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
         $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
         $boolStatus = false;
-        if ($admission_level == "UG") {
+        //if ($admission_level == "UG") {
             if ($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
                 $boolStatus = false;
                 $msg = "exists";
@@ -153,7 +153,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     }
                 }
             }
-        } else if ($admission_level == "PG") {
+        /* } else if ($admission_level == "PG") {
             //Admission for PHD
             $fname = strtoupper($_POST['pfname']);
             $mname = strtoupper($_POST['pmname']);
@@ -167,7 +167,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
             } else {
                 $boolStatus = true;
             }
-        }
+        } */
     }
 }
 
@@ -286,7 +286,7 @@ if ($boolStatus == false) {
 
                                     </div>
                                     <!--<div class="UG">-->
-                                    <?php if ($admission_level == "UG") { ?>
+                                    <?php //if ($admission_level == "UG") { ?>
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
@@ -377,9 +377,9 @@ if ($boolStatus == false) {
 
                                         </div>
 
-                                    <?php } else if ($admission_level == "PG") {
+                                    <?php //} else if ($admission_level == "PG") {
                                     ?>
-                                        <div class="row">
+                                       <!--  <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-first-name">First name</label>
@@ -429,10 +429,10 @@ if ($boolStatus == false) {
                                                     <input type="text" name="email" value="<?php echo $email; ?>" class="form-email form-control" readonly>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                     <?php
-                                    }
+                                    //}
                                     ?>
 
                                     <div class="row">
