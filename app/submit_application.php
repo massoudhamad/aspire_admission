@@ -267,14 +267,6 @@ $applicantID = $_SESSION['applicantID'];
                         <h2 class="text-danger">Sorry,please complete your profile(Personal Information) in step 4</h2>
                     <?php
                     } elseif ($db->checkApplicantStudyLevel($_SESSION['applicantID']) != 1) {
-                        /*if (empty($payments)) {
-                        */ ?>
-                        <!--
-                    <h2 class="text-danger">Sorry,please complete your Payments in step 5</h2>
-                    --><?php
-                        /*                }*/
-                        /* else
-                {*/
                         ?><div class="row">
                             <div class="col-lg-9"></div>
                             <?php
@@ -289,8 +281,7 @@ $applicantID = $_SESSION['applicantID'];
                             <?php
                             } ?>
                         </div><?php
-                                //}
-                                /* } else {
+                                } else {
 
                         ?>
                 <div class="row">
@@ -305,7 +296,7 @@ $applicantID = $_SESSION['applicantID'];
                             </div>
                         </form>
                     <?php
-                        } */
+                        }
                                 ?>
         </div>
     </div>
