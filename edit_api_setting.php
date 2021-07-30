@@ -25,8 +25,13 @@ if (!empty($userData)) {
                                 <label for="email">Token Type</label>
                                 <select name="tokenType" class="form-control">
                                     <option value="<?php echo $apiData['tokenType']; ?>"><?php echo $apiData['tokenType']; ?></option>
-                                    <option value="token">token</option>
-                                    <option value="auth">auth</option>
+                                    <option value="token">Token</option>
+                                    <option value="auth">Authentication</option>
+                                    <option value="institution">Institution Details</option>
+                                    <option value="verification">Verification</option>
+                                    <option value="error">Error and Feedback</option>
+                                    <option value="balance">Get Balance</option>
+                                    <option value="verified">Get Verified</option>
                                 </select>
                             </div>
 
