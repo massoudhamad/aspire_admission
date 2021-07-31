@@ -149,7 +149,7 @@ try {
 
                 if ($studyLevelID == 1) {
                     $levelCode = 20;
-                } elseif ($studyLevelID == 2 || $studyLevelID == 3) {
+                } elseif ($studyLevelID == 2 || $studyLevelID == 3 || $studyLevelID==8) {
                     $levelCode = 10;
                 } elseif ($studyLevelID == 4) {
                     $levelCode = 30;
@@ -183,7 +183,7 @@ try {
 
                     if ($studyLevelID == 1) {
                         $registrationNumber=$regYear."".$levelCode."".$regCode.$finalNumber;
-                    } elseif ($studyLevelID == 2) {
+                    } elseif ($studyLevelID == 2 || $studyLevelID==8) {
                         //$regCode=explode("/", $regCode);
                         /* $registrationNumber=$regYear."".$levelCode."".$regCode[1].$finalNumber; */
                         //$regCode=600000;
