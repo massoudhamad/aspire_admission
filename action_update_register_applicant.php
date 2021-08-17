@@ -191,7 +191,7 @@ try {
                         $registrationNumber = $regYear . "" . $levelCode . "".$regCode.$finalNumber;
                     } elseif ($studyLevelID == 3) {
                         //$regCode = explode("/", $regCode);
-                        $regCode=10;
+                        $regCode=20;
                         $registrationNumber = $regYear . "" . $levelCode . "" . $regCode . $finalNumber;
                     } elseif ($studyLevelID==4) {
                         //$levelCode=$
