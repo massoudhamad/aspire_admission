@@ -246,9 +246,9 @@ if($_REQUEST['action']=="getPDF")
       $pdf->setFont('Arial', 'B', 12);
       $pdf->Cell(6);$pdf->Cell(170,6,"RE.:ADMISSION TO ".strtoupper($programmeName));
 
-            $pdf->SetAlpha(0.3);
+            $pdf->SetAlpha(0.1);
             //$pdf->Image($organizationPicture, 30, 50, 150,150);
-            $pdf->Image("../img/sumait_logo.jpg",30,50,150,150);
+            $pdf->Image("../img/sumait_logo.png",30,50,150,150);
             $pdf->SetAlpha(1);
 
 
