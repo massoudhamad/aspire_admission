@@ -286,6 +286,9 @@ $db = new DBHelper();
                             </tr>";
                                 $count++;
                             }
+                        }else 
+                        {
+                            echo "No Data";
                         }
                         ?></tbody>
                     </table>

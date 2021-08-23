@@ -4070,10 +4070,9 @@ where
         AND a.applicantID=aa.applicantID
         and applicationYearID=:ayID
         and admissionID=:adID
-        and applicantsRemarksID >= :rmk
-        and applicantsRemarksID < :rmk2
-        ");
-                $query->execute(array('std'=>1,':ayID' => $acadID, ':adID' => $admID,':rmk'=>2,'rmk2'=>7));
+        and applicantsRemarksID = :rmk
+        and aa.admissionStatus=:st");
+                $query->execute(array('std'=>1,':ayID' => $acadID, ':adID' => $admID,':rmk'=>3,':st'=>1));
             }
             else {
                 $query = $this->conn->prepare("SELECT
@@ -4086,14 +4085,14 @@ from
 where
         p.programID=pm.programmeID
         and pm.programmeMajorID=aa.programmeMajorID
+        AND aa.admissionStatus=:st
         AND a.applicantID=aa.applicantID
         and p.programCode=:proCode
         and applicationYearID=:ayID
         and admissionID=:adID
-        and applicantsRemarksID >= :rmk
-        and applicantsRemarksID < :rmk2
-        ");
-                $query->execute(array(':proCode' => $programmeCode, ':ayID' => $acadID, ':adID' => $admID,':rmk'=>2,'rmk2'=>7));
+        and applicantsRemarksID = :rmk
+        and aa.admissionStatus=:st");
+                $query->execute(array(':st'=>1,':proCode' => $programmeCode, ':ayID' => $acadID, ':adID' => $admID,':rmk'=>3,':st'=>1));
             }
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
