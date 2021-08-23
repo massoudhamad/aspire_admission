@@ -248,14 +248,39 @@ if($_REQUEST['action']=="getPDF")
 
             $pdf->SetAlpha(0.3);
             //$pdf->Image($organizationPicture, 30, 50, 150,150);
-            $pdf->Image("../img/sumait_logo.jpg",30,50,150,150);
             $pdf->SetAlpha(1);
 
 
      $pdf->Ln(8);
       $pdf->setFont('Arial', '', 11);
+      //pdf content
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "The Admission Board of the ".$organizationName." is pleased to inform you that you have been admitted into the said program in the academic year ". $applicationYear);
+      
+       $pdf->setFont('Arial', '', 11);
 
-      $dates=$db->getRows("admission_letter_setting",array('where'=>array('studyLevelID'=>$studyLevelID)));
+       $header=array('Programme Name','Duration','Faculty');
+       $pdf->Ln(6);
+       $pdf->Cell(6);
+       $pdf->setFont('Arial', 'B', 12);
+       $pdf->BasicTable($header);
+
+       $pdf->setFont('Arial', '', 10);
+       $pdf->Cell(6,6,'');
+       $pdf->Cell(100,6,$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID),1);
+       $pdf->Cell(20,6,$duration.' years',1,0,'C');
+       $pdf->Cell(70,6,$sname,1,0);
+       $pdf->Ln(6);
+
+      
+     $pdf->Ln(10);
+     $pdf->Cell(6);
+     $pdf->setFont('Arial', 'B', 12);
+     $pdf->Cell(200,6,"Registration and Orientation");
+
+       $pdf->Ln(6);
+       $pdf->Cell(6);
+       $pdf->setFont('Arial', '', 11);
+       $dates=$db->getRows("admission_letter_setting",array('where'=>array('studyLevelID'=>$studyLevelID)));
        if(!empty($dates))
        {
            foreach($dates as $dt)
@@ -263,50 +288,9 @@ if($_REQUEST['action']=="getPDF")
                $orientationDate=$dt['orientationDate'];
                $registrationDate=$dt['registrationDate'];
            }
-       } 
-      //pdf content
-       //$pdf->Cell(6);$pdf->MultiCell(0,6, "The Admission Board of the ".$organizationName." is pleased to inform you that you have been admitted into the said program in the academic year ". $applicationYear);
-
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Abdulrahman Al-SUMAIT University (SUMAIT University) is pleased to inform you that your application has been approved and that you have been selected to pursue ".$duration." years studies in ".$programmeName." for ".$applicationYear." academic year.");
-       $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Registration and Orientation will commence on 19th October, 2021. and you are required to present yourself at the Admission Office for registration after paying the required registration fee of Tanzanian Shillings Two Hundred Thousand and Four Hundred (200,400/=) through Account name: SUMAIT University and Account Number: 0710412000 PBZ ISLAMIC BANK.  Failure to do so, may result into withdrawal of your admission at the University.");
-       $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Fee structure and mode of payment is shown in detail on joining instructions which can be downloaded from the University website www.sumait.ac.tz or obtained at the Admissions Office.");
-       $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "On reporting date, you will be required to bring your ORIGINAL certificates which supported your application (the original will be returned to you after verification), together with respective copies (birth certificate, form four, form six, transcript) and two recent passport size pictures. You are also required to sign the relevant sections in the acceptance form, declaration on Dress code and medical certificate.");
-       $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Duly completed forms must be returned to the University during Registration."); 
-       $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Let me take this opportunity to congratulate you and wish you success in your academic endeavors.");
-       $pdf->Ln(6);
-      
-       $pdf->setFont('Arial', '', 11);
-
-    //    $header=array('Programme Name','Duration','Faculty');
-    //    $pdf->Ln(6);
-    //    $pdf->Cell(6);
-    //    $pdf->setFont('Arial', 'B', 12);
-    //    $pdf->BasicTable($header);
-
-    //    $pdf->setFont('Arial', '', 10);
-    //    $pdf->Cell(6,6,'');
-    //    $pdf->Cell(100,6,$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID),1);
-    //    $pdf->Cell(20,6,$duration.' years',1,0,'C');
-    //    $pdf->Cell(70,6,$sname,1,0);
-    //    $pdf->Ln(6);
-
-      
-    //  $pdf->Ln(10);
-    //  $pdf->Cell(6);
-    //  $pdf->setFont('Arial', 'B', 12);
-    //  $pdf->Cell(200,6,"Registration and Orientation");
-
-    //    $pdf->Ln(6);
-    //    $pdf->Cell(6);
-    //    $pdf->setFont('Arial', '', 11);
+       }
        
-       
-    //    $pdf->MultiCell(0,6, "Orientation and Registration of new students will be on ". date("d-m-Y",strtotime($orientationDate))." and ". date("d-m-Y",strtotime($registrationDate))." respectively.");
+       $pdf->MultiCell(0,6, "Orientation and Registration of new students will be on ". date("d-m-Y",strtotime($orientationDate))." and ". date("d-m-Y",strtotime($registrationDate))." respectively.");
        
      $pdf->Ln(10);
      $pdf->Cell(6);
@@ -315,7 +299,6 @@ if($_REQUEST['action']=="getPDF")
     $pdf->Ln(12);
     //$pdf->Image($signature,20,155,25,25);
     //$pdf->Image($mumStamp,30,198,40,40);
-    $pdf->Image("../img/signature.png",20,214,25,25);
     $pdf->Cell(6);
      $pdf->Ln(18);
      $pdf->Cell(6);
@@ -332,8 +315,8 @@ if($_REQUEST['action']=="getPDF")
   
 
    
-//$pdf->Output();
-$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
+$pdf->Output();
+//$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
    }
   }
 }

@@ -909,7 +909,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and a.admissionID = :admID
         and choice = :chc
         and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID, ':appYearID' => $acadID,':admID'=>$adminID,':chc' => 1, 'remarkID' => 2));
+            $query->execute(array(':progID' => $pID, ':appYearID' => $acadID,':admID'=>$adminID,':chc' => 1, 'remarkID' => 3));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;

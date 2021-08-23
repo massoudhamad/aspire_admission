@@ -94,7 +94,15 @@ $db = new DBHelper();
                                 $url=$ap['url'];
                             }
                         }
+                        else
+                        {
+                            echo "Invalid Output";
+                        }
                         /*$url = "http://41.93.40.137/nacteapi/index.php/api/institutions/tkn/kld8b98d00092dad/ape/9aebe24ff1476ed3db07c6e4707dda3a71def9b097f8677e102b5fd731260061/Co/ed1e8be1b3fb2eafb19d59675449289873531733";*/
+                        //
+
+                        //$token="zAb639720f63c395-1a4ad53acff4274062101ee00188ce2767cb95094e01dd14002f5eb53ecdcad7-b98d1de3d7255ff8a62487599bea334016ee5385";
+                        
                         //$url= "https://www.nacte.go.tz/nacteapi/index.php/api/institutions/".$token;
                         
 

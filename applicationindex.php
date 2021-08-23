@@ -438,12 +438,8 @@ $schoolID=$db->getData("departments","schoolID","departmentID",$departmentID);
 $upload= $db->getRows('upload',array('where'=>array('schoolID'=>$schoolID),'order_by'=>' academicYearID ASC'));
 if($remarkID==6)
 {
-
     ?>
-
     <?php
-
-
     if(!empty($upload))
     {
         ?>

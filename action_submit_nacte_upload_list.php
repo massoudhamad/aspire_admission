@@ -149,7 +149,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     'nationality' => $row['citizenship'],
                     'programme_id' => $programmeCode,
                     'payment_reference_number' => $payment_reference_number,
-                    'application_year' => '2020',
+                    'application_year' => '2021',
                     'intake' => 'SEPT',
 
                 );
