@@ -333,8 +333,8 @@ if($_REQUEST['action']=="getPDF")
   
 
    
-$pdf->Output();
-//$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
+//$pdf->Output();
+$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
    }
   }
 }
