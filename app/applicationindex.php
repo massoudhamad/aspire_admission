@@ -266,7 +266,17 @@ if ($login == 0) {
                                                         <span class="text text-success">Download Admission Letter</span></a>
                                                     <br><br>
                                             </td>
-                                            <?php } else if ($_SESSION['orgCode'] == "MUM") {
+                                            <?php }
+                                            else if($_SESSION['orgCode']=="IPA"){
+                                                ?>
+                                                <td>
+                                                    <a href="printadmissionletteri.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <br><br>
+                                                </td>
+                                            <?php
+
+                                            }else if ($_SESSION['orgCode'] == "MUM") {
                                             ?>
                                                 <td>
                                                     <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">

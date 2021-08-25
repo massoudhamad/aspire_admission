@@ -1,0 +1,341 @@
+<?php
+session_start();
+/*ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT);*/
+if($_REQUEST['action']=="getPDF")
+{   
+    include '../DB.php';
+    $db=new DBHelper();
+    require('fpdf.php');
+    $applicantID=$_REQUEST['applicantID'];
+    $today=date('d-M-Y');
+
+    $organization = $db->getRows('organization', array('order_by' => 'organizationName DESC'));
+    if (!empty($organization)) {
+        foreach ($organization as $org) {
+            $organizationName = $org['organizationName'];
+            $organizationCode = $org['organizationCode'];
+            $organizationPicture = "../img/" . $org['organizationPicture'];
+            $studentSupport = $org['student_support'];
+            $orgAddress = $org['organizationAddress'];
+            $orgPhone = $org['organizationPhone'];
+            $orgEmail = $org['organizationEmail'];
+            $contact_person=$org['contact_person'];
+            $office_name=$org['office_name'];
+            $title=$org['title'];
+            $signature="../img/".$org['signature'];
+            $mumStamp ="../img/mumStamp.png";
+        }
+    } else {
+        $organizationName = "Soft Dev Academy";
+        $organizationCode = "SDVA";
+        $organizationPicture = "../img/SkyChuo.png";
+    }
+    class PDF extends FPDF
+    {		
+        function Banner($organizationName,$image)
+        { 
+            
+        //   $bannerPOBOX = "P.O. BOX 1031 Morogoro, Tanzania.";
+        //   $bannerTel = "Tel: +255 23 2600256; Fax: +255 23 2600286";
+        //   $bannerEmail = "E-mail address: mum@mum.ac.tz,"; 
+        //   $bannerWebsite ="Website: www.mum.ac.tz";
+
+        //     $organizationName = strtoupper($organizationName);  
+        //     $this->setFont('Arial', 'B', 16);
+        //     $this->Text(56, 15, $organizationName);
+        //     $this->setFont('Arial', '', 15);
+        //     $this->Text(66, 21, $bannerPOBOX);
+        //     $this->setFont('Arial', '', 11);
+        //     $this->Text(70, 26, $bannerTel);
+        //     $this->setFont('Arial', '', 11);
+        //     $this->Text(80, 31, $bannerEmail);
+        //     $this->setFont('Arial', '', 11);
+        //     $this->Text(89, 36, $bannerWebsite);
+
+            $this->Image($image, 15, 8, 190, 39);
+
+            //$this->Image($image, 15, 8, 36, 34);
+            $this->Line(200, 45, 15, 45);
+
+            $this->setFont('Arial', 'B', 14);
+            /* $this->Text(75, 40, 'Admission Letter'); */
+        }
+        function BasicTable($header)
+        {
+            $w = array(100,20,70);
+            for($i=0;$i<count($header);$i++)
+                $this->Cell($w[$i],6,$header[$i],1,0,'L',0);
+            $this->Ln();
+
+        }
+        function Footer()
+        {
+            global $organizationName;
+            global $applicationYear;
+            $today2=date('Y-m-d H:i:s');
+            //Position at 1.5 cm from bottom
+            $this->SetY(-15);
+            $this->SetFont('Arial','I',8);
+            //$this->Line(-30,-16,-15,-15);
+            $this->Cell(100,0,$organizationName.$today2,0,1,'L');
+            $this->Cell(200,0,"Admission Letter".$applicationYear,0,1,'R');
+
+        }
+
+        //Image watermark
+        protected $extgstates = array();
+
+        // alpha: real value from 0 (transparent) to 1 (opaque)
+        // bm:    blend mode, one of the following:
+        //          Normal, Multiply, Screen, Overlay, Darken, Lighten, ColorDodge, ColorBurn,
+        //          HardLight, SoftLight, Difference, Exclusion, Hue, Saturation, Color, Luminosity
+        function SetAlpha($alpha, $bm = 'Normal')
+        {
+            // set alpha for stroking (CA) and non-stroking (ca) operations
+            $gs = $this->AddExtGState(array('ca' => $alpha, 'CA' => $alpha, 'BM' => '/' . $bm));
+            $this->SetExtGState($gs);
+        }
+
+        function AddExtGState($parms)
+        {
+            $n = count($this->extgstates) + 1;
+            $this->extgstates[$n]['parms'] = $parms;
+            return $n;
+        }
+
+        function SetExtGState($gs)
+        {
+            $this->_out(sprintf('/GS%d gs', $gs));
+        }
+
+        function _enddoc()
+        {
+            if (!empty($this->extgstates) && $this->PDFVersion < '1.4')
+            $this->PDFVersion = '1.4';
+            parent::_enddoc();
+        }
+
+        function _putextgstates()
+        {
+            for ($i = 1; $i <= count($this->extgstates); $i++) {
+                $this->_newobj();
+                $this->extgstates[$i]['n'] = $this->n;
+                $this->_put('<</Type /ExtGState');
+                $parms = $this->extgstates[$i]['parms'];
+                $this->_put(sprintf('/ca %.3F', $parms['ca']));
+                $this->_put(sprintf('/CA %.3F', $parms['CA']));
+                $this->_put('/BM ' . $parms['BM']);
+                $this->_put('>>');
+                $this->_put('endobj');
+            }
+        }
+
+        function _putresourcedict()
+        {
+            parent::_putresourcedict();
+            $this->_put('/ExtGState <<');
+            foreach ($this->extgstates as $k => $extgstate)
+            $this->_put('/GS' . $k . ' ' . $extgstate['n'] . ' 0 R');
+            $this->_put('>>');
+        }
+
+        function _putresources()
+        {
+            $this->_putextgstates();
+            parent::_putresources();
+        }
+        //end image watermark
+    }
+    $pdf=new PDF();
+    $pdf->AliasNbPages();
+    $pdf->AddPage("P");
+    $pdf->setFont('Arial', '', 8);
+    $applicantsData=$db->getRows('applicants',array('where'=>array('applicantID'=>$applicantID),'order_by'=>'applicantID ASC'));
+   if(!empty($applicantsData)){ 
+   foreach($applicantsData as $apps)
+   {
+       $gender=$apps['gender'];
+       $fname= $apps['firstName'];
+       $mname=$apps['middleName'];
+       $lname=$apps['lastName']; // $pdf->Ln(8);
+       // $pdf->setFont('Arial', 'B', 11);
+       // $pdf->Cell(6);
+       // $programmeName=$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID);
+       // $pdf->Cell(101, 6, "" . iconv('ISO-8859-1', 'windows-1252',"Program of Study: ".html_entity_decode($programmeName)), "0");
+       $address=$apps['physicalAddress'];
+       $phoneNumber=$apps['phoneNumber'];
+       $formfour=$apps['formfour'];
+       $applicantNumber=$apps['applicationNumber'];
+       $applicationYear=$db->getData("academicyears","academicYear","academicYearID",$apps['applicationYearID']);
+       if($gender=="Male")
+           $sex="Mr.";
+       else 
+           $sex="Ms.";
+       $name="Dear $sex $fname $mname $lname";
+
+
+       $programmeAdmitted=$db->getRows("applicantapplication", array('where'=>array('applicantID'=>$_SESSION['applicantID'],'admissionStatus'=>1),'order_by applicantID ASC'));
+       if(!empty($programmeAdmitted))
+       {
+           foreach ($programmeAdmitted as $pChoice)
+           {
+               $applicantApplicationIDFirst=$pChoice['applicantApplicationID'];
+               $programmeMajorID=$pChoice['programmeMajorID'];
+
+           }
+       }
+       $programme=$db->getStudyLevelID($programmeMajorID);
+       if(!empty($programme))
+       {
+           foreach ($programme as $cp)
+           {
+               $duration=$cp['programDuration'];
+               $sname=$cp['schoolName'];
+               $studyLevelID=$cp['studyLevelID'];
+           }
+       }
+       else
+       {
+           $duration="";
+           $sname="";
+           $studyLevelID='';
+
+       }
+
+
+       /*$studyLevel=$db->getStudyLevelID($programmeMajorID);
+       if(!empty($studyLevel))
+       {
+           foreach($studyLevel as $lvl)
+           {
+               $studyLevelID=$lvl['studyLevelID'];
+           }
+       }
+       else
+       {
+           $studyLevelID='';
+       }*/
+
+      $pdf->Banner($organizationName, $organizationPicture);
+      $pdf->Ln(40); 
+      $pdf->setFont('Arial', 'B', 12);
+      $pdf->Cell(6);
+      $pdf->Cell(101,6,"Ref.Number: ".$db->getData("applicants","refNumber","applicantID",$applicantID),"0");
+      $pdf->setFont('Arial', '', 12);
+      if($studyLevelID==1)
+      {
+          $pdf->Cell(50); $pdf->Cell(98,6,$today);
+      }
+      else
+      {
+          $pdf->Cell(50); $pdf->Cell(98,6, $today);
+      }
+      $pdf->Cell(50); $pdf->Cell(98,6, $today);
+      $pdf->Ln(8);
+      $pdf->setFont('Arial', 'B', 11);
+      $pdf->Cell(6);$pdf->Cell(101,6,"". iconv('ISO-8859-1', 'windows-1252', html_entity_decode($name)),"0");
+
+            // $pdf->Ln(8);
+            // $pdf->setFont('Arial', 'B', 11);
+            // $pdf->Cell(6);
+            $programmeName=$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID);
+            // $pdf->Cell(101, 6, "" . iconv('ISO-8859-1', 'windows-1252',"Program of Study: ".html_entity_decode($programmeName)), "0");
+      
+      $pdf->Ln(10);
+      $pdf->setFont('Arial', 'B', 12);
+      $pdf->Cell(6);$pdf->MultiCell(170,6,"RE.:ADMISSION TO ".strtoupper($programmeName)." PROGRAMME FOR ACADEMIC YEAR 2021/2022",0,'C');
+
+            $pdf->SetAlpha(0.1);
+            //$pdf->Image($organizationPicture, 30, 50, 150,150);
+            $pdf->Image("../img/ipa_logo.jpg",30,50,150,150);
+            $pdf->SetAlpha(1);
+
+
+     $pdf->Ln(8);
+      $pdf->setFont('Arial', '', 11);
+
+      $dates=$db->getRows("admission_letter_setting",array('where'=>array('studyLevelID'=>$studyLevelID)));
+       if(!empty($dates))
+       {
+           foreach($dates as $dt)
+           {
+               $orientationDate=$dt['orientationDate'];
+               $registrationDate=$dt['registrationDate'];
+           }
+       } 
+      //pdf content
+      $pdf->setFont('Arial', 'I', 11);
+       $pdf->Cell(6);$pdf->MultiCell(0,6,"Congratulations");
+
+       $pdf->setFont('Arial', '', 11);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "1. The Institute of Public Administration (IPA) Zanzibar is pleased to inform you that you have been admitted into a ".$programmeName." programme from the Academic year 2021/2022. This is a ".$duration." year programme administered under the Faculty of Arts and Social Sciences.");
+       $pdf->Ln(4);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "2. You are therefore required to report to the Institute of Public Administration Tunguu Campus on 18th October, 2021 at 09.00 a.m. for registration and orientation. Deadline for the registration will be two (2) weeks from the first day of the orientation week, which starts on 01st November, 2020.");
+       $pdf->Ln(4);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "3. You are required to bring with you the following items:");
+       
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "i) Original and certified documents (birth certificate, certificates of Secondary Education (O. level and A.level), Diploma, for verification.");
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "ii) Two recent passport size photos.");
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "iii) Original and copy of Bank Payment slip.");
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "iv) Holder of documents written in a language other than English shall have to bring with them certified translated copies of the document(s)");
+       $pdf->Ln(4);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "No student shall be allowed to register for studies if he/she does not submit original documents for verification and make full payment in advance of Institute fees annually or at least on a semester basis."); 
+       $pdf->Ln(4);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "4. The fee structure for the 2021/2022 Academic Year could be paid fully or by instalments as seen here under.");
+       $pdf->Ln(4);
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "i. The first instalment should be paid during the enrolment/registration process");
+
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "ii. The second instalment should be paid before semester one final examination (No student shall be allowed to sit for the examinations if he/she has not cleared his/her outstanding debt for semester one");
+   
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "iii. Third instalment should be paid during the registration for the second semester.");
+   
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "iv. Fourth instalment should be paid before semester two final examinations. (No student shall be allowed to sit for examinations if he/she has not cleared his/her outstanding debt for the semester two).");
+   
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "v. The above instalments should also apply for the second and third year of the study."); 
+   
+       $pdf->Cell(8);$pdf->MultiCell(0,6, "vi. The BIR fees structure and other documents are hereby attached with this letter.");
+       $pdf->Ln(4);
+
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "All fees MUST be paid through Peoples Bank of Zanzibar (PBZ) at the following Account:
+       ");
+       $pdf->Ln(4);
+       $pdf->Cell(20);$pdf->Cell(0,6, "ACCOUNT NAME: Chuo cha Utawala wa Umma");
+       $pdf->Ln(4);
+       $pdf->Cell(20);$pdf->Cell(0,6, "ACCOUNT NUMBER (TZS): 0404300000");
+       $pdf->Ln(6);
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "5.The Institute of Public Administration upholds both Academic and Moral Excellency.  Failure to abide by these objectives may lead to disqualification of a students IPA membership.");
+       $pdf->Ln(6);
+       $pdf->setFont('Arial', '', 11);
+       
+     $pdf->Cell(6);
+     $pdf->setFont('Arial', 'I', 11);
+     $pdf->Cell(85,6,"Yours Sincerely,");
+    $pdf->Ln(10);
+    //$pdf->Image($signature,20,155,25,25);
+    //$pdf->Image($mumStamp,30,198,40,40);
+    $pdf->Image("../img/signature_ipa_2.jpg",22,53,25,25);$pdf->Image("../img/ipa_stamp.jpg",40,53,25,25);
+    $pdf->Cell(6);
+     $pdf->Ln(18);  
+     $pdf->Cell(6);
+     $pdf->setFont('Arial', 'B', 11);
+     $pdf->Cell(85,6,$contact_person);
+     $pdf->Ln(6);
+    $pdf->Cell(6);
+    $pdf->Cell(85, 6, $title);
+    $pdf->Ln(6);
+     $pdf->Cell(6);
+     $pdf->setFont('Arial', 'B', 11);
+     $pdf->Cell(85,6,$organizationName);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(85,6,"Zanzibar");
+     //$pdf->Image('images/stamp.png',45,145,25,25);
+  
+
+   
+$pdf->Output();
+//$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
+   }
+  }
+}
+?>

@@ -4125,8 +4125,7 @@ where
         and a.applicationYearID=:ayID
         and a.admissionID=:adID
         and admissionStatus=:adSt
-        and choice=:chc
-        ");
+        and choice=:chc");
             $query->execute(array(':proCode'=>$programmeCode,':appID'=>3,':ayID'=>2,':adID'=>9,':adSt'=>1,':chc'=>1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
