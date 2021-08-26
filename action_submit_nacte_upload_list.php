@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT);
 require_once 'DB.php';
 $db=new DBHelper();
 $params = array('params' => array());
@@ -13,7 +15,8 @@ $status=false;
 if(isset($_POST['doAdmit']) == 'Submit Applicants') {
     $jj = 0;
     foreach ($_POST['applicantID'] as $applicantID) {
-        $applicantsData = $db->getApplicantNacteAdmittedList($applicantID,$programmeID, $academicYearID, $admissionID);
+        $applicantsData = $db->getApplicantNacteAdmittedList($applicantID,$programmeID, $admissionID);
+        var_dump($applicantsData);
         if (!empty($applicantsData)) {
             $x = 0;
             foreach ($applicantsData as $row) {

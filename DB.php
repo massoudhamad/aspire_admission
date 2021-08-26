@@ -889,7 +889,7 @@ physicalAddress,phoneNumber,email,nextOfKinName,nextOfKinPhoneNumber,nextOfKinAd
     }
 
 //getAdmitted for NACTE
-    public function getNacteAdmittedList($pID, $acadID,$adminID)
+    public function getNacteAdmittedList($pID,$adminID,$remarksID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -905,11 +905,10 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and pm.programmeMajorID=aa.programmeMajorID
 	    and p.programID=pm.programmeID
         and pm.programmeID = :progID
-        and a.applicationYearID = :appYearID
         and a.admissionID = :admID
         and choice = :chc
         and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID, ':appYearID' => $acadID,':admID'=>$adminID,':chc' => 1, 'remarkID' => 3));
+            $query->execute(array(':progID' => $pID,':admID'=>$adminID,':chc' => 1, 'remarkID' => $remarksID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -921,7 +920,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
     }
 
     //getApplicantNACTE
-    public function getApplicantNacteAdmittedList($applicantID,$pID, $acadID,$adminID)
+    public function getApplicantNacteAdmittedList($applicantID,$pID,$adminID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -937,12 +936,10 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and pm.programmeMajorID=aa.programmeMajorID
 	    and p.programID=pm.programmeID
         and pm.programmeID = :progID
-        and a.applicationYearID = :appYearID
         and a.admissionID = :admID
         and a.applicantID=:appID
-        and choice = :chc
-        and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID, ':appYearID' => $acadID,':admID'=>$adminID,':appID'=>$applicantID,':chc' => 1, 'remarkID' => 2));
+        and choice = :chc");
+            $query->execute(array(':progID' => $pID, ':admID'=>$adminID,':appID'=>$applicantID,':chc' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
