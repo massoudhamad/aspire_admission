@@ -128,37 +128,42 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $ch = curl_init($url);
                 //setup request to send json via POST
                 $data = array(
+                    'heading'=>array(
                     'authorization' => $token,
-                    'firstname' => $fname,
-                    'secondname' => $mname,
-                    'surname' => $lname,
-                    'DOB' => $dob,
-                    'gender' => $gender,
-                    'impairement' => $disabilityStatus,
-                    'form_four_indexnumber' => implode(",", $formfour),
-                    'form_four_year' => implode(",", $yearO),
-                    'form_six_indexnumber' => implode(",", $formsix),
-                    'form_six_year' => implode(",", $yaken),
-                    'NTA4_reg' => '',
-                    'NTA4_grad_year' => '',
-                    'NTA5_reg' => '',
-                    'NTA5_grad_year' => '',
-                    'mobile_number' => $phoneNumber,
-                    'email_address' => $email,
-                    'address' => $row['physicalAddress'],
-                    'region' => $regionName,
-                    'district' => $districtName,
-                    'next_kin_name' => $row['nextOfKinName'],
-                    'next_kin_phone' => $row['nextOfKinPhoneNumber'],
-                    'next_kin_address' => $row['nextOfKinAddress'],
-                    'next_kin_relation' => $row['relationship'],
-                    'next_kin_region' => $regionName,
-                    'nationality' => $row['citizenship'],
                     'programme_id' => $programmeCode,
                     'payment_reference_number' => $payment_reference_number,
                     'application_year' => '2021',
                     'intake' => 'SEPT',
-
+                    ),
+                    'students'=>array(
+                        ['particulars'=>array(
+                            'firstname' => $fname,
+                            'secondname' => $mname,
+                            'surname' => $lname,
+                            'DOB' => $dob,
+                            'gender' => $gender,
+                            'impairement' => $disabilityStatus,
+                            'form_four_indexnumber' => implode(",", $formfour),
+                            'form_four_year' => implode(",", $yearO),
+                            'form_six_indexnumber' => implode(",", $formsix),
+                            'form_six_year' => implode(",", $yaken),
+                            'NTA4_reg' => '',
+                            'NTA4_grad_year' => '',
+                            'NTA5_reg' => '',
+                            'NTA5_grad_year' => '',
+                            'mobile_number' => $phoneNumber,
+                            'email_address' => $email,
+                            'address' => $row['physicalAddress'],
+                            'region' => $regionName,
+                            'district' => $districtName,
+                            'next_kin_name' => $row['nextOfKinName'],
+                            'next_kin_phone' => $row['nextOfKinPhoneNumber'],
+                            'next_kin_address' => $row['nextOfKinAddress'],
+                            'next_kin_relation' => $row['relationship'],
+                            'next_kin_region' => $regionName,
+                            'nationality' => $row['citizenship']
+                        )],
+                    )       
                 );
                 $payload = json_encode(array($data));
 
