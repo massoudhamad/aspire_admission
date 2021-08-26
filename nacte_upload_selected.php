@@ -173,11 +173,11 @@ $db = new DBHelper();
                         if(!empty($remarks)){ $count = 0; foreach($remarks as $rmk){ $count++;
                          $remark=$rmk['remark'];
                          $remarkID=$rmk['remarkID'];
-
+                         if($remarkID == 2 || $remarkID == 3 || $remarkID == 6){
                         ?>
                         <option value="<?php echo $remarkID;?>"><?php echo $remark;?></option>
                          <?php
-                         
+                         }
                          }
                         
                         }?>

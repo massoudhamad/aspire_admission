@@ -118,8 +118,11 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     }
                 }
 
-                //API URL
-                //$url = 'http://41.93.40.137/nacteapi/index.php/api/upload1';
+               //API URL
+               //$url = 'http://41.93.40.137/nacteapi/index.php/api/upload1';
+               //$url= 'https://www.nacte.go.tz/nacteapi/index.php/api/upload';
+
+
 
                 //create a new cURL resource
                 $ch = curl_init($url);
