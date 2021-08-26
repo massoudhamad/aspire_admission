@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
+/* ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); */
 require_once 'DB.php';
 $db=new DBHelper();
 $params = array('params' => array());
@@ -16,7 +16,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
     $jj = 0;
     foreach ($_POST['applicantID'] as $applicantID) {
         $applicantsData = $db->getApplicantNacteAdmittedList($applicantID,$programmeID, $admissionID);
-        var_dump($applicantsData);
+        //var_dump($applicantsData);
         if (!empty($applicantsData)) {
             $x = 0;
             foreach ($applicantsData as $row) {
@@ -114,14 +114,12 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 if (!empty($api)) {
                     foreach ($api as $ap) {
                         $token = $ap['token'];
-                        //$url = $ap['url'];
+                        $url = $ap['url'];
                     }
                 }
 
                 //API URL
                 //$url = 'http://41.93.40.137/nacteapi/index.php/api/upload1';
-
-               $url= 'https://www.nacte.go.tz/nacteapi/index.php/api/upload';
 
                 //create a new cURL resource
                 $ch = curl_init($url);
@@ -164,7 +162,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                         )],
                     )       
                 );
-                $payload = json_encode(array("user" => $data));
+                $payload = json_encode(array($data));
 
                 //attach encoded JSON string to the POST fields
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
