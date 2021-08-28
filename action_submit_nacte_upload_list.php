@@ -126,16 +126,17 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
 
                 //create a new cURL resource
                 $ch = curl_init($url);
-                //setup request to send json via POST
+                //setup request to send json via POST       
                 $data = array(
                     'heading'=>array(
                     'authorization' => $token,
-                    'programme_id' => $programmeCode,
-                    'payment_reference_number' => $payment_reference_number,
-                    'application_year' => '2021',
                     'intake' => 'SEPT',
+                    'programme_id' => $programmeCode,
+                    'application_year' => '2021',
+                    'level'=>'5',
+                    'payment_reference_number' => $payment_reference_number,
                     ),
-                    'students'=>array(
+                    'students'=>array( 
                         ['particulars'=>array(
                             'firstname' => $fname,
                             'secondname' => $mname,
