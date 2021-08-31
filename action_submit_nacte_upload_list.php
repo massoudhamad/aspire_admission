@@ -124,7 +124,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
 
 
 
-                //create a new cURL resource
+                //create a new cURL resource    
                 $ch = curl_init($url);
                 //setup request to send json via POST       
                 $data = array(
@@ -152,17 +152,18 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                             'NTA4_grad_year' => '',
                             'NTA5_reg' => '',
                             'NTA5_grad_year' => '',
-                            'mobile_number' => $phoneNumber,
                             'email_address' => $email,
+                            'mobile_number' => $phoneNumber,
                             'address' => $row['physicalAddress'],
                             'region' => $regionName,
                             'district' => $districtName,
+                            'nationality' => $row['citizenship'],
                             'next_kin_name' => $row['nextOfKinName'],
-                            'next_kin_phone' => $row['nextOfKinPhoneNumber'],
                             'next_kin_address' => $row['nextOfKinAddress'],
-                            'next_kin_relation' => $row['relationship'],
+                            'next_kin_email_address'=>'',
+                            'next_kin_phone' => $row['nextOfKinPhoneNumber'],
                             'next_kin_region' => $regionName,
-                            'nationality' => $row['citizenship']
+                            'next_kin_relation' => $row['relationship']
                         )],
                     )       
                 );
