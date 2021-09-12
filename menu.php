@@ -89,6 +89,7 @@ session_start();
             <li><a href="index3.php?sp=applicant_list_equivalent">Applicants-Equivalent</a></li> -->
             <li><a href="index3.php?sp=selection_list">Approved Applicants-Direct</a></li>
             <li><a href="index3.php?sp=selection_list_equivalent">Approved Applicants-Equivalent</a></li>
+            <li><a href="index3.php?sp=approved_postgraduate">Approved Applicants-Postgraduate</a></li>
             <li><a href="index3.php?sp=admitapplicants">Admit Applicants</a></li>
             <li><a href="index3.php?sp=viewadmittedapplicants">View Admitted Applicants</a></li>
             <li><a href="index3.php?sp=viewrejectedapplicants">View Rejected Applicants</a></li>

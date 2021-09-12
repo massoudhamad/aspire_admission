@@ -24,6 +24,8 @@ if ($out_number) {
         </RequestParameters>
         </Request>';
 
+        echo $token."<br>";
+
 
     $data_string = $xml;
     $ch = curl_init('http://196.216.247.11/index.php/results/student');
@@ -35,7 +37,7 @@ if ($out_number) {
     $result = curl_exec($ch);
     curl_close($ch);
     $array_data = json_decode(json_encode(simplexml_load_string($result)), true);
-    //var_dump($array_data); 
+    var_dump($array_data); 
 
     $resparameters = $array_data['ResponseParameters'];
     $results = $array_data['ResponseParameters']['Results']['Subject'];

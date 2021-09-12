@@ -1,10 +1,10 @@
 <?php
-/* ini_set ('display_errors', 1);
+/*ini_set ('display_errors', 1);
 error_reporting (E_ALL | E_STRICT); */
 include("DB.php");
 $db=new DBHelper();
 
-//$indexNumber= "S0700/0126/2017";
+$indexNumber= "S1064/0019/2017";
 /* $user = "SUM";
 $token = "EsQIA1agz9q8UxNSk3DZ"; */
 
@@ -20,7 +20,7 @@ if (!empty($api_token)) {
 //echo $token."-".$user;
 
 //$api= "http://41.59.90.200";
-//$api = "https://api.tcu.go.tz";
+$api = "https://api.tcu.go.tz";
 
 // $formfour=$indexNumber;
 // $formsix="S1064/0529/2011";
@@ -30,7 +30,7 @@ if (!empty($api_token)) {
 
 //check_status
 
-/*$url=$api."/applicants/checkStatus";
+$url=$api."/applicants/checkStatus";
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>
 <Request>
@@ -50,7 +50,7 @@ $foutput=$array_data['Response']['ResponseParameters']['f4indexno'];
 $status=$array_data['Response']['ResponseParameters']['StatusCode'];
 $status_descript=$array_data['Response']['ResponseParameters']['StatusDescription'];
 
-echo $status."<br>".$status_descript;*/
+echo $status."<br>".$status_descript;
 
 //Add Applicant
 

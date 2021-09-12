@@ -25,6 +25,7 @@ if($avn) {
         $fname=$db->getData("applicants","firstName","applicantID",$applicantID);
         $mname=$db->getData("applicants","middleName","applicantID",$applicantID);
         $lname=$db->getData("applicants","lastName","applicantID",$applicantID);
+        var_dump($data);
 if ($data['status']['code'] == 200) {
     foreach($data['params'] as $value)
     {
@@ -126,7 +127,7 @@ if ($data['status']['code'] == 200) {
     }
     else
     {
-         echo "<h4 class='text-danger'>Sorry,Invalid Token.</h4>";
+         echo "<h4 class='text-danger'>Sorry,Status Code is ".$data['status']['code']."</h4>";
     }
         /*}else
         {

@@ -271,6 +271,10 @@ case 'zalongwareport':
       case 'approvedlist':
       include('approvedapplicants.php');
       break;
+
+      case 'approved_postgraduate':
+        include('approved_postgraduate.php');
+        break;
   
   
       case 'viewbyremarks':
