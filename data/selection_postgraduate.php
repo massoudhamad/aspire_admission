@@ -66,8 +66,13 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                 } else {
                     $userID = "";
                     $processDate = "";
-                    $comments="";
+                    $comments="None";
                 }
+
+                $actionButton = '
+                <div class="btn-group">
+                    <a href="index3.php?sp=pgapplicantdetails&applicantID=' . $applicantID . '"><span class="glyphicon glyphicon-edit"></span>View</a>
+                </div>';
                       
                 $output['data'][] = array(
 		        $i,
@@ -80,7 +85,7 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                 $instituteName,
                 $regNumber,
                 $comments,
-                ''
+                $actionButton
                 );
                       
                      }
