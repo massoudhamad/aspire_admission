@@ -288,7 +288,7 @@ if ($login == 0) {
                                                 ?>
                                                 <td>
                                                     <a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter333</span></a>
+                                                        <span class="text text-success">Download Admission Letter</span></a>
                                                     <br><br>
                                                 </td>
                                                 <?php 
