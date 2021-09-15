@@ -274,7 +274,7 @@ if ($login == 0) {
                                             }
                                             else if($_SESSION['orgCode']=="ZU")
                                             {
-                                                if($programmeMajorID==25)
+                                                if($$programmeCode=="ZU022")
                                                 {
                                                     ?>
                                                     <td>
