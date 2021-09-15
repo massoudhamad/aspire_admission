@@ -274,6 +274,17 @@ if ($login == 0) {
                                             }
                                             else if($_SESSION['orgCode']=="ZU")
                                             {
+                                                if($programmeMajorID==25)
+                                                {
+                                                    ?>
+                                                    <td>
+                                                    You will be contacted for Admission Letter
+                                                    <br><br>
+                                                </td>
+                                                    <?php
+                                                }
+                                                else 
+                                                {
                                                 ?>
                                                 <td>
                                                     <a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
@@ -281,6 +292,7 @@ if ($login == 0) {
                                                     <br><br>
                                                 </td>
                                                 <?php 
+                                                }
                                             }
                                         }
                                             /* } else {
