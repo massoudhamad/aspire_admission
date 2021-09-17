@@ -511,7 +511,7 @@ if ($login == 0) {
         <?php
 
 
-        if (!empty($upload)) {
+       /*  if (!empty($upload)) {
         ?>
             <div class="row">
                 <div class="pull-center">
@@ -565,7 +565,7 @@ if ($login == 0) {
                 </table>
             </div>
         <?php
-        }
+        } */
         ?>
 
 <?php }
