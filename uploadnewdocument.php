@@ -6,7 +6,7 @@ error_reporting (E_ALL | E_STRICT); */
 if(isset($_POST['doSubmit']))
 {
     $title = $_POST['title'];// user name
-    $schoolID = $_POST['schoolID'];// user email
+    $programmeMajorID = $_POST['programmeMajorID'];// user email
     $academicYearID=$_POST['admissionYearID'];
 
     $imgFile = $_FILES['user_image']['name'];
@@ -21,8 +21,8 @@ if(isset($_POST['doSubmit']))
     {
         $errMSG = "Please Select Academic Year.";
     }
-    else if(empty($schoolID)){
-        $errMSG = "Please Select School.";
+    else if(empty($programmeMajorID)){
+        $errMSG = "Please Select Programme Major.";
     }
     else if(empty($imgFile)){
         $errMSG = "Please Select PDF File.";
@@ -61,7 +61,7 @@ if(isset($_POST['doSubmit']))
     // if no error occured, continue ....
     if(!isset($errMSG))
     {
-        foreach ($_POST['schoolID'] as $schoolID) {
+        foreach ($_POST['programmeMajorID'] as $schoolID) {
             $userData=array(
                 'schoolID'=>$schoolID,
                 'academicYearID'=>$academicYearID,
@@ -153,18 +153,32 @@ if(isset($_POST['doSubmit']))
 </div>
 
 <div class="form-group">
-<label for="email">School</label>
-<select name="schoolID[]" id="limitedNumbChosen" multiple="true" class="form-control" required="required">
+<label for="email">Programme Name</label>
+<select name="programmeMajorID[]" id="limitedNumbChosen" multiple="true" class="form-control" required="required">
 <?php
-$school = $db->getRows('schools',array('order_by'=>'schoolName ASC'));
-if(!empty($school)){ $count = 0; foreach($school as $type){ $count++;
- $schoolName=$type['schoolName'];
- $schoolID=$type['schoolID'];
+$programmes = $db->getRows('programmemajor',array('order_by'=>'programmeMajor ASC'));
+if(!empty($programmes)){ $count = 0; foreach($programmes as $type){ $count++;
+ $schoolName=$type['programmeMajor'];
+ $schoolID=$type['programmeMajorID'];
 ?>
 <option value="<?php echo $schoolID;?>"><?php echo $schoolName;?></option>
 <?php }}?>
 </select>
 </div>
+
+<!-- <div class="form-group">
+<label for="email">School</label>
+<select name="schoolID[]" id="limitedNumbChosen" multiple="true" class="form-control" required="required">
+<?php
+/* $school = $db->getRows('schools',array('order_by'=>'schoolName ASC'));
+if(!empty($school)){ $count = 0; foreach($school as $type){ $count++;
+ $schoolName=$type['schoolName'];
+ $schoolID=$type['schoolID']; */
+?>
+<option value="<?php echo $schoolID;?>"><?php echo $schoolName;?></option>
+<?php // }}?>
+</select>
+</div> -->
 <div class="form-group">
 <label for="email">Document:</label>
 <input class="input-group" type="file" name="user_image" accept="image/pdf" />

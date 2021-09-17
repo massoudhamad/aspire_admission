@@ -3904,7 +3904,7 @@ where
     {
         try {
             $query = $this->conn->prepare("SELECT
-            programCode,programmeMajor
+            pm.programmeMajorID,programCode,programmeMajor
 from
     applicants a,
     applicantapplication aa,

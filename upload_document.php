@@ -35,7 +35,7 @@ if(!empty($_REQUEST['msg']))
                         <th width=5>No.</th>
                         <th width=30>Academic Year</th>
                         <th width=400>Title</th>
-                        <th width=400>School Name</th>
+                        <th width=400>Programme Name</th>
                         <th width=20>Document</th>
                         <th>Action</th>
                          </tr>
@@ -71,7 +71,7 @@ if(!empty($_REQUEST['msg']))
                           <td><?php echo $count;?></td>
                           <td><?php echo $academicYear;?></td>
                           <td><?php echo $title;?></td>
-                          <td><?php echo $db->getData("schools","schoolName","schoolID",$schoolID);?></td>
+                          <td><?php echo $db->getData("programmemajor","programmeMajor","programmeMajorID",$schoolID);?></td>
                           <td><a href="upload_doc/<?php echo $url;?>" class="glyphicon glyphicon-download-alt" target="_blank"></a></td>
                           <td><a href="action_upload_document.php?action_type=delete&id=<?php echo $uploadID; ?>&yearID=<?php echo $academicYearID;?>"
                                 class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to delete this Semester Setting?');"></a></td>

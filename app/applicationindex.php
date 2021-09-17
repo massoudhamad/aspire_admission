@@ -197,6 +197,7 @@ if ($login == 0) {
                                                             foreach ($progAdd as $pChoice) {
                                                                 $programmeCode = $pChoice['programCode'];
                                                                 $programmeName = $pChoice['programmeMajor'];
+                                                                $programmeMajorIDAdmitted=$pChoice['programmeMajorID'];
                                                             }
                                                         } else {
                                                             $programmeCode = "";
@@ -231,6 +232,7 @@ if ($login == 0) {
                                                             foreach ($progAdd as $pChoice) {
                                                                 $programmeCode = $pChoice['programCode'];
                                                                 $programmeName = $pChoice['programmeMajor'];
+                                                                $programmeMajorIDAdmitted=$pChoice['programmeMajorID'];
                                                             }
                                                         } else {
                                                             $programmeCode = "";
@@ -294,6 +296,30 @@ if ($login == 0) {
                                                 <?php 
                                                 }
                                             }
+                                            //Download 
+                                            $upload = $db->getRows('upload', array('where'=>array('schoolID'=>$programmeMajorIDAdmitted),'order_by' => ' academicYearID ASC'));
+                                            if(!empty($upload))
+                                            {
+                                                echo "<td>";
+                                            foreach ($upload as $up) {
+                                                $count++;
+                                                $uploadID = $up['uploadID'];
+                                                $academicYearID = $up['academicYearID'];
+                                                $title = $up['title'];
+                                                $schoolID = $up['schoolID'];
+                                                $academicYearID = $up['academicYearID'];
+                                                $url = $up['url'];
+                                                ?>
+                                                <a href="../upload_doc/<?php echo $url; ?>" target="_blank"><?php echo $title;?><i class="fa fa-download"></i></a>
+                                            <br>
+                                           <?php
+                                        }
+                                        echo "</td>";
+                                        }else 
+                                        {
+                                            echo "No Document";
+                                        }
+                                            //end of downloads
                                         }
                                             /* } else {
                                             ?>
@@ -527,7 +553,7 @@ if ($login == 0) {
                                 <td><?php echo $count; ?></td>
                                 <td><?php echo $academicYear; ?></td>
                                 <td><?php echo $title; ?></td>
-                                <td><?php echo $db->getData("schools", "schoolName", "schoolID", $schoolID); ?></td>
+                                <td><?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $schoolID); ?></td>
                                 <td><a href="../upload_doc/<?php echo $url; ?>" target="_blank"><i class="fa fa-download"></i></a></td>
 
                             </tr>
