@@ -87,27 +87,8 @@ $db = new DBHelper();
                     ?>
                 </select>
             </div>
-            <div class="col-lg-3">
-
-                <label for="MiddleName">Admission Year</label>
-                <select name="admissionYearID" class="form-control" required="">
-                    <?php
-                    $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
-                    if(!empty($adYear)){
-                        echo"<option value=''>Please Select Here</option>";
-                        $count = 0; foreach($adYear as $year){ $count++;
-                            $academic_year=$year['academicYear'];
-                            $academic_year_id=$year['academicYearID'];
-                            ?>
-                            <option value="<?php echo $academic_year_id;?>"><?php echo $academic_year;?></option>
-                        <?php }
-                    }
-                    ?>
-                </select>
-            </div>
 
             <div class="col-lg-3">
-
                 <label for="MiddleName">Admission Intake</label>
                 <select name="admissionID" class="form-control" required="">
                     <?php
@@ -117,12 +98,49 @@ $db = new DBHelper();
                         $count = 0; foreach($aitake as $ait){ $count++;
                             $admissionID=$ait['admissionID'];
                             $admissionInTakeID=$ait['admissionInTakeID'];
+                            $admissionName=$ait['admissionName'];
                             ?>
-                            <option value="<?php echo $admissionID;?>"><?php echo $db->getData('admission_intake',"admissionInTake","admissionInTakeID",$admissionInTakeID);?></option>
+                            <option value="<?php echo $admissionID;?>"><?php echo $admissionName;?></option>
                         <?php }}
                     ?>
                 </select>
             </div>
+            <!-- <div class="col-lg-3">
+
+                <label for="MiddleName">Admission Year</label>
+                <select name="admissionYearID" class="form-control" required="">
+                    <?php
+                    /* $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
+                    if(!empty($adYear)){
+                        echo"<option value=''>Please Select Here</option>";
+                        $count = 0; foreach($adYear as $year){ $count++;
+                            $academic_year=$year['academicYear'];
+                            $academic_year_id=$year['academicYearID'];
+                            ?>
+                            <option value="<?php echo $academic_year_id;?>"><?php echo $academic_year;?></option>
+                        <?php }
+                    } */
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+
+                <label for="MiddleName">Admission Intake</label>
+                <select name="admissionID" class="form-control" required="">
+                    <?php
+                    /* $aitake = $db->getRows('admission_setting',array('order_by'=>'academicYearID ASC'));
+                    if(!empty($aitake)){
+                        echo"<option value=''>Please Select Here</option>";
+                        $count = 0; foreach($aitake as $ait){ $count++;
+                            $admissionID=$ait['admissionID'];
+                            $admissionInTakeID=$ait['admissionInTakeID'];
+                            ?>
+                            <option value="<?php echo $admissionID;?>"><?php echo $db->getData('admission_intake',"admissionInTake","admissionInTakeID",$admissionInTakeID);?></option>
+                        <?php }} */
+                    ?>
+                </select>
+            </div> -->
 
 
             <div class="col-lg-3">
