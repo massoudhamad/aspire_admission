@@ -32,7 +32,6 @@ $db = new DBHelper();
     <div class="row">
         <form name="" method="post" action="action_upload_nacte_correction_list.php" enctype="multipart/form-data">
             <div class="col-lg-3">
-
                 <label for="MiddleName">Admission Intake</label>
                 <select name="admissionID" class="form-control" required="">
                     <?php
