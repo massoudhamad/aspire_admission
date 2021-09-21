@@ -214,7 +214,6 @@ $db = new DBHelper();
 
 
 
-
             <div class="col-lg-12">
                 <h4><span id="titleheader">List of Applicants for <?php echo $db->getData("programs","programName","programID",$programmeID); ?>
                         <?php //echo $db->getData("academicyears","academicYear","academicYearID",$academicYearID);?>-Direct Entry</span></h4>
@@ -259,9 +258,6 @@ $db = new DBHelper();
                 </thead>
                 <tbody>
 
-                <?php
-
-                ?>
                 </tbody>
             </table>
             <div class="row">
