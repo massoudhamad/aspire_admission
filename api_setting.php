@@ -148,8 +148,7 @@
                 <option value="error">Error and Feedback</option>
                 <option value="verificationresults">Get Verification Results</option>
                 <option value="balance">Get Balance</option>
-                <option value="verified">Get Verified</option>
-
+                <option value="published">Get Published Results</option>
               </select>
             </div>
 
