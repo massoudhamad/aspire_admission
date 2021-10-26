@@ -376,6 +376,10 @@ if ($login == 0) {
 
                                         ?>
                                             <td><span class="text-danger"><?php echo $regNumber; ?></span></td>
+                                            <br>
+                                            <td><a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                        </td>
                                         <?php
                                         }
                                         ?>
