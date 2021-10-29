@@ -133,7 +133,7 @@ if (isset($_POST['doProceed'])) {
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <form name="" method="post" action="action_academic_background.php">
-                    <h4 class="modal-title" id="myModalLabel">Add New Record</h4>
+                    <h4 class="modal-title" id="myModalLabel">Add University Qualification (Bachelor/Master/PhD)</h4>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -141,17 +141,17 @@ if (isset($_POST['doProceed'])) {
 
                         <div class="form-group">
                             <label for="email">Programme Name</label>
-                            <input type="text" id="programmeName" name="programmeName" placeholder="Programme Name" class="form-control" required/>
+                            <input type="text" id="programmeName" name="programmeName" placeholder="Eg. Bachelor of Law(LLB)" class="form-control" required/>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Institution Name</label>
-                            <input type="text" id="code" name="instituteName" placeholder="University/Institution Name" class="form-control" required />
+                            <input type="text" id="code" name="instituteName" placeholder="Eg. Zanzibar University" class="form-control" required />
                         </div>
 
                         <div class="form-group">
                             <label for="email">Registration Number</label>
-                            <input type="text" id="reg_number" name="registrationNumber" placeholder="Registration Number" class="form-control" required />
+                            <input type="text" id="reg_number" name="registrationNumber" placeholder="Eg. 2030001" class="form-control" required />
                         </div>
 
                         <div class="form-group">
@@ -184,7 +184,7 @@ if (isset($_POST['doProceed'])) {
 
                         <div class="form-group">
                             <label for="email">CGPA/Class/Division/%</label>
-                            <input type="text" id="cgpa" name="cgpa" placeholder="Enter CGPA/Class/Division/%" class="form-control" required />
+                            <input type="text" id="cgpa" name="cgpa" placeholder="Eg. 4.5/80%/PASS" class="form-control" required />
                         </div>
 
                         <div class="form-group">
