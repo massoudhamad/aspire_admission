@@ -613,6 +613,16 @@ case 'zalongwareport':
         include('nacte_view_after_correction.php');
         break;
 
+        case 'balance_payment':
+            include('nacte_balance_payment.php');
+            break;
+
+            case 'verified_admitted_students':
+                include('nacte_verified_admitted.php');
+                break;
+
+
+
 
 case 'api_setting':
         include('api_setting.php');

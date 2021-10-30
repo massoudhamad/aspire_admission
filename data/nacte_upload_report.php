@@ -4,10 +4,10 @@ require_once '../DB.php';
 $db=new DBHelper();
 $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
-$academicYearID=$_GET['academicYearID'];
 $admissionID=$_GET['admissionID'];
+$remarksID=$_GET['remarksID'];
 
-$applicantsData=$db->getNacteAdmittedList($programmeID,$academicYearID,$admissionID);
+$applicantsData=$db->getNacteAdmittedList($programmeID,$admissionID,$remarksID);
 if(!empty($applicantsData))
 {
     $x=0;

@@ -168,29 +168,20 @@ $db = new DBHelper();
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
 
             <div class="col-lg-12">
-                <h4><span id="titleheader">List of Applicants with Error in <?php echo $db->getData("programs","programName","programCode",$programmeID); ?>
+                <h4><span id="titleheader">List of Verified Applicants in <?php echo $db->getData("programs","programName","programCode",$programmeID); ?>
                         <?php echo $db->getData("admission_setting","admissionName","admissionID",$admissionID);?></span></h4>
             </div>
                 <table id="admit" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <!--<th>No.</th>-->
-                        <th>VerificationID</th>
-                        <!--<th>UserID</th>-->
-                        <th>ProgrammeID</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Mobile Number</th>
-                        <th>Email</th>
-                        <th>Form4</th>
-                        <th>Form4 Year</th>
-                        <th>Form6</th>
-                        <th>Form6 Year</th>
-                        <th>NTA4 Reg</th>
-                        <th>NTA4 Year</th>
-                        <th>NTA5 Reg</th>
-                        <th>NTA5 Year</th>
+                        <th>Username</th>
+                        <th>UserID</th>
+                        <th>Verification Status</th>
+                        <th>Multiple Selection</th>
+                        <th>Academic Year</th>
+                        <th>Intake</th>
+                        <th>Eligibility</th>
                         <th>Remarks</th>
                     </tr>
                     </thead>
@@ -198,9 +189,8 @@ $db = new DBHelper();
                     <?php
 
                     $db=new DBHelper();
-                /*$url = "http://41.93.40.137/nacteapi/index.php/api/feedbackcorrection/ape/414635b331df03033330f4559c33c0c507a708b089e229e47805965d3db20d1f-c867fa3555f1bbdce788b7daa05ccc0b1922936e/piac/".$programmeID."-2019-SEPTEMBER";*/
 
-                $api = $db->getAPI("NACTE", "error");
+                $api = $db->getAPI("NACTE", "verificationresults");
                 if (!empty($api)) {
                     foreach ($api as $ap) {
                         $token = $ap['token'];
@@ -210,7 +200,7 @@ $db = new DBHelper();
 
                     $url = $url.$programmeID."-2021-SEPT/".$token;
 
-                    var_dump($url);
+                    //var_dump($url);
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPGET, true);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -225,25 +215,13 @@ $db = new DBHelper();
 
                     $count=1;
                     foreach($params as $rp) {
-                        $programmeID = $rp['programme_id'];
-                        $studentVerificationID = $rp['student_verification_id'];
-                        echo "<td>".$rp['student_verification_id']."</td>";
-                        /*echo "<td>".$rp['user_id']."</td>";*/
-                        echo "<td>".$rp['programme_id']."</td>";
-                       /* echo "<td><a href='index3.php?sp=edit_nacte_student&verid='".$studentVerificationID.">".$rp['firstname']." ".$rp['secondname']." ".$rp['surname']."</a></td>";*/
-                        echo "<td>".$rp['firstname']."</td>";
-                        echo "<td>".$rp['secondname']."</td>";
-                        echo "<td>".$rp['surname']."</td>";
-                        echo "<td>".$rp['mobile_number']."</td>";
-                        echo "<td>".$rp['email_address']."</td>";
-                        echo "<td>".$rp['form_four_indexnumber']."</td>";
-                        echo "<td>".$rp['form_four_year']."</td>";
-                        echo "<td>".$rp['form_six_indexnumber']."</td>";
-                        echo "<td>".$rp['form_six_year']."</td>";
-                        echo "<td>".$rp['NTA4_reg']."</td>";
-                        echo "<td>".$rp['NTA4_grad_year']."</td>";
-                        echo "<td>".$rp['NTA5_reg']."</td>";
-                        echo "<td>".$rp['NTA5_grad_year']."</td>";
+                        echo "<td>".$rp['username']."</td>";
+                        echo "<td>".$rp['user_id']."</td>";
+                        echo "<td>".$rp['verification_status']."</td>";
+                        echo "<td>".$rp['multiple_selection']."</td>";
+                        echo "<td>".$rp['academic_year']."</td>";
+                        echo "<td>".$rp['intake']."</td>";
+                        echo "<td>".$rp['eligibity']."</td>";
                         echo "<td>".$rp['remarks']."</td>";
                         echo "</tr>";
                         $count++;

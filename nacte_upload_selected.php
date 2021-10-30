@@ -2,15 +2,15 @@
     $(document).ready(function () {
         var titleheader = $('#titleheader').text();
         var programmeID=$("#programmeID").val();
-        var academicYearID=$("#academicYearID").val();
         var admissionID=$("#admissionID").val();
+        var remarksID=$("#remarksID").val();
         $('#selection_list').DataTable(
             {
                 ajax:
                     {
                         type: 'GET',
                         url: 'data/nacte_upload_report.php',
-                        data:{programmeID:programmeID,academicYearID:academicYearID,admissionID:admissionID},
+                        data:{programmeID:programmeID,admissionID:admissionID,remarksID:remarksID},
                         "serverSide" : true,
                         cache: false
                     },
@@ -107,21 +107,39 @@ $db = new DBHelper();
                     ?>
                 </select>
             </div>
-            <div class="col-lg-3">
+
+            <div class="col-lg-2">
+                <label for="MiddleName">Admission Intake</label>
+                <select name="admissionID" class="form-control" required="">
+                    <?php
+                    $aitake = $db->getRows('admission_setting',array('order_by'=>'academicYearID ASC'));
+                    if(!empty($aitake)){
+                        echo"<option value=''>Please Select Here</option>";
+                        $count = 0; foreach($aitake as $ait){ $count++;
+                            $admissionID=$ait['admissionID'];
+                            $admissionName=$ait['admissionName'];
+                            ?>
+                            <option value="<?php echo $admissionID;?>"><?php echo $admissionName;?></option>
+                        <?php }}
+                    ?>
+                </select>
+                </div>
+
+            <!-- <div class="col-lg-3">
 
                 <label for="MiddleName">Admission Year</label>
                 <select name="admissionYearID" class="form-control" required="">
                     <?php
-                    $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
+                    /* $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
                     if(!empty($adYear)){
                         echo"<option value=''>Please Select Here</option>";
                         $count = 0; foreach($adYear as $year){ $count++;
                             $academic_year=$year['academicYear'];
-                            $academic_year_id=$year['academicYearID'];
+                            $academic_year_id=$year['academicYearID']; */
                             ?>
                             <option value="<?php echo $academic_year_id;?>"><?php echo $academic_year;?></option>
-                        <?php }
-                    }
+                        <?php //}
+                    //}
                     ?>
                 </select>
             </div>
@@ -131,18 +149,40 @@ $db = new DBHelper();
                 <label for="MiddleName">Admission Intake</label>
                 <select name="admissionID" class="form-control" required="">
                     <?php
-                    $aitake = $db->getRows('admission_setting',array('order_by'=>'academicYearID ASC'));
-                    if(!empty($aitake)){
-                        echo"<option value=''>Please Select Here</option>";
-                        $count = 0; foreach($aitake as $ait){ $count++;
-                            $admissionID=$ait['admissionID'];
-                            $admissionInTakeID=$ait['admissionInTakeID'];
+                    // $aitake = $db->getRows('admission_setting',array('order_by'=>'academicYearID ASC'));
+                    // if(!empty($aitake)){
+                    //     echo"<option value=''>Please Select Here</option>";
+                    //     $count = 0; foreach($aitake as $ait){ $count++;
+                    //         $admissionID=$ait['admissionID'];
+                    //         $admissionInTakeID=$ait['admissionInTakeID'];
                             ?>
                             <option value="<?php echo $admissionID;?>"><?php echo $db->getData('admission_intake',"admissionInTake","admissionInTakeID",$admissionInTakeID);?></option>
-                        <?php }}
+                        <?php //}}
                     ?>
                 </select>
-            </div>
+            </div> -->
+
+            <div class="col-lg-3">
+                        <div class="form-group">
+                          <label for="qualificationType">View Remarks</label>
+                          <select name="remarksID" class="form-control" required="">
+                              <option value="">Select Remarks</option>
+                        <?php echo $db->getData("remarks","remark","remarkID",$applicantRemarksID);?></option>
+                        <?php
+                        $remarks = $db->getRemarks();
+                        if(!empty($remarks)){ $count = 0; foreach($remarks as $rmk){ $count++;
+                         $remark=$rmk['remark'];
+                         $remarkID=$rmk['remarkID'];
+                         if($remarkID == 2 || $remarkID == 3 || $remarkID == 6){
+                        ?>
+                        <option value="<?php echo $remarkID;?>"><?php echo $remark;?></option>
+                         <?php
+                         }
+                         }
+                        
+                        }?>
+                          </select>
+                        </div></div>
 
 
             <div class="col-lg-3">
@@ -162,21 +202,21 @@ $db = new DBHelper();
             $academicYearID=$_POST['admissionYearID'];
             $programmeID=$_POST['programmeID'];
             $admissionID=$_POST['admissionID'];
+            $remarkID=$_POST['remarksID'];
 
             $programmeCode=$db->getData("programs","programCode","programID",$programmeID);
 
             ?>
             <input type="hidden" id="sorted" value="<?php echo $value;?>">
             <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
-            <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
-
+            <input type="hidden" id="remarksID" value="<?php echo $remarkID;?>">
 
 
 
             <div class="col-lg-12">
-                <h4><span id="titleheader">List of Approved Applicants for <?php echo $db->getData("programs","programName","programID",$programmeID); ?>
-                        <?php echo $db->getData("academicyears","academicYear","academicYearID",$academicYearID);?>-Direct Entry</span></h4>
+                <h4><span id="titleheader">List of Applicants for <?php echo $db->getData("programs","programName","programID",$programmeID); ?>
+                        <?php //echo $db->getData("academicyears","academicYear","academicYearID",$academicYearID);?>-Direct Entry</span></h4>
             </div>
             <form name="register" id="register" method="post" action="action_submit_nacte_upload_list.php">
                 <div class="row">
@@ -218,9 +258,6 @@ $db = new DBHelper();
                 </thead>
                 <tbody>
 
-                <?php
-
-                ?>
                 </tbody>
             </table>
             <div class="row">
