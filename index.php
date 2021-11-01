@@ -50,7 +50,7 @@ if (isset($_POST["doLogin"]) == "Sign In") {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Online University Admission System</title>
+    <title>Online Law School of Zanzibar Admission System</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
