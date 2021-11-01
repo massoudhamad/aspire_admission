@@ -215,7 +215,7 @@ if(!empty($activeInTake)) {
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2 text">
             <h2><strong>
-                    <font color="white">Online University Admission System</font>
+                    <font color="white">Online Law School of Zanzibar Admission System</font>
                 </strong></h2>
         </div>
     </div>
