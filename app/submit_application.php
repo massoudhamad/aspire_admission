@@ -202,26 +202,24 @@ $applicantID = $_SESSION['applicantID'];
             ?>
 
 
-            <div class="row">
-                <p><span style="font-size: 24px;"><strong>Please pay application fee through <?php echo $bankName; ?> Bank/Agent with the following detail:</strong></span> </p>
+            <!-- <div class="row">
+                <p><span style="font-size: 24px;"><strong>Please pay application fee through <?php //echo $bankName; ?> Bank/Agent with the following detail:</strong></span> </p>
                 <div class="col-lg-12"><span style="font-size:18px">
-                        Account Number: <?php echo $accountNumber; ?><br>
-                        Account Name: <?php echo $accountName; ?><br>
+                        Account Number: <?php //echo $accountNumber; ?><br>
+                        Account Name: <?php //echo $accountName; ?><br>
 
                         <p><span style="font-size: 24px;"><strong>Fee Categories:</span></p>
                         <?php
-                        $feescategories = $db->getRows("applicationfees", array('order by studyLevelID DESC'));
+                        /* $feescategories = $db->getRows("applicationfees", array('order by studyLevelID DESC'));
                         foreach ($feescategories as $fee) {
                             echo "TSHs. " . $fee['fees'] . "/= for " . $db->getData("studylevels", "studyLevelName", "studyLevelID", $fee['studyLevelID']) . "<br>";
-                        }
+                        } */
                         ?>
-                        <!-- Tshs. 25,000/= for Certificate/Diploma Applicant<br>
-                        Tshs. 50,000/= for Postgraduate Applicant<br> -->
-                        Send your pay-in slip through WhatsApp Numbers: <?php echo $studentSupport; ?>
+                        Send your pay-in slip through WhatsApp Numbers: <?php //echo $studentSupport; ?>
                     </span>
                 </div>
 
-            </div>
+            </div> -->
 
             <?php
             $attachment = $db->getRows("attachment", array('where' => array('applicantID' => $applicantID), 'order by attachmentID DESC'));
