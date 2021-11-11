@@ -126,9 +126,11 @@
                                <option value="">Select Document</option>
                                <option value="Personal Photo">Personal Photo</option>
                                <option value="Form Four Certificate">Form Four Certificate</option>
+                               <option value="Diploma Certificate/Transcript">Diploma/Transcript Diploma</option>
                                <option value="Form Six Certificate">Form Six Certificate</option>
-                               <option value="Transcript">Transcript</option>
+                               <option value="Bachelor Degree Transcript">Transcript</option>
                                <option value="Bachelor Degree Certificate">Bachelor Degree Certificate</option>
+                               <option value="Master Degree Transcript">Master Transcript</option>
                                <option value="Master Degree Certificate">Master Degree Certificate</option>
                                <option value="Bank Receipt">Bank Receipt</option>
                            </select>
