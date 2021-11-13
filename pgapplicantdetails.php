@@ -591,7 +591,7 @@ $applicantID = $_REQUEST['applicantID'];
         </div>
     </div></div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="well">
                 <fieldset>
@@ -620,7 +620,7 @@ $applicantID = $_REQUEST['applicantID'];
                     </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row"><br><br></div>
     <div class="row">
