@@ -62,9 +62,9 @@ session_start();
     <li class="treeview">
         <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>Admission Information</span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
-            <li><a href="index3.php?sp=approve">Applicants List(NECTA)</a></li>
-            <li><a href="index3.php?sp=foreign">Applicants List(Others)</a></li>
-            <li><a href="index3.php?sp=pg_applicants">Applicants List(Postgraduate)</a></li>
+            <!-- <li><a href="index3.php?sp=approve">Applicants List(NECTA)</a></li>
+            <li><a href="index3.php?sp=foreign">Applicants List(Others)</a></li> -->
+            <li><a href="index3.php?sp=pg_applicants">Applicants List</a></li>
             <li><a href="index3.php?sp=approvedlist">List of Approved</a></li>
             <?php
             if ($_SESSION['role_session'] == 3 || $_SESSION['role_session'] == 1) {
