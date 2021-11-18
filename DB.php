@@ -440,7 +440,7 @@ where
         try {
             if ($pID == 1) {
                 $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status,applicantsRemarksID
         from
             applicants a,
             applicantapplication aa,
@@ -475,6 +475,62 @@ where
                 and applicationYearID=:appYearID
                 and admissionID=:adminID");
                 $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 3, ':studydd' => 4, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID));
+            }
+
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
+
+
+    //registered applicants
+
+    public function getRegisteeredApplicants($pID, $acadID, $admID)
+    {
+        try {
+            if ($pID == 1) {
+                $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status,applicantsRemarksID
+        from
+            applicants a,
+            applicantapplication aa,
+            programs p,
+            programmemajor pm
+        where
+            a.applicantID=aa.applicantID
+            AND aa.programmeMajorID = pm.programmeMajorID
+            AND aa.admissionStatus = :adminStatus
+            AND p.programID = pm.programmeID
+            AND p.studyLevelID=:studyID
+            and applicantsRemarksID=:remarkID
+            and applicationYearID=:appYearID
+            and admissionID=:adminID
+            order by tcu_status ASC");
+                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));
+            } else {
+                $query = $this->conn->prepare("SELECT
+                DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
+            from
+                applicants a,
+                applicantapplication aa,
+                programs p,
+                programmemajor pm
+            where
+                a.applicantID=aa.applicantID
+                AND aa.programmeMajorID = pm.programmeMajorID
+                AND aa.admissionStatus = :adminStatus
+                AND p.programID = pm.programmeID
+                and (p.studyLevelID=:studyc or p.studyLevelID=:studyd or p.studyLevelID=:studydd)
+                and applicantsRemarksID=:remarkID
+                and applicationYearID=:appYearID
+                and admissionID=:adminID");
+                $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 6, ':studydd' => 4, 'remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));
             }
 
             $data = array();

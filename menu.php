@@ -126,6 +126,7 @@ session_start();
             <li><a href="index3.php?sp=agent_remarks">Agents By Remarks</a></li>
             <li><a href="index3.php?sp=payment_report">Payment Report</a></li>
             <li><a href="index3.php?sp=nhif_report">NHIF Report</a></li>
+            <li><a href="index3.php?sp=registeredapplicants">Provisional Registered(TCU&NACTE)</a></li>
 
             <!--  <li><a href="index3.php?sp=tcuequivalentreport">TCU Equivalent Reports</a></li> -->
             <!-- <li><a href="index3.php?sp=admittedreport">Admitted Applicants</a></li>

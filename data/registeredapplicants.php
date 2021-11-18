@@ -7,7 +7,7 @@ $programmeID=$_GET['programmeID'];
 $academicYearID=$_GET['academicYearID'];
 $admissionID=$_GET['admissionID'];
 
-$applicantsData=$db->getSelectedList($programmeID,$academicYearID,$admissionID);
+$applicantsData=$db->getRegisteeredApplicants($programmeID,$academicYearID,$admissionID);
 if(!empty($applicantsData))
 {
     $i=0;
@@ -86,28 +86,6 @@ if(!empty($applicantsData))
         }
         
         //A-Level Subjects and Points
-        /*$asubjects=$db->getSelectionSubjects($applicantID,"Advance");
-        $adata=array();
-        if(!empty($asubjects))
-        {
-            
-            $atotalPoints=0;
-            foreach ($asubjects as $subject) {
-                $subjectID=$subject['subjectID'];
-                $subjectCode=$subject['subjectCode'];
-                $gradeID=$subject['gradeID'];
-                $grade=$db->getData("grades","gradeCode","gradeID",$gradeID);
-                $points=$subject['points'];
-                $atotalPoints+=$points;
-                $adata[]=$subjectCode."-".$grade;
-            }
-            
-        }
-        else
-        {
-            $adata[]="";
-            $atotalPoints="";
-        }*/
         
         $asubjects=$db->getSelectionSubjects($applicantID,"Advance");
         if(!empty($osubjects))
@@ -273,6 +251,8 @@ if(!empty($applicantsData))
             $atotalPoints=$gradePoints;
         else
             $atotalPoints=$atotalPoints;
+
+            $regNumber=$db->getData("applicantregistration","registrationNumber","applicantID",$applicantID);
         
         $output['data'][] = array(
             $fname,
@@ -283,26 +263,16 @@ if(!empty($applicantsData))
             $phoneNumber,
             $dname,
             $dob,
-            //implode(",",$formfour),
             $formfour[0],
-            //implode(",",$formsix),
             $formsix[0],
             $eIndexNumber,
             $programmeCode,
             $programmeName,
-            $_SESSION['orgName'],
-            $_SESSION['orgCode'],
             $atotalPoints,
             $totalPoints,
             implode(",",$adata),
             implode(",",$odata),
             $admission_category,
-            $formfour[1],
-            $formsix[1],
-            $award,
-            $schoolName,
-            $yearTaken,
-            $regName,
             $applicantStatus,
             $regNumber
         );

@@ -65,7 +65,11 @@ case 'selectedapplicants':
     include('selectedreport.php');
     break;
 
+    
 
+    case 'registeredapplicants':
+        include('registeredapplicants.php');
+        break;
 
     case 'pending_applicants':
         include('pending_list.php');
