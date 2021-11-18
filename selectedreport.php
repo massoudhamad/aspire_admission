@@ -177,6 +177,8 @@ $db = new DBHelper();
                <th>Dip.Inst</th>
                <th>Dip.Grad.Year</th>
                <th>Region</th>
+               <th>Admi.Status</th>
+               <th>Reg.Number</th>
            </tr>     
          </thead>
          <tbody>

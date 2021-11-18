@@ -25,6 +25,9 @@ if(!empty($applicantsData))
         $entryQualification=$data['entryQualification'];
         $phoneNumber=$data['phoneNumber'];
         $districtID=$data['districtID'];
+        $admissionStatusID=$data['applicantRemarksID'];
+
+        $applicantStatus=$db->getData("remarks","remark","remarkID",$admissionStatusID);
 
 
         $regionID=$db->getData("district","regionID","districtID",$districtID);
@@ -299,7 +302,9 @@ if(!empty($applicantsData))
             $award,
             $schoolName,
             $yearTaken,
-            $regName
+            $regName,
+            $applicantStatus,
+            $regNumber
         );
         
     }
