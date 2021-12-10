@@ -296,6 +296,16 @@ if ($login == 0) {
                                                 <?php 
                                                 }
                                             }
+                                            else if($_SESSION['orgCode']=="LSZ")
+                                            {
+                                                ?>
+                                                <td>
+                                                    <a href="printadmissionletterlsz.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <br><br>
+                                                </td>
+                                            <?php
+                                            }
                                             //Download 
                                             $upload = $db->getRows('upload', array('where'=>array('schoolID'=>$programmeMajorIDAdmitted),'order_by' => ' academicYearID ASC'));
                                             if(!empty($upload))
