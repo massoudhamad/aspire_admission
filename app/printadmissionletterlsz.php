@@ -222,8 +222,9 @@ if($_REQUEST['action']=="getPDF")
       
       $pdf->Ln(10);
       $pdf->setFont('Arial', 'B', 12);
-      $pdf->Cell(6);$pdf->Cell(170,6,"SUBJECT: ADMISSION FOR THE ACADEMIC YEAR ".$applicationYear,0,0,'C');
-      $pdf->Line(39,86,163,86);
+      $appYear=explode("/",$applicationYear);
+      $pdf->Cell(6);$pdf->Cell(170,6,"SUBJECT: ADMISSION FOR THE ACADEMIC YEAR ".$appYear[1],0,0,'C');
+      $pdf->Line(44,86,158,86);
 
             $pdf->SetAlpha(0.3);
             $pdf->Image($organizationPicture, 20, 90, 180,100);
@@ -311,10 +312,39 @@ if($_REQUEST['action']=="getPDF")
      $pdf->Cell(6);$pdf->Cell(85,6,"ZANZIBAR");
      //$pdf->Image('images/stamp.png',45,145,25,25);
   
+     $pdf->AliasNbPages();
+     $pdf->AddPage();
+
+     $pdf->Cell(180,6,"TUITION FEE STRUCTURE",0,0,'C');
+     $pdf->setFont('Arial', '', 11);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(a)Application Fee",1);	$pdf->Cell(90,6,"20,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(b)Registration Fee",1);	$pdf->Cell(90,6,"20,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(c)Tuition Fee",1);	$pdf->Cell(90,6,"1,300,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(d)Examination Fee",1);	$pdf->Cell(90,6,"50,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(e)Field (Attachment) Supervision Fee",1);	$pdf->Cell(90,6,"50,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(f)Library and Internet Service Fee",1);	$pdf->Cell(90,6,"50,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(g)Institutional Stationery and Photocopy Services",1);	$pdf->Cell(90,6,"50,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(h)Caution Money (deposit)",1);	$pdf->Cell(90,6,"10,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(i)Identity Card",1);	$pdf->Cell(90,6,"10,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(j)Students organization Fee",1);	$pdf->Cell(90,6,"10,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"(k)Graduation Fee",1);	$pdf->Cell(90,6,"20,000.00",1);
+     $pdf->Ln(6);
+     $pdf->Cell(6);$pdf->Cell(90,6,"Total",1);	$pdf->Cell(90,6,"1,590,000.00",1);
 
    
-//$pdf->Output();
-$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
+$pdf->Output();
+//$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
    }
   }
 }
