@@ -231,39 +231,16 @@ try {
                     <MastersRegNumb>'.$msRegNumber.'</MastersRegNumb> 
                     <Impairment>None</Impairment> 
                     <NationalIdNumber>'.$nida.'</NationalIdNumber> 
-                    <SelectedProgrammes>'.$appProg.'</SelectedProgrammes> 
+                    <ProgrammeAdmitted>'.$programmeAdCode.'</ProgrammeAdmitted>
+                    <AdmissionStatus>Admitted</AdmissionStatus>
                     <EntryMode>Bachelor degree</EntryMode> 
                 </RequestParameters> 
             </Request> ';
 
             
-            /* $xml = '<?xml version="1.0" encoding="UTF-8"?>
-            <Request>
-                <UsernameToken>
-                    <Username>' . $user . '</Username>
-                    <SessionToken>' . $token . '</SessionToken>
-                </UsernameToken>
-                <RequestParameters>
-                    <f4indexno>' . $formindexnumber . '</f4indexno >
-                    <f6indexno>' . $findexNumber . '</f6indexno>
-                    <SelectedProgrammes>' . $appProg . '</SelectedProgrammes>
-                    <MobileNumber>' . $phoneNumber . '</MobileNumber>
-                    <OtherMobileNumber>'. $othermobile .'</OtherMobileNumber>
-                    <EmailAddress>' . $email . '</EmailAddress>
-                    <Category>'.$category.'</Category>
-                    <AdmissionStatus>provisional admission </AdmissionStatus>
-                    <ProgrammeAdmitted>' . $programmeAdmittedCode . '</ProgrammeAdmitted>
-                    <Reason>eligible</Reason>
-                    <Nationality>' . $nationality . '</Nationality>
-                    <Impairment>' . $dname . '</Impairment>
-                    <DateOfBirth>' . $dob . '</DateOfBirth>
-                    <NationalIdNumber>'.$nida.'</NationalIdNumber>
-                    <Otherf4indexno>' . $fourfour . '</Otherf4indexno>
-                    <Otherf6indexno>' . $sixsix . '</Otherf6indexno>
-                </RequestParameters>
-            </Request>'; */
+            
 
-            $url = $urlform."/applicants/submitPostgraduateApplicants";
+            $url = $urlform."/applicants/submitAdmittedPostgraduate";
 
 
             $ch = curl_init();
@@ -283,7 +260,7 @@ try {
             if($status=="200")
             {
                 $userData = array(
-                    'tcu_status' => 1
+                    'tcu_status' => 2
                 );
                 $condition = array('applicantID' => $applicantID);
                 $updateapp = $db->update("applicants", $userData, $condition);
@@ -299,10 +276,10 @@ try {
 
         }
        if ($boolStatus) {
-            header("Location:index3.php?sp=postgraduate_applicants&msg=succ&count=".$jj);
+            header("Location:index3.php?sp=postgraduate_admitted&msg=succ&count=".$jj);
             $_SESSION['output'] = $msgs;
         } else {
-            header("Location:index3.php?sp=postgraduate_applicants&msg=unsucc");
+            header("Location:index3.php?sp=postgraduate_admitted&msg=unsucc");
             $_SESSION['output'] = $msgs;
         }
 
@@ -319,5 +296,5 @@ try {
     }
 } catch (PDOException $ex) {
     //echo "Error".$ex->getMessage();
-    $db->redirect("index3.php?sp=postgraduate_applicants&msg=error");
+    $db->redirect("index3.php?sp=postgraduate_admitted&msg=error");
 }

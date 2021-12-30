@@ -292,7 +292,7 @@ $db = new DBHelper();
                                 $name = "$fname $mname $lname";
                         ?>
                         <?php
-                                if ($tcu_status == 2) {
+                                if ($tcu_status == 1) {
                                     $box = "NA";
                                 } else {
                                     $box = "<input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'>";

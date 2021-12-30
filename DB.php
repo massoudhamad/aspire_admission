@@ -871,6 +871,37 @@ where
         }
     }
 
+    public function getAdmittedPostgraduateListTCU($acadID, $admID)
+    {
+        try {
+                $query = $this->conn->prepare("SELECT
+                DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
+            from
+                applicants a,
+                applicantapplication aa,
+                programs p,
+                programmemajor pm
+            where
+                a.applicantID=aa.applicantID
+                AND aa.programmeMajorID = pm.programmeMajorID
+                AND aa.admissionStatus = :adminStatus
+                AND p.programID = pm.programmeID
+                AND a.applicantsRemarksID=:remarkID
+                and p.studyLevelID=:studyc
+                and applicationYearID=:appYearID
+                and admissionID=:adminID");
+                $query->execute(array(':adminStatus' => 1,':remarkID'=>3, ':studyc' => 4, ':appYearID' => $acadID, ':adminID' => $admID));
+
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
 
     //get non degree applicants TCU
     public function getSubmitSelectedListNonDegreeTCU($admID)

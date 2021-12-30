@@ -29,84 +29,7 @@
             ]
         });
     });
-    /*$(document).ready(function () {
-        var titleheader = $('#titleheader').text();
-        var programmeID=$("#programmeID").val();
-        var academicYearID=$("#academicYearID").val();
-        var admissionID=$("#admissionID").val();
 
-        $('#selection_list tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-        } );
-
-        $('#selection_list').DataTable(
-            {
-                ajax:
-                    {
-                        type: 'GET',
-                        url: 'data/submit_selected_tcu.php',
-                        data:{programmeID:programmeID,academicYearID:academicYearID,admissionID:admissionID},
-                        "serverSide" : true,
-                        cache: false
-                    },
-                "scrollX":true,
-                paging: true,
-                dom: 'Blfrtip',
-
-                buttons:[
-                    {
-                        //extend:'excel',
-                        extend: 'excelHtml5',
-                        title: titleheader,
-                        footer:true,
-                        exportOptions:{
-                            columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-                        }
-                    },
-                    {
-                        extend:'csvHtml5',
-                        title: titleheader,
-                        customize: function (csv) {
-                            return titleheader+"\n"+  csv +"\n";
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        title: titleheader,
-                        footer: false,
-                        exportOptions: {
-                            columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        title: titleheader,
-                        footer: true,
-                        exportOptions: {
-                            columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-                        },
-                        orientation: 'landscape',
-                    }
-
-                ]
-            });
-
-
-        // Apply the search
-        table.columns().every( function () {
-            var that = this;
-
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            } );
-        } );
-
-    });*/
 </script>
 <?php
 $db = new DBHelper();
@@ -182,15 +105,11 @@ $db = new DBHelper();
             $academicYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
 
         ?>
-            <!-- <input type="hidden" id="programmeID" value="<?php /*echo $programmeID;*/ ?>">
-            <input type="hidden" id="academicYearID" value="<?php /*echo $academicYearID;*/ ?>">
-            <input type="hidden" id="admissionID" value="<?php /*echo $admissionID;*/ ?>">-->
-
             <div class="col-lg-12">
                 <h4><span id="titleheader">List of Selected Applicants for <?php echo $db->getData("sector", "sectorName", "sectorID", $programmeID); ?>
                         <?php echo $db->getData("academicyears", "academicYear", "academicYearID", $academicYearID); ?></span></h4>
             </div>
-            <form name="register" id="register" method="post" action="action_submit_selected_tcu.php">
+            <form name="register" id="register" method="post" action="action_submit_admitted_postgraduate_tcu.php">
                 <table id="selection_list" class="display nowrap" cellspacing="0">
                     <thead>
                         <tr>
@@ -202,25 +121,24 @@ $db = new DBHelper();
                             <th>Form IV</th>
                             <th>Gender</th>
                             <th>Nationality</th>
-                            <th>NIDA ID</th>
-                            <th>Programmes</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Adm.Status</th>
-                            <th>Prog.Admitted</th>
-                            <th>Reason</th>
                             <th>Impairment</th>
                             <th>Date of Birth</th>
-                            <th>Other Form IV</th>
-                            <th>Other Form VI</th>
-                            <th>Category</th>
+                            <th>Prog.Category</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Bachelor Reg.Number</th>
+                            <th>Master Reg.Number</th>
+                            <th>NIDA ID</th>
+                            <th>Adm.Programme</th>
+                            <th>Entry</th>
+                            <th>Adm.Status</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <?php
 
-                        $applicantsData = $db->getSubmitPostgraduateListTCU($academicYearID, $admissionID);
+                        $applicantsData = $db->getAdmittedPostgraduateListTCU($academicYearID, $admissionID);
                         if (!empty($applicantsData)) {
                             $i = 0;
                             foreach ($applicantsData as $data) {
@@ -331,6 +249,25 @@ $db = new DBHelper();
                                 }
 
 
+                                $degreeresults = $db->getRows("academic_background", array('where' => array('applicantID' => $applicantID, 'qualificationID' => 3), 'order_by applicantID ASC'));
+                                if (!empty($degreeresults)) {
+                                    foreach ($degreeresults as $dg) {
+                                        $regNumber = $dg['registrationNumber'];
+                                    }
+                                } else {
+                                    $regNumber = "-";
+                                }
+
+                                $masterresults = $db->getRows("academic_background", array('where' => array('applicantID' => $applicantID, 'qualificationID' => 10), 'order_by applicantID ASC'));
+                                if (!empty($masterresults)) {
+                                    foreach ($masterresults as $pg) {
+                                        $msRegNumber = $dg['registrationNumber'];
+                                    }
+                                } else {
+                                    $msRegNumber = "-";
+                                }
+
+
                                 if ($category == "A")
                                     $findexNumber = $formsix[0];
                                 else {
@@ -365,23 +302,23 @@ $db = new DBHelper();
 
                             echo "<tr><td>$i</td>
                            <td>$box</td>
-                           <td>$name</td>
-                           <td>$gender</td>
-                           <td>$nida</td>
+                           <td>$fname</td>
+                           <td>$mname</td>
+                           <td>$lname</td>
                            <td>" . $formfour[0] . "</td>
-                           <td>" . $findexNumber . "</td>
-                           <td>" . "$firstChoice,$secondChoice" . "</td>
+                           <td>$gender</td>
+                           <td>$nationality</td>
+                           <td>$dname</td>
+                          <td>$dob</td>
+                          <td>Master Degree</td>
                            <td>$phoneNumber</td>
                            <td>$email</td>
-                           <td>Provisional Admission</td>
+                           <td>$regNumber</td>
+                           <td>$msRegNumber</td>
+                          <td>$nida</td>
                            <td>$programmeCode</td>
-                           <td>Eligible</td>
-                           <td>$nationality</td>
-                          <td>$dname</td>
-                          <td>$dob</td>
-                          <td>$fourfour</td>
-                          <td>$sixsix</td>
-                          <td>$category</td>
+                          <td>Bachelor</td>
+                          <td>Provisional Admitted</td>
                            </tr>";
                             }
                         }
@@ -390,7 +327,7 @@ $db = new DBHelper();
 
                 </table>
                 <?php
-                if ($programmeID == 1) {
+               /*  if ($programmeID == 1) { */
                 ?>
                     <div class="row">
                         <div class="col-lg-6"></div>
@@ -401,7 +338,7 @@ $db = new DBHelper();
                         </div>
                     </div>
             <?php
-                }
+                //}
             }
             ?>
 
