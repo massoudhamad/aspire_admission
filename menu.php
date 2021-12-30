@@ -167,6 +167,8 @@ session_start();
                 <li><a href="index3.php?sp=get_admitted_non_degree">Get Admitted Non-Degree</a></li>
                 <li><a href="index3.php?sp=enrollment_submission">Enrollment Submission</a></li>
                 <li><a href="index3.php?sp=uploaded_enrollment_submission">Uploaded Enrollment Submission</a></li>
+                <li><a href="index3.php?sp=postgraduate_applicants">Postgraduate Applicants</a></li>
+                <li><a href="index3.php?sp=postgraduate_admitted">Postgraduate Admitted</a></li>
 
             </ul>
         </li>

@@ -628,7 +628,17 @@ case 'zalongwareport':
             case 'verified_admitted_students':
                 include('nacte_verified_admitted.php');
                 break;
+    
+    //postgraduate
+    
 
+    case 'postgraduate_applicants':
+        include('postgraduate_applicants.php');
+        break;
+
+        case 'postgraduate_admitted':
+            include('postgraduate_admitted.php');
+            break;
 
 
 
