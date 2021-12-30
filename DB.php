@@ -886,11 +886,10 @@ where
                 AND aa.programmeMajorID = pm.programmeMajorID
                 AND aa.admissionStatus = :adminStatus
                 AND p.programID = pm.programmeID
-                AND a.applicantsRemarksID=:remarkID
                 and p.studyLevelID=:studyc
                 and applicationYearID=:appYearID
                 and admissionID=:adminID");
-                $query->execute(array(':adminStatus' => 1,':remarkID'=>3, ':studyc' => 4, ':appYearID' => $acadID, ':adminID' => $admID));
+                $query->execute(array(':adminStatus' => 1, ':studyc' => 4, ':appYearID' => $acadID, ':adminID' => $admID));
 
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
