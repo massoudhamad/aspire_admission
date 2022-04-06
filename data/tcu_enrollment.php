@@ -151,7 +151,7 @@ if(!empty($applicantsData))
             $entry,
             $sponsor,
             $dname,
-            '2018/2019',
+            /* '2018/2019', */
             $formfour[0],
             $programmeName,
             $registrationNumber,

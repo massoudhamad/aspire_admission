@@ -127,8 +127,6 @@ try {
 
 
 
-                    /*  $user = "MUM";
-                    $token = "jQbgVNUWdPk67wZcEv39"; */
 
                     $api_token = $db->getAPI("TCU", "token");
                     if (!empty($api_token)) {
