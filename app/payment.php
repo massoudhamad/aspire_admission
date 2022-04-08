@@ -169,12 +169,21 @@ if($applicantResultStatus==0 && $admissionLevel=="UG")
 
 
                         <div class="row">
-                        <div class="col-lg-9"></div>
+                        <div class="col-lg-3">
+                            <input type="hidden" name="action_type" value="add"/>
+                            <input type="submit" name="doSave" value="Save Payments" class="btn btn-success form-control" />
+                        </div>
+                        <div class="col-lg-6"></div>
 
                             <div class="col-lg-3">
-                            <input type="hidden" name="action_type" value="add"/>
-                            <input type="submit" name="doSubmit" value="Proceed to Application" class="btn btn-success form-control" />
+                            <form name="" method="post" action="action_payments.php">
+                            <input type="submit" name="doProceed" value="Proceed to Application" class="btn btn-success form-control" />
                         </div>
+
+                    </form>
+                            <!-- <input type="hidden" name="action_type" value="add"/> -->
+<!--                             <input type="submit" name="doSubmit" value="Proceed to Application" class="btn btn-success form-control" />
+ -->                        </div>
 
                         </div>
                         <div class="row">

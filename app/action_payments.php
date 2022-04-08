@@ -15,15 +15,33 @@ try {
                 'token'=>$token,
                 'paymentStatus'=>1
             );
+
+
+
             $payments = $db->getRows("applicant_payment", array('where' => array('token' => $token)));
-            if (empty($payments)) {
-                $insert = $db->insert("applicant_payment",$userData);
-                header("Location:index.php?sz=programmechoice");
+            if (!empty($payments)) {
+                header("Location:index.php?sz=payments&msg=exist");
                 } else
                 {
-                    header("Location:index.php?sz=payments&msg=exist");
+                    $payment_updates=$db->getRows("applicant_payment",array('where'=>array('applicantID'=>$_SESSION['applicantID'])));
+                    if(!empty($payment_updates))
+                    {
+                        $condition=array("applicantID"=>$_SESSION['applicantID']);
+                        $updates = $db->update("applicant_payment",$userData,$condition);
+                        //header("Location:index.php?sz=programmechoice");
+                    }
+                    else 
+                    {
+                        $insert = $db->insert("applicant_payment",$userData);
+                        //header("Location:index.php?sz=programmechoice");
+                    }
                 }
         }
+    }
+    if(isset($_POST['doProceed']))
+    {
+        /* header("Location:index.php?sz=programmechoice"); */
+        header("Location:index.php?sz=programmechoice");
     }
 }catch (PDOException $ex)
 {

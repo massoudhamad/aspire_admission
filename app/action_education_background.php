@@ -124,7 +124,8 @@ try {
     }
     if(isset($_POST['doProceed']))
     {
-        header("Location:index.php?sz=programmechoice");
+        /* header("Location:index.php?sz=programmechoice"); */
+        header("Location:index.php?sz=payments");
     }
 } catch (PDOException $ex) {
     $db->redirect("index.php?sz=other_ordinary_results&id=".$applicantID."&inumber=".$indexNumber."&msg=error");
