@@ -186,11 +186,61 @@ if($applicantResultStatus==0 && $admissionLevel=="UG")
  -->                        </div>
 
                         </div>
-                        <div class="row">
+
+                        <?php
+            $org = $db->getRows("organization");
+            if (!empty($org)) {
+                foreach ($org as $og) {
+                    $orgName = $og['organizationName'];
+                    $orgPhone = $og['organizationPhone'];
+                    $studentSupport = $og['student_support'];
+                }
+            }
+            $studyLevelID = $db->getStudyLevelID($firstChoice);
+            //$appfees = $db->getData("applicationfees", "fees", "studyLevelID", $studyLevelID);
+            $campus = $db->getRows("campus");
+            if (!empty($campus)) {
+                foreach ($campus as $cp) {
+                    $campusName = $cp['campusName'];
+                    $campusAddress = $cp['campusAddress'];
+                    $accountNumber = $cp['accountNumber'];
+                    $bankName = $cp['bankName'];
+                    $accountName = $cp['accountName'];
+                    $campusname = "$campusName,$campusAddress";
+                }
+            }
+            ?>
+
+
+            <div class="row">
+                <p><span style="font-size: 24px;"><strong>Please pay application fee through <?php echo $bankName; ?> Bank/Agent with the following detail:</strong></span> </p>
+                <div class="col-lg-12"><span style="font-size:18px">
+                        Account Number: <?php echo $accountNumber; ?><br>
+                        Account Name: <?php echo $accountName; ?><br>
+
+                        <p><span style="font-size: 24px;"><strong>
+                        <?php
+                        $feescategories = $db->getRows("applicationfees", array('order by studyLevelID DESC'));
+                        foreach ($feescategories as $fee) {
+                            echo "Fee Categories: TSHs. " . $fee['fees'] . "/= ";/* for " . $db->getData("studylevels", "studyLevelName", "studyLevelID", $fee['studyLevelID']) . "<br>" */
+                        }
+                        ?>
+                        </span></p>
+                        <!-- Tshs. 25,000/= for Certificate/Diploma Applicant<br>
+                        Tshs. 50,000/= for Postgraduate Applicant<br> -->
+                        Send your pay-in slip through WhatsApp Numbers: <?php echo $studentSupport; ?>
+                    </span>
+                </div>
+
+            </div>
+
+                       <!--  <div class="row">
                             <div class="col-lg-12">
-                                <h3><!-- Tigo Pesa Payment Number:0715 202 911 and Airtel Money Payment Number: 0785 330 002 --></h3>
+                                
+                        
+
                             </div>
-                        </div>
+                        </div> -->
 </form>
 </div>
     </div>
