@@ -18,7 +18,7 @@ try {
             $payments = $db->getRows("applicant_payment", array('where' => array('token' => $token)));
             if (empty($payments)) {
                 $insert = $db->insert("applicant_payment",$userData);
-                header("Location:index.php?sz=submit");
+                header("Location:index.php?sz=programmechoice");
                 } else
                 {
                     header("Location:index.php?sz=payments&msg=exist");

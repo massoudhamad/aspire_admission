@@ -15,6 +15,18 @@ $db=new DBHelper();
           </div>
         </div>
 
+<?php
+$applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
+foreach($applicantResult as $ars)
+{
+    $applicantResultStatus=$ars['applicantResultStatus'];
+}
+if($applicantResultStatus==0 && $admissionLevel=="UG")
+{
+    exit;
+}
+?>
+
 <div class="row">
           <div class="col-md-10">
             <div class="card">
@@ -45,9 +57,31 @@ $db=new DBHelper();
 
                 <script>
                     function validate() {
-                        if(document.form1.payment.value=='tigo')
+                        if(document.form1.payment.value=='bank')
                         {
-                            if(document.form1.amount.value < 20000)
+                            if(document.form1.amount.value < 30000)
+                            {
+                                alert("Invalid Amount Paid");
+                                return false;
+                            }
+                            else if(document.form1.token.value=="")
+                            {
+                                alert("Invalid Token");
+                                return false;
+                            }
+                            else if(document.form1.token.value.length < 6)
+                            {
+                                alert("Invalid Receipt Number");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                        else if(document.form1.payment.value=='tigo')
+                        {
+                            if(document.form1.amount.value < 30000)
                             {
                                 alert("Invalid Amount Paid");
                                 return false;
@@ -69,7 +103,7 @@ $db=new DBHelper();
                         }
                         else
                         {
-                            if(document.form1.amount.value < 20000)
+                            if(document.form1.amount.value < 30000)
                             {
                                 alert("Invalid Amount Paid");
                                 return false;
@@ -99,8 +133,8 @@ $db=new DBHelper();
                     if (!empty($payments)) {
                         foreach ($payments as $pay) {
                             $paymentMethod=$pay['paymentMethod'];
-                        $amount=$pay['amount'];
-                        $token=$pay['token'];
+                            $amount=$pay['amount'];
+                            $token=$pay['token'];
                         }
                     }
                     else
@@ -116,16 +150,17 @@ $db=new DBHelper();
                                         <label for="gender">Payment Method</label>
                                         <select name="payment" id="payment" class="form-control" required="">
                                             <option value="<?php echo $paymentMethod;?>"><?php echo $paymentMethod;?></option>
-                                            <option value="tigo">Tigo Pesa</option>
-                                            <option value="airtel">Airtel Money</option>
+                                            <option value="bank">PBZ Bank</option>
+                                            <!-- <option value="tigo">Tigo Pesa</option>
+                                            <option value="airtel">Airtel Money</option> -->
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="gender">Amount Paid</label>
-                                        <input type="money" name="amount" value="<?php echo $amount;?>" placeholder="Eg. 20000" class="form-control">
+                                        <input type="money" name="amount" value="<?php echo $amount;?>" placeholder="Eg. 30000" class="form-control">
                                     </div>
                                     <div class="col-lg-3">
-                                        <label for="gender">Token Received</label>
+                                        <label for="gender">Payment Receipt</label>
                                         <input type="text" name="token" value="<?php echo $token;?>" class="form-control">
                                     </div>
 
@@ -144,7 +179,7 @@ $db=new DBHelper();
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <h3>Tigo Pesa Payment Number:0715 202 911 and Airtel Money Payment Number: 0785 330 002</h3>
+                                <h3><!-- Tigo Pesa Payment Number:0715 202 911 and Airtel Money Payment Number: 0785 330 002 --></h3>
                             </div>
                         </div>
 </form>

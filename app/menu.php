@@ -62,6 +62,10 @@
                           }
                           ?>
 
+                                <li class="<?php echo $paymentstatus; ?>"><a href="index.php?sz=payments"><i
+                                          class="fa fa-cc-visa"></i><span>Application Payment</span><i
+                                          class="fa fa-angle-right"></i></a></li>
+
                           <li class="<?php echo $pstatus; ?>"><a href="index.php?sz=programmechoice"><i
                                           class="fa fa-file-text"></i><span>Study Plan</span><i
                                           class="fa fa-angle-right"></i></a>

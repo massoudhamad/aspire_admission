@@ -109,17 +109,25 @@ $db=new DBHelper();
 
     <?php
     //$applicantResultStatus=$db->getData("applicantresults","applicantResultStatus","applicantID",$_SESSION['applicantID']);
-    $applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
+
+    $applicantpayments=$db->getRows('applicant_payment',array('where'=>array('applicantID'=>$_SESSION['applicantID'])));
+    foreach($applicantpayments as $ars)
+    {
+        $paymentStatus=$ars['paymentStatus'];
+    }
+    if($paymentStatus==0)
+    {
+    /* $applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
     foreach($applicantResult as $ars)
     {
         $applicantResultStatus=$ars['applicantResultStatus'];
     }
     if($applicantResultStatus==0 && $admissionLevel=="UG")
-    {
+    { */
         //echo $applicantResultStatus;
         ?>
         <p>
-            <span class="text-danger" style="font-size: 18px;">Please fill Education Background first then select Study Plan</span>
+            <span class="text-danger" style="font-size: 18px;">Please fill Application Fee First</span>
         </p>
     <?php
     }
