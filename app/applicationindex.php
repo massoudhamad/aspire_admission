@@ -475,7 +475,7 @@ if ($login == 0) {
         }
     } */
 
-            if ($today <= $endDate) {
+            //if ($today <= $endDate) {
             ?>
                 <?php if ($remarkID == 7 ||  $remarkID == 5) {
                     if ($admissionLevel == "UG") {
@@ -491,13 +491,13 @@ if ($login == 0) {
                 ?>
 
                 <?php
-            } else {
+            /* } else {
                 if ($remarkID == 1 || $remarkID == 5 || $remarkID == 2) {
                 ?>
                     You can't make any changes now
             <?php
                 }
-            }
+            } */
             ?>
             <br><br>
             </div>
