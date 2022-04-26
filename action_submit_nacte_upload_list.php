@@ -132,7 +132,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     'authorization' => $token,
                     'intake' => 'SEPT',
                     'programme_id' => $programmeCode,
-                    'application_year' => '2021',
+                    'application_year' => '2022',
                     'level'=>'5',
                     'payment_reference_number' => $payment_reference_number,
                     ),
