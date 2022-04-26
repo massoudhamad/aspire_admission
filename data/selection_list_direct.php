@@ -6,9 +6,13 @@ $output = array('data' => array());
 $programmeID=$_GET['programmeID'];
 $roundName=$_GET['roundName'];
 $admissionID=$_GET['admissionID'];
+$remarkID=$_GET['remarkID'];
 $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",$admissionID);
 
- $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,0,$roundName);
+//getcompulsory subjects ffor this program
+
+
+ $applicantsData=$db->getApplicantsApproved($programmeID,$academicYearID,$admissionID,0,$roundName,$remarkID);
  if(!empty($applicantsData))
 {
     $i=0;
@@ -50,28 +54,32 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                              $subjects=array();
                              $grade=array();
                              $arrpoints=array();
+                             $failstatus=0;
+
                              
                              foreach($osubjects as $subject) {
                                  $subjectID=$subject['subjectID'];
                                  $gradeID=$subject['gradeID'];
                                  $points=$subject['points'];
-                                 if(empty($subjects))
+                                 /* if(empty($subjects))
                                  {
                                      $subjects[]=$subjectID;
                                      $grade[]=$subject['gradeID'];
                                      $arrpoints[]=$subject['points'];
                                  }
-                                 else if(in_array($subjectID,$subjects))
+                                 else  */if(in_array($subjectID,$subjects))
                                  {
                                      for($i=0;$i<sizeof($subjects);$i++)
                                      {
                                          if($subjects[$i]==$subjectID)
+                                         //if($subjects[$i]==3 || $subjects[$i]==5 || $subjects[$i]==7)
                                          {
                                              if((int)$arrpoints[$i]<(int)$points)
                                              {
-                                                 $subjects[$i]=$subjectID;
-                                                 $grade[$i]=$gradeID;
-                                                 $arrpoints[$i]=$points;
+                                                    $subjects[$i]=$subjectID;
+                                                    $grade[$i]=$gradeID;
+                                                    $arrpoints[$i]=$points;
+                                                
                                              }
                                          }
                                          
@@ -79,19 +87,45 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                                  }
                                  else
                                  {
-                                     $subjects[]=$subjectID;
-                                     $grade[]=$gradeID;
-                                     $arrpoints[]=$points;
-                                 }
+                                        if($programmeID==2)//Nursing
+                                        {
+                                            if($subjectID==3 || $subjectID==5 || $subjectID==7)
+                                            {
+                                                $subjects[]=$subjectID;
+                                                $grade[]=$gradeID;
+                                                $arrpoints[]=$points;
+                                            }
+                                        }else if($programmeID==3) //Pharmacy
+                                        {
+                                            if($subjectID==5 || $subjectID==7)
+                                            {
+                                                $subjects[]=$subjectID;
+                                                $grade[]=$gradeID;
+                                                $arrpoints[]=$points;
+                                            }
+                                        }
+                                 } 
                              }
+                             //print_r($subjects);
                                  $totalPoints=0;$odata=array();
                                  for($j=0;$j<sizeof($subjects);$j++)
                                  {
-                                     //echo $subjects[$j]."-".$grade[$j]."-".$arrpoints[$j];
                                      $subjectCode=$db->getData("subjects","subjectCode","subjectID",$subjects[$j]);
                                      $gradeCode=$db->getData("grades","gradeCode","gradeID",$grade[$j]);
                                      $totalPoints+=$arrpoints[$j];
                                      $odata[]=$subjectCode."-".$gradeCode;
+                                 }
+
+                                 //all subject array
+                                 $ordinarylevel=array();
+                                 
+                                 //for($j=0;$j<sizeof($osubjects);$j++)
+                                 foreach($osubjects as $subject2) {
+                                    $subjectID2=$subject2['subjectID'];
+                                    $gradeID2=$subject2['gradeID'];
+                                     $subjectCode2=$db->getData("subjects","subjectCode","subjectID",$subjectID2);
+                                     $gradeCode2=$db->getData("grades","gradeCode","gradeID", $gradeID2);
+                                     $ordinarylevel[]=$subjectCode2."-".$gradeCode2;
                                  }
                          }
                              
@@ -282,6 +316,7 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
 		        $gender,
                 $combination,
                 implode(",",$formfour),
+                implode(",",$ordinarylevel),
                 implode(",",$odata),
                 $totalPoints,
                 implode(",",$formsix),

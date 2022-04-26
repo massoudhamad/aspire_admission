@@ -348,7 +348,7 @@ class DBHelper
         }
     }
 
-    public function getApplicantsApproved($pID, $acadID, $admID, $entry,$roundname)
+    public function getApplicantsApproved($pID, $acadID, $admID, $entry,$roundname,$remark)
     {
         try {
             if($roundname=='all')
@@ -371,7 +371,7 @@ where
         and applicantsRemarksID = :remarkID
         and entryQualification=:entry
        ");
-                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry));
+                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => $remark, ':entry' => $entry));
             }
             else
             {

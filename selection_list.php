@@ -4,6 +4,7 @@
         var programmeID = $("#programmeID").val();
         var roundName = $("#roundName").val();
         var admissionID = $("#admissionID").val();
+        var remarkID= $("#remarkID").val();
         var sorted = $("#sorted").val();
         $('#selection_list').DataTable({
             ajax: {
@@ -12,7 +13,8 @@
                 data: {
                     programmeID: programmeID,
                     admissionID: admissionID,
-                    roundName:roundName
+                    roundName:roundName,
+                    remarkID:remarkID
                 },
                 "serverSide": true,
                 cache: false
@@ -137,6 +139,8 @@ $db = new DBHelper();
                 </select>
             </div>
 
+           
+
             <div class="col-lg-3">
                 <label for="MiddleName">Admission Round</label>
                 <select name="roundName" class="form-control" required="">
@@ -151,6 +155,26 @@ $db = new DBHelper();
                             $roundName = $rnd['roundName'];
                     ?>
                             <option value="<?php echo $roundName; ?>"><?php echo $roundName; ?></option>
+                    <?php }
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="MiddleName">Remarks</label>
+                <select name="remarkID" class="form-control" required="">
+                    <?php
+                    $remark = $db->getRows('remarks', array('order_by' => 'remarkID ASC'));
+                    if (!empty($remark)) {
+                        echo "<option value=''>Please Select Here</option>";
+                        $count = 0;
+                        foreach ($remark as $rmk) {
+                            $remarkID = $rmk['remarkID'];
+                            $remark = $rmk['remark'];
+                    ?>
+                            <option value="<?php echo $remarkID; ?>">
+                                <?php echo $remark; ?></option>
                     <?php }
                     }
                     ?>
@@ -172,23 +196,24 @@ $db = new DBHelper();
 
         <?php
         if (isset($_POST['doSearch']) == "Search Records") {
-            //$academicYearID=$_POST['admissionYearID'];
             $programmeID = $_POST['programmeID'];
             $admissionID = $_POST['admissionID'];
             $admissionInTakeID = $db->getData('admission_setting', 'admissionInTakeID', 'admissionID', $admissionID);
             $roundName = $_POST['roundName'];
+            $remarkID=$_POST['remarkID'];
 
             $studyLevelID = $db->getData("programs", "studyLevelID", "programID", $programmeID);
             if ($studyLevelID == 1 || $studyLevelID == 2)
-                $value = "9";
+                $value = "10";
             else
-                $value = "6";
+                $value = "7";
 
         ?>
             <input type="hidden" id="sorted" value="<?php echo $value; ?>">
             <input type="hidden" id="programmeID" value="<?php echo $programmeID; ?>">
             <input type="hidden" id="roundName" value="<?php echo $roundName; ?>">
             <input type="hidden" id="admissionID" value="<?php echo $admissionID; ?>">
+            <input type="hidden" id="remarkID" value="<?php echo $remarkID;?>">
 
             <div class="col-lg-12">
                 <h4><span id="titleheader">List of Approved Applicants for <?php echo $db->getData("programs", "programName", "programID", $programmeID); ?>
@@ -204,6 +229,7 @@ $db = new DBHelper();
                         <th>Combination</th>
                         <th>Form IV</th>
                         <th>Ordinary Subjects</th>
+                        <th>Req.Subjects</th>
                         <th>Points</th>
                         <th>Form V</th>
                         <th>Advanced Subjects</th>

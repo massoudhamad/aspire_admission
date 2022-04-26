@@ -76,7 +76,7 @@ $db = new DBHelper();
 
     <div class="row">
         <form name="" method="post" action="">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
 
                 <label for="MiddleName">Programme Name</label>
                 <select name="programmeID" class="form-control chosen-select" required="">
@@ -156,6 +156,28 @@ $db = new DBHelper();
                 </select>
             </div>
 
+            <div class="col-lg-2">
+                        <div class="form-group">
+                          <label for="qualificationType">Remarks</label>
+                          <select name="remarksID" class="form-control" required="">
+                              <option value="">Select Remarks</option>
+                        <?php echo $db->getData("remarks","remark","remarkID",$applicantRemarksID);?></option>
+                        <?php
+                        $remarks = $db->getRemarks();
+                        if(!empty($remarks)){ $count = 0; foreach($remarks as $rmk){ $count++;
+                         $remark=$rmk['remark'];
+                         $remarkID=$rmk['remarkID'];
+                         if( $remarkID == 1 || $remarkID == 2 || $remarkID == 3 || $remarkID == 6){
+                        ?>
+                        <option value="<?php echo $remarkID;?>"><?php echo $remark;?></option>
+                         <?php
+                         }
+                         }
+                        
+                        }?>
+                          </select>
+                        </div></div>
+
 
             <!-- <div class="col-lg-2">
 
@@ -212,6 +234,7 @@ $db = new DBHelper();
             $choice = $_POST['choice'];
             $admissionID = $_POST['admissionID'];
             $roundName = $_POST['roundName'];
+            $remarksID=$_POST['remarksID'];
             $applicationYearID = $db->getData("admission_setting", "academicYearID", "admissionID", $admissionID);
 
             //$applicationYearID = $_POST['admissionYearID'];
@@ -252,7 +275,7 @@ $db = new DBHelper();
 
                     <tbody>
                         <?php
-                        $applicantsData = $db->getApproved($programmeID, $choice, 2, $entry, $applicationYearID, $admissionID,$roundName);
+                        $applicantsData = $db->getApproved($programmeID, $choice, $remarksID, $entry, $applicationYearID, $admissionID,$roundName);
                         if (!empty($applicantsData)) {
                             $count = 0;
                             foreach ($applicantsData as $data) {
