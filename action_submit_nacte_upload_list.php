@@ -130,10 +130,10 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $data = array(
                     'heading'=>array(
                     'authorization' => $token,
-                    'intake' => 'SEPT',
+                    'intake' => 'MARCH',
                     'programme_id' => $programmeCode,
                     'application_year' => '2022',
-                    'level'=>'5',
+                    'level'=>'4',
                     'payment_reference_number' => $payment_reference_number,
                     ),
                     'students'=>array( 
