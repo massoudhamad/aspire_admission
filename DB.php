@@ -1023,9 +1023,9 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
 	    and p.programID=pm.programmeID
         and pm.programmeID = :progID
         and a.admissionID = :admID
-        and choice = :chc
+        and (choice = :chc or choice = :ch)
         and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID,':admID'=>$adminID,':chc' => 1, 'remarkID' => $remarksID));
+            $query->execute(array(':progID' => $pID,':admID'=>$adminID,':chc' => 1,':ch'=>2, 'remarkID' => $remarksID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
