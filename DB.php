@@ -1023,9 +1023,9 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
 	    and p.programID=pm.programmeID
         and pm.programmeID = :progID
         and a.admissionID = :admID
-        and (choice = :chc or choice = :ch)
+        and aa.admissionStatus=:adstatus
         and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID,':admID'=>$adminID,':chc' => 1,':ch'=>2, 'remarkID' => $remarksID));
+            $query->execute(array(':progID' => $pID,':admID'=>$adminID,'adstatus'=>1, 'remarkID' => $remarksID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -1055,8 +1055,8 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and pm.programmeID = :progID
         and a.admissionID = :admID
         and a.applicantID=:appID
-        and choice = :chc");
-            $query->execute(array(':progID' => $pID, ':admID'=>$adminID,':appID'=>$applicantID,':chc' => 1));
+        and aa.admissionStatus=:adstatus");
+            $query->execute(array(':progID' => $pID, ':admID'=>$adminID,':appID'=>$applicantID,'adstatus'=>1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
