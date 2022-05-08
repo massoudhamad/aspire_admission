@@ -208,7 +208,7 @@ $db = new DBHelper();
                     }
                 }
 
-                    $url = $url.$programmeID."-2021-SEPT/".$token;
+                    $url = $url.$programmeID."-2022-MARCH/".$token;
 
                     //var_dump($url);
                     $ch = curl_init($url);
