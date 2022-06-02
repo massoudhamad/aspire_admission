@@ -43,7 +43,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
         $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
         $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
         $boolStatus = false;
-        //if ($admission_level == "UG") {
+        if ($admission_level == "UG") {
             if ($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
                 $boolStatus = false;
                 $msg = "exists";
@@ -56,28 +56,45 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $api_token = $db->getAPI("NECTA", "token");
                     if (!empty($api_token)) {
                         foreach ($api_token as $api) {
-                            $apitToken = $api['token'];
+                            $token = $api['token'];
                         }
                     }
-                    $token = $db->getAPIToken($apitToken);
                     $indexNumber = strtoupper($_POST['indexNumber']);
                     $indexNumber2 = explode("/", $indexNumber);
                     $center = $indexNumber2[0];
                     $number = $indexNumber2[1];
                     $year = $indexNumber2[2];
 
-                    $number_kituo = $center . "-" . $number;
+                    $number_kituo = $center."/".$number;
                     $exam_id = 1;
                     $exam_year = $year;
-                    $apiNumber = $number_kituo . "/" . $exam_id . "/" . $exam_year;
-                    $index_number = $center . "/" . $number;
-                    $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
-                    $ch = curl_init($url);
-                    curl_setopt($ch, CURLOPT_HTTPGET, true);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    $response_json = curl_exec($ch);
-                    curl_close($ch);
+                    $data = array(
+                        "index_number"=>$number_kituo,
+                        "exam_year"=>$exam_year,
+                        "exam_id"=>1,
+                        "api_key"=>$token
+                    );
+                    $payload = json_encode($data);
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://api.necta.go.tz/api/particulars/individual',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS =>$payload,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json'
+                    ),
+                    ));
+
+                    $response_json = curl_exec($curl);
+
+                    curl_close($curl);
                     $data = json_decode($response_json, true);
 
                     if ($data['status']['code'] == 1) {
@@ -113,10 +130,9 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $api_token = $db->getAPI("NECTA", "token");
                     if (!empty($api_token)) {
                         foreach ($api_token as $api) {
-                            $apitToken = $api['token'];
+                            $token = $api['token'];
                         }
                     }
-                    $token = $db->getAPIToken($apitToken);
                     $equivalence_number = $_POST['equivalence_number'];
                     $exam_id = 1;
                     $exam_year = $_POST['exam_year'];
@@ -153,7 +169,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     }
                 }
             }
-        /* } else if ($admission_level == "PG") {
+        } else if ($admission_level == "PG") {
             //Admission for PHD
             $fname = strtoupper($_POST['pfname']);
             $mname = strtoupper($_POST['pmname']);
@@ -167,7 +183,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
             } else {
                 $boolStatus = true;
             }
-        } */
+        }
     }
 }
 
@@ -286,7 +302,7 @@ if ($boolStatus == false) {
 
                                     </div>
                                     <!--<div class="UG">-->
-                                    <?php //if ($admission_level == "UG") { ?>
+                                    <?php if ($admission_level == "UG") { ?>
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
@@ -377,9 +393,9 @@ if ($boolStatus == false) {
 
                                         </div>
 
-                                    <?php //} else if ($admission_level == "PG") {
+                                    <?php } else if ($admission_level == "PG") {
                                     ?>
-                                       <!--  <div class="row">
+                                        <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-first-name">First name</label>
@@ -429,10 +445,10 @@ if ($boolStatus == false) {
                                                     <input type="text" name="email" value="<?php echo $email; ?>" class="form-email form-control" readonly>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                     <?php
-                                    //}
+                                    }
                                     ?>
 
                                     <div class="row">

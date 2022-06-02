@@ -25,7 +25,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
     //$indexNumber=$indexNumber."/".$exam_year;
     $indexNumber=$indexNumber;
         
-        /* if($admission_level=="UG") { */
+        if($admission_level=="UG") {
             if ($admission_level == '' || $exam_body == '' || $fname == '' || $lname == '') {
                 header("Location:index.php?msg=111");
             } else {
@@ -107,7 +107,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     $insert = $db->insert("applicantresults", $applicantsResultsData);
                 }
             }
-        /* }
+        }
         else if($admission_level=="PG") {
 
             $username = $email;
@@ -158,12 +158,12 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     'roleID' => 2
                 );
                 $insert = $db->insert($tblUserRole, $userRolesData);
-            } */
-        /* }
+            }
+        }
         else
         {
             header("location:index.php?msg=222");
-        } */
+        }
 
 
             //send mail
