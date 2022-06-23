@@ -399,7 +399,7 @@ $db = new DBHelper();
                         ?>
                         <?php
                                 echo "<tr><td>$count</td>
-                           <td><input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'></td>
+                               <td><input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'></td>
                            <td>$name</td>
                            <td>$gender</td>
                            <td>" . $formfour[0] . "</td>
