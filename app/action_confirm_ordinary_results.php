@@ -30,6 +30,8 @@ try {
                     "yearTaken" => $indexYear,
                     "indexNumber" => $examNumber,
                     "examinationAuthority" => $exam_body,
+                    "division"=>$_POST['division'],
+                    "points"=>$_POST['points'],
                     "examinationLevel" => $examinationlevel,
                     "award" => $award,
                     "gradeType" => 'Points',
@@ -68,7 +70,9 @@ try {
                             $gradePoints = $db->getData("grades", "gradePoint", "gradeID", $gradeID);
                             $applicantResultData = array(
                                 'applicantResultID' => $applicantResultID,
+                                'subjectCode'=>$subjectCode,
                                 'subjectID' => $subjectID,
+                                'grade'=>$gradeCode,
                                 'gradeID' => $gradeID,
                                 'points' => $gradePoints,
                                 'status'=>$status

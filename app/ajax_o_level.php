@@ -9,37 +9,49 @@ if($indexNumber) {
     $api_token = $db->getAPI("NECTA", "token");
         if (!empty($api_token)) {
             foreach ($api_token as $api) {
-                $apitToken = $api['token'];
+                $token = $api['token'];
             }
         }
 
-    if(strlen($db->getAPIToken($apitToken))>1) {
         $iNumber = explode("/", $indexNumber);
         $centerNumber = $iNumber[0];
         $number = $iNumber[1];
         $yearTaken = $iNumber[2];
         $apiNumber = $centerNumber . "-" . $number . "/1/" . $yearTaken;
-        //$token=$db->getAPIToken();
-        //$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
-        
-        $token = $db->getAPIToken($apitToken);
-        //$json = file_get_contents("https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token);
-         $url = "https://api.necta.go.tz/api/public/results/".$apiNumber."/".$token;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPGET, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response_json = curl_exec($ch);
-        /* if (curl_exec($ch) === false) {
-            echo 'Curl error: ' . curl_error($ch);
-        } else {
-             echo 'Operation completed without any errors, you have the response';
-        }
-        curl_close($ch); */
+        $index_number=$centerNumber."/".$number;
+    
+
+        $data = array(
+            "exam_year"=>$yearTaken,
+            "exam_id"=>1,
+            "index_number"=>$index_number,
+            "api_key"=>$token
+        );
+        $payload = json_encode($data);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$payload,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response_json = curl_exec($curl);
+
+        curl_close($curl);
         $data = json_decode($response_json, true);
+        
         if($data['status']['code']==1)
         {
-        //$data = json_decode($json, true);
         ?>
         <form name="" action="action_confirm_ordinary_results.php" method="post">
         <table class="table table-striped table-bordered table-condensed">
@@ -48,12 +60,21 @@ if($indexNumber) {
 
                 <th>Index Number</th>
                 <th>School Name</th>
+                <th>Division</th>
+                <th>Points</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td><input type="text" name="index_number" value="<?php echo $data['particulars']['index_number'];?>" class="form-control" readonly> </td>
                 <td><input type="text" name="schoolName" value="<?php echo $data['particulars']['center_name'];?>" class="form-control" readonly> </td>
+                <td><input type="text" name="division"
+                                   value="<?php echo $data['results']['division']; ?>" class="form-control"
+                                   readonly></td>
+
+                                   <td><input type="text" name="points"
+                                   value="<?php echo $data['results']['points']; ?>" class="form-control"
+                                   readonly></td>
             </tr>
             <?php
 
@@ -73,13 +94,7 @@ if($indexNumber) {
             </thead>
             <tbody>
             <?php
-            foreach ($data as $value) {
-                if (is_array($value)) {
-                    foreach ($value as $v) {
-                        if (is_array($v)) {
-                            $count=0;
-                            foreach ($v as $vv) {
-                                if (is_array($vv)) {
+            foreach ($data['subjects'] as $vv) {
                                     $subjectName = $vv['subject_name'];
                                     $grade = $vv['grade'];
                                     $count++;
@@ -98,12 +113,6 @@ if($indexNumber) {
 
                                 <?php
                                 }
-                            }
-                        }
-
-                    }
-                }
-            }
             ?>
             </tbody>
         </table>
@@ -130,8 +139,8 @@ if($indexNumber) {
         </div>
 
         <?php
-    } else {
+    /* } else {
         echo "<h3 class='text-danger'>Sorry,NECTA API Results are not obtained<br>Please Contact Admission Officer OR Send this message to him/her, Contact may found from top of the page</h3>";
-    }
+    } */
 }
 ?>
