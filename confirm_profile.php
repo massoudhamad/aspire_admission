@@ -136,7 +136,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $equivalence_number = $_POST['equivalence_number'];
                     $exam_id = 1;
                     $exam_year = $_POST['exam_year'];
-                    $apiNumber = $equivalence_number . "/" . $exam_id . "/" . $exam_year;
+                    /* $apiNumber = $equivalence_number . "/" . $exam_id . "/" . $exam_year;
                     $indexNumber = $equivalence_number . "/" . $exam_year;
                     $url = "https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token;
                     $ch = curl_init($url);
@@ -145,7 +145,39 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                     $response_json = curl_exec($ch);
                     curl_close($ch);
+                    $data = json_decode($response_json, true); */
+
+                    $number_kituo = $equivalence_number;
+                    $exam_id = 1;
+                    $data = array(
+                        "equivalenceno"=>$number_kituo,
+                        "exam_year"=>$exam_year,
+                        "exam_id"=>1,
+                        "api_key"=>$token
+                    );
+                    $payload = json_encode($data);
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://api.necta.go.tz/api/particulars/individual',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS =>$payload,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json'
+                    ),
+                    ));
+
+                    $response_json = curl_exec($curl);
+
+                    curl_close($curl);
                     $data = json_decode($response_json, true);
+
 
 
                     if ($data['status']['code'] == 1) {
