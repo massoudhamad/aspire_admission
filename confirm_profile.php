@@ -133,6 +133,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                             $token = $api['token'];
                         }
                     }
+                    
                     $equivalence_number = $_POST['equivalence_number'];
                     $exam_id = 1;
                     $exam_year = $_POST['exam_year'];
@@ -150,7 +151,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $number_kituo = $equivalence_number;
                     $exam_id = 1;
                     $data = array(
-                        "equivalenceno"=>$number_kituo,
+                        "index_number"=>$number_kituo,
                         "exam_year"=>$exam_year,
                         "exam_id"=>1,
                         "api_key"=>$token
@@ -177,8 +178,6 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
 
                     curl_close($curl);
                     $data = json_decode($response_json, true);
-
-
 
                     if ($data['status']['code'] == 1) {
                         $fname = $data['particulars']['first_name'];
