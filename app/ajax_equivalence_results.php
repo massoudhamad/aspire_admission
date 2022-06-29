@@ -9,42 +9,77 @@ if ($indexNumber) {
     $api_token = $db->getAPI("NECTA", "token");
     if (!empty($api_token)) {
         foreach ($api_token as $api) {
-            $apitToken = $api['token'];
+            $token = $api['token'];
         }
     }
 
-    if (strlen($db->getAPIToken($apitToken)) > 1) {
+    /* if (strlen($db->getAPIToken($apitToken)) > 1) { */
         if ($level == "alevel") {
             $yearTaken = $_POST['yearTaken'];
-            $apiNumber = $indexNumber . "/2/" . $yearTaken;
+            //$apiNumber = $indexNumber . "/2/" . $yearTaken;
+            $apiNumber = $indexNumber;
+            $exam_id=2;
         } else {
             $iNumber = explode("/", $indexNumber);
             $centerNumber = $iNumber[0];
             $yearTaken = $iNumber[1];
-            $apiNumber = $centerNumber . "/1/" . $yearTaken;
+            //$apiNumber = $centerNumber . "/1/" . $yearTaken;
+            $apiNumber = $centerNumber;
+            $exam_id=1;
         }
-        $token = $db->getAPIToken($apitToken);
+        /* $token = $db->getAPIToken($apitToken);
         $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response_json = curl_exec($ch);
+        $response_json = curl_exec($ch); */
         /* if (curl_exec($ch) === false) {
             echo 'Curl error: ' . curl_error($ch);
         } else {
          echo 'Operation completed without any errors, you have the response';
         } */
-        curl_close($ch);
-        $data = json_decode($response_json, true);
+        /* curl_close($ch);
+        $data = json_decode($response_json, true); */
 
         //$data = json_decode($json, true);
+
+
+        $data = array(
+            "exam_year"=>$yearTaken,
+            "exam_id"=>1,
+            "index_number"=>$apiNumber,
+            "api_key"=>$token
+        );
+        $payload = json_encode($data);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$payload,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response_json = curl_exec($curl);
+
+        curl_close($curl);
+        $data = json_decode($response_json, true);
+        var_dump($data);
+
 ?>
         <form name="" action="action_save_equivalence_results.php" method="post">
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                     <tr>
-
                         <th>Index Number</th>
                         <th>School Name</th>
                     </tr>
@@ -68,21 +103,18 @@ if ($indexNumber) {
                         <th>Subject Name</th>
                         <th>FGrade</th>
                         <th>Grade</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($data as $value) {
-                        if (is_array($value)) {
-                            foreach ($value as $v) {
-                                if (is_array($v)) {
-                                    $count = 0;
-                                    foreach ($v as $vv) {
-                                        if (is_array($vv)) {
-                                            $subjectName = $vv['subject_name'];
+                    foreach ($data['subjects'] as $vv) {
+                        $subjectName = $vv['subject_name'];
+                        $grade = $vv['grade'];
+                        $fgrade = $vv['fgrade'];
+                        $count++;
+                                            /* $subjectName = $vv['subject_name'];
                                             $grade = $vv['grade'];
-                                            $fgrade = $vv['fgrade'];
+                                            $fgrade = $vv['fgrade']; */
                                             $count++;
                     ?>
                                             <tr>
@@ -102,11 +134,11 @@ if ($indexNumber) {
 
                     <?php
                                         }
-                                    }
+                                   /* }
                                 }
-                            }
+                             }
                         }
-                    }
+                    } */
                     ?>
                 </tbody>
             </table>
@@ -140,9 +172,9 @@ if ($indexNumber) {
         </div>
 
 <?php
-    } else {
+   /*  } else {
         echo "<h3 class='text-danger'>Sorry,NECTA API Results are not obtained, please <a href='index.php?sz=ordinary_results&id=" . $_SESSION['applicantID'] . "&inumber=" . $indexNumber . "'>click here</a> 
     to add results manually</h3>";
-    }
+    } */
 }
 ?>

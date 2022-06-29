@@ -146,11 +146,11 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $response_json = curl_exec($ch);
                     curl_close($ch);
                     $data = json_decode($response_json, true); */
-
+                    $indexNumber = $equivalence_number . "/" . $exam_year;
                     $number_kituo = $equivalence_number;
                     $exam_id = 1;
                     $data = array(
-                        "equivalenceno"=>$number_kituo,
+                        "index_number"=>$number_kituo,
                         "exam_year"=>$exam_year,
                         "exam_id"=>1,
                         "api_key"=>$token
