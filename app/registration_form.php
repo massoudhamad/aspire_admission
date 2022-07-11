@@ -491,6 +491,7 @@ $db = new DBHelper();
                                     <option value="Self">Self Financed</option>
                                     <option value="ZHELB">ZHEB</option>
                                     <option value="HESLB">HESLB</option>
+                                    <option value="DA">Direct Aid</option>
                                     <option value="others">Others</option>
                                 </select>
                             </div>
