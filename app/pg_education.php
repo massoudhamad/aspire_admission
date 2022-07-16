@@ -56,7 +56,7 @@ if (isset($_POST['doProceed'])) {
         <div class="row">
             <div class="col-lg-12">
                 <?php
-                $equivalentresults = $db->getRows("academic_background", array('where' => array('applicantID' => $_SESSION['applicantID']), 'order_by applicantID ASC'));
+                $equivalentresults = $db->getRows("academic_background", array('where' => array('applicantID' => $_SESSION['applicantID']), 'order by applicantID ASC'));
                 if (!empty($equivalentresults)) {
                 ?>
 
@@ -193,7 +193,7 @@ if (isset($_POST['doProceed'])) {
 
                                 <option value="">Select Qualification Type</option>
                                 <?php
-                                $qualificationType = $db->getRows('qualificationtype', array('where' => array('qualificationTypeRank' => 2), 'order_by' => 'rank ASC'));
+                                $qualificationType = $db->getRows('qualificationtype', array('where' => array('qualificationTypeRank' => 2), 'order by rank ASC'));
                                 if (!empty($qualificationType)) {
                                     $count = 0;
                                     foreach ($qualificationType as $type) {

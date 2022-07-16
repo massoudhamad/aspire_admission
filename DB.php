@@ -785,6 +785,29 @@ where
     }
 
 
+    public function getApplicantDataTCU($applicantID)
+    {
+        try {
+                $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,tcu_status,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
+        from
+            applicants a
+        where
+            a.applicantID = :appID");
+                $query->execute(array(':appID' => $applicantID));
+
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
+
+
     //get non degree applicants TCU
     public function getSubmitSelectedListNonDegreeTCU($admID)
     {

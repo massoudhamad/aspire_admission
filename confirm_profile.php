@@ -43,7 +43,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
         $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
         $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
         $boolStatus = false;
-        if ($admission_level == "UG") {
+        //if ($admission_level == "UG") {
             if ($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
                 $boolStatus = false;
                 $msg = "exists";
@@ -201,8 +201,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     }
                 }
             }
-        } else if ($admission_level == "PG") {
-            //Admission for PHD
+        /* } else if ($admission_level == "PG") {
             $fname = strtoupper($_POST['pfname']);
             $mname = strtoupper($_POST['pmname']);
             $lname = strtoupper($_POST['plname']);
@@ -215,7 +214,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
             } else {
                 $boolStatus = true;
             }
-        }
+        } */
     }
 }
 
