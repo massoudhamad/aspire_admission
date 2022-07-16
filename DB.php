@@ -1905,7 +1905,7 @@ where
     {
         try {
             $data = array();
-            if ($studyID == 3) {
+            if($studyID == 3 || $studyID == 4 || $studyID == 2) {
                 $programmeMajor = $this->getProgrammeMajor($studyID);
                 foreach ($programmeMajor as $proMajor) {
                     $programmeMajorID = $proMajor['programmeMajorID'];
@@ -3507,7 +3507,7 @@ where
         try {
             //$query = $this->conn->prepare("SELECT DISTINCT(ar.examinationaLevel),rank from applicantresults ar,examination_level_rank al where al.examinationLevel=ar.examinationLevel and applicantID=:appID group by rank HAVING max(rank)");
             //$query = $this->conn->prepare("SELECT rank from applicantresults ar,examination_level_rank al where al.examinationLevel=ar.examinationLevel and applicantID=:appID group by rank HAVING max(rank)");
-            $query = $this->conn->prepare("SELECT DISTINCT examinationLevel from applicantresults where applicantID=:appID ");
+            $query = $this->conn->prepare("SELECT DISTINCT examinationLevel from applicantresults where applicantID=:appID");
             $query->execute(array(':appID' => $applicantID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {

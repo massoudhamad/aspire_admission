@@ -4,9 +4,11 @@ error_reporting (E_ALL | E_STRICT);
 include("DB.php");
 $db=new DBHelper();
 
+var_dump($db->getProgrammeMajor(4));
+
 //$apiNumber="EQ2020000794/2/2018";
 
-$apiNumber = "S1291-0029/1/2017";
+/* $apiNumber = "S1291-0029/1/2017";
 
 $api_token = $db->getAPI("NECTA", "token");
 if (!empty($api_token)) {
@@ -25,7 +27,7 @@ $response_json = curl_exec($ch);
 curl_close($ch);
 $data = json_decode($response_json, true);
 var_dump($data);
-
+ */
 
 //$json = file_get_contents("https://api.necta.go.tz/api/public/results/". $apiNumber."/".$token);
 

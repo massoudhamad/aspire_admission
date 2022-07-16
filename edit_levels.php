@@ -25,7 +25,7 @@ if(!empty($userData)){
 <label for="email">Allowed Qualification Types:</label>
 <select name="qualificationTypeID[]" id="limitedNumbChosen" multiple="true" class="form-control" required="required">
 <?php
-$qualificationType = $db->getRows('qualificationtype',array('order_by'=>'rank ASC'));
+$qualificationType = $db->getRows('qualificationtype',array('order_by rank ASC'));
 if(!empty($qualificationType)){ $count = 0; foreach($qualificationType as $type){ $count++;
  $qualificationName=$type['qualificationName'];
  $qualificationID=$type['qualificationTypeID'];
