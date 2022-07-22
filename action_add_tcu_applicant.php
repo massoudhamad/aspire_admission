@@ -128,8 +128,8 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         <SessionToken>' . $token . '</SessionToken>
         </UsernameToken>
         <RequestParameters>
-        <f4indexno>' . $formfour . '</f4indexno>
-        <f6indexno>' . $formsix . '</f6indexno>
+        <f4indexno>' . $formfour[0] . '</f4indexno>
+        <f6indexno>' . $findexNumber . '</f6indexno>
         <Gender>'.$gender.'</Gender>
         <Category>' . $category . '</Category>
         <Otherf4indexno>' . $other_four . '</Otherf4indexno>
@@ -161,11 +161,11 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     }
     if($boolStatus)
     {
-        header("Location:index3.php?sp=add_applicant_tcu&msg=succ");
+        header("Location:index3.php?sp=add_applicant_tcu&msg=succ".$msgs);
         $_SESSION['output']=$msgs;
     }
     else
     {
-        header("Location:index3.php?sp=add_applicant_tcu&msg=unsucc");
+        header("Location:index3.php?sp=add_applicant_tcu&msg=unsucc".$msgs);
     }
 }

@@ -785,6 +785,29 @@ where
     }
 
 
+    public function getApplicantDataTCU($applicantID)
+    {
+        try {
+                $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,tcu_status,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
+        from
+            applicants a
+        where
+            a.applicantID = :appID");
+                $query->execute(array(':appID' => $applicantID));
+
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
+
+
     //get non degree applicants TCU
     public function getSubmitSelectedListNonDegreeTCU($admID)
     {
@@ -1905,7 +1928,7 @@ where
     {
         try {
             $data = array();
-            if($studyID == 3 || $studyID == 4 || $studyID == 2) {
+            if ($studyID == 3) {
                 $programmeMajor = $this->getProgrammeMajor($studyID);
                 foreach ($programmeMajor as $proMajor) {
                     $programmeMajorID = $proMajor['programmeMajorID'];
@@ -3507,7 +3530,7 @@ where
         try {
             //$query = $this->conn->prepare("SELECT DISTINCT(ar.examinationaLevel),rank from applicantresults ar,examination_level_rank al where al.examinationLevel=ar.examinationLevel and applicantID=:appID group by rank HAVING max(rank)");
             //$query = $this->conn->prepare("SELECT rank from applicantresults ar,examination_level_rank al where al.examinationLevel=ar.examinationLevel and applicantID=:appID group by rank HAVING max(rank)");
-            $query = $this->conn->prepare("SELECT DISTINCT examinationLevel from applicantresults where applicantID=:appID");
+            $query = $this->conn->prepare("SELECT DISTINCT examinationLevel from applicantresults where applicantID=:appID ");
             $query->execute(array(':appID' => $applicantID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4122,7 +4145,8 @@ where
         and a.applicationYearID=:ayID
         and a.admissionID=:adID
         and admissionStatus=:adSt
-        and choice=:chc");
+        and choice=:chc
+        ");
             $query->execute(array(':proCode'=>$programmeCode,':appID'=>3,':ayID'=>2,':adID'=>9,':adSt'=>1,':chc'=>1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
