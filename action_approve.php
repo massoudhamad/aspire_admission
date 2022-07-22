@@ -1,7 +1,7 @@
 <?php
 session_start();
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL | E_STRICT);
+/* ini_set('display_errors', 1);
+error_reporting(E_ALL | E_STRICT); */
 include 'DB.php';
 $db = new DBHelper();
 $tblName = 'applicantremarks';
@@ -11,6 +11,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     $formfour = $_POST['formfour'];
     $formsix = $_POST['formsix'];
     $category = $_POST['appcategory'];
+    $gender=$_POST['gender'];
     $other_four="";
     $other_six="";
 
@@ -56,14 +57,16 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         <SessionToken>' . $token . '</SessionToken>
         </UsernameToken>
         <RequestParameters>
-        <f4indexno>' . $formfour . '</f4indexno >
+        <f4indexno>' . $formfour . '</f4indexno>
         <f6indexno>' . $formsix . '</f6indexno>
+        <Gender>'.$gender.'</Gender>
         <Category>' . $category . '</Category>
         <Otherf4indexno>' . $other_four . '</Otherf4indexno>
         <Otherf6indexno>' . $other_six . '</Otherf6indexno>
         </RequestParameters>
         </Request>';
 
+            //echo $xml;
             $output = $db->addApplicantTCU($url, $xml);
             $array_data = json_decode(json_encode(simplexml_load_string($output)), true);
             $status = $array_data['Response']['ResponseParameters']['StatusCode'];
@@ -153,5 +156,5 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         else
         {
             header("Location:index3.php?sp=approve&msg=unsucc");
-        } 
+        }
 }
