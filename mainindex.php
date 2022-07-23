@@ -628,6 +628,12 @@ case 'api_setting':
         include('api_setting.php');
         break;
 
+        
+
+        case 'sponsor_report':
+            include('applicant_sponsor_report.php');
+            break;
+
 
 
 

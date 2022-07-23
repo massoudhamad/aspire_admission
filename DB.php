@@ -1026,6 +1026,44 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
     }
 
 
+    //sponsor applicants
+    public function getApplicantsSponsorList($pID, $acadID, $adminID,$remark,$sponsor)
+    {
+        try {
+                $query = $this->conn->prepare("SELECT
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,districtID,email
+        from
+            applicants a,
+            applicantapplication aa,
+            programs p,
+            programmemajor pm
+        where
+            a.applicantID=aa.applicantID
+            AND aa.programmeMajorID = pm.programmeMajorID
+            AND aa.choice = :chc
+            AND p.programID = pm.programmeID
+            AND p.studyLevelID=:studyID
+            and applicantsRemarksID>=:remarkID
+            and applicationYearID=:appYearID
+            and admissionID=:admiID
+            and sponsor=:sponsor
+            and entryQualification=:entryQ");
+                $query->execute(array(':chc' => 1, ':studyID' => 1, 'remarkID' => $remark, ':appYearID' => $acadID, ':admiID' => $adminID,':sponsor'=>$sponsor,':entryQ'=>0));
+
+            $data = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+
+
+
+
+
 
     //get pending applicants
     public function getPendingApplicantsList($pID, $acadID, $adminID,$remark)
@@ -2364,7 +2402,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-    indexNumber,schoolName,examinationAuthority,yearTaken
+    indexNumber,schoolName,examinationAuthority,yearTaken,division,points
 FROM
     applicantresults ar
 WHERE 
