@@ -172,6 +172,8 @@ $db = new DBHelper();
                <th>Form VI</th>
                <th>Form VI Div</th>
                <th>Form VI Points</th>
+               <th>School Name</th>
+               <th>Adv.Subjects</th>
                <th>Prog.Name</th>
                <th>Applicant Category</th>
                <th>Region</th>

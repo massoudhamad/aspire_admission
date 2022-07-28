@@ -2375,7 +2375,7 @@ where
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-    s.subjectID, subjectCode, gradeID, points
+    s.subjectID, aps.subjectCode, gradeID, aps.points
 FROM
     applicantsubjects aps,
     applicantresults ar,

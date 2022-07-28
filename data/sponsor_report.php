@@ -80,6 +80,7 @@ if(!empty($applicantsData))
                 $f6division=$fsixnumber['division'];
                 $f6points=$fsixnumber['points'];
                 $formsix[]=$indexNumber;
+                $schoolName=$fsixnumber['schoolName'];
             }
             
         }
@@ -87,6 +88,62 @@ if(!empty($applicantsData))
         {
             $formsix[]="";
         }
+
+
+                        $asubjects=$db->getSelectionSubjects($applicantID,"Advance");
+                         if(!empty($asubjects))
+                         {
+                             
+                             $subjects=array();
+                             $grade=array();
+                             $arrpoints=array();
+                             
+                             foreach($asubjects as $subject) {
+                                 $subjectID=$subject['subjectID'];
+                                 $gradeID=$subject['gradeID'];
+                                 $points=$subject['points'];
+                                 if(empty($subjects))
+                                 {
+                                     $subjects[]=$subjectID;
+                                     $grade[]=$subject['gradeID'];
+                                     $arrpoints[]=$subject['points'];
+                                 }
+                                 else if(in_array($subjectID,$subjects))
+                                 {
+                                     for($i=0;$i<sizeof($subjects);$i++)
+                                     {
+                                         if($subjects[$i]==$subjectID)
+                                         {
+                                             if((int)$arrpoints[$i]<(int)$points)
+                                             {
+                                                 $subjects[$i]=$subjectID;
+                                                 $grade[$i]=$gradeID;
+                                                 $arrpoints[$i]=$points;
+                                             }
+                                         }
+                                         
+                                     }
+                                 }
+                                 else
+                                 {
+                                     $subjects[]=$subjectID;
+                                     $grade[]=$gradeID;
+                                     $arrpoints[]=$points;
+                                 }
+                             }
+                             $adata=array();$atotalPoints=0;
+                             for($j=0;$j<sizeof($subjects);$j++)
+                             {
+                                 $subjectCode=$db->getData("subjects","subjectCode","subjectID",$subjects[$j]);
+                                 $gradeCode=$db->getData("grades","gradeCode","gradeID",$grade[$j]);
+                                 $atotalPoints+=$arrpoints[$j];
+                                 $adata[]=$subjectCode."-".$gradeCode;
+                             }
+                         }
+                         else 
+                         {
+                            $adata[]="";
+                         }
         
         
         $firstChoice=$db->getProgramme($applicantID,1);
@@ -138,6 +195,8 @@ if(!empty($applicantsData))
             $formsix[0],
             $f6division,
             $f6points,
+            $schoolName,
+            implode(",",$adata),
             $progName,
             $admission_category,
             $regName,
