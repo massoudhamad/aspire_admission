@@ -2431,7 +2431,7 @@ where
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-    s.subjectID, subjectCode, gradeID, points
+    s.subjectID, aps.subjectCode, gradeID, aps.points
 FROM
     applicantsubjects aps,
     applicantresults ar,
@@ -2451,6 +2451,7 @@ WHERE
             echo "Getting Data error: " . $exception->getMessage();
         }
     }
+    
 
 //get Index/RegNumber
     public function getIndexNumber($applicantID, $examinationLevel)
