@@ -105,7 +105,7 @@ $academicYearID=$db->getData("admission_setting","academicYearID","admissionID",
                                             }
                                         }else if($programmeID==1) //clinical medicine
                                         {
-                                            if($subjectID==3 || $subjectID==5 || $subjectID==7)
+                                            if($subjectID==3 || $subjectID==5 || $subjectID==7 || $subjectID==1 || $subjectID==19)
                                             {
                                                 $subjects[]=$subjectID;
                                                 $grade[]=$gradeID;
