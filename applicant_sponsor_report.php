@@ -177,6 +177,7 @@ $db = new DBHelper();
                <th>Prog.Name</th>
                <th>Applicant Category</th>
                <th>Region</th>
+               <th>Submitted Date</th>
                <th>Comments</th>
            </tr>     
          </thead>

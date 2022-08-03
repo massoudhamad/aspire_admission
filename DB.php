@@ -1031,7 +1031,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
     {
         try {
                 $query = $this->conn->prepare("SELECT
-            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,districtID,email
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,districtID,email,a.modifiedDate
         from
             applicants a,
             applicantapplication aa,

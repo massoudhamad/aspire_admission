@@ -27,6 +27,7 @@ if(!empty($applicantsData))
         $phoneNumber=$data['phoneNumber'];
         $email=$data['email'];
         $districtID=$data['districtID'];
+        $modifiedDate=$data['modifiedDate'];
 
 
         $regionID=$db->getData("district","regionID","districtID",$districtID);
@@ -200,8 +201,8 @@ if(!empty($applicantsData))
             $progName,
             $admission_category,
             $regName,
+            $modifiedDate,
             '',
-            ''
         );
         
     }
