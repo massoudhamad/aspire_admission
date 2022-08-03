@@ -2332,7 +2332,33 @@ where
 
 
     //Selection Data
+    //Selection Data
     public function getSelectionSubjects($applicantID, $examinationLevel)
+    {
+        try {
+            $data = array();
+            $query = $this->conn->prepare("SELECT 
+    s.subjectID, aps.subjectCode, gradeID, aps.points
+FROM
+    applicantsubjects aps,
+    applicantresults ar,
+    subjects s
+WHERE
+    s.subjectID = aps.subjectID
+        AND ar.applicantResultID = aps.applicantResultID
+        AND ar.applicantID = :appID
+        AND ar.examinationLevel = :level
+        AND SCode <> :scode");
+            $query->execute(array(':appID' => $applicantID, ':level' => $examinationLevel,':scode'=>'111'));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $data[] = $row;
+            }
+            return $data;
+        } catch (PDOException $exception) {
+            echo "Getting Data error: " . $exception->getMessage();
+        }
+    }
+   /*  public function getSelectionSubjects($applicantID, $examinationLevel)
     {
         try {
             $data = array();
@@ -2356,7 +2382,7 @@ WHERE
         } catch (PDOException $exception) {
             echo "Getting Data error: " . $exception->getMessage();
         }
-    }
+    } */
 
 //get Index/RegNumber
     public function getIndexNumber($applicantID, $examinationLevel)
