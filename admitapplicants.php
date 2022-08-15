@@ -47,9 +47,9 @@ $db = new DBHelper();
                     echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
                         <strong>Data saved successfully</strong>.
                     </div>";
-                    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
+                   /*  echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
                         <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
-                    </div>";
+                    </div>"; */
                 }
             }
             /* if(!empty($_REQUEST['msg']))
