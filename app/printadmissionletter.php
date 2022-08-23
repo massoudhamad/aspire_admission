@@ -269,7 +269,7 @@ if($_REQUEST['action']=="getPDF")
 
        $pdf->Cell(6);$pdf->MultiCell(0,6, "Abdulrahman Al-SUMAIT University (SUMAIT University) is pleased to inform you that your application has been approved and that you have been selected to pursue ".$duration." years studies in ".$programmeName." for ".$applicationYear." academic year.");
        $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "Registration and Orientation will commence on 19th October, 2021. and you are required to present yourself at the Admission Office for registration after paying the required registration fee of Tanzanian Shillings Two Hundred Thousand and Four Hundred (200,400/=) through Account name: SUMAIT University and Account Number: 0710412000 PBZ ISLAMIC BANK.  Failure to do so, may result into withdrawal of your admission at the University.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "Registration and Orientation will commence on 17th October, 2022 and you are required to present yourself at the Admission Office for registration after paying the required registration fee of Tanzanian Shillings Two Hundred Thousand and Four Hundred (200,400/=) through Account name: SUMAIT University and Account Number: 0710412000 PBZ ISLAMIC BANK.  Failure to do so, may result into withdrawal of your admission at the University.");
        $pdf->Ln(4);
        $pdf->Cell(6);$pdf->MultiCell(0,6, "Fee structure and mode of payment is shown in detail on joining instructions which can be downloaded from the University website www.sumait.ac.tz or obtained at the Admissions Office.");
        $pdf->Ln(4);

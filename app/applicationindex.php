@@ -261,9 +261,9 @@ if ($login == 0) {
                                         } else if ($remarkID == 3) {
                                             if ($_SESSION['orgCode'] == "SUMAIT") {
                                                 ?><td>
-                                                    Waiting for TCU Approval
-                                            <!-- <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a> -->
+                                                   <!--  Waiting for TCU Approval -->
+                                            <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
                                                     <br><br>
                                             </td>
                                             <?php } else if ($_SESSION['orgCode'] == "MUM") {
