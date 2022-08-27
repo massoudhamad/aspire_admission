@@ -244,7 +244,7 @@ if($_REQUEST['action']=="getPDF")
       
       $pdf->Ln(10);
       $pdf->setFont('Arial', 'B', 12);
-      $pdf->Cell(6);$pdf->MultiCell(170,6,"RE.:ADMISSION TO ".strtoupper($programmeName)." PROGRAMME FOR ACADEMIC YEAR 2021/2022",0,'C');
+      $pdf->Cell(6);$pdf->MultiCell(170,6,"RE.:ADMISSION TO ".strtoupper($programmeName)." PROGRAMME FOR ACADEMIC YEAR 2022/2023",0,'C');
 
             $pdf->SetAlpha(0.1);
             //$pdf->Image($organizationPicture, 30, 50, 150,150);
@@ -269,9 +269,9 @@ if($_REQUEST['action']=="getPDF")
        $pdf->Cell(6);$pdf->MultiCell(0,6,"Congratulations");
 
        $pdf->setFont('Arial', '', 11);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "1. The Institute of Public Administration (IPA) Zanzibar is pleased to inform you that you have been admitted into a ".$programmeName." programme from the Academic year 2021/2022. This is a ".$duration." year programme administered under the Faculty of Arts and Social Sciences.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "1. The Institute of Public Administration (IPA) Zanzibar is pleased to inform you that you have been admitted into a ".$programmeName." programme from the Academic year 2022/2023. This is a ".$duration." year programme administered under the Faculty of Arts and Social Sciences.");
        $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "2. You are therefore required to report to the Institute of Public Administration Tunguu Campus on 18th October, 2021 at 09.00 a.m. for registration and orientation. Deadline for the registration will be two (2) weeks from the first day of the orientation week, which starts on 01st November, 2020.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "2. You are therefore required to report to the Institute of Public Administration Tunguu Campus on 18th October, 2022 at 09.00 a.m. for registration and orientation. Deadline for the registration will be two (2) weeks from the first day of the orientation week, which starts on 01st November, 2022.");
        $pdf->Ln(4);
        $pdf->Cell(6);$pdf->MultiCell(0,6, "3. You are required to bring with you the following items:");
        
@@ -282,7 +282,7 @@ if($_REQUEST['action']=="getPDF")
        $pdf->Ln(4);
        $pdf->Cell(6);$pdf->MultiCell(0,6, "No student shall be allowed to register for studies if he/she does not submit original documents for verification and make full payment in advance of Institute fees annually or at least on a semester basis."); 
        $pdf->Ln(4);
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "4. The fee structure for the 2021/2022 Academic Year could be paid fully or by instalments as seen here under.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "4. The fee structure for the 2022/2023 Academic Year could be paid fully or by instalments as seen here under.");
        $pdf->Ln(4);
        $pdf->Cell(8);$pdf->MultiCell(0,6, "i. The first instalment should be paid during the enrolment/registration process");
 
@@ -297,13 +297,12 @@ if($_REQUEST['action']=="getPDF")
        $pdf->Cell(8);$pdf->MultiCell(0,6, "vi. The BIR fees structure and other documents are hereby attached with this letter.");
        $pdf->Ln(4);
 
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "All fees MUST be paid through Peoples Bank of Zanzibar (PBZ) at the following Account:
-       ");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "All fees MUST be paid through Peoples’ Bank of Zanzibar (PBZ) of the receiving of the control number from the accounting section.");
        $pdf->Ln(4);
-       $pdf->Cell(20);$pdf->Cell(0,6, "ACCOUNT NAME: Chuo cha Utawala wa Umma");
+      /* $pdf->Cell(20);$pdf->Cell(0,6, "ACCOUNT NAME: Chuo cha Utawala wa Umma");
        $pdf->Ln(4);
        $pdf->Cell(20);$pdf->Cell(0,6, "ACCOUNT NUMBER (TZS): 0404300000");
-       $pdf->Ln(6);
+       $pdf->Ln(6);*/
        $pdf->Cell(6);$pdf->MultiCell(0,6, "5.The Institute of Public Administration upholds both Academic and Moral Excellency.  Failure to abide by these objectives may lead to disqualification of a students IPA membership.");
        $pdf->Ln(6);
        $pdf->setFont('Arial', '', 11);
