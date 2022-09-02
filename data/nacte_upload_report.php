@@ -27,7 +27,7 @@ if(!empty($applicantsData))
 
         if(empty($email))
         {
-            $lname."_".$fname."@gmail.com";
+            $email=$lname."_".$fname."@gmail.com";
         }
 
         $disabilityStatus=$row['disabilityStatus'];
