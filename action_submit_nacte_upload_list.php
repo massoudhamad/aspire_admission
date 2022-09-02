@@ -11,6 +11,8 @@ $admissionID=$_POST['admissionID'];
 $programmeCode=$_POST['programmeCode'];
 $payment_reference_number=$_POST['payment_reference_number'];
 
+//$programmeLevel = 
+
 $status=false;
 if(isset($_POST['doAdmit']) == 'Submit Applicants') {
     $jj = 0;
@@ -130,7 +132,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 $data = array(
                     'heading'=>array(
                     'authorization' => $token,
-                    'intake' => 'MARCH',
+                    'intake' => 'SEPT',
                     'programme_id' => $programmeCode,
                     'application_year' => '2022',
                     'level'=>'4',
