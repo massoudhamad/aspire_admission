@@ -24,6 +24,12 @@ if(!empty($applicantsData))
         $phoneNumber=$row['phoneNumber'];
         $dob=$row['dob'];
         $email=$row['email'];
+
+        if(empty($email))
+        {
+            $lname."_".$lname."@gmail.com";
+        }
+
         $disabilityStatus=$row['disabilityStatus'];
         $districtID=$row['districtID'];
 
