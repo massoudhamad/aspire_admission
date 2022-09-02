@@ -65,11 +65,7 @@ case 'selectedapplicants':
     include('selectedreport.php');
     break;
 
-    
 
-    case 'registeredapplicants':
-        include('registeredapplicants.php');
-        break;
 
     case 'pending_applicants':
         include('pending_list.php');
@@ -275,10 +271,6 @@ case 'zalongwareport':
       case 'approvedlist':
       include('approvedapplicants.php');
       break;
-
-      case 'approved_postgraduate':
-        include('approved_postgraduate.php');
-        break;
   
   
       case 'viewbyremarks':
@@ -628,23 +620,25 @@ case 'zalongwareport':
             case 'verified_admitted_students':
                 include('nacte_verified_admitted.php');
                 break;
-    
-    //postgraduate
-    
 
-    case 'postgraduate_applicants':
-        include('postgraduate_applicants.php');
-        break;
-
-        case 'postgraduate_admitted':
-            include('postgraduate_admitted.php');
-            break;
 
 
 
 case 'api_setting':
         include('api_setting.php');
         break;
+
+        
+
+        case 'sponsor_report':
+            include('applicant_sponsor_report.php');
+            break;
+
+            
+    
+            case 'nacte_get_pushed_list':
+                include('nacte_get_pushed_list.php');
+                break;
 
 
 
