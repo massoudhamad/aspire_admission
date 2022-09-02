@@ -634,6 +634,12 @@ case 'api_setting':
             include('applicant_sponsor_report.php');
             break;
 
+            
+    
+            case 'nacte_get_pushed_list':
+                include('nacte_get_pushed_list.php');
+                break;
+
 
 
 
