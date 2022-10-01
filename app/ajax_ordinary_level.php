@@ -9,10 +9,10 @@ if($indexNumber) {
     $api_token = $db->getAPI("NECTA", "token");
     if (!empty($api_token)) {
         foreach ($api_token as $api) {
-            $apitToken = $api['token'];
+            $token = $api['token'];
         }
     }
-    if(strlen($db->getAPIToken($apitToken))>1) {
+    //if(strlen($db->getAPIToken($apitToken))>1) {
         $iNumber = explode("/", $indexNumber);
         $centerNumber = $iNumber[0];
         $number = $iNumber[1];
@@ -27,17 +27,37 @@ if($indexNumber) {
             $examinationaward="formsix";
             $examinationlevel="Advance";
         }
-        $apiNumber = $centerNumber . "-" . $number . "/".$iyear."/" . $yearTaken;
-    
-        $token = $db->getAPIToken($apitToken);
-        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPGET, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response_json = curl_exec($ch);
-        curl_close($ch);
+        $index_number = $centerNumber."/".$number;
+
+        $data = array(
+            "exam_year"=>$yearTaken,
+            "exam_id"=>$iyear,
+            "index_number"=>$index_number,
+            "api_key"=>$token
+        );
+        $payload = json_encode($data);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$payload,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response_json = curl_exec($curl);
+        curl_close($curl);
         $data = json_decode($response_json, true);
+
+        //var_dump($data);
 
         $fname=$db->getData("applicants","firstName","applicantID",$applicantID);
         $mname=$db->getData("applicants","middleName","applicantID",$applicantID);
@@ -56,6 +76,8 @@ if($indexNumber) {
                         <th>Name</th>
                         <th>Index Number</th>
                         <th>School Name</th>
+                        <th>Division</th>
+                        <th>Points</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -67,6 +89,13 @@ if($indexNumber) {
                                    readonly></td>
                         <td><input type="text" name="schoolName"
                                    value="<?php echo $data['particulars']['center_name']; ?>" class="form-control"
+                                   readonly></td>
+                                   <td><input type="text" name="division"
+                                   value="<?php echo $data['results']['division']; ?>" class="form-control"
+                                   readonly></td>
+
+                                   <td><input type="text" name="points"
+                                   value="<?php echo $data['results']['points']; ?>" class="form-control"
                                    readonly></td>
                     </tr>
                     </tbody>
@@ -82,13 +111,7 @@ if($indexNumber) {
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($data as $value) {
-                        if (is_array($value)) {
-                            foreach ($value as $v) {
-                                if (is_array($v)) {
-                                    $count = 0;
-                                    foreach ($v as $vv) {
-                                        if (is_array($vv)) {
+                    foreach ($data['subjects'] as $vv) {
                                             $subjectName = $vv['subject_name'];
                                             $grade = $vv['grade'];
                                             $count++;
@@ -113,12 +136,6 @@ if($indexNumber) {
 
                                             <?php
                                         }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
                     ?>
                     </tbody>
                 </table>
@@ -146,13 +163,13 @@ if($indexNumber) {
         {
             echo "<h4 class='text-danger'>Sorry,Invalid Index Number.</h4>";
         }
-        }else
+       }else
         {
             echo "<h4 class='text-danger'>Sorry,Your Index Number doest not match with personal details.</h4>";
         }
-        } else {
+        /* } else {
             echo "<h4 class='text-danger'>Sorry,NECTA API results are not obtained, please <a href='index.php?sz=other_ordinary_results&level=".$level."&id=" . $_SESSION['applicantID'] . "&inumber=" . $indexNumber . "'>click here</a> 
     to add results manually</h4>";
-        }
+        } */
     }
     ?>

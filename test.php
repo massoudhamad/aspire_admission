@@ -14,7 +14,11 @@ if (!empty($api_token)) {
         $apitToken = $api['token'];
     }
 }
-$token = $db->getAPIToken($apitToken);
+
+$asubjects=$db->getSelectionSubjects(18,"Advance");
+var_dump($asubjects);
+
+/* $token = $db->getAPIToken($apitToken);
 
 $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
 $ch = curl_init($url);
@@ -24,7 +28,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $response_json = curl_exec($ch);
 curl_close($ch);
 $data = json_decode($response_json, true);
-var_dump($data);
+var_dump($data); */
 
 
 //$json = file_get_contents("https://api.necta.go.tz/api/public/results/". $apiNumber."/".$token);

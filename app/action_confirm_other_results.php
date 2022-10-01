@@ -16,6 +16,8 @@ error_reporting (E_ALL | E_STRICT);
             $examinationlevel = $_POST['examinationlevel'];
             $examinationaward = $_POST['examinationaward'];
             $indexNumber = $_POST['indexNumber'];
+            $division=$_POST['division'];
+            $points=$_POST['points'];
             $numberSubjects = $_POST['numbersubjects'];
             if ($examinationaward == "formfour")
                 $award = "CSEE";
@@ -34,6 +36,8 @@ error_reporting (E_ALL | E_STRICT);
                     'schoolName'=>$schoolName,
                     'yearTaken'=>$indexYear,
                     'indexNumber'=>$examNumber,
+                    'division'=>$division,
+                    'points'=>$points,
                     'examinationAuthority'=>$exam_body,
                     'examinationLevel'=>$examinationlevel,
                     'award'=>$award,
@@ -73,7 +77,9 @@ error_reporting (E_ALL | E_STRICT);
                                 $gradePoints = $db->getData("grades", "gradePoint", "gradeID", $gradeID);
                                 $applicantResultData = array(
                                     'applicantResultID' => $applicantResultID,
+                                    'subjectCode'=>$subjectCode,
                                     'subjectID' => $subjectID,
+                                    'grade'=>$gradeCode,
                                     'gradeID' => $gradeID,
                                     'points' => $gradePoints,
                                     'status'=>$status

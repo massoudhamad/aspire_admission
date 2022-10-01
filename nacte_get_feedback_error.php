@@ -164,7 +164,6 @@ $db = new DBHelper();
             ?>
             <input type="hidden" id="sorted" value="<?php echo $value;?>">
             <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
-            <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
 
             <div class="col-lg-12">
@@ -208,7 +207,26 @@ $db = new DBHelper();
                     }
                 }
 
-                    $url = $url.$programmeID."-2021-SEPT/".$token;
+
+                $intake = $db->getRows('admission_setting',array('where'=>array('admissionID'=>$admissionID),'order_by'=>'academicYearID ASC'));
+                if(!empty($intake)){
+                    foreach($intake as $ait){
+                        $admissionIntakeID=$ait['admissionInTakeID'];
+                        $academicYearID=$ait['academicYearID']; 
+                    }
+                }
+                $intakeCode=$db->getData("admission_intake","intakeCode","admissionInTakeID",$admissionInTakeID);
+                $academicyears=$db->getData("academicyears","academicYear","academicYearID",$academicYearID);
+
+                $aYear=explode("/",$academicyears);
+
+
+                //echo $academicyears;
+                $a1year=$aYear[0];
+
+                
+
+                    $url = $url.$programmeID."-".$a1year."-".$intakeCode."/".$token;
 
                     //var_dump($url);
                     $ch = curl_init($url);

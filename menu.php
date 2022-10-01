@@ -126,6 +126,8 @@ session_start();
             <li><a href="index3.php?sp=agent_remarks">Agents By Remarks</a></li>
             <li><a href="index3.php?sp=payment_report">Payment Report</a></li>
             <li><a href="index3.php?sp=nhif_report">NHIF Report</a></li>
+            <li><a href="index3.php?sp=sponsor_report">Sponsor Report</a></li>
+            
 
             <!--  <li><a href="index3.php?sp=tcuequivalentreport">TCU Equivalent Reports</a></li> -->
             <!-- <li><a href="index3.php?sp=admittedreport">Admitted Applicants</a></li>
@@ -176,6 +178,7 @@ session_start();
             <ul class="treeview-menu">
                 <li><a href="index3.php?sp=institution_details">Institution Details</a></li>
                 <li><a href="index3.php?sp=upload_list_nacte">Upload List for Verification</a></li>
+                <li><a href="index3.php?sp=nacte_get_pushed_list">Get Pushed List</a></li>
                 <li><a href="index3.php?sp=nacte_get_feedback_error">Get Feedback Error</a></li>
                 <li><a href="index3.php?sp=nacte_add_correction_error">Upload list of Corrected Data</a></li>
                 <li><a href="index3.php?sp=nacte_add_correction">View List After Correction</a></li>

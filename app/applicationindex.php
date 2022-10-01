@@ -262,8 +262,11 @@ if ($login == 0) {
                                             <?php
                                         } else if ($remarkID == 3) {
                                             if ($_SESSION['orgCode'] == "SUMAIT") {
-                                                ?><td><?php echo "Please contact Admission Office for your Admission Letter";?><br>
-                                            admission@sumait.ac.tz <br>or Contact Phone Number/Whatsapp Number: +255773340066    
+                                                ?><td>
+                                                   <!--  Waiting for TCU Approval -->
+                                            <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <br><br>
                                             </td>
                                             <?php } else if ($_SESSION['orgCode'] == "MUM") {
                                             ?>

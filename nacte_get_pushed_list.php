@@ -157,40 +157,58 @@ $db = new DBHelper();
         <?php
         if(isset($_POST['doSearch'])=="Search Records")
         {
-            //$academicYearID=$_POST['admissionYearID'];
             $programmeID=$_POST['programmeID'];
             $admissionID=$_POST['admissionID'];
             $programmeCode=$db->getData("programs","programCode","programID",$programmeID);
             ?>
             <input type="hidden" id="sorted" value="<?php echo $value;?>">
             <input type="hidden" id="programmeID" value="<?php echo $programmeID;?>">
-            <input type="hidden" id="academicYearID" value="<?php echo $academicYearID;?>">
+            <!-- <input type="hidden" id="academicYearID" value="<?php //echo $academicYearID;?>"> -->
             <input type="hidden" id="admissionID" value="<?php echo $admissionID;?>">
 
             <div class="col-lg-12">
-                <h4><span id="titleheader">List of Verified Applicants in <?php echo $db->getData("programs","programName","programCode",$programmeID); ?>
+                <h4><span id="titleheader">List of Applicants with Error in <?php echo $db->getData("programs","programName","programCode",$programmeID); ?>
                         <?php echo $db->getData("admission_setting","admissionName","admissionID",$admissionID);?></span></h4>
             </div>
+
+                <?php 
+                $intake = $db->getRows('admission_setting',array('where'=>array('admissionID'=>$admissionID),'order_by'=>'academicYearID ASC'));
+                if(!empty($intake)){
+                    foreach($intake as $ait){
+                        $admissionIntakeID=$ait['admissionInTakeID'];
+                        $academicYearID=$ait['academicYearID']; 
+                    }
+                }
+                $intakeCode=$db->getData("admission_intake","intakeCode","admissionInTakeID",$admissionInTakeID);
+                $academicyears=$db->getData("academicyears","academicYear","academicYearID",$academicYearID);
+
+                $aYear=explode("/",$academicyears);
+
+                //echo $academicyears;
+                $a1year=$aYear[0];
+
+                ?>
                 <table id="admit" class="display" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <!--<th>No.</th>-->
-                        <th>Username</th>
-                        <th>UserID</th>
-                        <th>Verification Status</th>
-                        <th>Multiple Selection</th>
-                        <th>Academic Year</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Index Number</th>
+                        <th>Application Year</th>
                         <th>Intake</th>
-                        <th>Eligibility</th>
-                        <th>Remarks</th>
+                        <th>Payment Ref.Number</th>
+                        <th>Submission Status</th>
+                        <th>Update Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
 
                     $db=new DBHelper();
+                /*$url = "http://41.93.40.137/nacteapi/index.php/api/feedbackcorrection/ape/414635b331df03033330f4559c33c0c507a708b089e229e47805965d3db20d1f-c867fa3555f1bbdce788b7daa05ccc0b1922936e/piac/".$programmeID."-2019-SEPTEMBER";*/
 
-                $api = $db->getAPI("NACTE", "verificationresults");
+                $api = $db->getAPI("NACTE", "error");
                 if (!empty($api)) {
                     foreach ($api as $ap) {
                         $token = $ap['token'];
@@ -198,9 +216,11 @@ $db = new DBHelper();
                     }
                 }
 
-                    $url = $url.$programmeID."-2021-SEPT/".$token;
+                   // $url = $url.$programmeID."-2021-SEPT/".$token;
 
-                    var_dump($url);
+                   $url = "https://www.nacte.go.tz/nacteapi/index.php/api/pushedlist/".$programmeID."-".$a1year."-".$intakeCode."/stdfac7e13bc4328.b825e9e270bb0edeee88fd01c099bdb4a9e9184e2cad8c316904feb9af23affa.1543d52e0a7906b90deebc0f98e70a3fd0e03ed5";
+
+                    //var_dump($url);
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPGET, true);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -215,14 +235,15 @@ $db = new DBHelper();
 
                     $count=1;
                     foreach($params as $rp) {
-                        echo "<td>".$rp['username']."</td>";
-                        echo "<td>".$rp['user_id']."</td>";
-                        echo "<td>".$rp['verification_status']."</td>";
-                        echo "<td>".$rp['multiple_selection']."</td>";
-                        echo "<td>".$rp['academic_year']."</td>";
+                        echo "<td>".$rp['firstname']."</td>";
+                        echo "<td>".$rp['secondname']."</td>";
+                        echo "<td>".$rp['surname']."</td>";
+                        echo "<td>".$rp['indexnumber']."</td>";
+                        echo "<td>".$rp['application_year']."</td>";
                         echo "<td>".$rp['intake']."</td>";
-                        echo "<td>".$rp['eligibity']."</td>";
-                        echo "<td>".$rp['remarks']."</td>";
+                        echo "<td>".$rp['payment_reference_number']."</td>";
+                        echo "<td>".$rp['submission_status']."</td>";
+                        echo "<td>".$rp['update_status']."</td>";
                         echo "</tr>";
                         $count++;
                     }

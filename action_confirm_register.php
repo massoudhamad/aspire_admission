@@ -24,20 +24,27 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
     //$equivalence_number=$_POST['equivalence_number'];
     //$indexNumber=$indexNumber."/".$exam_year;
     $indexNumber=$indexNumber;
+    $applicationYear=$db->getData("academicyears","academicYear","academicYearID",$applicationYearID);
+
+    $aYear=explode("/",$applicationYear);
+    $aYear1=$aYear[0];
+    $aYear2=$aYear[1];
+
+    $username=strtoupper($indexNumber."/".$aYear2);
         
-        /* if($admission_level=="UG") { */
+        if($admission_level=="UG") {
             if ($admission_level == '' || $exam_body == '' || $fname == '' || $lname == '') {
                 header("Location:index.php?msg=111");
             } else {
 
                 if ($exam_body == "NECTA") {
                     $indexNumber=$indexNumber;
-                    $username = strtoupper($indexNumber);
+                    //$username = strtoupper($indexNumber);
                 } else if ($exam_body == "Others") {
                     $indexNumber=$indexNumber;
-                    $username = strtoupper($indexNumber);
+                    //$username = strtoupper($indexNumber);
                 } else {
-                    $username = $email;
+                    //$username = $email;
                 }
                 $password = $db->PwdHash(strtoupper(trim($_POST['lname'])));
                 if ($db->isFieldExist($tblName, 'userName', $username)) {
@@ -107,10 +114,10 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     $insert = $db->insert("applicantresults", $applicantsResultsData);
                 }
             }
-        /* }
+        }
         else if($admission_level=="PG") {
-
-            $username = $email;
+            //$username = $email;
+            $username=$indexNumber."/".$aYear2;
             $password = $db->PwdHash(strtoupper(trim($_POST['lname'])));
             if ($db->isFieldExist($tblName, 'userName', $username)) {
                 $boolStatus = false;
@@ -158,12 +165,12 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     'roleID' => 2
                 );
                 $insert = $db->insert($tblUserRole, $userRolesData);
-            } */
-        /* }
+            }
+        }
         else
         {
             header("location:index.php?msg=222");
-        } */
+        }
 
 
             //send mail

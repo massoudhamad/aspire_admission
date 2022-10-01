@@ -467,6 +467,11 @@ $applicantID = $_REQUEST['applicantID'];
                 $ddescription = $apps['disabilityDescription'];
                 $empStatus = $apps['employmentStatus'];
                 $sponsor = $apps['sponsor'];
+
+                if($gender=="Male")
+                    $gender="M";
+                else 
+                    $gender="F";
         ?>
 
 
@@ -843,6 +848,7 @@ $applicantID = $_REQUEST['applicantID'];
                                 <input type="hidden" name="formfour" value="<?php echo $indexNumber; ?>">
                                 <input type="hidden" name="formsix" value="<?php echo $findexNumber; ?>">
                                 <input type="hidden" name="appcategory" value="<?php echo $category; ?>">
+                                <input type="hidden" name="gender" value="<?php echo $gender;?>">
                                 <input type="hidden" name="userID" value="<?php echo $userID;?>">
                                 <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
                                 </a>

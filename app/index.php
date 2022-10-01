@@ -2,8 +2,6 @@
   require_once("../session.php");
   require_once("../DB.php");
 
- 
-
   $db = new DBHelper();
   $userID = $_SESSION['user_session'];
   if($userID=="")

@@ -24,6 +24,7 @@ try {
                     $email = $data['email'];
                     $entryQualification = $data['entryQualification'];
                     $email=$data['email'];
+                    $gender=$data['gender'];
                 }
             }
             else
@@ -120,6 +121,11 @@ try {
             {
                 $formsix[]="";
             }
+
+            if($gender=="Male")
+                $sex="M";
+            else
+                $sex="F";
 
 
 
@@ -225,6 +231,7 @@ try {
                 <RequestParameters>
                     <f4indexno>' . $formindexnumber . '</f4indexno >
                     <f6indexno>' . $findexNumber . '</f6indexno>
+                    <Gender>'.$sex.'</Gender>
                     <SelectedProgrammes>' . $appProg . '</SelectedProgrammes>
                     <MobileNumber>' . $phoneNumber . '</MobileNumber>
                     <OtherMobileNumber>'. $othermobile .'</OtherMobileNumber>
