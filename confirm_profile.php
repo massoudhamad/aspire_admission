@@ -439,7 +439,7 @@ if ($boolStatus == false) {
 
                                             <div class="col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="" for="form-index-number">Application Year</label>
+                                                    <label class="sr-only" for="form-index-number">Application Year</label>
                                                     <input type="text" name="applicationYear" value="<?php echo $academicYear; ?>" class="form-index-number form-control" readonly>
                                                 </div>
                                             </div>
