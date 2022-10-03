@@ -64,33 +64,39 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
 "NTA5_reg": "<NTA5_reg>",
 "NTA5_grad_year": "<NTA5_grad_year>",*/
 
-$data = array(
-    'heading' => array(
-        'authorization' => $token,
-        'intake' => 'SEPT',
-        'programme_id'=>$programmeID,
-        'academic_year' => '2022',
-        'level' => '4',
-        ),
-        'students' => array(
-        ['student' => array(
-            'student_verification_id'=>$verificationID,
-            'firstname' => $firstName,
-            'secondname' => $middleName,
-            'surname' => $lastName,
-            'mobile_number' => $phoneNumber,
-            'email_address' => $email,
-            'form_four_indexnumber' => $formfour,
-            'form_four_year' => $formfouryear,
-            'form_six_indexnumber' => '',
-            'form_six_year' => '',
-            'NTA4_reg' => '',
-            'NTA4_grad_year' => '',
-            'NTA5_reg' => '',
-            'NTA5_grad_year' => '',
-        )]
-        )
-);
+
+
+
+
+                $data = array(
+                    'heading' => array(
+                        'authorization' => $token,
+                        'intake' => 'SEPT',
+                        'programme_id' => '',
+                        'academic_year' => '2022',
+                        'level' => '4',
+                        ),
+                        'students' => array(
+                        ['student' => array(
+                            
+                            'student_verification_id'=>$verificationID,
+                            'programme_ID'=>$programmeID,
+                            'firstname' => $firstName,
+                            'secondname' => $middleName,
+                            'surname' => $lastName,
+                            'mobile_number' => $phoneNumber,
+                            'email_address' => $email,
+                            'form_four_indexnumber' => $formfour,
+                            'form_four_year' => $formfouryear,
+                            'form_six_indexnumber' => $formsix,
+                            'form_six_year' => $formsixyear,
+                            'NTA4_reg' => $nta4,
+                            'NTA4_grad_year' => $nta4year,
+                            'NTA5_reg' => $nta5,
+                            'NTA5_grad_year' => $nta5year,
+                        )]
+                        )
+                );
                 $payload = json_encode(array("user" => $data));
 
                 //attach encoded JSON string to the POST fields
