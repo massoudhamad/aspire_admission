@@ -109,11 +109,13 @@ $data = array(
 
                 echo $result;
 
+                echo $result[0];
+
                 //close cURL resource
                 curl_close($ch);
-                $output= $result;
+                $output= json_decode($result);
                 //var_dump($output);
-                if($output['code']==200)
+                if($result['code']==200)
                 {
                    $updatelist = array(
                     'nacte_status' => 1
