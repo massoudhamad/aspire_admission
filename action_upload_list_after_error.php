@@ -114,12 +114,11 @@ $data = array(
                 curl_close($ch);
                 //$output=array();
                 //$output= array($result);
-
                 //var_dump($output);
                 $output=json_decode($result);
-                var_dump($output);
-                foreach($output as $a)
-                {
+                $output->resultdata;
+                var_dump($output['resultData']['code']);
+                
                 if($a['code']==200)
                 {
                    $updatelist = array(
@@ -128,11 +127,10 @@ $data = array(
                    $condition=array('student_verification_id'=>$verID);
                    $update=$db->update("applicants_nacte_list",$updatelist,$condition);
                 }
-                }
                 $status = true;
                 $jj++;
 
-                var_dump($result);
+                //var_dump($result);
 
             }
         }
