@@ -29,11 +29,20 @@ if(!empty($applicantsData))
         $nta5year=$row['NTA5_grad_year'];
         $phoneNumber=$row['mobile_number'];
         $email=$row['email_address'];
+        $nacte_status=$row['nacte_status'];
+
+        if($nacte_status==1)
+            $status="SENT";
+        else
+            $status="NO";
 
 
 
-
-        $checkbox="<input type='checkbox' class='checkbox_class' name='verificationID[]' value='$verID'>";
+        if($nacte_status==1)
+            $checkbox="NA";
+        else 
+            $checkbox="<input type='checkbox' class='checkbox_class' name='verificationID[]' value='$verID'>";
+        
         $output['data'][] = array(
             $x,
             $checkbox,
@@ -52,7 +61,7 @@ if(!empty($applicantsData))
             $nta5year,
             $email,
             $phoneNumber,
-            'Sent'
+            ''
         );
 
         //$x++;
