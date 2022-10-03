@@ -116,6 +116,7 @@ $data = array(
                 //$output= array($result);
 
                 //var_dump($output);
+                var_dump($result);
                 foreach($result as $a)
                 {
                 if($a['code']==200)
@@ -130,7 +131,7 @@ $data = array(
                 $status = true;
                 $jj++;
 
-                //var_dump($result);
+                var_dump($result);
 
             }
         }
