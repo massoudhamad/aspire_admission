@@ -1,7 +1,7 @@
 <?php
 session_start();
-ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);
+/* ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); */
 require_once 'DB.php';
 $db=new DBHelper();
 $params = array('params' => array());
@@ -129,7 +129,7 @@ $data = array(
                 $status = true;
                 $jj++;
 
-                //var_dump($result);
+                var_dump($result);
 
             }
         }
