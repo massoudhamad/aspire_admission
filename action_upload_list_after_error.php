@@ -115,8 +115,8 @@ $data = array(
                 //$output=array();
                 //$output= array($result);
                 //var_dump($output);
-                $output=json_decode($result,true);
-                var_dump($output[0]['code']);
+                $output=json_decode($result);
+                var_dump($output['code']);
                 
                 if($a['code']==200)
                 {
