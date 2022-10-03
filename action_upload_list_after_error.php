@@ -107,14 +107,15 @@ $data = array(
                 //execute the POST request
                 $result = curl_exec($ch);
 
-                echo $result;
+                //echo $result;
 
 
                 //close cURL resource
                 curl_close($ch);
                 $output= array($result);
-                //var_dump($output);
-                if($output['code']==200)
+
+                var_dump($output);
+                if($output[0]==200)
                 {
                    $updatelist = array(
                     'nacte_status' => 1
