@@ -110,6 +110,7 @@ $data = array(
                 //close cURL resource
                 curl_close($ch);
                 $output= json_decode($result);
+                var_dump($output);
                 if($output['code']==200)
                 {
                    $updatelist = array(
