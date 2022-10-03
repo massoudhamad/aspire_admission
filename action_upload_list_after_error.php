@@ -112,17 +112,20 @@ $data = array(
 
                 //close cURL resource
                 curl_close($ch);
-                $output=array();
-                $output= array($result);
+                //$output=array();
+                //$output= array($result);
 
-                var_dump($output);
-                if($output[0]==200)
+                //var_dump($output);
+                foreach($result as $a)
+                {
+                if($a['code']==200)
                 {
                    $updatelist = array(
                     'nacte_status' => 1
                    );
                    $condition=array('student_verification_id'=>$verID);
                    $update=$db->update("applicants_nacte_list",$updatelist,$condition);
+                }
                 }
                 $status = true;
                 $jj++;
