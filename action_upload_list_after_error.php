@@ -107,6 +107,8 @@ $data = array(
                 //execute the POST request
                 $result = curl_exec($ch);
 
+                echo $result;
+
                 //close cURL resource
                 curl_close($ch);
                 $output= json_decode($result);
