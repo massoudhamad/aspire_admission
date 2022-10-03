@@ -112,6 +112,7 @@ $data = array(
 
                 //close cURL resource
                 curl_close($ch);
+                $output=array();
                 $output= array($result);
 
                 var_dump($output);
@@ -126,7 +127,7 @@ $data = array(
                 $status = true;
                 $jj++;
 
-                var_dump($result);
+                //var_dump($result);
 
             }
         }
