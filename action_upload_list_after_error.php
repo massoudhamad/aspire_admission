@@ -1,5 +1,7 @@
 <?php
 session_start();
+/* ini_set ('display_errors', 1);
+error_reporting (E_ALL | E_STRICT); */
 require_once 'DB.php';
 $db=new DBHelper();
 $params = array('params' => array());
@@ -42,7 +44,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 }
 
                 //API URL
-                $url = 'http://41.93.40.137/nacteapi/index.php/api/addcorrection';
+                $url = 'https://www.nacte.go.tz/nacteapi/index.php/api/addcorrection';
                 //create a new cURL resource
                 $ch = curl_init($url);
                 //setup request to send json via POST
@@ -64,25 +66,33 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
 "NTA5_reg": "<NTA5_reg>",
 "NTA5_grad_year": "<NTA5_grad_year>",*/
 
-                $data = array(
-                    'authorization' => $token,
-                    'student_verification_id'=>$verificationID,
-                    'programme_ID'=>$programmeID,
-                    'firstname' => $firstName,
-                    'secondname' => $middleName,
-                    'surname' => $lastName,
-                    'mobile_number' => $phoneNumber,
-                    'email_address' => $email,
-                    'form_four_indexnumber' => $formfour,
-                    'form_four_year' => $formfouryear,
-                    'form_six_indexnumber' => $formsix,
-                    'form_six_year' => $formsixyear,
-                    'NTA4_reg' => $nta4,
-                    'NTA4_grad_year' => $nta4year,
-                    'NTA5_reg' => $nta5,
-                    'NTA5_grad_year' => $nta5year,
-
-                );
+$data = array(
+    'heading' => array(
+        'authorization' => $token,
+        'intake' => 'SEPT',
+        'programme_id'=>$programmeID,
+        'academic_year' => '2022',
+        'level' => '4',
+        ),
+        'students' => array(
+        ['student' => array(
+            'student_verification_id'=>$verificationID,
+            'firstname' => $firstName,
+            'secondname' => $middleName,
+            'surname' => $lastName,
+            'mobile_number' => $phoneNumber,
+            'email_address' => $email,
+            'form_four_indexnumber' => $formfour,
+            'form_four_year' => $formfouryear,
+            'form_six_indexnumber' => '',
+            'form_six_year' => '',
+            'NTA4_reg' => '',
+            'NTA4_grad_year' => '',
+            'NTA5_reg' => '',
+            'NTA5_grad_year' => '',
+        )]
+        )
+);
                 $payload = json_encode(array("user" => $data));
 
                 //attach encoded JSON string to the POST fields
@@ -97,10 +107,25 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                 //execute the POST request
                 $result = curl_exec($ch);
 
+                //echo $result;
+
+
                 //close cURL resource
                 curl_close($ch);
-                //$output= json_decode($result);
-                //if($output['code']==200)
+                //$output=array();
+                //$output= array($result);
+                //var_dump($output);
+                $output=json_decode($result);
+                //var_dump($output->code);
+                
+                if($output->code == 200)
+                {
+                   $updatelist = array(
+                    'nacte_status' => 1
+                   );
+                   $condition=array('student_verification_id'=>$verID);
+                   $update=$db->update("applicants_nacte_list",$updatelist,$condition);
+                }
                 $status = true;
                 $jj++;
 

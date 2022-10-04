@@ -27,27 +27,11 @@ if ($indexNumber) {
             $apiNumber = $centerNumber;
             $exam_id=1;
         }
-        /* $token = $db->getAPIToken($apitToken);
-        $url = "https://api.necta.go.tz/api/public/results/" . $apiNumber . "/" . $token;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HTTPGET, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response_json = curl_exec($ch); */
-        /* if (curl_exec($ch) === false) {
-            echo 'Curl error: ' . curl_error($ch);
-        } else {
-         echo 'Operation completed without any errors, you have the response';
-        } */
-        /* curl_close($ch);
-        $data = json_decode($response_json, true); */
-
-        //$data = json_decode($json, true);
 
 
         $data = array(
             "exam_year"=>$yearTaken,
-            "exam_id"=>1,
+            "exam_id"=>$exam_id,
             "index_number"=>$apiNumber,
             "api_key"=>$token
         );
@@ -73,7 +57,7 @@ if ($indexNumber) {
 
         curl_close($curl);
         $data = json_decode($response_json, true);
-        var_dump($data);
+        //var_dump($data);
 
 ?>
         <form name="" action="action_save_equivalence_results.php" method="post">
