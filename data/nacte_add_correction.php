@@ -29,6 +29,7 @@ if(!empty($applicantsData))
         $nta5year=$row['NTA5_grad_year'];
         $phoneNumber=$row['mobile_number'];
         $email=$row['email_address'];
+        $nacte_status=$row['nacte_status'];
 
         if($nacte_status==1)
             $status="SENT";
