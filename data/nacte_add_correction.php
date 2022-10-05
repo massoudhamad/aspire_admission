@@ -5,7 +5,7 @@ $db=new DBHelper();
 $output = array('data' => array());
 
 
-$applicantsData=$db->getRows("applicants_nacte_list",array('group_by firstname ASC'));
+$applicantsData=$db->getRows("applicants_nacte_list",array('where'=>array('admissionID'=>6),'group_by firstname ASC'));
 if(!empty($applicantsData))
 {
     $x=0;

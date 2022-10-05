@@ -64,7 +64,31 @@ $db = new DBHelper();
     <h4>View List of Applicants</h4>
     <hr>
 
-    <div class="row">
+    <div class="row"><th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Disability</th>
+                        <th>Form IV</th>
+                        <th>Year</th>
+                        <th>Form VI</th>
+                        <th>Year</th>
+                        <th>NTA4</th>
+                        <th>Year</th>
+                        <th>NTA5</th>
+                        <th>NTA5 Year</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Region</th>
+                        <th>Distict</th>
+                        <th>Next Of Kin</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Relationship</th>
+                        <th>Next of Kin Region</th>
+                        <th>Nationality</th>
         <div class="col-md-12">
             <?php
             if(!empty($_REQUEST['msg']))
@@ -87,7 +111,31 @@ $db = new DBHelper();
 
         </div>
     </div>
-
+    <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Disability</th>
+                        <th>Form IV</th>
+                        <th>Year</th>
+                        <th>Form VI</th>
+                        <th>Year</th>
+                        <th>NTA4</th>
+                        <th>Year</th>
+                        <th>NTA5</th>
+                        <th>NTA5 Year</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Region</th>
+                        <th>Distict</th>
+                        <th>Next Of Kin</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Relationship</th>
+                        <th>Next of Kin Region</th>
+                        <th>Nationality</th>
     <div class="row">
         <form name="" method="post" action="">
             <div class="col-lg-3">
@@ -114,7 +162,31 @@ $db = new DBHelper();
                     <?php
                     $adYear = $db->getRows('academicyears',array('order_by'=>'academicYear ASC'));
                     if(!empty($adYear)){
-                        echo"<option value=''>Please Select Here</option>";
+                        echo"<option value=''>Please Select Her<th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Disability</th>
+                        <th>Form IV</th>
+                        <th>Year</th>
+                        <th>Form VI</th>
+                        <th>Year</th>
+                        <th>NTA4</th>
+                        <th>Year</th>
+                        <th>NTA5</th>
+                        <th>NTA5 Year</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Region</th>
+                        <th>Distict</th>
+                        <th>Next Of Kin</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Relationship</th>
+                        <th>Next of Kin Region</th>
+                        <th>Nationality</th>e</option>";
                         $count = 0; foreach($adYear as $year){ $count++;
                             $academic_year=$year['academicYear'];
                             $academic_year_id=$year['academicYearID'];
