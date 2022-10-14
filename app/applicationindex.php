@@ -262,8 +262,29 @@ if ($login == 0) {
                                             if ($_SESSION['orgCode'] == "SUMAIT") {
                                                 ?><td>
                                                    <!--  Waiting for TCU Approval -->
-                                            <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                   <?php
+                                                   if($db->checkApplicantStudyLevel($applicantID) == 1)
+                                                   {
+                                                   ?>
+                                                        <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
                                                         <span class="text text-success">Download Admission Letter</span></a>
+                                                        <?php
+                                                   }
+                                                   else if($db->checkApplicantStudyLevel($applicantID) == 4)
+                                                   {
+                                                    ?>
+                                                    <a href="printadmissionletterpg.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <?php 
+                                                   }
+                                                   else 
+                                                   {
+                                                    ?>
+                                                    <a href="printadmissionletterdp.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                    <?php 
+                                                   }
+                                                        ?>
                                                     <br><br>
                                             </td>
                                             <?php } else if ($_SESSION['orgCode'] == "MUM") {
