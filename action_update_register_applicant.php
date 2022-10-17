@@ -201,7 +201,7 @@ try {
                 }
             } elseif ($_SESSION['orgCode']=="SUMAIT") {
                 $programme = $db->getStudyLevelID($programmeID);
-                if (!empty($programme)) {
+                if (!empty($programme)){
                     foreach ($programme as $cp) {
                         $studyLevelID = $cp['studyLevelID'];
                         $schoolCode = $cp['schoolCode'];
@@ -250,7 +250,18 @@ try {
                     }
                     $majorCode = $db->getData("programmemajor", "majorCode", "programmeMajorID", $programmeID);
 
-                    $registrationNumber = $subYear . "/" . $majorCode . "/" . $finalNumber;
+                    if($studyLevelID==2)
+                    {
+                        $registrationNumber = $subYear."/D/".$majorCode."/".$finalNumber;
+                    }
+                    else if($studyLevelID==3)
+                    {
+                        $registrationNumber = $subYear."/C/".$majorCode."/".$finalNumber;
+                    }
+                    else
+                    {
+                        $registrationNumber = $subYear . "/" . $majorCode . "/" . $finalNumber;
+                    }
 
                 }
             } elseif ($_SESSION['orgCode'] == "IPA") {
