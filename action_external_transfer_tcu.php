@@ -15,6 +15,7 @@ $formfour=$_POST['formfoursec'];
 $formsix=$_POST['formsix'];
 $bProgrammeCode=$_POST['bProgrammeCode'];
 $aProgrammeCode=$_POST['aProgrammeCode'];
+$gender=$_POS['gender'];
 
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>
@@ -26,6 +27,7 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 <RequestParameters>
 <f4indexno>'.$formfour.'</f4indexno>
 <f6indexno>'.$formsix.'</f6indexno>
+<Gender>'.$gender.'</Gender>
 <CurrentProgrammeCode>'.$aProgrammeCode.'</CurrentProgrammeCode>
 <PreviousProgrammeCode>'.$bProgrammeCode.'</PreviousProgrammeCode>
 </RequestParameters>
