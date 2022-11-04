@@ -67,6 +67,19 @@
 
              <div class="row">
                  <div class="col-lg-4">
+                     <div class="form-group">
+                         <label for="studyLevel">Gender</label>
+                         <select name="gender" class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                         </select>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="row">
+                 <div class="col-lg-4">
                      <input type="hidden" name="formfour" value="<?php echo $_REQUEST['formfour']; ?>">
                      <input type="submit" name="doSubmit" value="Save Records" class="btn btn-success form-control" />
                      </a>
