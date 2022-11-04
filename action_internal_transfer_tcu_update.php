@@ -27,6 +27,7 @@ $xml='<?xml version="1.0" encoding="UTF-8"?>
 <f6indexno>'.$formsix.'</f6indexno>
 <CurrentProgrammeCode>'.$aProgrammeCode.'</CurrentProgrammeCode>
 <PreviousProgrammeCode>'.$bProgrammeCode.'</PreviousProgrammeCode>
+<Gender>'.$gender.'</Gender>
 </RequestParameters>
 </Request>';
 
