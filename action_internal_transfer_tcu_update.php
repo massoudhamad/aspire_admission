@@ -14,6 +14,7 @@ $formfour=$_POST['formfoursec'];
 $formsix=$_POST['formsix'];
 $bProgrammeCode=$_POST['bProgrammeCode'];
 $aProgrammeCode=$_POST['aProgrammeCode'];
+$gender=$_POST['gender'];
 
 
 $xml='<?xml version="1.0" encoding="UTF-8"?>
