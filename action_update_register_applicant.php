@@ -178,7 +178,7 @@ try {
                     $finalNumber = "0" . $finalNumber;
                 } else if ($db->count_digit($finalNumber) >= 1) {
                     $finalNumber = "00" . $finalNumber;
-                }
+                }   
 
 
                     if ($studyLevelID == 1) {

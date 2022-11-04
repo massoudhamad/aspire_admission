@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 /* ini_set ('display_errors', 1);
 error_reporting (E_ALL | E_STRICT); */
 require_once 'DB.php';
@@ -95,6 +96,8 @@ $data = array(
 );
                 $payload = json_encode(array("user" => $data));
 
+                echo $payload;
+
                 //attach encoded JSON string to the POST fields
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
@@ -118,14 +121,14 @@ $data = array(
                 $output=json_decode($result);
                 //var_dump($output->code);
                 
-                if($output->code == 200)
+                /* if($output->code == 200)
                 {
                    $updatelist = array(
                     'nacte_status' => 1
                    );
                    $condition=array('student_verification_id'=>$verID);
                    $update=$db->update("applicants_nacte_list",$updatelist,$condition);
-                }
+                } */
                 $status = true;
                 $jj++;
 
