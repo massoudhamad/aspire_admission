@@ -36,9 +36,9 @@ if(!empty($applicantsData))
         else
             $status="NO";
 
-        if($nacte_status==1)
+        /* if($nacte_status==1)
             $checkbox="NA";
-        else 
+        else  */
             $checkbox="<input type='checkbox' class='checkbox_class' name='verificationID[]' value='$verID'>";
 
         //$checkbox="<input type='checkbox' class='checkbox_class' name='verificationID[]' value='$verID'>";
