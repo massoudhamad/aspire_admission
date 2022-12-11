@@ -234,11 +234,11 @@ if($_REQUEST['action']=="getPDF")
      $pdf->Ln(8);
       $pdf->setFont('Arial', '', 11);
       //pdf content
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "On behalf of the management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for the year programme, ".$applicationYear.", for a legal practical course leading to the award of a Certificate of Competence to qualify as an advocate.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "On behalf of the management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for the year programme, ".$applicationYear.", for a legal practical course leading to the award of a Postgraduate Certificate of Competence to qualify as an advocate.");
 
        $pdf->Ln(4);
 
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 17th January, 2022. Failure to register within the specified time will lead to cancellation of a place.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 16th January, 2023. Failure to register within the specified time will lead to cancellation of a place.");
 
 
        $pdf->Ln(4);
@@ -290,7 +290,7 @@ if($_REQUEST['action']=="getPDF")
        
        $pdf->MultiCell(0,6, "Orientation and Registration of new students will be on ". date("d-m-Y",strtotime($orientationDate))." and ". date("d-m-Y",strtotime($registrationDate))." respectively.");
         */
-     $pdf->Ln(10);
+     $pdf->Ln(8);
      $pdf->Cell(6);
      $pdf->setFont('Arial', 'I', 11);
      $pdf->Cell(85,6,"Sincerely yours,");
@@ -343,8 +343,8 @@ if($_REQUEST['action']=="getPDF")
      $pdf->Cell(6);$pdf->Cell(90,6,"Total",1);	$pdf->Cell(90,6,"1,590,000.00",1);
 
    
-$pdf->Output();
-//$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
+//$pdf->Output();
+$pdf->Output($formfour."-".$applicantNumber."-".$applicationYear.".pdf","D");
    }
   }
 }
