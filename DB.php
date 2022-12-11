@@ -2402,7 +2402,7 @@ WHERE
         try {
             $data = array();
             $query = $this->conn->prepare("SELECT 
-    indexNumber,schoolName,examinationAuthority,yearTaken,division,points
+    indexNumber,schoolName,examinationAuthority,yearTaken
 FROM
     applicantresults ar
 WHERE 
