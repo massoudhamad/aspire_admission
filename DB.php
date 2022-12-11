@@ -2682,7 +2682,7 @@ WHERE
             if($roundname=='all')
             {
                 $query = $this->conn->prepare("SELECT 
-            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification,formfour
         from
             applicants a,
             programmemajor pm,
@@ -2701,7 +2701,7 @@ WHERE
             else 
             {
                 $query = $this->conn->prepare("SELECT 
-            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
+            DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification,formfour
         from
             applicants a,
             programmemajor pm,
