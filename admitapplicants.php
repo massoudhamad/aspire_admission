@@ -238,15 +238,15 @@ $db = new DBHelper();
                             <th>Name</th>
                             <th>Sex</th>
                             <th>Form IV</th>
-                            <th>Form VI</th>
+                            <!-- <th>Form VI</th> -->
                             <th>Programmes</th>
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Nationality</th>
                             <th>Impairment</th>
                             <th>Date of Birth</th>
-                            <th>Other Form IV</th>
-                            <th>Other Form VI</th>
+                            <!-- <th>Other Form IV</th>
+                            <th>Other Form VI</th> -->
                         </tr>
                     </thead>
 
@@ -268,6 +268,7 @@ $db = new DBHelper();
                                 $disabiliyStatus = $data['disabilityStatus'];
                                 $nationality = $data['citizenship'];
                                 $entryQualification = $data['entryQualification'];
+                                $formfour=$data['formfour'];
                                 $name = "$fname $mname $lname";
 
                                 if ($entryQualification == 0)
@@ -286,8 +287,12 @@ $db = new DBHelper();
                                     $dname = "None";
                                 }
 
+                                $form_four=explode("/",$formfour);
 
-                                $oindexumber = $db->getIndexNumber($applicantID, "Ordinary");
+                                $formfour=$form_four[0]."/".$form_four[1]."/".$form_four[2];
+
+
+                               /*  $oindexumber = $db->getIndexNumber($applicantID, "Ordinary");
                                 if (!empty($oindexumber)) {
                                     $formfour = array();
                                     foreach ($oindexumber as $fnumber) {
@@ -296,7 +301,7 @@ $db = new DBHelper();
                                     }
                                 } else {
                                     $formfour[] = "";
-                                }
+                                } */
 
 
 
@@ -362,10 +367,10 @@ $db = new DBHelper();
                                 }
 
 
-                                $four = array();
+                               /*  $four = array();
                                 for ($x = 1; $x < count($formfour); $x++) {
                                     $four[] = $formfour[$x];
-                                }
+                                } */
 
                                 $six = array();
                                 for ($x = 1; $x < count($formsix); $x++) {
@@ -379,16 +384,15 @@ $db = new DBHelper();
                            <td><input type='checkbox' class='checkbox_class' name='applicantID[]' value='$applicantID'></td>
                            <td>$name</td>
                            <td>$gender</td>
-                           <td>" . $formfour[0] . "</td>
-                           <td>" . $findexNumber . "</td>
+                           <td>" . $formfour . "</td>
+                           
                            <td>" . "$firstChoice,$secondChoice" . "</td>
                            <td>$phoneNumber</td>
                            <td>$email</td>
                            <td>$nationality</td>
                           <td>$dname</td>
                           <td>$dob</td>
-                          <td>$fourfour</td>
-                          <td>$sixsix</td>
+                          
                            </tr>";
                             }
                         }
