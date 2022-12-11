@@ -4,4 +4,12 @@ img/
 upload_doc/
 app/upload_doc
 nbproject/
-
+.idea/
+PhpStorm_Reference_Card.pdf
+README.md
+api_star/
+composer.json
+docker-compose.yml
+jwt_firebase/
+license.txt
+workshop/
