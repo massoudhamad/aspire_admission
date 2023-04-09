@@ -33,7 +33,7 @@ if($_REQUEST['action']=="getPDF")
         {
             $today=date('M d,Y');
             //Logo .
-            $this->Image('img/letterhead.png',10,5,200,45);
+            //$this->Image('img/letterhead.png',10,5,200,45);
             //$this->Image('img/logo.jpg',170,10,35.98,37.22);
         }
         function BasicTable($header)
@@ -488,4 +488,3 @@ if($_REQUEST['action']=="getPDF")
         }
     }
 }
-?>
