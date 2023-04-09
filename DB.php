@@ -272,8 +272,8 @@ class DBHelper
             //$row=$query->rowCount();
             $row = $query->fetchAll();
             if (count($row) > 0)
-                //if(!empty($query))
-                //if($row>0)
+            //if(!empty($query))
+            //if($row>0)
             {
                 return true;
             } else {
@@ -301,7 +301,7 @@ class DBHelper
         }
     }
 
-//Start Admission System
+    //Start Admission System
     public function getSubject($applicantResultID, $str)
     {
         try {
@@ -335,7 +335,7 @@ class DBHelper
     public function getRemarks()
     {
         try {
-/*            $query = $this->conn->prepare("SELECT remarkID,remark from remarks where remarkID <> 6 AND remarkID<>3");*/
+            /*            $query = $this->conn->prepare("SELECT remarkID,remark from remarks where remarkID <> 6 AND remarkID<>3");*/
             $query = $this->conn->prepare("SELECT remarkID,remark from remarks");
             $query->execute();
             $data = array();
@@ -348,11 +348,10 @@ class DBHelper
         }
     }
 
-    public function getApplicantsApproved($pID, $acadID, $admID, $entry,$roundname)
+    public function getApplicantsApproved($pID, $acadID, $admID, $entry, $roundname)
     {
         try {
-            if($roundname=='all')
-            {
+            if ($roundname == 'all') {
                 $query = $this->conn->prepare("SELECT 
     DISTINCT(a.applicantID), firstName, middleName, lastName, gender
 from
@@ -372,9 +371,7 @@ where
         and entryQualification=:entry
        ");
                 $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry));
-            }
-            else
-            {
+            } else {
                 $query = $this->conn->prepare("SELECT 
     DISTINCT(a.applicantID), firstName, middleName, lastName, gender
 from
@@ -393,8 +390,9 @@ where
         and applicantsRemarksID = :remarkID
         and entryQualification=:entry
         AND admissionRound=:round");
-                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry,':round'=>$roundname));
-            }$data = array();
+                $query->execute(array(':progID' => $pID, ':appYearID' => $acadID, ':aid' => $admID, ':chc' => 1, 'remarkID' => 2, ':entry' => $entry, ':round' => $roundname));
+            }
+            $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -434,7 +432,7 @@ where
         }
     }
 
-//get all selected applicants
+    //get all selected applicants
     public function getSelectedList($pID, $acadID, $admID)
     {
         try {
@@ -493,7 +491,7 @@ where
     {
         try {
             if ($pID == 1) {
-               /* $query = $this->conn->prepare("SELECT
+                /* $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,dateOfBirth as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,a.tcu_status
         from
             applicants a,
@@ -524,7 +522,6 @@ where
             and admissionID=:adminID
             order by a.tcu_status ASC");
                 $query->execute(array(':studyID' => 1, ':remarkID' => 6, ':appYearID' => $acadID, ':adminID' => $admID));
-
             } else {
                 /*$query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID),registrationNumber, firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
@@ -640,7 +637,7 @@ where
             and admissionID=:adminID
             AND NULLIF(tcu_final, '') IS NULL 
             order by tcu_status ASC");
-                $query->execute(array(':studyID' => 1, ':remarkID' => 2,':remark2_ID'=>4,':remark3_ID'=>5, ':appYearID' => $acadID, ':adminID' => $admID));
+                $query->execute(array(':studyID' => 1, ':remarkID' => 2, ':remark2_ID' => 4, ':remark3_ID' => 5, ':appYearID' => $acadID, ':adminID' => $admID));
             } else {
                 $query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID
@@ -657,7 +654,7 @@ where
                 and (applicantsRemarksID=:remarkID or applicantsRemarksID=:remark2_ID or applicantsRemarksID=:remark3_ID or applicantsRemarksID=:remark4_ID)
                 and applicationYearID=:appYearID
                 and admissionID=:adminID");
-                $query->execute(array(':studyc' => 2, ':studyd' => 3, ':studydd' => 4, ':remark2_ID'=>4,':remark3_ID'=>5,':remark4_ID'=>1, ':appYearID' => $acadID, ':adminID' => $admID));
+                $query->execute(array(':studyc' => 2, ':studyd' => 3, ':studydd' => 4, ':remark2_ID' => 4, ':remark3_ID' => 5, ':remark4_ID' => 1, ':appYearID' => $acadID, ':adminID' => $admID));
             }
 
             $data = array();
@@ -788,13 +785,13 @@ where
     public function getApplicantDataTCU($applicantID)
     {
         try {
-                $query = $this->conn->prepare("SELECT
+            $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,dateOfBirth as dob,tcu_status,citizenship,tcu_final,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
         from
             applicants a
         where
             a.applicantID = :appID");
-                $query->execute(array(':appID' => $applicantID));
+            $query->execute(array(':appID' => $applicantID));
 
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -812,7 +809,7 @@ where
     public function getSubmitSelectedListNonDegreeTCU($admID)
     {
         try {
-                $query = $this->conn->prepare("SELECT
+            $query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID), firstName, middleName, lastName, gender,date_format(dateOfBirth,'%d-%m-%Y') as dob,citizenship,disabilityStatus,entryQualification,phoneNumber,email,districtID,tcu_status
             from
                 applicants a,
@@ -827,8 +824,8 @@ where
                 and (p.studyLevelID=:studyc or p.studyLevelID=:studyd)
                 and (applicantsRemarksID=:remarkID1 or applicantsRemarksID=:remarkID2 or applicantsRemarksID=:remarkID3)
                 and admissionID=:adminID");
-                $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 3, 'remarkID1' => 3, 'remarkID2' => 2,'remarkID3' => 6, ':adminID' => $admID));
-            
+            $query->execute(array(':adminStatus' => 1, ':studyc' => 2, ':studyd' => 3, 'remarkID1' => 3, 'remarkID2' => 2, 'remarkID3' => 6, ':adminID' => $admID));
+
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -839,7 +836,7 @@ where
         }
     }
 
-//get all applicants
+    //get all applicants
     public function getTCUApplicantList($acadID, $adminID)
     {
         try {
@@ -868,7 +865,7 @@ where
                     AND admissionID = :adminID
                     AND choice=:chc
                     order by tcu_status ASC");
-            $query->execute(array(':studyID' => 1, ':appYearID' => $acadID, ':adminID' => $adminID,':chc'=>1));
+            $query->execute(array(':studyID' => 1, ':appYearID' => $acadID, ':adminID' => $adminID, ':chc' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -880,7 +877,7 @@ where
     }
 
 
-//
+    //
     public function getApprovedList($pID, $acadID)
     {
         try {
@@ -911,8 +908,8 @@ physicalAddress,phoneNumber,email,nextOfKinName,nextOfKinPhoneNumber,nextOfKinAd
         }
     }
 
-//getAdmitted for NACTE
-    public function getNacteAdmittedList($pID,$adminID,$remarksID)
+    //getAdmitted for NACTE
+    public function getNacteAdmittedList($pID, $adminID, $remarksID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -931,7 +928,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and a.admissionID = :admID
         and choice = :chc
         and applicantsRemarksID = :remarkID");
-            $query->execute(array(':progID' => $pID,':admID'=>$adminID,':chc' => 1, 'remarkID' => $remarksID));
+            $query->execute(array(':progID' => $pID, ':admID' => $adminID, ':chc' => 1, 'remarkID' => $remarksID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -943,7 +940,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
     }
 
     //getApplicantNACTE
-    public function getApplicantNacteAdmittedList($applicantID,$pID,$adminID)
+    public function getApplicantNacteAdmittedList($applicantID, $pID, $adminID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -962,7 +959,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         and a.admissionID = :admID
         and a.applicantID=:appID
         and choice = :chc");
-            $query->execute(array(':progID' => $pID, ':admID'=>$adminID,':appID'=>$applicantID,':chc' => 1));
+            $query->execute(array(':progID' => $pID, ':admID' => $adminID, ':appID' => $applicantID, ':chc' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -973,8 +970,8 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         }
     }
 
-//get all applicants
-    public function getApplicantsList($pID, $acadID, $adminID,$remark)
+    //get all applicants
+    public function getApplicantsList($pID, $acadID, $adminID, $remark)
     {
         try {
             if ($pID == 1) {
@@ -1028,7 +1025,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
 
 
     //get pending applicants
-    public function getPendingApplicantsList($pID, $acadID, $adminID,$remark)
+    public function getPendingApplicantsList($pID, $acadID, $adminID, $remark)
     {
         try {
             if ($pID == 1) {
@@ -1079,7 +1076,7 @@ physicalAddress,phoneNumber,email,districtID,nextOfKinName,nextOfKinPhoneNumber,
         }
     }
 
-    public function getApplicantByProgrammes($pID,$adminID)
+    public function getApplicantByProgrammes($pID, $adminID)
     {
         try {
             $query = $this->conn->prepare("SELECT 
@@ -1099,7 +1096,7 @@ where
         and a.admissionID=:adminID
         and a.userID=u.userID
         and applicantsRemarksID<>0");
-            $query->execute(array(':chc' => 1, ':prog' => $pID,':adminID'=>$adminID));
+            $query->execute(array(':chc' => 1, ':prog' => $pID, ':adminID' => $adminID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -1110,7 +1107,7 @@ where
         }
     }
 
-//Approved by Major
+    //Approved by Major
     public function getApplicantsApprovedByMajor($pID, $acadID, $entry)
     {
         try {
@@ -1341,7 +1338,6 @@ where
             $row = $query->fetch(PDO::FETCH_ASSOC);
             $value = $row['points'];
             return $value;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1388,7 +1384,7 @@ where
         }
     }
 
-//Not Used by Anything just for test only
+    //Not Used by Anything just for test only
     public function haveCompulsoryPoints($programmeMajorID, $applicantID)
     {
         $found = false;
@@ -1412,13 +1408,11 @@ where
                     }
                 }
             }
-
-
         }
         return $found;
     }
 
-//checkout if programme has compulsory subject or not
+    //checkout if programme has compulsory subject or not
     public function checkCompulsorySubjects($programmeMajorID)
     {
         try {
@@ -1450,8 +1444,8 @@ where
                     foreach ($applicantSubjects as $item) {
                         $applicantSubjectID = $item['subjectID'];
                         $gradePoints = $this->getAppSubjectPoint($applicantID, $applicantSubjectID);
-                        if($compSubjectID == $applicantSubjectID) {
-                            if($gradePoints >= $compPoints) {
+                        if ($compSubjectID == $applicantSubjectID) {
+                            if ($gradePoints >= $compPoints) {
                                 $found = true;
                                 break;
                             }/* else {
@@ -1470,7 +1464,6 @@ where
             return $found;
         } catch (PDOException $ex) {
             echo "Getting Data Error:" . $ex->getMessage();
-
         }
     }
 
@@ -1548,7 +1541,7 @@ where
         }
     }
 
-//getallprogrammesin
+    //getallprogrammesin
     public function getProgrammes()
     {
         try {
@@ -1565,7 +1558,7 @@ where
     }
 
 
-//gettingStudyLevelID
+    //gettingStudyLevelID
     public function getStudyLevelID($programmeMajorID)
     {
         try {
@@ -1589,7 +1582,6 @@ where
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1598,9 +1590,8 @@ where
     //get Only StudyLevelID
     public function getStudyLevelIDData($programmeMajorID)
     {
-        try
-        {
-            $query=$this->conn->prepare("SELECT 
+        try {
+            $query = $this->conn->prepare("SELECT 
             p.studyLevelID
         from
             studylevels s,
@@ -1610,15 +1601,13 @@ where
                 p.programID = pm.programmeID
                 and programmeMajorID =:pMajorID
                 and s.studyLevelID=p.studyLevelID");
-            $query->execute(array(':pMajorID'=>$programmeMajorID));
-            while($row=$query->fetch(PDO::FETCH_ASSOC))
-            {
-                $studyLevelID=$row['studyLevelID'];
+            $query->execute(array(':pMajorID' => $programmeMajorID));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $studyLevelID = $row['studyLevelID'];
             }
             return $studyLevelID;
-
         } catch (PDOException $ex) {
-            echo "Getting Data Error: ".$ex->getMessage();
+            echo "Getting Data Error: " . $ex->getMessage();
         }
     }
 
@@ -1632,7 +1621,6 @@ where
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1670,7 +1658,6 @@ WHERE
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1702,7 +1689,6 @@ WHERE
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1737,7 +1723,6 @@ WHERE
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -1754,13 +1739,12 @@ WHERE
                 $data[] = $row;
             }
             return $data;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
     }
 
-//checkout programme qualification
+    //checkout programme qualification
     public function checkProgrammeChoice($programmeMajorID, $applicantID)
     {
         try {
@@ -1773,7 +1757,6 @@ WHERE
                     }
                 } else {
                     $gpagrade = $this->getApplicantGPA($applicantID);
-
                 }
             } else {
                 $nPassGrade = $this->getData("programrequirements", "numberOfPassGrade", "programmeMajorID", $programmeMajorID);
@@ -1808,7 +1791,7 @@ WHERE
         }
     }
 
-//Getting Applicants Subject Points
+    //Getting Applicants Subject Points
     /*public function getProgrammeChoice($studyID,$applicantID)
 {
     try
@@ -1888,7 +1871,7 @@ WHERE
     }
 }*/
 
-    public function getApplicantByAgents($agentID, $academicYear,$admissionID)
+    public function getApplicantByAgents($agentID, $academicYear, $admissionID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -1909,7 +1892,7 @@ where
         and applicantsRemarksID<>0
         and applicationYearID=:yearID
         and admissionID=:adminID");
-            $query->execute(array(':chc' => 1,':agentD' => $agentID, ':yearID' => $academicYear,':adminID'=>$admissionID));
+            $query->execute(array(':chc' => 1, ':agentD' => $agentID, ':yearID' => $academicYear, ':adminID' => $admissionID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -1937,8 +1920,8 @@ where
                     //$pointsRequired = $this->getData("programrequirements", "pointsRequired", "programmeMajorID", $programmeMajorID);
                     //$subjectCount = $this->getSubjectCount($applicantID, $studyID);
                     //if (($subjectCount >= $nPassGrade) || ($appPoints >= $pointsRequired)) {
-                        //if ($this->haveCompulsorySubjects($programmeMajorID, $applicantID, $studyID)) {
-                            $query = $this->conn->prepare("SELECT 
+                    //if ($this->haveCompulsorySubjects($programmeMajorID, $applicantID, $studyID)) {
+                    $query = $this->conn->prepare("SELECT 
                             programmeMajorID, programmeMajor
                         FROM
                             programs p,
@@ -1947,19 +1930,18 @@ where
                             p.programID = pm.programmeID
                                 AND pm.programmeMajorID = :pMajorID
                                 AND programStatus = :status");
-                            $query->execute(array(':pMajorID' => $programmeMajorID, 'status' => 1));
-                            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                                $data[] = $row;
-                            }
-                       // }
+                    $query->execute(array(':pMajorID' => $programmeMajorID, 'status' => 1));
+                    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                        $data[] = $row;
+                    }
+                    // }
                     //}
                 }
-
             } else {
                 if ($this->isEquavalentEntry($applicantID)) {
                     if ($this->getGradeType($applicantID) == "GPA") {
                         $gpagrade = $this->getApplicantGPA($applicantID);
-                       $query = $this->conn->prepare("SELECT pm.programmeMajorID,programmeMajor from programs p,programrequirements pr,programmemajor pm where p.programID=pm.programmeID and pm.programmeMajorID=pr.programmeMajorID and p.studyLevelID=:levelID and :gpa >= pr.equivalentEntryGPA and publishStatus=:status");
+                        $query = $this->conn->prepare("SELECT pm.programmeMajorID,programmeMajor from programs p,programrequirements pr,programmemajor pm where p.programID=pm.programmeID and pm.programmeMajorID=pr.programmeMajorID and p.studyLevelID=:levelID and :gpa >= pr.equivalentEntryGPA and publishStatus=:status");
                         $query->execute(array(':levelID' => $studyID, ':gpa' => $gpagrade, 'status' => 1));
                         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                             $data[] = $row;
@@ -1981,8 +1963,8 @@ where
                         //$pointsRequired = $this->getData("programrequirements", "pointsRequired", "programmeMajorID", $programmeMajorID);
                         //$subjectCount = $this->getSubjectCount($applicantID, $studyID);
                         //if (($subjectCount >= $nPassGrade) || ($appPoints >= $pointsRequired)) {
-                            //if ($this->haveCompulsorySubjects($programmeMajorID, $applicantID, $studyID)) {
-                                $query = $this->conn->prepare("SELECT 
+                        //if ($this->haveCompulsorySubjects($programmeMajorID, $applicantID, $studyID)) {
+                        $query = $this->conn->prepare("SELECT 
                             programmeMajorID, programmeMajor
                         FROM
                             programs p,
@@ -1991,12 +1973,12 @@ where
                             p.programID = pm.programmeID
                                 AND pm.programmeMajorID = :pMajorID
                                 AND publishStatus = :status");
-                                $query->execute(array(':pMajorID' => $programmeMajorID, 'status' => 1));
-                                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                                    $data[] = $row;
-                                }
-                            //}
-                       // }
+                        $query->execute(array(':pMajorID' => $programmeMajorID, 'status' => 1));
+                        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                            $data[] = $row;
+                        }
+                        //}
+                        // }
                     }
                 }
             }
@@ -2007,7 +1989,7 @@ where
     }
 
 
-//End
+    //End
     public function programmeChoice($studyID, $applicantID)
     {
         try {
@@ -2021,7 +2003,7 @@ where
                 //$subjectCount = $this->getSubjectCount($applicantID, $studyID);
 
                 //if ($subjectCount >= $nPassGrade || $appPoints >= $pointsRequired) {
-                    $query = $this->conn->prepare("SELECT
+                $query = $this->conn->prepare("SELECT
                         pm.programmeMajorID, programmeMajor
                     from
                         programs p,
@@ -2033,10 +2015,10 @@ where
                             and pr.programmeMajorID=:majorID
                             and compulsorySubject = :value
                             and programStatus = :status");
-                    $query->execute(array('majorID' => $programmeMajorID, ':value' => 0, ':status' => 1));
-                    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                        $data[] = $row;
-                    }
+                $query->execute(array('majorID' => $programmeMajorID, ':value' => 0, ':status' => 1));
+                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $data[] = $row;
+                }
 
                 //}
 
@@ -2047,7 +2029,7 @@ where
         }
     }
 
-//end
+    //end
 
     public function programmePGChoice($studyID, $applicantID)
     {
@@ -2078,9 +2060,7 @@ where
                     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                         $data[] = $row;
                     }
-
                 }
-
             }
             return $data;
         } catch (PDOException $exception) {
@@ -2088,7 +2068,7 @@ where
         }
     }
 
-//for non compulsory programmes
+    //for non compulsory programmes
     /*public function programmeChoice($studyID,$applicantID)
  {
         try
@@ -2211,7 +2191,6 @@ where
             }
 
             return $data;
-
         } catch (PDOException $ex) {
             echo "Data Error:" . $ex->getMessage();
         }
@@ -2278,10 +2257,8 @@ where
             }
 
             return $subjectCount;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error" . $ex->getMessage();
-
         }
     }
 
@@ -2349,7 +2326,7 @@ WHERE
         AND ar.applicantID = :appID
         AND ar.examinationLevel = :level
         AND SCode <> :scode");
-            $query->execute(array(':appID' => $applicantID, ':level' => $examinationLevel,':scode'=>'111'));
+            $query->execute(array(':appID' => $applicantID, ':level' => $examinationLevel, ':scode' => '111'));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -2358,7 +2335,7 @@ WHERE
             echo "Getting Data error: " . $exception->getMessage();
         }
     }
-   /*  public function getSelectionSubjects($applicantID, $examinationLevel)
+    /*  public function getSelectionSubjects($applicantID, $examinationLevel)
     {
         try {
             $data = array();
@@ -2384,7 +2361,7 @@ WHERE
         }
     } */
 
-//get Index/RegNumber
+    //get Index/RegNumber
     public function getIndexNumber($applicantID, $examinationLevel)
     {
         try {
@@ -2428,7 +2405,7 @@ WHERE
         }
     }
 
-//modified subjects
+    //modified subjects
     public function getApplicantsSubjects($applicantID, $examinationLevel)
     {
         try {
@@ -2550,7 +2527,6 @@ WHERE
             }
 
             return $data;
-
         } catch (PDOException $ex) {
             echo "Data Error:" . $ex->getMessage();
         }
@@ -2663,12 +2639,11 @@ WHERE
     }
 
     //admit fnct
-    public function getApproved($progrID, $choice, $remarksID,$entry, $applicationYearID, $admissionID,$roundname)
+    public function getApproved($progrID, $choice, $remarksID, $entry, $applicationYearID, $admissionID, $roundname)
     {
         try {
             $data = array();
-            if($roundname=='all')
-            {
+            if ($roundname == 'all') {
                 $query = $this->conn->prepare("SELECT 
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
         from
@@ -2685,9 +2660,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
                 $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID, ':entry' => $entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
-            }
-            else 
-            {
+            } else {
                 $query = $this->conn->prepare("SELECT 
             DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,dateOfBirth as dob,email,citizenship,disabilityStatus,entryQualification
         from
@@ -2704,7 +2677,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid
                 AND admissionRound=:round");
-                $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID,':entry'=>$entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+                $query->execute(array(':progMajorID' => $progrID, ':chc' => $choice, ':remark' => $remarksID, ':entry' => $entry, ':appYearID' => $applicationYearID, ':aid' => $admissionID, ':round' => $roundname));
             }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -2804,13 +2777,12 @@ WHERE
     }
 
     //Admitted list for the report
-    public function getAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID,$roundname)
+    public function getAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID, $roundname)
     {
 
         try {
             $data = array();
-            if($roundname=='all')
-            {
+            if ($roundname == 'all') {
                 $query = $this->conn->prepare("SELECT 
             a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
@@ -2826,9 +2798,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
                 $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
-            }
-            else 
-            {
+            } else {
                 $query = $this->conn->prepare("SELECT 
             a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
@@ -2844,7 +2814,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid
                 AND admissionRound=:round");
-                $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+                $query->execute(array(':progMajorID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID, ':round' => $roundname));
             }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -2856,12 +2826,11 @@ WHERE
     }
 
 
-    public function getAllAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID,$roundname)
+    public function getAllAdmitted($progrID, $remarksID, $admissionStatus, $applicationYearID, $admissionID, $roundname)
     {
         try {
             $data = array();
-            if($roundname=='all')
-            {
+            if ($roundname == 'all') {
                 $query = $this->conn->prepare("SELECT 
             a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
@@ -2879,8 +2848,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid");
                 $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
-            }
-            else{
+            } else {
                 $query = $this->conn->prepare("SELECT 
             a.applicantID, firstName, middleName, lastName, gender, refNumber,phoneNumber,userID,nacte_status,tcu_final,tcu_message
         from
@@ -2898,7 +2866,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid
                 AND admissionRound=:round");
-                $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID,':round'=>$roundname));
+                $query->execute(array(':progID' => $progrID, ':remark' => $remarksID, ':admStatus' => $admissionStatus, ':appYearID' => $applicationYearID, ':aid' => $admissionID, ':round' => $roundname));
             }
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -2910,7 +2878,7 @@ WHERE
     }
 
 
-    public function getAllRegistered($progrID,$applicationYearID, $admissionID)
+    public function getAllRegistered($progrID, $applicationYearID, $admissionID)
     {
         try {
             $data = array();
@@ -2930,7 +2898,7 @@ WHERE
                 AND applicationYearID=:appYearID
                 AND admissionID=:aid
                 AND regNumber IS NOT NULL");
-            $query->execute(array(':progID' => $progrID, ':remark' => 6,':appYearID' => $applicationYearID, ':aid' => $admissionID));
+            $query->execute(array(':progID' => $progrID, ':remark' => 6, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -2990,7 +2958,7 @@ WHERE
         }
     }
 
-    
+
 
     public function calculateColor($applicantID, $studyID, $stat)
     {
@@ -3045,7 +3013,7 @@ WHERE
         }
     }
 
-//Programme Batch
+    //Programme Batch
     public function getProgrammeBatch()
     {
         try {
@@ -3062,7 +3030,7 @@ WHERE
     }
 
 
-//getMaximumNumber
+    //getMaximumNumber
     public function getMaxMUMRegNumber($studyLevelID)
     {
         try {
@@ -3077,7 +3045,6 @@ WHERE
                 $regNumber = $row['regNumber'];
             }
             return $regNumber;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
@@ -3098,13 +3065,12 @@ WHERE
                 $regNumber = $row['regNumber'];
             }
             return $regNumber;
-
         } catch (PDOException $ex) {
             echo "Getting Data Error: " . $ex->getMessage();
         }
     }
 
-    public function getMaxSUMAITRegNumber($programmeID,$academicYearID)
+    public function getMaxSUMAITRegNumber($programmeID, $academicYearID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -3113,7 +3079,7 @@ WHERE
             applicantregistration
         where
                 programmeID =:majorID and academicYearID=:acadID");
-            $query->execute(array(':majorID' => $programmeID,':acadID'=>$academicYearID));
+            $query->execute(array(':majorID' => $programmeID, ':acadID' => $academicYearID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $regNumber = $row['regNumber'];
             }
@@ -3142,8 +3108,8 @@ WHERE
         }
     }
 
-//getRegisteredApplicants
-    public function getRegisteredApplicants($progrID, $applicationYearID,$adminID)
+    //getRegisteredApplicants
+    public function getRegisteredApplicants($progrID, $applicationYearID, $adminID)
     {
         try {
             $data = array();
@@ -3159,7 +3125,7 @@ WHERE
                 AND ar.programmeID=:progMajorID
                 AND academicYearID=:appYearID
                 AND admissionID=:adID");
-            $query->execute(array(':progMajorID' => $progrID, ':appYearID' => $applicationYearID,':adID'=>$adminID));
+            $query->execute(array(':progMajorID' => $progrID, ':appYearID' => $applicationYearID, ':adID' => $adminID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -3169,7 +3135,7 @@ WHERE
         }
     }
 
-    public function getRegisteredBatchApplicants($progrID,$adminID)
+    public function getRegisteredBatchApplicants($progrID, $adminID)
     {
         try {
             $data = array();
@@ -3185,7 +3151,7 @@ WHERE
                 AND ar.programmeID=:progMajorID
                 AND admissionID=:adID
                 AND regNumber IS NOT NULL");
-            $query->execute(array(':progMajorID' => $progrID,':adID'=>$adminID));
+            $query->execute(array(':progMajorID' => $progrID, ':adID' => $adminID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
@@ -3196,7 +3162,7 @@ WHERE
     }
 
 
-//count number of digits
+    //count number of digits
     public function count_digit($number)
     {
         return strlen((string)$number);
@@ -3205,21 +3171,21 @@ WHERE
     public function isApplicantIDExist($applicantID)
     {
         try {
-                $query = $this->conn->prepare("SELECT applicantID from applicantregistration where applicantID=:inumber");
-                $query->execute(array(':inumber' => $applicantID));
-                $row = $query->fetchAll();
-                if (count($row) > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (PDOException $exception) {
+            $query = $this->conn->prepare("SELECT applicantID from applicantregistration where applicantID=:inumber");
+            $query->execute(array(':inumber' => $applicantID));
+            $row = $query->fetchAll();
+            if (count($row) > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (PDOException $exception) {
             echo "Getting Data error: " . $exception->getMessage();
         }
     }
 
-//get Enrollment Data
-//get all selected applicants
+    //get Enrollment Data
+    //get all selected applicants
     public function getEnrollmentList($pID, $acadID)
     {
         try {
@@ -3273,7 +3239,7 @@ WHERE
             and applicantsRemarksID=:remarkID
             and applicationYearID =:acadID
             and admissionID =:adid");
-            $query->execute(array('remarkID' => 6,':acadID'=>$acadID,':adid'=>$admID));
+            $query->execute(array('remarkID' => 6, ':acadID' => $acadID, ':adid' => $admID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3307,7 +3273,7 @@ WHERE
         }
     }
 
-    public function getApplicantTCUEnrollmentList($applicantID,$acadID, $admID)
+    public function getApplicantTCUEnrollmentList($applicantID, $acadID, $admID)
     {
         try {
             $query = $this->conn->prepare("SELECT
@@ -3321,7 +3287,7 @@ WHERE
             and applicantsRemarksID=:remarkID
             and applicationYearID =:acadID
             and admissionID =:adid");
-            $query->execute(array(':appID'=>$applicantID,'remarkID' => 6,':acadID'=>$acadID,':adid'=>$admID));
+            $query->execute(array(':appID' => $applicantID, 'remarkID' => 6, ':acadID' => $acadID, ':adid' => $admID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3332,10 +3298,10 @@ WHERE
         }
     }
 
-    
 
 
-//getEnrollment Programme
+
+    //getEnrollment Programme
     public function getEnrollmentProgramme($appID, $acadYear)
     {
         try {
@@ -3364,7 +3330,7 @@ where
         }
     }
 
-//getTCUEnrollment Programme
+    //getTCUEnrollment Programme
     public function getTCUEnrollmentProgramme($appID)
     {
         try {
@@ -3391,8 +3357,8 @@ where
         }
     }
 
-//zalongwa export
-//get all selected applicants
+    //zalongwa export
+    //get all selected applicants
     public function getRegisteredApplicant($academicYearID)
     {
         try {
@@ -3430,7 +3396,7 @@ WHERE
     a.applicantID = ar.applicantID
         AND applicantsRemarksID = :remarkID
         AND academicYearID = :acadID");
-            $query->execute(array('remarkID' => 6,':acadID'=>$academicYearID));
+            $query->execute(array('remarkID' => 6, ':acadID' => $academicYearID));
 
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -3469,7 +3435,7 @@ where
         }
     }
 
-//this function get API Token from NECTA
+    //this function get API Token from NECTA
     /*public function getAPIToken()
     {
 
@@ -3485,7 +3451,7 @@ where
 
     public function getAPIToken($token)
     {
-        $url = "https://api.necta.go.tz/api/public/auth/".$token;
+        $url = "https://api.necta.go.tz/api/public/auth/" . $token;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -3500,19 +3466,18 @@ where
         else
             $token = 0;
         return $token;
-
     }
 
     public function encrypt($sData)
     {
-        $id = (double)$sData * 18293823.45;
+        $id = (float)$sData * 18293823.45;
         return base64_encode($id);
     }
 
     public function decrypt($sData)
     {
         $url_id = base64_decode($sData);
-        $id = (double)$url_id / 18293823.45;
+        $id = (float)$url_id / 18293823.45;
         return $id;
     }
 
@@ -3537,7 +3502,7 @@ where
         return $output;
     }
 
-//count number of grades
+    //count number of grades
     public function countGrades($applicantID, $level)
     {
         try {
@@ -3566,7 +3531,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getEquivalentStudyLevels($applicantID)
@@ -3595,7 +3559,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getOrganizationValue($value)
@@ -3609,7 +3572,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getGradeID($gradeCode, $indexYear, $level)
@@ -3634,7 +3596,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getSubjectID($scode, $stream)
@@ -3651,7 +3612,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getEquivalentData()
@@ -3667,7 +3627,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function generate_password($length = 20)
@@ -3719,7 +3678,7 @@ where
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: text/xml"));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -3752,7 +3711,6 @@ where
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;
-
     }
 
     public function checkApplicantStudyLevel($appID)
@@ -3794,7 +3752,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
 
@@ -3835,7 +3792,7 @@ where
     }
 
     //Aggregate by Programmes
-    public function getProgrammeCountTCU($programmeID, $remarkID, $applicationYearID, $admissionID,$gender)
+    public function getProgrammeCountTCU($programmeID, $remarkID, $applicationYearID, $admissionID, $gender)
     {
         try {
             $data = 0;
@@ -3857,7 +3814,7 @@ where
 		and choice=:chc
                 and applicationYearID=:appYearID
                 AND admissionID=:aid");
-            $query->execute(array(':prograID' => $programmeID, ':remark' => $remarkID,':sex'=>$gender,':chc'=>1,':appYearID' => $applicationYearID, ':aid' => $admissionID));
+            $query->execute(array(':prograID' => $programmeID, ':remark' => $remarkID, ':sex' => $gender, ':chc' => 1, ':appYearID' => $applicationYearID, ':aid' => $admissionID));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data = $row['number'];
             }
@@ -3868,7 +3825,7 @@ where
     }
 
 
-    public function checkStatusTCU($programmeID,$acadID, $adminID)
+    public function checkStatusTCU($programmeID, $acadID, $adminID)
     {
         try {
             $query = $this->conn->prepare("
@@ -3893,7 +3850,7 @@ where
                     AND choice=:chc
                     AND applicationYearID = :appYearID
                     AND admissionID = :adminID");
-            $query->execute(array(':progID'=>$programmeID,':chc'=>1,':appYearID' => $acadID, ':adminID' => $adminID));
+            $query->execute(array(':progID' => $programmeID, ':chc' => 1, ':appYearID' => $acadID, ':adminID' => $adminID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3908,7 +3865,7 @@ where
     {
         try {
             $query = $this->conn->prepare("SELECT programmeMajorID,programmeMajor from programs p,programmemajor pm where p.programID=pm.programmeID AND studyLevelID=:studyID and p.programStatus=:st order by studyLevelID ASC");
-            $query->execute(array(':studyID'=>1,':st' => 1));
+            $query->execute(array(':studyID' => 1, ':st' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3917,7 +3874,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
     public function getApplicantDetails($applicantID)
@@ -3936,7 +3892,7 @@ where
             FROM
                 applicants
             WHERE applicantID=:appID");
-            $query->execute(array(':appID'=>$applicantID));
+            $query->execute(array(':appID' => $applicantID));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3945,7 +3901,6 @@ where
         } catch (PDOException $ex) {
             echo "Error" . $ex->getMessage();
         }
-
     }
 
 
@@ -3981,8 +3936,8 @@ where
     public function getMainProgrammes()
     {
         try {
-                $query = $this->conn->prepare("SELECT programID,programCode,programName from programs  where programStatus=:status and studyLevelID = :std order by studyLevelID ASC");
-                $query->execute(array(':status' => 1, ':std' => 1));
+            $query = $this->conn->prepare("SELECT programID,programCode,programName from programs  where programStatus=:status and studyLevelID = :std order by studyLevelID ASC");
+            $query->execute(array(':status' => 1, ':std' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -3997,12 +3952,10 @@ where
     public function getStudyLevelProgrammes($studyLevelID)
     {
         try {
-            if($studyLevelID==1) {
+            if ($studyLevelID == 1) {
                 $query = $this->conn->prepare("SELECT programID,programCode,programName from programs  where programStatus=:status and studyLevelID=:std order by studyLevelID ASC");
                 $query->execute(array(':status' => 1, ':std' => $studyLevelID));
-            }
-            else
-            {
+            } else {
                 $query = $this->conn->prepare("SELECT programID,programCode,programName from programs  where programStatus=:status and studyLevelID != :std order by studyLevelID ASC");
                 $query->execute(array(':status' => 1, ':std' => 1));
             }
@@ -4043,7 +3996,7 @@ where
                 indexNumber=:ffour
                 AND admissionID=:adID
                 AND applicationYearID=:appID");
-            $query->execute(array(':ffour' => $formfour, ':adID' => 9,':appID'=>2));
+            $query->execute(array(':ffour' => $formfour, ':adID' => 9, ':appID' => 2));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -4075,7 +4028,7 @@ where
     }
 
 
-    public function getDataTCUView($programmeCode,$acadID,$admID)
+    public function getDataTCUView($programmeCode, $acadID, $admID)
     {
         try {
             /*$query = $this->conn->prepare("SELECT
@@ -4098,8 +4051,7 @@ where
         and choice=:chc
         ");
             $query->execute(array(':proCode'=>$programmeCode,':appID'=>3,':ayID'=>2,':adID'=>9,':adSt'=>1,':chc'=>1));*/
-            if($programmeCode=='all')
-            {
+            if ($programmeCode == 'all') {
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),firstName,middleName,lastName,tcu_final,tcu_message,phoneNumber,formfour,applicantsRemarksID
 from
@@ -4118,9 +4070,8 @@ where
         and admissionID=:adID
         and applicantsRemarksID = :rmk
         and aa.admissionStatus=:st");
-                $query->execute(array('std'=>1,':ayID' => $acadID, ':adID' => $admID,':rmk'=>3,':st'=>1));
-            }
-            else {
+                $query->execute(array('std' => 1, ':ayID' => $acadID, ':adID' => $admID, ':rmk' => 3, ':st' => 1));
+            } else {
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),firstName,middleName,lastName,tcu_final,tcu_message,phoneNumber,formfour,applicantsRemarksID
 from
@@ -4138,7 +4089,7 @@ where
         and admissionID=:adID
         and applicantsRemarksID = :rmk
         and aa.admissionStatus=:st");
-                $query->execute(array(':st'=>1,':proCode' => $programmeCode, ':ayID' => $acadID, ':adID' => $admID,':rmk'=>3,':st'=>1));
+                $query->execute(array(':st' => 1, ':proCode' => $programmeCode, ':ayID' => $acadID, ':adID' => $admID, ':rmk' => 3, ':st' => 1));
             }
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4173,7 +4124,7 @@ where
         and admissionStatus=:adSt
         and choice=:chc
         ");
-            $query->execute(array(':proCode'=>$programmeCode,':appID'=>3,':ayID'=>2,':adID'=>9,':adSt'=>1,':chc'=>1));
+            $query->execute(array(':proCode' => $programmeCode, ':appID' => 3, ':ayID' => 2, ':adID' => 9, ':adSt' => 1, ':chc' => 1));
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
@@ -4184,16 +4135,15 @@ where
         }
     }
 
-/*AND (tcu_final<>:qual AND tcu_final<>:mpt AND tcu_final<>:conf)*/
-/*$query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'Qualified',':mpt'=>'Multiple Admission',':conf'=>'%%'));*/
+    /*AND (tcu_final<>:qual AND tcu_final<>:mpt AND tcu_final<>:conf)*/
+    /*$query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'Qualified',':mpt'=>'Multiple Admission',':conf'=>'%%'));*/
 
 
     //NACTE VIEW DATA
-    public function getDataNACTEView($programmeID,$acadID,$admissionID)
+    public function getDataNACTEView($programmeID, $acadID, $admissionID)
     {
         try {
-            if($programmeID=='all')
-            {
+            if ($programmeID == 'all') {
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),firstName,middleName,lastName,nacte_status,phoneNumber,applicantsRemarksID,nacte_status
 from
@@ -4213,9 +4163,8 @@ where
         and applicantsRemarksID >= :rmk
         and applicantsRemarksID < :rmk2
         ");
-                $query->execute(array(':std'=>1,':ayID' => $acadID, ':adID' => $admissionID,':rmk'=>2,'rmk2'=>7));
-            }
-            else {
+                $query->execute(array(':std' => 1, ':ayID' => $acadID, ':adID' => $admissionID, ':rmk' => 2, 'rmk2' => 7));
+            } else {
                 $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),firstName,middleName,lastName,phoneNumber,applicantsRemarksID,nacte_status
 from
@@ -4233,7 +4182,7 @@ where
         and applicantsRemarksID >= :rmk
         and applicantsRemarksID < :rmk2
         ");
-                $query->execute(array(':proCode' => $programmeID, ':ayID' => $acadID, ':adID' => $admissionID,':rmk'=>2,':rmk2'=>7 ));
+                $query->execute(array(':proCode' => $programmeID, ':ayID' => $acadID, ':adID' => $admissionID, ':rmk' => 2, ':rmk2' => 7));
             }
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4245,9 +4194,9 @@ where
         }
     }
 
-    public function getSelectedResubmit($acadID, $admID,$round)
+    public function getSelectedResubmit($acadID, $admID, $round)
     {
-        
+
         try {
             if ($round == 'all') {
                 $query = $this->conn->prepare("SELECT
@@ -4288,7 +4237,7 @@ where
             and admissionID=:adminID and roundName=:round
             AND (NULLIF(tcu_final, '') IS NULL OR tcu_final NOT LIKE :qual AND tcu_final NOT LIKE :mpt AND tcu_final NOT LIKE :conf AND tcu_final  NOT LIKE :addm )
             order by tcu_status ASC");
-                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID,':qual'=>'%Qualified%',':mpt'=>'%Multiple Admission%',':conf'=>'%confirmed%',':addm'=>'%Admitt%',':round'=>$round));
+                $query->execute(array(':adminStatus' => 1, ':studyID' => 1, 'remarkID' => 3, ':appYearID' => $acadID, ':adminID' => $admID, ':qual' => '%Qualified%', ':mpt' => '%Multiple Admission%', ':conf' => '%confirmed%', ':addm' => '%Admitt%', ':round' => $round));
             }
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4303,7 +4252,7 @@ where
     public function searchApplicant($search_text)
     {
         try {
-                $query = $this->conn->prepare("SELECT
+            $query = $this->conn->prepare("SELECT
             DISTINCT(a.applicantID),applicationNumber,a.applicationYearID,refNumber,indexNumber,firstName, middleName, lastName, gender,applicantsRemarksID,tcu_final,tcu_message,nacte_status,phoneNumber,email
             FROM applicants a,applicantresults ar,academicyears ay
             WHERE a.applicantID=ar.applicantID
@@ -4311,8 +4260,8 @@ where
             AND (applicationNumber LIKE :search OR refNumber LIKE :search OR firstName LIKE :search OR lastName LIKE :search OR indexNumber LIKE :search)
             AND examinationLevel=:elevl
             AND ay.academicYearStatus=:st");
-                $query->execute(array(':search' => '%' . $search_text . '%', ':elevl' => 'Ordinary',':st'=>1));
-            
+            $query->execute(array(':search' => '%' . $search_text . '%', ':elevl' => 'Ordinary', ':st' => 1));
+
 
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4325,11 +4274,11 @@ where
     }
 
 
-    public function getApplicantByAgent($acadID, $admID,$remarksID)
+    public function getApplicantByAgent($acadID, $admID, $remarksID)
     {
         try {
-            if($remarksID==1) {
-                    $query = $this->conn->prepare("SELECT
+            if ($remarksID == 1) {
+                $query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,agentID,entryQualification
             from
                 applicants a,
@@ -4344,10 +4293,8 @@ where
                 and applicationYearID=:appYearID
                 and admissionID=:adminID
                 AND agentID <>:agent");
-                $query->execute(array('remarkID' => 1,'remark' => 6, ':appYearID' => $acadID, ':adminID' => $admID,':agent'=>0));
-            }
-            else
-            {
+                $query->execute(array('remarkID' => 1, 'remark' => 6, ':appYearID' => $acadID, ':adminID' => $admID, ':agent' => 0));
+            } else {
                 $query = $this->conn->prepare("SELECT
                 DISTINCT(a.applicantID), firstName, middleName, lastName, gender,phoneNumber,agentID,entryQualification
             from
@@ -4363,8 +4310,7 @@ where
                 and applicationYearID=:appYearID
                 and admissionID=:adminID
                 AND agentID <>:agent");
-                $query->execute(array('remarkID' => $remarksID, ':appYearID' => $acadID, ':adminID' => $admID,':agent'=>0));
-
+                $query->execute(array('remarkID' => $remarksID, ':appYearID' => $acadID, ':adminID' => $admID, ':agent' => 0));
             }
             $data = array();
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -4443,23 +4389,23 @@ where
         }
     }
 
-    public function getAPI($orgName,$tType)
+    public function getAPI($orgName, $tType)
     {
         try {
-            $data=array();
+            $data = array();
             $query = $this->conn->prepare("SELECT
                 userName,token,url
             from
                 api_setting
             where organizationName=:org and tokenType=:ttype");
-            $query->execute(array(':org' => $orgName,':ttype'=>$tType));
+            $query->execute(array(':org' => $orgName, ':ttype' => $tType));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $data[] = $row;
             }
-            return $data; 
-            } catch (PDOException $ex) {
-                echo "Getting Data Error" . $ex->getMessage();
-            }
+            return $data;
+        } catch (PDOException $ex) {
+            echo "Getting Data Error" . $ex->getMessage();
+        }
     }
 
     public function getAdmissionSetting()
@@ -4485,5 +4431,5 @@ where
     //getprogrammeswithadmitted
 
 
-//end of DBHelper Class
+    //end of DBHelper Class
 }
