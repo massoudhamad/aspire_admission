@@ -23,10 +23,11 @@ if (isset($_POST["doLogin"]) == "Sign In") {
     $upass = strip_tags($_POST['pwd']);
     if (!empty($_POST['usr']) && !empty($_POST['pwd'])) {
         if ($user->doLogin($username, $upass)) {
+            $expires = time() + 3600; 
             //set the cookies for 1 day, ie, 1*24*60*60 secs
             //change it to something like 30*24*60*60 to remember user for 30 days
-            setcookie('userID', $_SESSION['user_session'], time() * 1 * 24 * 60 * 60);
-            setcookie('role_session', $_SESSION['role_session'], time() * 1 * 24 * 60 * 60);
+            setcookie('userID', $_SESSION['user_session'], $expires);
+            setcookie('role_session', $_SESSION['role_session'], $expires);
             if ($_SESSION['role_session'] == 2) {
                 $user->redirect('app/index.php');
             } else {

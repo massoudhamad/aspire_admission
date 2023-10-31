@@ -150,7 +150,7 @@ if($_REQUEST['action']=="getPDF")
           }
       }
       if($appfees > 0) {
-          $pdf->setFont('Arial', 'B', 12);
+         /*  $pdf->setFont('Arial', 'B', 12);
           $pdf->Cell(6);$pdf->Cell(170,6,"Application Fee:");
           $pdf->Ln(8);
           $pdf->Cell(6);
@@ -170,7 +170,7 @@ if($_REQUEST['action']=="getPDF")
           $pdf->Cell(200, 6, "PLEASE SEND YOU DOCUMENTS (Form IV Certificate and Bank Pay Slip) THROUGH WHATSAPP NUMBERS ");
           $pdf->Ln(8);
           $pdf->Cell(6);
-           $pdf->Cell(200, 6, $studentSupport."  before application deadline");
+           $pdf->Cell(200, 6, $studentSupport."  before application deadline"); */
         //   $pdf->Cell(200, 6, "0785330002, 0715202911, OR 0783610840 before application deadline");
       }
       /*$pdf->Ln(8);

@@ -138,11 +138,7 @@ if(isset($_POST['doAdmit']) == 'Submit Applicants') {
                     'authorization' => $token,
                     'intake' => 'SEPT',
                     'programme_id' => $programmeCode,
-<<<<<<< HEAD
-                    'application_year' => '2021',
-=======
                     'application_year' => '2022',
->>>>>>> su-admission
                     'level'=>'5',
                     'payment_reference_number' => $payment_reference_number,
                     ),
