@@ -238,7 +238,7 @@ if($_REQUEST['action']=="getPDF")
 
        $pdf->Ln(4);
 
-       $pdf->Cell(6);$pdf->MultiCell(0,6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 16th January, 2023. Failure to register within the specified time will lead to cancellation of a place.");
+       $pdf->Cell(6);$pdf->MultiCell(0,6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 15th January, 2024. Failure to register within the specified time will lead to cancellation of a place.");
 
 
        $pdf->Ln(4);
