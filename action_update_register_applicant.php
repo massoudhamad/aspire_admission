@@ -429,7 +429,7 @@ try {
                         $finalNumber = "00" . $finalNumber;
                     }
 
-                    $registrationNumber = "CLP/LSZ/2/" . $year1 . "/" . $finalNumber;
+                    $registrationNumber = "CLP/LSZ/3/" . $subYear . "/" . $finalNumber;
                 }
             }
 
