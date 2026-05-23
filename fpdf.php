@@ -1040,7 +1040,6 @@ protected function _dochecks()
 	if(ini_get('mbstring.func_overload') & 2)
 		$this->Error('mbstring overloading must be disabled');
 }
-
 protected function _checkoutput()
 {
 	if(PHP_SAPI!='cli')

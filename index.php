@@ -7,7 +7,7 @@ if ($user->is_loggedin() != "") {
     $user->redirect('index.php');
 }
 
-if ($_SESSION['user_session'] == true) {
+if (isset($_SESSION['user_session']) && $_SESSION['user_session'] == true) {
     if ($_SESSION['role_session'] == 2) {
         header('Location: app/index.php');
         exit;

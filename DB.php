@@ -4032,8 +4032,10 @@ where
                 AND admissionID=:adID");
             $query->execute(array(':applicantID' => $appID, ':adID' => 9));
             $row = $query->fetch(PDO::FETCH_ASSOC);
-            $data = $row['indexNumber'];
-            return $data;
+            if ($row) {
+                return $row['indexNumber'];
+            }
+            return null;
         } catch (PDOException $exception) {
             echo "Getting Data error: " . $exception->getMessage();
         }

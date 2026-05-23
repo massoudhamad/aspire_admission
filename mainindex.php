@@ -1,5 +1,7 @@
 <?php 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 switch((isset($_GET['sp'])?$_GET['sp'] : ''))
 {
   case 'home':

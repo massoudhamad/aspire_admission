@@ -1,11 +1,11 @@
 <?php
 session_start();
-/*ini_set ('display_errors', 1);
-error_reporting (E_ALL | E_STRICT);*/
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL | E_STRICT);
 if ($_REQUEST['action'] == "getPDF") {
     include '../DB.php';
     $db = new DBHelper();
-    require ('fpdf.php');
+    require('fpdf.php');
     $applicantID = $_REQUEST['applicantID'];
     $today = date('d-M-Y');
 
@@ -23,7 +23,8 @@ if ($_REQUEST['action'] == "getPDF") {
             $contact_person = $org['contact_person'];
             $office_name = $org['office_name'];
             $title = $org['title'];
-            $signature = "../img/" . $org['signature'];
+            //$signature = "/img/" . $org['signature'];
+            $signature = "images/signature.png";
         }
     } else {
         $organizationName = "Soft Dev Academy";
@@ -46,7 +47,6 @@ if ($_REQUEST['action'] == "getPDF") {
             for ($i = 0; $i < count($header); $i++)
                 $this->Cell($w[$i], 6, $header[$i], 1, 0, 'L', 0);
             $this->Ln();
-
         }
         function Footer()
         {
@@ -59,7 +59,6 @@ if ($_REQUEST['action'] == "getPDF") {
             //$this->Line(-30,-16,-15,-15);
             $this->Cell(100, 0, $organizationName . $today2, 0, 1, 'L');
             $this->Cell(200, 0, "Admission Letter" . $applicationYear, 0, 1, 'R');
-
         }
 
         //Image watermark
@@ -154,7 +153,6 @@ if ($_REQUEST['action'] == "getPDF") {
                 foreach ($programmeAdmitted as $pChoice) {
                     $applicantApplicationIDFirst = $pChoice['applicantApplicationID'];
                     $programmeMajorID = $pChoice['programmeMajorID'];
-
                 }
             }
             $programme = $db->getStudyLevelID($programmeMajorID);
@@ -168,7 +166,6 @@ if ($_REQUEST['action'] == "getPDF") {
                 $duration = "";
                 $sname = "";
                 $studyLevelID = '';
-
             }
 
 
@@ -218,7 +215,7 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->setFont('Arial', 'B', 12);
             $appYear = explode("/", $applicationYear);
             $pdf->Cell(6);
-            $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE ACADEMIC YEAR " . $appYear[1], 0, 0, 'C');
+            $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE JANUARY INTAKE " . $appYear[1], 0, 0, 'C');
             $pdf->Line(44, 86, 158, 86);
 
             $pdf->SetAlpha(0.3);
@@ -235,7 +232,7 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Ln(4);
 
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 1th August, 2024. Failure to register within the specified time will lead to cancellation of a place.");
+            $pdf->MultiCell(0, 6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 13th January, 2026. Failure to register within the specified time will lead to cancellation of a place.");
 
 
             $pdf->Ln(4);
@@ -244,18 +241,26 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->MultiCell(0, 6, "The admission offer is provisional pending verification of the qualifications as presented on your online application. You will be required at the time of registration, to present in person the original documents you have used in the application. I would, therefore, like to put an emphasis on the following must be presented to the School:");
 
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "i.   The original Certificate of Ordinary Secondary Education (For IV);");
+            $pdf->MultiCell(0, 6, "i.The original Certificate of Ordinary Secondary Education (For IV);");
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "ii.  The original Diploma of Law or its equivalent or certified evidence to prove possession of it;");
+            $pdf->MultiCell(0, 6, "ii.The original Diploma in Law or its equivalent or certified evidence to prove possession of it;");
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "iii. The original Advanced Certificate of Secondary Education if any;");
+            $pdf->MultiCell(0, 6, "iii.The original Advanced Certificate of Secondary Education if any;");
             $pdf->Cell(10);
-            /* $pdf->MultiCell(0, 6, "iv.  Where applicable the relevant original Degree or Diploma or Certificate and Transcript;");
-            $pdf->Cell(10); */
-            $pdf->MultiCell(0, 6, "iv.   Three passport size photographs.");
+            $pdf->MultiCell(0, 6, "iv.Four passport size photographs.");
+
             $pdf->Ln(4);
             $pdf->Cell(6);
             $pdf->MultiCell(0, 6, "Congratulations and we are looking forward to see you at the School.");
+
+            $pdf->Ln(4);
+            $pdf->Cell(6);
+            $pdf->MultiCell(0, 6, "NOTE. 1.The duty of the Law School of Zanzibar is to train and award the Post Graduate Diploma in Legal Practice. Other procedures related to admission in the Bar is done by other judicial authorities.");
+
+            $pdf->Ln(4);
+            $pdf->Cell(6);
+            $pdf->MultiCell(0, 6, "2. Apart from the fee structure herein attached, you will have to bear some other costs related to Immigration such as the living permit (for foreign students) as well as the Health Insurance (for all) as per the relevant institutions’ policies.");
+
             $pdf->Ln(4);
             $pdf->Cell(6);
             $pdf->MultiCell(0, 6, "Please find the attached Fee Structure.");
@@ -340,19 +345,19 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Cell(6);
             $pdf->Cell(90, 6, "(d)Examination Fee", 1);
             $pdf->Cell(90, 6, "50,000.00", 1);
+            // $pdf->Ln(6);
+            // $pdf->Cell(6);
+            // $pdf->Cell(90, 6, "(e)Field (Attachment) Supervision Fee", 1);
+            // $pdf->Cell(90, 6, "50,000.00", 1);
             $pdf->Ln(6);
-            /* $pdf->Cell(6);
-            $pdf->Cell(90, 6, "(e)Field (Attachment) Supervision Fee", 1);
-            $pdf->Cell(90, 6, "50,000.00", 1); 
-            $pdf->Ln(6);*/
             $pdf->Cell(6);
             $pdf->Cell(90, 6, "(e)Library and Internet Service Fee", 1);
             $pdf->Cell(90, 6, "50,000.00", 1);
+            // $pdf->Ln(6);
+            // $pdf->Cell(6);
+            // $pdf->Cell(90, 6, "(g)Institutional Stationery and Photocopy Services", 1);
+            // $pdf->Cell(90, 6, "50,000.00", 1);
             $pdf->Ln(6);
-            /*  $pdf->Cell(6);
-             $pdf->Cell(90, 6, "(g)Institutional Stationery and Photocopy Services", 1);
-             $pdf->Cell(90, 6, "50,000.00", 1);
-             $pdf->Ln(6); */
             $pdf->Cell(6);
             $pdf->Cell(90, 6, "(f)Caution Money (deposit)", 1);
             $pdf->Cell(90, 6, "10,000.00", 1);
@@ -362,16 +367,16 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Cell(90, 6, "10,000.00", 1);
             $pdf->Ln(6);
             $pdf->Cell(6);
-            $pdf->Cell(90, 6, "(j)Students organization Fee", 1);
+            $pdf->Cell(90, 6, "(h)Students organization Fee", 1);
             $pdf->Cell(90, 6, "10,000.00", 1);
+            // $pdf->Ln(6);
+            // $pdf->Cell(6);
+            // $pdf->Cell(90, 6, "(k)Graduation Fee", 1);
+            // $pdf->Cell(90, 6, "20,000.00", 1);
             $pdf->Ln(6);
-            /* $pdf->Cell(6);
-            $pdf->Cell(90, 6, "(k)Graduation Fee", 1);
-            $pdf->Cell(90, 6, "20,000.00", 1);
-            $pdf->Ln(6); */
             $pdf->Cell(6);
             $pdf->Cell(90, 6, "Total", 1);
-            $pdf->Cell(90, 6, "670,000.00", 1);
+            $pdf->Cell(90, 6, "670,000.00/=", 1);
 
 
             //$pdf->Output();
@@ -379,4 +384,3 @@ if ($_REQUEST['action'] == "getPDF") {
         }
     }
 }
-?>

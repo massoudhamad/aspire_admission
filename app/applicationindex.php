@@ -1,12 +1,14 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $db = new DBHelper();
 $applicantID = $_SESSION['applicantID'];
 $userID = $_SESSION['user_session'];
 $login = $db->getData("users", "login", "userID", $userID);
 if ($login == 0) {
     //header("Location:index.php?sz=success");
-?>
+    ?>
     <?php
     $username = $db->getData("users", "userName", "userID", $_SESSION['user_session']);
     $password = $db->getData("users", "lastName", "userID", $_SESSION['user_session']);
@@ -23,7 +25,9 @@ if ($login == 0) {
         <div class="col-md-12">
             <div class="card">
                 <h3 class="card-title">Congratulations</h3>
-                <p>You have sucessfully created an account. Your username and password are given bellow. You must always use your username and password to login into Admission System. You may change your password whenever you want.</p>
+                <p>You have sucessfully created an account. Your username and password are given bellow. You must always use
+                    your username and password to login into Admission System. You may change your password whenever you
+                    want.</p>
                 <h4 class="text text-danger">Username: <?php echo $username; ?></h4>
                 <h4 class="text text-danger">Password: <?php echo strtoupper($password); ?></h4>
                 <p>
@@ -33,7 +37,8 @@ if ($login == 0) {
                     <form name="" method="post" action="action_success.php">
                         <div class="col-lg-3">
                             <input type="hidden" name="action_type" value="add" />
-                            <input type="submit" name="doSubmit" value="Proceed to Application" class="btn btn-success form-control" />
+                            <input type="submit" name="doSubmit" value="Proceed to Application"
+                                class="btn btn-success form-control" />
                         </div>
                     </form>
                 </div>
@@ -43,9 +48,9 @@ if ($login == 0) {
 
         </div>
     </div>
-<?php
+    <?php
 } else {
-?>
+    ?>
     <div class="page-title">
         <div>
             <h1><i class="fa fa-dashboard"></i>Application Dashboard</h1>
@@ -88,7 +93,7 @@ if ($login == 0) {
                         $tcu_message = $apps['tcu_message'];
 
                         $name = "$sex $fname  $mname $lname";
-                        if (($remarkID == 3  || $remarkID == 6)) {
+                        if (($remarkID == 3 || $remarkID == 6)) {
                             $programmeAdmitted = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'admissionStatus' => 1), 'order_by applicantID ASC'));
                             if (!empty($programmeAdmitted)) {
                                 foreach ($programmeAdmitted as $pChoice) {
@@ -109,40 +114,47 @@ if ($login == 0) {
                                 }
                             }
 
-                ?>
-                            <h3><span class="text-danger">Congratulations,You have been admitted for <?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID); ?></span></h3>
-                        <?php
+                            ?>
+                            <h3><span class="text-danger">Congratulations,You have been admitted for
+                                    <?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID); ?></span>
+                            </h3>
+                            <?php
                         } else if ($remarkID == 1) {
-                        ?>
-                            <h3>Congratulations,Your application has been recorded, you will be notified for any changes of status,please keep login to our system for any updates.</h3>
+                            ?>
+                                <h3>Congratulations,Your application has been recorded, you will be notified for any changes of
+                                    status,please keep login to our system for any updates.</h3>
                             <?php
                         } else if ($remarkID == 3) {
                             if ($db->checkApplicantStudyLevel($applicantID) == 1) {
-                            ?>
-                                <h3 class="card-title">Please review your status,you may call admission office for more information</h3>
-                            <?php
+                                ?>
+                                        <h3 class="card-title">Please review your status,you may call admission office for more information</h3>
+                                <?php
                             } else if ($nacte_status == 1) {
-                            ?>
-                                <h3><span class="text-danger">Congratulations,You have been admitted for <?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID); ?></span></h3>
-                            <?php
+                                ?>
+                                            <h3><span class="text-danger">Congratulations,You have been admitted for
+                                        <?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID); ?></span>
+                                            </h3>
+                                <?php
 
                             } else {
-                            ?>
-                                <h3 class="card-title">Please review your status,you may call admission office for more information</h3>
-                            <?php
+                                ?>
+                                            <h3 class="card-title">Please review your status,you may call admission office for more information</h3>
+                                <?php
                             }
                             ?>
 
 
-                        <?php
+                            <?php
                         } else {
-                        ?>
-                            <h3 class="card-title">Welcome to our online application system,please if you face any problem dont hesitate to contact us</h3>
-                        <?php
+                            ?>
+                                    <h3 class="card-title">Welcome to our online application system,please if you face any problem dont hesitate
+                                        to contact us</h3>
+                            <?php
                         }
                         ?>
                         <div class="table-wrapper-scroll-x">
-                            <table class="table table-striped table-bordered table-condensed table-responsive" cellspacing="0" width="100%">
+                            <table class="table table-striped table-bordered table-condensed table-responsive" cellspacing="0"
+                                width="100%">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -155,16 +167,16 @@ if ($login == 0) {
                                         <th>Level</th>
                                         <th>Status</th>
                                         <?php if ($remarkID == 6) {
-                                        ?>
+                                            ?>
                                             <th>Registration Number</th>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
 
 
                                         <?php
                                         if ($remarkID == 1 || $remarkID == 5 || $remarkID == 2 || $remarkID == 3) {
-                                        ?>
+                                            ?>
                                             <th>Action</th>
                                         <?php }
                                         ?>
@@ -197,7 +209,7 @@ if ($login == 0) {
                                                             foreach ($progAdd as $pChoice) {
                                                                 $programmeCode = $pChoice['programCode'];
                                                                 $programmeName = $pChoice['programmeMajor'];
-                                                                $programmeMajorIDAdmitted=$pChoice['programmeMajorID'];
+                                                                $programmeMajorIDAdmitted = $pChoice['programmeMajorID'];
                                                             }
                                                         } else {
                                                             $programmeCode = "";
@@ -208,21 +220,27 @@ if ($login == 0) {
                                                         if (!empty($tcu_final)) {
                                                             echo $tcu_message . "<br>";
                                                             if ($tcu_final == 225 || $tcu_final == 205) {
-                                                ?>
-                                                                Please <a href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Confirm</a>
-                                                                <br>Click Here to <a href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request Confirmation Code</a><br>
-                                                            <?php
+                                                                ?>
+                                                                Please <a
+                                                                    href='index.php?sz=confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click
+                                                                    Here to Confirm</a>
+                                                                <br>Click Here to <a
+                                                                    href='index.php?sz=request_confirmation_code&formfour=<?php echo $indexNumber; ?>'>Request
+                                                                    Confirmation Code</a><br>
+                                                                <?php
 
                                                             } else if ($tcu_final == 212) {
-                                                            ?>
-                                                                Please <a href='index.php?sz=un_confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click Here to Un Confirm</a>
-                                                        <?php
+                                                                ?>
+                                                                    Please <a
+                                                                        href='index.php?sz=un_confirm_applicant_tcu&formfour=<?php echo $indexNumber; ?>'>Click
+                                                                        Here to Un Confirm</a>
+                                                                <?php
                                                             }
                                                         }
                                                         echo "<br>";
                                                         ?>
 
-                                                <?php
+                                                        <?php
                                                     } else {
                                                         echo "Selected";
                                                         echo "<br>";
@@ -232,7 +250,7 @@ if ($login == 0) {
                                                             foreach ($progAdd as $pChoice) {
                                                                 $programmeCode = $pChoice['programCode'];
                                                                 $programmeName = $pChoice['programmeMajor'];
-                                                                $programmeMajorIDAdmitted=$pChoice['programmeMajorID'];
+                                                                $programmeMajorIDAdmitted = $pChoice['programmeMajorID'];
                                                             }
                                                         } else {
                                                             $programmeCode = "";
@@ -255,119 +273,137 @@ if ($login == 0) {
 
                                         <?php
                                         if ($remarkID == 1 || $remarkID == 2) {
-                                        ?><td>
-                                                <a href="printreceipt.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                    <span class="text text-danger" style="font-size: 18px;">Print Application Receipt</span></a>
+                                            ?>
+                                            <td>
+                                                <a href="printreceipt.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                    target="_blank">
+                                                    <span class="text text-danger" style="font-size: 18px;">Print Application
+                                                        Receipt</span></a>
                                             </td>
                                             <?php
                                         } else if ($remarkID == 3) {
                                             if ($_SESSION['orgCode'] == "SUMAIT") {
-                                                ?><td>
-                                                   <!--  Waiting for TCU Approval -->
-                                            <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
-                                                    <br><br>
-                                            </td>
-                                            <?php } else if ($_SESSION['orgCode'] == "MUM") {
-                                            ?>
-                                                <td>
-                                                    <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
-                                                    <br><br>
-                                                </td>
-                                            <?php
-                                            }
-                                            else if($_SESSION['orgCode']=="ZU")
-                                            {
-                                                if($programmeCode=="ZU022")
-                                                {
-                                                    ?>
+                                                ?>
                                                     <td>
-                                                    You will be contacted for Admission Letter
-                                                    <br><br>
-                                                </td>
+                                                        <!--  Waiting for TCU Approval -->
+                                                        <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                            target="_blank">
+                                                            <span class="text text-success">Download Admission Letter</span></a>
+                                                        <br><br>
+                                                    </td>
+                                            <?php } else if ($_SESSION['orgCode'] == "MUM") {
+                                                ?>
+                                                        <td>
+                                                            <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                                target="_blank">
+                                                                <span class="text text-success">Download Admission Letter</span></a>
+                                                            <br><br>
+                                                        </td>
+                                                <?php
+                                            } else if ($_SESSION['orgCode'] == "ZU") {
+                                                if ($programmeCode == "ZU022") {
+                                                    ?>
+                                                                <td>
+                                                                    You will be contacted for Admission Letter
+                                                                    <br><br>
+                                                                </td>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                                <td>
+                                                                    <a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                                        target="_blank">
+                                                                        <span class="text text-success">Download Admission Letter</span></a>
+                                                                    <br><br>
+                                                                </td>
                                                     <?php
                                                 }
-                                                else 
-                                                {
+                                            } else if ($_SESSION['orgCode'] == "LSZ") {
                                                 ?>
-                                                <td>
-                                                    <a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
-                                                    <br><br>
-                                                </td>
-                                                <?php 
-                                                }
-                                            }
-                                            else if($_SESSION['orgCode']=="LSZ")
-                                            {
-                                                ?>
-                                                <td>
-                                                    <a href="printadmissionletterlsz.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
-                                                    <br><br>
-                                                </td>
-                                            <?php
+                                                                <td>
+
+
+                                                        <?php
+                                                        if ($db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID) == "Certified Legal Professional") {
+                                                            ?>
+                                                                        <a href="printadmissionletterlszcertified.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                                            target="_blank">
+                                                                            <span class="text text-success">Download Admission Letter Certified</span></a>
+                                                        <?php
+                                                        } else {
+                                                            ?>
+                                                                        <a href="printadmissionletterlszv.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                                            target="_blank">
+                                                                            <span class="text text-success">Download Admission Letter</span></a>
+                                                        <?php
+                                                        }
+                                                        ?>
+
+
+                                                                    <!-- <a href="printadmissionletterlsz.php?action=getPDF&applicantID=<?php //echo $applicantID; ?>" target="_blank">
+                                                        <span class="text text-success">Download Admission Letter</span></a> -->
+                                                                    <br><br>
+                                                                </td>
+                                                <?php
                                             }
                                             //Download 
-                                            $upload = $db->getRows('upload', array('where'=>array('schoolID'=>$programmeMajorIDAdmitted),'order_by' => ' academicYearID ASC'));
-                                            if(!empty($upload))
-                                            {
+                                            $upload = $db->getRows('upload', array('where' => array('schoolID' => $programmeMajorIDAdmitted), 'order_by' => ' academicYearID ASC'));
+                                            if (!empty($upload)) {
                                                 echo "<td>";
-                                            foreach ($upload as $up) {
-                                                $count++;
-                                                $uploadID = $up['uploadID'];
-                                                $academicYearID = $up['academicYearID'];
-                                                $title = $up['title'];
-                                                $schoolID = $up['schoolID'];
-                                                $academicYearID = $up['academicYearID'];
-                                                $url = $up['url'];
-                                                ?>
-                                                <a href="../upload_doc/<?php echo $url; ?>" target="_blank"><?php echo $title;?><i class="fa fa-download"></i></a>
-                                            <br>
-                                           <?php
-                                        }
-                                        echo "</td>";
-                                        }else 
-                                        {
-                                            echo "No Document";
-                                        }
+                                                foreach ($upload as $up) {
+                                                    $count++;
+                                                    $uploadID = $up['uploadID'];
+                                                    $academicYearID = $up['academicYearID'];
+                                                    $title = $up['title'];
+                                                    $schoolID = $up['schoolID'];
+                                                    $academicYearID = $up['academicYearID'];
+                                                    $url = $up['url'];
+                                                    ?>
+                                                        <a href="../upload_doc/<?php echo $url; ?>" target="_blank"><?php echo $title; ?><i
+                                                                class="fa fa-download"></i></a>
+                                                        <br>
+                                                    <?php
+                                                }
+                                                echo "</td>";
+                                            } else {
+                                                echo "No Document";
+                                            }
                                             //end of downloads
                                         }
-                                            /* } else {
+                                        /* } else {
+                                        ?>
+                                            <td>
+                                                <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                                    <span class="text text-success">Download Admission Letter</span></a> 
+                                            
+                                     <a href="printfees.pdf?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
+                                        <span class="text text-success">Download Univ.Fees Structure</span></a>
+                                        <br><br>
+                                        <a href="offer.pdf" target="_blank">
+                                        <span class="text text-success">Download Univ.Instructions</span></a> -->
+                                            </td>
+                                            <?php
+                                            //}
+                                            //else
+                                            //{
                                             ?>
-                                                <td>
-                                                    <a href="printadmissionletter.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a> 
-                                                
-                                         <a href="printfees.pdf?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                            <span class="text text-success">Download Univ.Fees Structure</span></a>
-                                            <br><br>
-                                            <a href="offer.pdf" target="_blank">
-                                            <span class="text text-success">Download Univ.Instructions</span></a> -->
-                                                </td>
-                                                <?php
-                                                //}
-                                                //else
-                                                //{
-                                                ?>
-                                                <!-- <td>
-                                        We are waiting for NACTE to prove your names inorder to print Admission Letters
-                                    </td> -->
-                                        <?php
-                                                //}
-                                            }
+                                            <!-- <td>
+                                    We are waiting for NACTE to prove your names inorder to print Admission Letters
+                                </td> -->
+                                    <?php
+                                            //}
                                         }
-                                        /*else if($remarkID==3 && $tcu_final=="Multiple Admission")
-                        {
-                            echo"<td><a href='index.php?sz=confirm_applicant_tcu&formfour=$formfour'>Click to Confirm</a></td>";
-                        }*/
+                                    }
+                                    /*else if($remarkID==3 && $tcu_final=="Multiple Admission")
+                    {
+                        echo"<td><a href='index.php?sz=confirm_applicant_tcu&formfour=$formfour'>Click to Confirm</a></td>";
+                    }*/
                                         //else if($remarkID==3 && $nacte_status==1)
                                         //{
                                         ?>
                                         <!--  <td>
                                 <a href="printadmissionletter.php?action=getPDF&applicantID=<?php //echo $applicantID;
-                                                                                            ?>" target="_blank">
+                                            ?>" target="_blank">
                                     <span class="text text-success">Download Admission Letter</span></a>
                                 <br><br>
                                 <a href="upload_doc/certificate_inst.pdf" target="_blank">
@@ -387,20 +423,21 @@ if ($login == 0) {
                         } */
                                         if ($remarkID == 6) {
 
-                                        ?>
+                                            ?>
                                             <td><span class="text-danger"><?php echo $regNumber; ?></span></td>
                                             <br>
-                                            <td><a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>" target="_blank">
-                                                        <span class="text text-success">Download Admission Letter</span></a>
-                                        </td>
-                                        <?php
+                                            <td><a href="printadmissionletterzu.php?action=getPDF&applicantID=<?php echo $applicantID; ?>"
+                                                    target="_blank">
+                                                    <span class="text text-success">Download Admission Letter</span></a>
+                                            </td>
+                                            <?php
                                         }
                                         ?>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                <?php
+                        <?php
                     }
                 }
                 ?>
@@ -417,102 +454,107 @@ if ($login == 0) {
                             echo "Comments: " . $appComments;
                         }
 
-                    ?>
-                </p>
+                        ?>
+                    </p>
 
-                <?php
-                        $programmeChoice = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'choice' => 1), 'order_by applicantID ASC'));
-                        if (!empty($programmeChoice)) {
-                            foreach ($programmeChoice as $pChoice) {
-                                $applicantApplicationIDFirst = $pChoice['applicantApplicationID'];
-                                $firstChoice = $pChoice['programmeMajorID'];
-                            }
-                        }
-
-                        $programmeChoice2 = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'choice' => 2), 'order_by applicantID ASC'));
-                        if (!empty($programmeChoice2)) {
-                            foreach ($programmeChoice2 as $pChoice2) {
-                                $applicantApplicationIDSecond = $pChoice2['applicantApplicationID'];
-                                $secondChoice = $pChoice2['programmeMajorID'];
-                            }
-                        }
-                ?>
-                <?php
-                        if (!empty($programmeChoice)) {
-                ?>
-                    <p><span style="font-size: 18px;">Programme(s) Applied:</span> </p>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="FirstName">First Choice Programme</label>
-                            <input type="text" name="" value="<?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $firstChoice); ?>" class="form-control" disabled="">
-
-                        </div>
-
-                        <div class="col-lg-6">
-                            <label for="Physical Address">Second Choice Programme</label>
-                            <input type="text" name="" value="<?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $secondChoice); ?>" class="form-control" disabled="">
-
-                        </div>
-
-                    </div>
-            <?php }
-                    } ?>
-            <?php
-            $today = date('Y-m-d');
-            $admissionSetting = $db->getAdmissionSetting();
-            if (!empty($admissionSetting)) {
-                foreach ($admissionSetting as $admin) {
-                    $academicYear = $admin['academicYear'];
-                    $academicYearID = $admin['academicYearID'];
-                    $admissionID = $admin['admissionID'];
-                    $admissionName = $admin['admissionName'];
-                    $admissionRound = $admin['admissionRound'];
-                    $endDate = $admin['endDate'];
-                }
-            } else {
-                $academicYear = "";
-                $academicYearID = "";
-                $admissionID = "";
-                $admissionName = "";
-                $admissionRound = "";
-                $endDate = "";
-            }
-
-            /* $semester= $db->getRows('admission_setting',array(' order_by'=>' startDate ASC'));
-    if(!empty($semester)) {
-        foreach ($semester as $sm) {
-            $academicYearID = $sm['academicYearID'];
-            $startDate = $sm['startDate'];
-            $endDate = $sm['endDate'];
-            $admissionID = $sm['admissionID'];
-        }
-    } */
-
-            if ($today <= $endDate) {
-            ?>
-                <?php if ($remarkID == 7 ||  $remarkID == 5) {
-                    if ($admissionLevel == "UG") {
-                ?>
-                        <a href="index.php?sz=education_background"><span class="btn btn-primary align-left">Proceed Application</span></a>
                     <?php
-                    } else {
+                    $programmeChoice = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'choice' => 1), 'order_by applicantID ASC'));
+                    if (!empty($programmeChoice)) {
+                        foreach ($programmeChoice as $pChoice) {
+                            $applicantApplicationIDFirst = $pChoice['applicantApplicationID'];
+                            $firstChoice = $pChoice['programmeMajorID'];
+                        }
+                    }
+
+                    $programmeChoice2 = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'choice' => 2), 'order_by applicantID ASC'));
+                    if (!empty($programmeChoice2)) {
+                        foreach ($programmeChoice2 as $pChoice2) {
+                            $applicantApplicationIDSecond = $pChoice2['applicantApplicationID'];
+                            $secondChoice = $pChoice2['programmeMajorID'];
+                        }
+                    }
                     ?>
-                        <a href="index.php?sz=pg_education"><span class="btn btn-primary align-left">Proceed Application</span></a>
+                    <?php
+                    if (!empty($programmeChoice)) {
+                        ?>
+                        <p><span style="font-size: 18px;">Programme(s) Applied:</span> </p>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="FirstName">First Choice Programme</label>
+                                <input type="text" name=""
+                                    value="<?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $firstChoice); ?>"
+                                    class="form-control" disabled="">
+
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="Physical Address">Second Choice Programme</label>
+                                <input type="text" name=""
+                                    value="<?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $secondChoice); ?>"
+                                    class="form-control" disabled="">
+
+                            </div>
+
+                        </div>
+                    <?php }
+                    } ?>
                 <?php
+                $today = date('Y-m-d');
+                $admissionSetting = $db->getAdmissionSetting();
+                if (!empty($admissionSetting)) {
+                    foreach ($admissionSetting as $admin) {
+                        $academicYear = $admin['academicYear'];
+                        $academicYearID = $admin['academicYearID'];
+                        $admissionID = $admin['admissionID'];
+                        $admissionName = $admin['admissionName'];
+                        $admissionRound = $admin['admissionRound'];
+                        $endDate = $admin['endDate'];
+                    }
+                } else {
+                    $academicYear = "";
+                    $academicYearID = "";
+                    $admissionID = "";
+                    $admissionName = "";
+                    $admissionRound = "";
+                    $endDate = "";
+                }
+
+                /* $semester= $db->getRows('admission_setting',array(' order_by'=>' startDate ASC'));
+        if(!empty($semester)) {
+            foreach ($semester as $sm) {
+                $academicYearID = $sm['academicYearID'];
+                $startDate = $sm['startDate'];
+                $endDate = $sm['endDate'];
+                $admissionID = $sm['admissionID'];
+            }
+        } */
+
+                if ($today <= $endDate) {
+                    ?>
+                    <?php if ($remarkID == 7 || $remarkID == 5) {
+                        if ($admissionLevel == "UG") {
+                            ?>
+                            <a href="index.php?sz=education_background"><span class="btn btn-primary align-left">Proceed
+                                    Application</span></a>
+                            <?php
+                        } else {
+                            ?>
+                            <a href="index.php?sz=pg_education"><span class="btn btn-primary align-left">Proceed Application</span></a>
+                            <?php
+                        }
+                    }
+                    ?>
+
+                    <?php
+                } else {
+                    if ($remarkID == 1 || $remarkID == 5 || $remarkID == 2) {
+                        ?>
+                        You can't make any changes now
+                        <?php
                     }
                 }
                 ?>
-
-                <?php
-            } else {
-                if ($remarkID == 1 || $remarkID == 5 || $remarkID == 2) {
-                ?>
-                    You can't make any changes now
-            <?php
-                }
-            }
-            ?>
-            <br><br>
+                <br><br>
             </div>
         </div>
     </div>
@@ -523,68 +565,68 @@ if ($login == 0) {
     $upload = $db->getRows('upload', array('order_by' => ' academicYearID ASC'));
     if ($remarkID == 6 || $remarkID == 3) {
 
-    ?>
+        ?>
 
         <?php
 
 
-       /*  if (!empty($upload)) {
+        /*  if (!empty($upload)) {
+         ?>
+             <div class="row">
+                 <div class="pull-center">
+                     <h4>Documents Downloads</h4>
+                 </div>
+             </div>
+             <div class="row">
+                 <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
+
+                     <thead>
+                         <tr>
+                             <th width=5>No.</th>
+                             <th width=80>Academic Year</th>
+                             <th width=200>Title</th>
+                             <th width=200>School Name</th>
+                             <th width=20>Document</th>
+
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <?php
+                         $count = 0;
+                         foreach ($upload as $up) {
+                             $count++;
+                             $uploadID = $up['uploadID'];
+                             $academicYearID = $up['academicYearID'];
+                             $title = $up['title'];
+                             $schoolID = $up['schoolID'];
+                             $academicYearID = $up['academicYearID'];
+                             $url = $up['url'];
+
+                             $academicYear = $db->getRows('academicyears', array('where' => array('academicYearID' => $academicYearID), ' order_by' => ' academic_year ASC'));
+                             foreach ($academicYear as $acy) {
+                                 $academicYear = $acy['academicYear'];
+                             }
+
+                         ?>
+                             <tr>
+                                 <td><?php echo $count; ?></td>
+                                 <td><?php echo $academicYear; ?></td>
+                                 <td><?php echo $title; ?></td>
+                                 <td><?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $schoolID); ?></td>
+                                 <td><a href="../upload_doc/<?php echo $url; ?>" target="_blank"><i class="fa fa-download"></i></a></td>
+
+                             </tr>
+                         <?php
+
+                         }
+                         ?>
+                     </tbody>
+                 </table>
+             </div>
+         <?php
+         } */
         ?>
-            <div class="row">
-                <div class="pull-center">
-                    <h4>Documents Downloads</h4>
-                </div>
-            </div>
-            <div class="row">
-                <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
 
-                    <thead>
-                        <tr>
-                            <th width=5>No.</th>
-                            <th width=80>Academic Year</th>
-                            <th width=200>Title</th>
-                            <th width=200>School Name</th>
-                            <th width=20>Document</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $count = 0;
-                        foreach ($upload as $up) {
-                            $count++;
-                            $uploadID = $up['uploadID'];
-                            $academicYearID = $up['academicYearID'];
-                            $title = $up['title'];
-                            $schoolID = $up['schoolID'];
-                            $academicYearID = $up['academicYearID'];
-                            $url = $up['url'];
-
-                            $academicYear = $db->getRows('academicyears', array('where' => array('academicYearID' => $academicYearID), ' order_by' => ' academic_year ASC'));
-                            foreach ($academicYear as $acy) {
-                                $academicYear = $acy['academicYear'];
-                            }
-
-                        ?>
-                            <tr>
-                                <td><?php echo $count; ?></td>
-                                <td><?php echo $academicYear; ?></td>
-                                <td><?php echo $title; ?></td>
-                                <td><?php echo $db->getData("programmemajor", "programmeMajor", "programmeMajorID", $schoolID); ?></td>
-                                <td><a href="../upload_doc/<?php echo $url; ?>" target="_blank"><i class="fa fa-download"></i></a></td>
-
-                            </tr>
-                        <?php
-
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php
-        } */
-        ?>
-
-<?php }
+    <?php }
 } ?>
 </div>
