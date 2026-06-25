@@ -53,9 +53,9 @@
                         $_SESSION['orgCode']=$orgCode;
                     }
                 } else {
-                    $organizationName = "Soft Dev Academy";
-                    $organizationCode = "SDVA";
-                    $organizationPicture = "../img/SkyChuo.png";
+                    $organizationName = "Imperial College of Health and Allied Sciences";
+                    $organizationCode = "ICHAS";
+                    $organizationPicture = "../img/ichas-logo.png";
                 }
 
                 $activeYear = $db->getRows("academicyears", array('where' => array('academicYearStatus' => 1), 'order_by academicYearID'));

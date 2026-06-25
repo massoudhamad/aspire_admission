@@ -20,7 +20,7 @@ if(!empty($org))
                       This product is licensed to <?php echo $orgName; ?>
                     </div>
                     <div class="pull-right hidden-xs">
-                        &copy;2014-<?php echo date('Y');?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a>
+                        &copy;2014-<?php echo date('Y');?> <?php echo htmlspecialchars($orgName); ?>
                     </div>
                 </div>
             </div>

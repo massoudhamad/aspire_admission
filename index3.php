@@ -21,9 +21,9 @@ require_once("session.php");
       $_SESSION['orgName']=$organizationName;
     }
   } else {
-    $organizationName = "Soft Dev Academy";
-    $organizationCode = "SDVA";
-    $organizationPicture = "../img/SkyChuo.png";
+    $organizationName = "Imperial College of Health and Allied Sciences";
+    $organizationCode = "ICHAS";
+    $organizationPicture = "../img/ichas-logo.png";
   }
 
 
@@ -330,16 +330,11 @@ $("#select_all").change(function(){
       <header class="main-header navbar-fixed-top" >
 
         <!-- Logo -->
-        <a href="#" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">
-              SDS
-          </span>
-          <!-- logo for regular state and mobile devices -->
+        <a href="index3.php" class="logo">
+          <span class="logo-mini"><b>ICH</b></span>
           <span class="logo-lg">
-                  <img alt="Aspire UAS" style="max-width: 100%;" src="img/aspire_hrp_logo.png"/>
-      
-
+            <img alt="<?php echo htmlspecialchars($organizationName); ?>" src="img/ichas-logo.png" style="height:36px; vertical-align:middle; margin-right:8px;"/>
+            <b style="font-size:15px; letter-spacing:0.5px;">ICHAS Admission</b>
           </span>
         </a>
 

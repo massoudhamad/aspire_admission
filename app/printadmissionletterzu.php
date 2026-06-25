@@ -26,9 +26,9 @@ if($_REQUEST['action']=="getPDF")
             $signature="../img/".$org['signature'];
         }
     } else {
-        $organizationName = "Soft Dev Academy";
-        $organizationCode = "SDVA";
-        $organizationPicture = "../img/SkyChuo.png";
+        $organizationName = "Imperial College of Health and Allied Sciences";
+        $organizationCode = "ICHAS";
+        $organizationPicture = "../img/ichas-logo.png";
     }
     class PDF extends FPDF
     {		

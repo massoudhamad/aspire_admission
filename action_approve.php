@@ -113,31 +113,21 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         $name=$fname." ".$lname;
         $email=$db->getData('users','email','userID',$userID);
         $to = $email;
-        $subject = 'Login details for Aspire UAS Online Admission';
-        $from = 'info@hmytechnologies.com';
+        $subject = 'Application Update — ' . $orgName;
+        $from = $orgemail ?: 'info@ichas.ac.tz';
 
-        // To send HTML mail, the Content-type header must be set
-        $headers = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-        // Create email headers
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
         $headers .= 'From: ' . $from . "\r\n" .
             'Reply-To: ' . $from . "\r\n" .
-            'CC: '.$orgemail.
             'X-Mailer: PHP/' . phpversion();
-        // Compose a simple HTML email message
-        $message = '<html><body>';
-        $message .= '<h1 style="color:#080;">Email From: '.$orgName.'</h1>';
-        $message .= '<h2 style="color:#080;">Dear ' . $name . 'an applicant from '.$orgName. '</h1>';
-        $message .= '<p>There is changes in your application portal, please log in using your Username/IndexNumber(S000/0000/YYYY) and Password(LASTNAME) to view the status of your application<br>For more information, please contact'. $studentSupport.'</p>';
-        $message .= '<p>We hope you enjoy using Aspire UAS and all services offered by other software solutions under SkyChuo package.</p>';
-        $message .= '<p></p>';
-        $message .= '<p>Warm Regards,</p>';
-        $message .= '<p></p>';
-        $message .= '<p>_________________________</p>';
-        $message .= '<p>'.$orgName.'</p>';
-        $message .= '<p>SkyChuo Account Management Services </p>';
-        $message .= '<p>SkyChuo is offered by <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></p>';
+
+        $message  = '<html><body style="font-family:Arial,sans-serif;color:#1F2937;">';
+        $message .= '<h2 style="color:#1B3A5C;">' . htmlspecialchars($orgName) . '</h2>';
+        $message .= '<p>Dear ' . htmlspecialchars($name) . ',</p>';
+        $message .= '<p>There has been an update to your application. Please log in to the admission portal using your Username (Index Number, e.g. S000/0000/YYYY) and your Password (your LAST NAME) to view the status of your application.</p>';
+        $message .= '<p>For assistance, please contact ' . htmlspecialchars((string)$studentSupport) . '.</p>';
+        $message .= '<p>Warm regards,<br>Admissions Office<br>' . htmlspecialchars($orgName) . '</p>';
         $message .= '</body></html>';
         // Sending email
         mail($to, $subject, $message, $headers);

@@ -84,14 +84,14 @@ if (!empty($userData)) {
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="courseCode">Organization Name</label>
-                                <input type="text" id="name" name="name" placeholder="Eg. HM&Y Technologies" value="<?php echo $orgName; ?>" class="form-control" required="required" />
+                                <input type="text" id="name" name="name" placeholder="Eg. Imperial College of Health and Allied Sciences" value="<?php echo $orgName; ?>" class="form-control" required="required" />
                             </div>
                         </div>
 
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="email">Organization Code</label>
-                                <input type="text" id="code" name="code" placeholder="HM&Y" value="<?php echo $orgCode; ?>" class="form-control" required="required" />
+                                <input type="text" id="code" name="code" placeholder="Eg. ICHAS" value="<?php echo $orgCode; ?>" class="form-control" required="required" />
                             </div>
                         </div>
 
@@ -150,7 +150,7 @@ if (!empty($userData)) {
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="email">Organization StAR URL</label>
-                                <input type="text" id="star_link" name="star_link" value="<?php echo $orgstar; ?>" placeholder="Eg.http://star-demo.hmytechnologies.com/star" class="form-control" required="required" />
+                                <input type="text" id="star_link" name="star_link" value="<?php echo $orgstar; ?>" placeholder="Eg. https://star.ichas.ac.tz" class="form-control" required="required" />
                             </div>
                         </div>
 

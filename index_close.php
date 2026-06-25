@@ -653,6 +653,6 @@ if(!empty($activeInTake)) {
     </body>
 <footer class="main-footer">
 	<hr/>
-	<p>Aspire UAS. This product is licensed to the <?php echo $orgName; ?> | <strong>&copy;2014-<?php echo date('Y');?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></strong></p>
+	<p>ICHAS Online Admission System | &copy;2014-<?php echo date('Y');?> Imperial College of Health and Allied Sciences</p>
 </footer>
 </html>

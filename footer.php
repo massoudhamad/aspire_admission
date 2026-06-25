@@ -11,16 +11,14 @@ if (!empty($org)) {
 }
 else 
 {
-        $orgName = "Soft Dev Academy";
+        $orgName = "Imperial College of Health and Allied Sciences";
 }
 ?>
 <footer class="main-footer navbar-fixed-bottom">
-        <!-- To the right -->
         <div class="pull-left hidden-xs">
-This product is licensed to <?php echo $orgName;?>
+            <?php echo htmlspecialchars($orgName); ?>
         </div>
-        <!-- Default to the left -->
         <div class="pull-right hidden-xs">
-        <strong>&copy;2014-<?php echo date('Y');?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></strong>
-      </div>
+            <strong>&copy;2014-<?php echo date('Y');?> <?php echo htmlspecialchars($orgName); ?></strong>
+        </div>
 </footer>

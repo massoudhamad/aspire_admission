@@ -43,7 +43,7 @@ foreach($user as $usr)
     <head runat="server">
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet"/>
-        <title>ASPIRE UAS System</title>
+        <title>ICHAS Admission System</title>
        <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/jquery-1.4.2.min.js"></script>
 <script src="js/register.js"></script>
@@ -108,7 +108,7 @@ foreach($user as $usr)
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12" style="color:#369"> This product is licensed to The State University of Zanzibar  <strong>   &copy;2014-<?php echo date('Y');?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></strong></div>
+                    <div class="col-xs-12" style="color:#369"> &copy;2014-<?php echo date('Y');?> Imperial College of Health and Allied Sciences</div>
                 </div>
                 </div>
             </div>

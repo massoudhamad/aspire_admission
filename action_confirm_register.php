@@ -168,32 +168,25 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
 
             //send mail
             $to = $email;
-            $subject = 'Login details for Aspire UAS Online Admission';
-            $from = 'info@hmytechnologies.com';
+            $subject = 'Your ICHAS Admission Portal — Login Details';
+            $from = 'info@ichas.ac.tz';
 
-// To send HTML mail, the Content-type header must be set
-            $headers = 'MIME-Version: 1.0' . "\r\n";
-            $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-// Create email headers
+            $headers  = 'MIME-Version: 1.0' . "\r\n";
+            $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
             $headers .= 'From: ' . $from . "\r\n" .
                 'Reply-To: ' . $from . "\r\n" .
                 'X-Mailer: PHP/' . phpversion();
-            $name="$fname $mname $lname";
-// Compose a simple HTML email message
-            $message = '<html><body>';
-            $message .= '<h1 style="color:#080;">Dear ' . $name . '</h1>';
-            $message .= '<p>Welcome to Aspire UAS, member of SkyChuo Enterprise Resource Planning Management Information System for University/College</p>';
-            $message .= '<p>To activate your account you must login using username and password below:</p>';
-            $message .= '<p style="color:#f40;font-size:18px;">UserName: ' . $username . '<br>Password: ' . strtoupper($lname) . '</p>';
-            $message .= '<p>Please do not expose your password to any other person. You may change your password at any time if you wish to do so. </p>';
-            $message .= '<p>We hope you enjoy using Aspire UAS and all services offered by other software solutions under SkyChuo package.</p>';
-            $message .= '<p></p>';
-            $message .= '<p>Warm Regards,</p>';
-            $message .= '<p></p>';
-            $message .= '<p>_________________________</p>';
-            $message .= '<p>SkyChuo Account Management Services </p>';
-            $message .= '<p>SkyChuo is offered by <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></p>';
+            $name = "$fname $mname $lname";
+
+            $message  = '<html><body style="font-family:Arial,sans-serif;color:#1F2937;">';
+            $message .= '<h2 style="color:#1B3A5C;">Welcome to the Imperial College of Health and Allied Sciences (ICHAS) Admission Portal</h2>';
+            $message .= '<p>Dear ' . htmlspecialchars($name) . ',</p>';
+            $message .= '<p>Your application account has been created. To log in and complete your application, use the credentials below:</p>';
+            $message .= '<p style="background:#F4F6F9;border-left:4px solid #C9A227;padding:12px 16px;font-size:15px;">';
+            $message .= '<strong>Username:</strong> ' . htmlspecialchars($username) . '<br>';
+            $message .= '<strong>Password:</strong> ' . htmlspecialchars(strtoupper($lname)) . '</p>';
+            $message .= '<p>For your security, please do not share these credentials with anyone. You may change your password at any time after logging in.</p>';
+            $message .= '<p>Warm regards,<br>Admissions Office<br>Imperial College of Health and Allied Sciences</p>';
             $message .= '</body></html>';
 // Sending email
             mail($to, $subject, $message, $headers);
