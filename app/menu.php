@@ -1,5 +1,5 @@
   <?php
-  session_start();
+  if (session_status() === PHP_SESSION_NONE) session_start();
   $page=$_REQUEST['sz'];
   if($page=="education_background"||$page=="olevel" || $page=="confirm_ordinary_results" || $page=="ordinary_results"|| $page=="alevel"|| $page=="other_ordinary")
       $estatus="active";

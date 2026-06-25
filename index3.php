@@ -1,5 +1,5 @@
 <?php 
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once("session.php");
   
   require_once("DB.php");
@@ -48,7 +48,7 @@ require_once("session.php");
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Admission System</title>
+    <title>ICHAS Admission System</title>
     
    <!--<script type="js/jquery-1.12.3.js"></script>
    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>-->
@@ -75,6 +75,7 @@ require_once("session.php");
     <link rel="stylesheet" href="css/chosen.css">
     <link rel="stylesheet" href="css/chosen.min.css">
     <link rel="stylesheet" href="css/bootstrap-chosen.css">
+    <link rel="stylesheet" href="assets/css/ichas-brand.css">
 
 <script type="text/javascript">
 /*$(document).ready(function () {

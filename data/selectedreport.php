@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 require_once '../DB.php';
 $db=new DBHelper();
 $output = array('data' => array());

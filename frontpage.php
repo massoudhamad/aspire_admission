@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 	if($_SESSION['role_session']==2)
 	{
 		include("home.php");

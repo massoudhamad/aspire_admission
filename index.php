@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 include_once "DB.php";
 $user = new DBHelper();
 $error = array();
@@ -7,8 +7,8 @@ if ($user->is_loggedin() != "") {
     $user->redirect('index.php');
 }
 
-if ($_SESSION['user_session'] == true) {
-    if ($_SESSION['role_session'] == 2) {
+if (!empty($_SESSION['user_session'])) {
+    if (($_SESSION['role_session'] ?? null) == 2) {
         header('Location: app/index.php');
         exit;
     } else {
@@ -25,8 +25,8 @@ if (isset($_POST["doLogin"]) == "Sign In") {
         if ($user->doLogin($username, $upass)) {
             //set the cookies for 1 day, ie, 1*24*60*60 secs
             //change it to something like 30*24*60*60 to remember user for 30 days
-            setcookie('userID', $_SESSION['user_session'], time() * 1 * 24 * 60 * 60);
-            setcookie('role_session', $_SESSION['role_session'], time() * 1 * 24 * 60 * 60);
+            setcookie('userID', $_SESSION['user_session'], time() + 1 * 24 * 60 * 60);
+            setcookie('role_session', $_SESSION['role_session'], time() + 1 * 24 * 60 * 60);
             if ($_SESSION['role_session'] == 2) {
                 $user->redirect('app/index.php');
             } else {
@@ -50,13 +50,14 @@ if (isset($_POST["doLogin"]) == "Sign In") {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Online University Admission System</title>
+    <title>ICHAS Online Admission System</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/form-elements.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/ichas-brand.css?v=<?php echo filemtime(__DIR__ . '/assets/css/ichas-brand.css'); ?>">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="js/jquery-1.4.2.min.js"></script>
@@ -215,7 +216,7 @@ if(!empty($activeInTake)) {
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2 text">
             <h2><strong>
-                    <font color="white">Online University Admission System</font>
+                    <font color="white">ICHAS Online Admission System</font>
                 </strong></h2>
         </div>
     </div>
@@ -562,7 +563,7 @@ if(!empty($activeInTake)) {
 </body>
 <footer class="main-footer">
     <hr />
-    <p>Aspire UAS. This product is licensed to the <?php echo $orgName; ?> | <strong>&copy;2014-<?php echo date('Y'); ?> <a href="http://www.hmytechnologies.com" target="_blank">HM&Y Technologies</a></strong></p>
+    <p>ICHAS Online Admission System | &copy;2014-<?php echo date('Y'); ?> Imperial College of Health and Allied Sciences</p>
 </footer>
 
 </html>

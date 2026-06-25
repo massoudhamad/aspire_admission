@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 $db=new DBHelper();
 $username=$db->getData("users","userName","userID",$_SESSION['user_session']);
 $password=$db->getData("users","lastName","userID",$_SESSION['user_session']);

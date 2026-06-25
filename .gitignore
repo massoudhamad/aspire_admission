@@ -5,3 +5,23 @@ upload_doc/
 app/upload_doc
 nbproject/
 
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+
+# Local dev overlay (do not deploy)
+.dev-bootstrap.php
+
+# Environment files (secrets)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS cruft
+.DS_Store
+Thumbs.db
+

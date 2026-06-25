@@ -57,7 +57,7 @@ if(!empty($org))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ASPIRE Online Admission System</title>
+    <title>ICHAS Online Admission System</title>
     <!-- Bootstrap Core CSS -->
      <script type="js/jquery-1.12.3.js"></script>
    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -71,6 +71,7 @@ if(!empty($org))
     <link rel="stylesheet" href="css/chosen.css">
     <link rel="stylesheet" href="css/chosen.min.css">
     <link rel="stylesheet" href="css/bootstrap-chosen.css">
+    <link rel="stylesheet" href="assets/css/ichas-brand.css">
     <style>
             .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f9f9f9;
@@ -202,7 +203,7 @@ if(!empty($org))
             <div class="row">
                 <div class="col-lg-12">
                     <?php 
-                    session_start();
+                    if (session_status() === PHP_SESSION_NONE) session_start();
                     switch((isset($_GET['sz'])?$_GET['sz'] : ''))
                     {
                         case 'success':

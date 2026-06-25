@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 include('../DB.php');
 $db = new DBHelper();
 $out_number = $_POST['out_reg_number'];

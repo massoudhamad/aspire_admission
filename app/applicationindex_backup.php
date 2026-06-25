@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 $db=new DBHelper();
 $applicantID=$_SESSION['applicantID'];
 $userID=$_SESSION['user_session'];

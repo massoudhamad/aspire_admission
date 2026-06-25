@@ -1,5 +1,5 @@
   <?php
-  session_start();
+  if (session_status() === PHP_SESSION_NONE) session_start();
   $userID = $_SESSION['user_session'];
   $user_privilege=$_SESSION['role_session'];
    $auth_user = new DBHelper();
