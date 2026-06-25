@@ -1,0 +1,28 @@
+# Root .htaccess — block direct web access to sensitive files.
+# Apache only. The PHP built-in dev server ignores .htaccess; in dev,
+# these files are simply still reachable. Effective on Apache prod.
+
+# Block access to dotfiles
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Block access to specific sensitive filenames
+<FilesMatch "^(dbconfig\.php|composer\.(json|lock)|package(-lock)?\.json|README\.md|license\.txt|\.env(\..*)?|\.dev-bootstrap\.php)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to sensitive file extensions anywhere
+<FilesMatch "\.(sql|sqlite|db|sh|md|yml|yaml|ini|log|bak|swp|orig|dist|example|lock|conf)$">
+    Require all denied
+</FilesMatch>
+
+# Block sensitive directories
+RedirectMatch 403 ^/\.git(/|$)
+RedirectMatch 403 ^/\.idea(/|$)
+RedirectMatch 403 ^/db(/|$)
+RedirectMatch 403 ^/config(/|$)
+RedirectMatch 403 ^/vendor(/|$)
+
+# Disable directory listing
+Options -Indexes
