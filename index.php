@@ -329,7 +329,7 @@ if(!empty($activeInTake)) {
 
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <select name="admission_level" id="admission_level" class="form-control selectpicker" required>
+                                                    <select name="admission_level" id="admission_level" class="form-control" required>
                                                         <option value="">What Level are you applying?</option>
                                                         <?php
                                                         $admissionLevel = $user->getRows('programme_level', array('where' => array('status' => 1), 'order_by' => 'programmeLevelCode ASC'));
@@ -352,7 +352,7 @@ if(!empty($activeInTake)) {
 
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <select name="exam_body" id="exam_body" class="form-control selectpicker">
+                                                        <select name="exam_body" id="exam_body" class="form-control">
                                                             <option value="">Choose Examination Authority for your first sitting at O-Level (FIV)</option>
                                                             <option value="NECTA">National Examination Council of Tanzania (NECTA) 1987- To Date</option>
                                                             <option value="Others">CSEE Before 1987/GCE/Foreign Examination Authority</option>
@@ -411,7 +411,7 @@ if(!empty($activeInTake)) {
                                             <div class="col-sm-6">
                                                 <div class="input-group">
 											<span class="input-group-addon"><span>
-											<select name="gender" id="gender" class="form-control selectpicker" required>
+											<select name="gender" id="gender" class="form-control" required>
 												<option value="">Please select you Gender</option>
 												<option>Male</option>
 												<option>Female</option>

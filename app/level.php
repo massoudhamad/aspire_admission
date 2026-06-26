@@ -64,7 +64,7 @@
                           <option value="">Select Qualification Type</option>
                          <?php }?>
                         <?php
-                        $qualificationType = $db->getRows('qualificationtype',array('order_by'=>'rank ASC'));
+                        $qualificationType = $db->getRows('qualificationtype',array('order_by'=>'`rank` ASC'));
                         if(!empty($qualificationType)){ $count = 0; foreach($qualificationType as $type){ $count++;
                          $qualificationName=$type['qualificationName'];
                          $qualificationID=$type['qualificationTypeID'];

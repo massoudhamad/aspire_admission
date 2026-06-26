@@ -3571,6 +3571,67 @@ where
 
     }
 
+    /**
+     * Read the NECTA api_key (the bcrypt-style secret) from api_setting.
+     * Returns null if missing.
+     */
+    public function getNectaApiKey()
+    {
+        $row = $this->conn->query(
+            "SELECT token FROM api_setting WHERE organizationName='NECTA' AND tokenType='token' LIMIT 1"
+        )->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['token'] : null;
+    }
+
+    /**
+     * Fetch an applicant's NECTA exam particulars + results in one call.
+     *
+     * @param string $indexNumber  e.g. "S1291/0020/2020"
+     * @param int    $examId       1 = CSEE (O-Level), 2 = ACSEE (A-Level), etc.
+     * @return array|null          Decoded JSON; null on transport/auth failure.
+     */
+    public function fetchNectaResults($indexNumber, $examId = 1)
+    {
+        $apiKey = $this->getNectaApiKey();
+        if (!$apiKey) return null;
+
+        $parts = explode('/', strtoupper(trim($indexNumber)));
+        if (count($parts) < 3) return null;
+        $body = json_encode([
+            'index_number' => $parts[0] . '/' . $parts[1],
+            'exam_year'    => (int)$parts[2],
+            'exam_id'      => (int)$examId,
+            'api_key'      => $apiKey,
+        ]);
+
+        $ch = curl_init('https://api.necta.go.tz/api/results/individual');
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $body,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT        => 20,
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/json',
+                'Accept: application/json',
+            ],
+        ]);
+        $resp = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err  = curl_error($ch);
+        curl_close($ch);
+
+        if ($resp === false) {
+            error_log("[NECTA] curl error: $err");
+            return null;
+        }
+        if ($code !== 200) {
+            error_log("[NECTA] HTTP $code for $indexNumber");
+            return null;
+        }
+        return json_decode($resp, true);
+    }
+
     public function encrypt($sData)
     {
         $id = (double)$sData * 18293823.45;

@@ -26,25 +26,15 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         //if($admission_level=="UG") {
             $exam_body = $_POST['exam_body'];
             if ($exam_body == "NECTA") {
-                $token = $db->getAPIToken();
                 $indexNumber = strtoupper($_POST['indexNumber']);
-                $indexNumber2 = explode("/", $indexNumber);
-                $center = $indexNumber2[0];
-                $number = $indexNumber2[1];
-                $year = $indexNumber2[2];
-
-                /*$fname = strtoupper($_POST['fname']);
-                $mname = strtoupper($_POST['mname']);
-                $lname = strtoupper($_POST['lname']);*/
-
-                $index_number = $center . "-" . $number;
-                $exam_id = 1;
-                $exam_year = $year;
-                //get student particulars
-                $apiNumber = $index_number . "/" . $exam_id . "/" . $exam_year;
-
-                $json = file_get_contents("https://api.necta.go.tz/api/public/particulars/" . $apiNumber . "/" . $token);
-                $data = json_decode($json, true);
+                $indexParts = explode('/', $indexNumber);
+                $exam_year = isset($indexParts[2]) ? (int)$indexParts[2] : 0;
+                $data = $db->fetchNectaResults($indexNumber, 1);
+                if ($data === null) {
+                    $_SESSION['flash_error'] = 'Unable to reach the NECTA verification service. Please try again later.';
+                    header('Location: index.php?msg=neta_unreachable');
+                    exit;
+                }
 
                 if ($data['status']['code'] == 1) {
                     //if (($data['particulars']['first_name'] == $fname) && ($data['particulars']['middle_name'] == $mname) && ($data['particulars']['last_name'] == $lname)) {

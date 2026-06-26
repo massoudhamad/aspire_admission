@@ -25,7 +25,8 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
     //$indexNumber=$indexNumber."/".$exam_year;
     $indexNumber=$indexNumber;
         
-        if($admission_level=="UG") {
+        // Accept UG plus ICHAS certificate/diploma levels (Basic Cert, Ordinary Diploma, Technician Cert)
+        if (in_array($admission_level, ['UG', 'BC', 'OD', 'TC'])) {
             if ($admission_level == '' || $exam_body == '' || $fname == '' || $lname == '') {
                 header("Location:index.php?msg=111");
             } else {
@@ -211,5 +212,6 @@ else if ($_POST['doExit'] == 'Exit Application') {
 
 } catch(PDOException $ex)
 {
+      error_log('[action_confirm_register] PDO error: ' . $ex->getMessage() . ' at ' . $ex->getFile() . ':' . $ex->getLine());
       header("Location:index.php?msg=error");
 }

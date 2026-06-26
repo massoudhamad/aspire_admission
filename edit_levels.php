@@ -1,6 +1,11 @@
+<?php
+if (!class_exists('DBHelper')) {
+    require_once __DIR__ . '/DB.php';
+}
+$db = new DBHelper();
+?>
 <h1>Edit Study Level Data</h1>
 <?php
-$db = new DBHelper();
 $userData = $db->getRows('studylevels',array('where'=>array('studyLevelID'=>$_GET['id']),'return_type'=>'single'));
 if(!empty($userData)){
 ?>
@@ -25,7 +30,7 @@ if(!empty($userData)){
 <label for="email">Allowed Qualification Types:</label>
 <select name="qualificationTypeID[]" id="limitedNumbChosen" multiple="true" class="form-control" required="required">
 <?php
-$qualificationType = $db->getRows('qualificationtype',array('order_by'=>'rank ASC'));
+$qualificationType = $db->getRows('qualificationtype',array('order_by'=>'`rank` ASC'));
 if(!empty($qualificationType)){ $count = 0; foreach($qualificationType as $type){ $count++;
  $qualificationName=$type['qualificationName'];
  $qualificationID=$type['qualificationTypeID'];

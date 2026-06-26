@@ -94,8 +94,9 @@
               <link rel="stylesheet" href="css/chosen.css">
               <link rel="stylesheet" href="css/chosen.min.css">
               <link rel="stylesheet" href="css/bootstrap-chosen.css">
+              <link rel="stylesheet" href="../assets/css/ichas-brand.css?v=<?php echo @filemtime(__DIR__ . '/../assets/css/ichas-brand.css'); ?>">
 
-              <title>University Admission System</title>
+              <title>ICHAS Admission Portal</title>
           </head>
           <body class="sidebar-mini fixed">
           <div class="wrapper">

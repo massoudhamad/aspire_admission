@@ -43,7 +43,10 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
         $applicationYearID = $db->getData("academicyears", "academicYearID", "academicYearStatus", 1);
         $admissionID = $db->getData("admission_setting", "admissionID", "yearStatus", 1);
         $boolStatus = false;
-        if ($admission_level == "UG") {
+        // Undergraduate-style flow: UG plus all ICHAS certificate/diploma levels
+        // (BC = Basic Certificate, OD = Ordinary Diploma, TC = Technician Certificate).
+        // All use the NECTA O-Level verification path.
+        if (in_array($admission_level, ['UG', 'BC', 'OD', 'TC'])) {
             if ($db->isFieldExist('users', 'userName', $_POST['indexNumber'])) {
                 $boolStatus = false;
                 $msg = "exists";
@@ -78,7 +81,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $curl = curl_init();
 
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://api.necta.go.tz/api/particulars/individual',
+                    CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -200,12 +203,13 @@ if ($boolStatus == false) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Online University Admission System</title>
+    <title>Confirm your application details — ICHAS</title>
 
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/form-elements.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/ichas-brand.css?v=<?php echo filemtime(__DIR__ . '/assets/css/ichas-brand.css'); ?>">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="js/jquery-1.4.2.min.js"></script>
@@ -293,7 +297,7 @@ if ($boolStatus == false) {
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span>
-                                                            <select name="admission_level" id="admission_level" class="form-control selectpicker" required readonly>
+                                                            <select name="admission_level" id="admission_level" class="form-control" required readonly>
                                                                 <option value="<?php echo $admission_level; ?>"><?php echo "Admission Level-" . $admission_level; ?></option>
                                                             </select>
                                                 </div>
@@ -302,13 +306,13 @@ if ($boolStatus == false) {
 
                                     </div>
                                     <!--<div class="UG">-->
-                                    <?php if ($admission_level == "UG") { ?>
+                                    <?php if (in_array($admission_level, ['UG', 'BC', 'OD', 'TC'])) { ?>
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span>
-                                                                <select name="exam_body" id="exam_body" class="form-control selectpicker" readonly>
+                                                                <select name="exam_body" id="exam_body" class="form-control" readonly>
                                                                     <option value="<?php echo $exam_body; ?>"><?php echo "Examination Authority- " . $exam_body; ?></option>
                                                                 </select>
                                                     </div>
@@ -363,7 +367,7 @@ if ($boolStatus == false) {
                                             <div class="col-sm-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span>
-                                                            <select name="gender" id="gender" class="form-control selectpicker" required readonly>
+                                                            <select name="gender" id="gender" class="form-control" required readonly>
                                                                 <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
 
                                                             </select>
@@ -422,7 +426,7 @@ if ($boolStatus == false) {
                                             <div class="col-sm-6">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><span>
-                                                            <select name="gender" id="gender" class="form-control selectpicker" required readonly>
+                                                            <select name="gender" id="gender" class="form-control" required readonly>
                                                                 <option value="<?php echo $gender; ?>"><?php echo $gender; ?></option>
 
                                                             </select>
