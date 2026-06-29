@@ -153,7 +153,7 @@ if ($_POST['doProceed'] == 'Proceed to Application') {
                     'applicantsRemarksID' => 7,
                     'admissionID' => $admissionID,
                     'admissionRound'=>$_POST['admissionRound'],
-                    'formfour' => $username,
+                    'formfour' => $indexNumber,
                     'userID' => $userID
                 );
 
