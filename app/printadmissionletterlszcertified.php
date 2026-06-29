@@ -14,8 +14,9 @@ if ($_REQUEST['action'] == "getPDF") {
         foreach ($organization as $org) {
             $organizationName = $org['organizationName'];
             $organizationCode = $org['organizationCode'];
-            $organizationPicture = "../img/" . $org['organizationPicture'];
-            $organizationBanner = "../img/banner.png";
+            // Absolute paths — `file_exists()` should resolve regardless of CWD on prod vs dev.
+            $organizationPicture = dirname(__DIR__) . "/img/" . $org['organizationPicture'];
+            $organizationBanner  = dirname(__DIR__) . "/img/banner.png";
             $studentSupport = $org['student_support'];
             $orgAddress = $org['organizationAddress'];
             $orgPhone = $org['organizationPhone'];
@@ -23,8 +24,7 @@ if ($_REQUEST['action'] == "getPDF") {
             $contact_person = $org['contact_person'];
             $office_name = $org['office_name'];
             $title = $org['title'];
-            //$signature = "/img/" . $org['signature'];
-            $signature = "images/signature.png";
+            $signature = __DIR__ . "/images/signature.png";
         }
     } else {
         $organizationName = "Soft Dev Academy";
