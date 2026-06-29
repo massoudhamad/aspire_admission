@@ -24,17 +24,20 @@ if ($_REQUEST['action'] == "getPDF") {
                 }
                 return null;
             };
+            // Order matters: prefer files referenced by the organization row
+            // (admin-uploaded via the Organization Info page) before falling back
+            // to the static app/images/ shipped with the codebase.
             $organizationBanner = $pickFirstFile(
-                __DIR__ . "/images/letterhead.png",
-                dirname(__DIR__) . "/img/banner.png"
+                dirname(__DIR__) . "/img/banner.png",
+                __DIR__ . "/images/letterhead.png"
             );
             $organizationPicture = $pickFirstFile(
-                __DIR__ . "/images/logo.png",
-                dirname(__DIR__) . "/img/" . $org['organizationPicture']
+                dirname(__DIR__) . "/img/" . ($org['organizationPicture'] ?? ''),
+                __DIR__ . "/images/logo.png"
             );
             $signature = $pickFirstFile(
-                __DIR__ . "/images/signature.png",
-                dirname(__DIR__) . "/img/" . ($org['signature'] ?? '')
+                dirname(__DIR__) . "/img/" . ($org['signature'] ?? ''),
+                __DIR__ . "/images/signature.png"
             );
 
             $studentSupport = $org['student_support'];

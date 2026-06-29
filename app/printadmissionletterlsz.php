@@ -14,16 +14,39 @@ if ($_REQUEST['action'] == "getPDF") {
         foreach ($organization as $org) {
             $organizationName = $org['organizationName'];
             $organizationCode = $org['organizationCode'];
-            $organizationPicture = "../img/" . $org['organizationPicture'];
-            $organizationBanner = "../img/banner.png";
+
+            // Resolve image paths against both layouts:
+            //   prod  -> app/images/letterhead.png  (and similar)
+            //   dev   -> img/banner.png  (legacy convention)
+            $pickFirstFile = static function (...$candidates) {
+                foreach ($candidates as $c) {
+                    if (!empty($c) && @file_exists($c)) return $c;
+                }
+                return null;
+            };
+            // Order matters: prefer files referenced by the organization row
+            // (admin-uploaded via the Organization Info page) before falling back
+            // to the static app/images/ shipped with the codebase.
+            $organizationBanner = $pickFirstFile(
+                dirname(__DIR__) . "/img/banner.png",
+                __DIR__ . "/images/letterhead.png"
+            );
+            $organizationPicture = $pickFirstFile(
+                dirname(__DIR__) . "/img/" . ($org['organizationPicture'] ?? ''),
+                __DIR__ . "/images/logo.png"
+            );
+            $signature = $pickFirstFile(
+                dirname(__DIR__) . "/img/" . ($org['signature'] ?? ''),
+                __DIR__ . "/images/signature.png"
+            );
+
             $studentSupport = $org['student_support'];
-            $orgAddress = $org['organizationAddress'];
-            $orgPhone = $org['organizationPhone'];
-            $orgEmail = $org['organizationEmail'];
+            $orgAddress     = $org['organizationAddress'];
+            $orgPhone       = $org['organizationPhone'];
+            $orgEmail       = $org['organizationEmail'];
             $contact_person = $org['contact_person'];
-            $office_name = $org['office_name'];
-            $title = $org['title'];
-            $signature = "../img/" . $org['signature'];
+            $office_name    = $org['office_name'];
+            $title          = $org['title'];
         }
     } else {
         $organizationName = "Soft Dev Academy";
@@ -34,9 +57,75 @@ if ($_REQUEST['action'] == "getPDF") {
     {
         function Banner($organizationName, $image)
         {
-            $this->setFont('Arial', 'B', 13);
-            $this->Text(70, 30, $organizationName);
-            $this->Image($image, 12, 10, 190, 50);
+            // Tenant letterhead: if a pre-rendered full-width banner exists,
+            // use it; otherwise build the official 3-column LSZ letterhead.
+            $letterhead = __DIR__ . "/images/letterhead.png";
+            if (!empty($image) && @file_exists($image) && $image !== $letterhead) {
+                $this->Image($image, 12, 10, 190, 50);
+                $this->setFont('Arial', 'B', 14);
+                return;
+            }
+
+            $leftX  = 10;
+            $crestX = 92;
+            $rightX = 130;
+            $topY   = 10;
+
+            $crestPath = __DIR__ . "/images/logo.png";
+            if (@file_exists($crestPath)) {
+                $this->Image($crestPath, $crestX, $topY, 26, 28);
+            }
+
+            $this->SetTextColor(60, 60, 60);
+            $this->SetXY($leftX, $topY);
+            $this->SetFont('Arial', 'B', 10);
+            $this->Cell(80, 4.5, "THE LAW SCHOOL OF ZANZIBAR", 0, 2, 'L');
+
+            $this->SetFont('Arial', '', 9);
+            $lines = [
+                "P.O. Box 1418",
+                "Zanzibar - Tanzania",
+                "Mobile: +255 659 744557",
+                "Website: www.lsz.ac.tz",
+                "Email: info@lsz.ac.tz",
+                "7 A. A. Karume Road",
+                "71104 Urban West, Zanzibar",
+            ];
+            foreach ($lines as $ln) {
+                $this->SetX($leftX);
+                $this->Cell(80, 3.7, $ln, 0, 2, 'L');
+            }
+
+            $this->SetXY($rightX, $topY);
+            $this->SetFont('Arial', 'B', 10);
+            $this->Cell(70, 4.5, "SKULI YA SHERIA ZANZIBAR", 0, 2, 'L');
+
+            $this->SetFont('Arial', '', 9);
+            $lines_sw = [
+                "S.L.P 1418",
+                "Zanzibar - Tanzania",
+                "Simu: +255 659 744557",
+                "Tovuti: www.lsz.ac.tz",
+                "Barua pepe: info@lsz.ac.tz",
+                "7 Barabara ya A. A. Karume",
+                "71104 Mjini Magharibi, Zanzibar",
+            ];
+            foreach ($lines_sw as $ln) {
+                $this->SetX($rightX);
+                $this->Cell(70, 3.7, $ln, 0, 2, 'L');
+            }
+
+            $this->SetXY(0, 46);
+            $this->SetFont('Arial', 'B', 10);
+            $this->SetTextColor(30, 30, 30);
+            $this->Cell(0, 5, 'Michenzani Mall, Block "A", Third Floor', 0, 1, 'C');
+
+            $this->SetDrawColor(110, 110, 110);
+            $this->SetLineWidth(0.4);
+            $this->Line(10, 53, 200, 53);
+
+            $this->SetTextColor(0, 0, 0);
+            $this->SetFont('Arial', '', 11);
             $this->setFont('Arial', 'B', 14);
             /* $this->Text(75, 40, 'Admission Letter'); */
         }
@@ -57,8 +146,8 @@ if ($_REQUEST['action'] == "getPDF") {
             $this->SetY(-15);
             $this->SetFont('Arial', 'I', 8);
             //$this->Line(-30,-16,-15,-15);
-            $this->Cell(100, 0, $organizationName . $today2, 0, 1, 'L');
-            $this->Cell(200, 0, "Admission Letter" . $applicationYear, 0, 1, 'R');
+            $this->Cell(100, 0, $organizationName . '  -  ' . $today2, 0, 0, 'L');
+            $this->Cell(90, 0, 'Admission Letter ' . $applicationYear, 0, 1, 'R');
 
         }
 
@@ -186,7 +275,8 @@ if ($_REQUEST['action'] == "getPDF") {
             }*/
 
             $pdf->Banner($organizationName, $organizationBanner);
-            $pdf->Ln(43);
+            // Move cursor below the letterhead block (image OR text-built banner).
+            $pdf->SetY(56);
             $pdf->setFont('Arial', 'B', 12);
             $pdf->Cell(6);
             $pdf->Cell(101, 6, "Ref.Number: " . $db->getData("applicants", "refNumber", "applicantID", $applicantID), "0");
@@ -221,9 +311,12 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE JULY INTAKE " . $appYear[0], 0, 0, 'C');
             $pdf->Line(44, 86, 158, 86);
 
-            $pdf->SetAlpha(0.3);
-            $pdf->Image($organizationPicture, 20, 90, 180, 100);
-            $pdf->SetAlpha(1);
+            // Faded LSZ crest watermark, aspect-preserving size, centred on the body.
+            if (!empty($organizationPicture) && @file_exists($organizationPicture)) {
+                $pdf->SetAlpha(0.15);
+                $pdf->Image($organizationPicture, 65, 100, 80);
+                $pdf->SetAlpha(1);
+            }
 
 
             $pdf->Ln(8);
@@ -294,27 +387,27 @@ if ($_REQUEST['action'] == "getPDF") {
             
             $pdf->MultiCell(0,6, "Orientation and Registration of new students will be on ". date("d-m-Y",strtotime($orientationDate))." and ". date("d-m-Y",strtotime($registrationDate))." respectively.");
              */
-            $pdf->Ln(8);
+            // Signature block — anchored to current flow so it always fits on page 1.
+            $pdf->Ln(3);
             $pdf->Cell(6);
             $pdf->setFont('Arial', 'I', 11);
-            $pdf->Cell(85, 6, "Sincerely yours");
-            $pdf->Ln(12);
-            $pdf->Image($signature, 15, 225, 25, 25);
-            $pdf->Cell(6);
-            $pdf->Ln(18);
-            $pdf->Cell(6);
+            $pdf->Cell(85, 5, "Sincerely yours", 0, 1, 'L');
+
+            $sigY = $pdf->GetY() + 1;
+            if (!empty($signature) && @file_exists($signature)) {
+                $pdf->Image($signature, 18, $sigY, 22, 14);
+            }
+            $pdf->SetY($sigY + 16);
+
             $pdf->setFont('Arial', 'B', 11);
-            $pdf->Cell(85, 6, $contact_person);
-            $pdf->Ln(6);
             $pdf->Cell(6);
-            $pdf->Cell(85, 6, $title);
-            $pdf->Ln(6);
+            $pdf->Cell(85, 5, rtrim((string)($contact_person ?? ''), ', '), 0, 1, 'L');
             $pdf->Cell(6);
-            $pdf->setFont('Arial', 'B', 11);
-            $pdf->Cell(85, 6, "LAW SCHOOL OF ZANZIBAR");
-            $pdf->Ln(6);
+            $pdf->Cell(85, 5, strtoupper((string)($title ?? '')) . ',', 0, 1, 'L');
             $pdf->Cell(6);
-            $pdf->Cell(85, 6, "ZANZIBAR");
+            $pdf->Cell(85, 5, "LAW SCHOOL OF ZANZIBAR,", 0, 1, 'L');
+            $pdf->Cell(6);
+            $pdf->Cell(85, 5, "ZANZIBAR.", 0, 1, 'L');
             //$pdf->Image('images/stamp.png',45,145,25,25);
 
             $pdf->AliasNbPages();
