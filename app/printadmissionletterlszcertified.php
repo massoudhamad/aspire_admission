@@ -37,7 +37,9 @@ if ($_REQUEST['action'] == "getPDF") {
         {
             $this->setFont('Arial', 'B', 13);
             $this->Text(70, 30, $organizationName);
-            $this->Image($image, 12, 10, 190, 50);
+            if (!empty($image) && @file_exists($image)) {
+                $this->Image($image, 12, 10, 190, 50);
+            }
             $this->setFont('Arial', 'B', 14);
             /* $this->Text(75, 40, 'Admission Letter'); */
         }
@@ -210,10 +212,12 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Cell(6);
             $pdf->Cell(180, 0, '', 'T', 1, 'C');
 
-            // Light watermark (faded org logo behind text)
-            $pdf->SetAlpha(0.08);
-            $pdf->Image($organizationPicture, 50, 100, 120, 80);
-            $pdf->SetAlpha(1);
+            // Light watermark (faded org logo behind text) — skip if file is missing
+            if (!empty($organizationPicture) && @file_exists($organizationPicture)) {
+                $pdf->SetAlpha(0.08);
+                $pdf->Image($organizationPicture, 50, 100, 120, 80);
+                $pdf->SetAlpha(1);
+            }
 
             $pdf->Ln(3);
             $pdf->setFont('Arial', '', 10);
@@ -262,16 +266,16 @@ if ($_REQUEST['action'] == "getPDF") {
 
             // Signature image: smaller + positioned closer to text
             $sigY = $pdf->GetY() + 1;
-            if (file_exists($signature)) {
+            if (!empty($signature) && @file_exists($signature)) {
                 $pdf->Image($signature, 18, $sigY, 22, 14);
             }
             $pdf->SetY($sigY + 16);
 
             $pdf->setFont('Arial', 'B', 11);
             $pdf->Cell(6);
-            $pdf->Cell(85, 5, rtrim($contact_person, ', '), 0, 1, 'L');
+            $pdf->Cell(85, 5, rtrim((string)($contact_person ?? ''), ', '), 0, 1, 'L');
             $pdf->Cell(6);
-            $pdf->Cell(85, 5, strtoupper($title) . ',', 0, 1, 'L');
+            $pdf->Cell(85, 5, strtoupper((string)($title ?? '')) . ',', 0, 1, 'L');
             $pdf->Cell(6);
             $pdf->Cell(85, 5, "LAW SCHOOL OF ZANZIBAR,", 0, 1, 'L');
             $pdf->Cell(6);
