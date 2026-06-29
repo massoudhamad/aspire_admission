@@ -73,7 +73,7 @@ if ($_REQUEST['action'] == "getPDF") {
 
             // Geometry (mm). A4 width = 210, margins 10 each side -> 190 usable.
             $leftX  = 10;
-            $crestX = 92;   // crest sits centred in the page
+            $crestX = 86;   // centred for 38mm-wide crest   // crest sits centred in the page
             $rightX = 130;
             $topY   = 10;
 
@@ -86,7 +86,7 @@ if ($_REQUEST['action'] == "getPDF") {
                 if (@file_exists($cand)) { $crestPath = $cand; break; }
             }
             if ($crestPath) {
-                $this->Image($crestPath, $crestX, $topY, 26, 28);
+                $this->Image($crestPath, $crestX, $topY, 38, 36);
             }
 
             // --- Left column (English) ---

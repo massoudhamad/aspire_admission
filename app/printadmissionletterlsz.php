@@ -71,7 +71,7 @@ if ($_REQUEST['action'] == "getPDF") {
             }
 
             $leftX  = 10;
-            $crestX = 92;
+            $crestX = 86;   // centred for 38mm-wide crest
             $rightX = 130;
             $topY   = 10;
 
@@ -83,7 +83,7 @@ if ($_REQUEST['action'] == "getPDF") {
                 if (@file_exists($cand)) { $crestPath = $cand; break; }
             }
             if ($crestPath) {
-                $this->Image($crestPath, $crestX, $topY, 26, 28);
+                $this->Image($crestPath, $crestX, $topY, 38, 36);
             }
 
             $this->SetTextColor(60, 60, 60);
