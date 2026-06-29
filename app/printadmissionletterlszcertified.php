@@ -56,9 +56,8 @@ if ($_REQUEST['action'] == "getPDF") {
             //Position at 1.5 cm from bottom
             $this->SetY(-15);
             $this->SetFont('Arial', 'I', 8);
-            //$this->Line(-30,-16,-15,-15);
-            $this->Cell(100, 0, $organizationName . $today2, 0, 1, 'L');
-            $this->Cell(200, 0, "Admission Letter" . $applicationYear, 0, 1, 'R');
+            $this->Cell(100, 0, $organizationName . '  -  ' . $today2, 0, 0, 'L');
+            $this->Cell(90, 0, 'Admission Letter ' . $applicationYear, 0, 1, 'R');
         }
 
         //Image watermark
@@ -184,26 +183,18 @@ if ($_REQUEST['action'] == "getPDF") {
 
             $pdf->Banner($organizationName, $organizationBanner);
             $pdf->Ln(43);
-            $pdf->setFont('Arial', 'B', 12);
+            $pdf->setFont('Arial', 'B', 11);
             $pdf->Cell(6);
-            $pdf->Cell(101, 6, "Ref.Number: " . $db->getData("applicants", "refNumber", "applicantID", $applicantID), "0");
-            $pdf->setFont('Arial', '', 12);
-            if ($studyLevelID == 1) {
-                $pdf->Cell(50);
-                $pdf->Cell(98, 6, $today);
-            } else {
-                $pdf->Cell(50);
-                $pdf->Cell(98, 6, $today);
-            }
-            $pdf->Cell(50);
-            $pdf->Cell(98, 6, $today);
-            $pdf->Ln(10);
-            $pdf->setFont('Arial', '', 12);
+            $pdf->Cell(120, 5, "Ref.Number: " . $db->getData("applicants", "refNumber", "applicantID", $applicantID), 0, 0, 'L');
+            $pdf->setFont('Arial', '', 11);
+            $pdf->Cell(60, 5, "Date: " . $today, 0, 1, 'R');
+            $pdf->Ln(6);
+            $pdf->setFont('Arial', '', 11);
             $pdf->Cell(6);
-            $pdf->Cell(101, 6, "" . iconv('ISO-8859-1', 'windows-1252', html_entity_decode($name)), "0");
-            $pdf->Ln(8);
+            $pdf->Cell(180, 5, iconv('ISO-8859-1', 'windows-1252', html_entity_decode($name)), 0, 1, 'L');
+            $pdf->Ln(3);
             $pdf->Cell(6);
-            $pdf->Cell(101, 6, "Dear Esteemed Student", "0");
+            $pdf->Cell(180, 5, "Dear Esteemed Student,", 0, 1, 'L');
 
             /* $pdf->Ln(8);
             $pdf->setFont('Arial', 'B', 11);
@@ -211,87 +202,80 @@ if ($_REQUEST['action'] == "getPDF") {
             $programmeName=$db->getData("programmemajor", "programmeMajor", "programmeMajorID", $programmeMajorID);
             $pdf->Cell(101, 6, "" . iconv('ISO-8859-1', 'windows-1252',"Program of Study: ".html_entity_decode($programmeName)), "0"); */
 
-            $pdf->Ln(10);
-            $pdf->setFont('Arial', 'B', 12);
+            $pdf->Ln(6);
+            $pdf->setFont('Arial', 'B', 11);
             $appYear = explode("/", $applicationYear);
             $pdf->Cell(6);
-            $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE JANUARY INTAKE " . $appYear[1], 0, 0, 'C');
-            $pdf->Line(44, 86, 158, 86);
+            $pdf->Cell(180, 5, "SUBJECT: ADMISSION FOR THE JULY INTAKE " . $applicationYear, 0, 1, 'C');
+            $pdf->Cell(6);
+            $pdf->Cell(180, 0, '', 'T', 1, 'C');
 
-            $pdf->SetAlpha(0.3);
-            $pdf->Image($organizationPicture, 20, 90, 180, 100);
+            // Light watermark (faded org logo behind text)
+            $pdf->SetAlpha(0.08);
+            $pdf->Image($organizationPicture, 50, 100, 120, 80);
             $pdf->SetAlpha(1);
 
-
-            $pdf->Ln(8);
-            $pdf->setFont('Arial', '', 11);
-            //pdf content
+            $pdf->Ln(3);
+            $pdf->setFont('Arial', '', 10);
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "On behalf of the management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for the year programme, " . $appYear[1] . ", for a legal practical course leading to the award of a Post Graduate Certificate of Competence to qualify as an advocate.");
-
-            $pdf->Ln(4);
+            $pdf->MultiCell(0, 5, "On behalf of the Management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for one year program, " . $applicationYear . ", for a legal practical course leading to the award of a Post Graduate Certificate of Competence to qualify as an advocate.");
+            $pdf->Ln(2);
 
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 13th January, 2026. Failure to register within the specified time will lead to cancellation of a place.");
-
-
-            $pdf->Ln(4);
-            $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "The admission offer is provisional pending verification of the qualifications as presented on your online application. You will be required at the time of registration, to present in person the original documents you have used in the application. I would, therefore, like to put an emphasis on the following must be presented to the School:");
-
-            $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "i.The original Certificate of Ordinary Secondary Education (For IV);");
-            $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "ii.The original Degree of Law or its equivalent or certified evidence to prove possession of it;
-");
-            $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "iii. The original Advanced Certificate of Secondary Education;");
-
-            $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "iv.Where applicable the relevant original Degree or Diploma or Certificate and Transcript;");
-
-            $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "v.Four passport size photographs.");
-            $pdf->Ln(4);
+            $pdf->MultiCell(0, 5, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the school on 20th July, 2026. Failure to register within the specified time will lead to cancellation of a place.");
+            $pdf->Ln(2);
 
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "NOTE. 1.The duty of the Law School of Zanzibar is to train and award the Post Graduate Diploma in Legal Practice. Other procedures related to admission in the Bar is done by other judicial authorities.");
+            $pdf->MultiCell(0, 5, "The admission offer is provisional pending verification of the qualifications as presented on your online application. You will be required at the time of registration, to present in person the original documents you have used in the application. I would, therefore, like to put an emphasis on the following that must be presented to the School:");
 
-            $pdf->Ln(4);
+            $pdf->Cell(12);
+            $pdf->MultiCell(0, 5, "i.   The original Certificate of Ordinary Secondary Education (Form IV);");
+            $pdf->Cell(12);
+            $pdf->MultiCell(0, 5, "ii.  The original Degree of Law or its equivalent or certified evidence to prove possession of it;");
+            $pdf->Cell(12);
+            $pdf->MultiCell(0, 5, "iii. The original Advanced Certificate of Secondary Education (where necessary);");
+            $pdf->Cell(12);
+            $pdf->MultiCell(0, 5, "iv.  Where applicable the relevant original Degree or Diploma or Certificate and Transcript;");
+            $pdf->Cell(12);
+            $pdf->MultiCell(0, 5, "v.   Three passport size photographs.");
+            $pdf->Ln(2);
 
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "2. Apart from the fee structure herein attached, you will have to bear some other costs related to Immigration such as the living permit (for foreign students) as well as the Health Insurance (for all) as per the relevant institutions’ policies.");
+            $pdf->MultiCell(0, 5, "NOTE: 1. The duty of the Law School of Zanzibar is to train and award the Post Graduate Diploma in Legal Practice. Other procedures related to admission in the Bar is done by other judicial authorities.");
+            $pdf->Ln(1);
 
-
-            $pdf->Ln(4);
-            $pdf->MultiCell(0, 6, "Congratulations and we are looking forward to see you at the School.");
-            $pdf->Ln(4);
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "Please find the attached Fee Structure.");
+            $pdf->MultiCell(0, 5, "         2. Apart from the fee structure herein attached, you will have to bear some other costs related to living and accommodation.");
+            $pdf->Ln(2);
 
-            $pdf->Ln(4);
+            $pdf->Cell(6);
+            $pdf->MultiCell(0, 5, "Congratulations and we look forward to seeing you at the School.");
+            $pdf->Ln(1);
+            $pdf->Cell(6);
+            $pdf->MultiCell(0, 5, "Please find the attached Fee Structure.");
+
+            // ===== Signature block — anchored near bottom so it always fits on page 1 =====
+            $pdf->Ln(3);
             $pdf->Cell(6);
             $pdf->setFont('Arial', 'I', 11);
-            $pdf->Cell(85, 6, "Sincerely yours,");
-            $pdf->Ln(8);
-            $pdf->Image($signature, 15, 225, 25, 25);
-            $pdf->SetY(225 + 25 + 2); // 2 units below the signature
-            $pdf->Cell(6);
-            $pdf->Ln(14);
-            $pdf->Cell(6);
+            $pdf->Cell(85, 5, "Yours Sincerely,", 0, 1, 'L');
+
+            // Signature image: smaller + positioned closer to text
+            $sigY = $pdf->GetY() + 1;
+            if (file_exists($signature)) {
+                $pdf->Image($signature, 18, $sigY, 22, 14);
+            }
+            $pdf->SetY($sigY + 16);
+
             $pdf->setFont('Arial', 'B', 11);
-            $pdf->Cell(85, 6, $contact_person);
-            $pdf->Ln(6);
             $pdf->Cell(6);
-            $pdf->Cell(85, 6, $title);
-            $pdf->Ln(6);
+            $pdf->Cell(85, 5, rtrim($contact_person, ', '), 0, 1, 'L');
             $pdf->Cell(6);
-            $pdf->setFont('Arial', 'B', 11);
-            $pdf->Cell(85, 6, "LAW SCHOOL OF ZANZIBAR");
-            $pdf->Ln(6);
+            $pdf->Cell(85, 5, strtoupper($title) . ',', 0, 1, 'L');
             $pdf->Cell(6);
-            $pdf->Cell(85, 6, "ZANZIBAR");
-            //$pdf->Image('images/stamp.png',45,145,25,25);
+            $pdf->Cell(85, 5, "LAW SCHOOL OF ZANZIBAR,", 0, 1, 'L');
+            $pdf->Cell(6);
+            $pdf->Cell(85, 5, "ZANZIBAR.", 0, 1, 'L');
 
             $pdf->AliasNbPages();
             $pdf->AddPage();

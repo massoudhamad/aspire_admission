@@ -215,7 +215,7 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->setFont('Arial', 'B', 12);
             $appYear = explode("/", $applicationYear);
             $pdf->Cell(6);
-            $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE JANUARY INTAKE " . $appYear[1], 0, 0, 'C');
+            $pdf->Cell(170, 6, "SUBJECT: ADMISSION FOR THE JULY INTAKE " . $appYear[0], 0, 0, 'C');
             $pdf->Line(44, 86, 158, 86);
 
             $pdf->SetAlpha(0.3);
@@ -227,12 +227,12 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->setFont('Arial', '', 11);
             //pdf content
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "On behalf of the management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for the year programme, " . $applicationYear . ", for a legal practical course leading to the award of Certificate of Competence to qualify as a Vakil.");
+            $pdf->MultiCell(0, 6, "On behalf of the management of the Law School of Zanzibar, I am pleased to inform you that you have been offered a place at the Law School of Zanzibar for the July Intake program, " . $appYear[0] . ", for a legal practical course leading to the award of Certificate of Competence to qualify as a Vakil.");
 
             $pdf->Ln(4);
 
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 13th January, 2026. Failure to register within the specified time will lead to cancellation of a place.");
+            $pdf->MultiCell(0, 6, "You are required to register with the Law School of Zanzibar within two weeks from the opening of the School on 20th July, 2026. Failure to register within the specified time will lead to cancellation of a place.");
 
 
             $pdf->Ln(4);
@@ -241,13 +241,13 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->MultiCell(0, 6, "The admission offer is provisional pending verification of the qualifications as presented on your online application. You will be required at the time of registration, to present in person the original documents you have used in the application. I would, therefore, like to put an emphasis on the following must be presented to the School:");
 
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "i.The original Certificate of Ordinary Secondary Education (For IV);");
+            $pdf->MultiCell(0, 6, "i.   The original Certificate of Ordinary Secondary Education (Form IV);");
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "ii.The original Diploma in Law or its equivalent or certified evidence to prove possession of it;");
+            $pdf->MultiCell(0, 6, "ii.  The original Diploma in Law or its equivalent or certified evidence to prove possession of it;");
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "iii.The original Advanced Certificate of Secondary Education if any;");
+            $pdf->MultiCell(0, 6, "iii. The original Advanced Certificate of Secondary Education (if any);");
             $pdf->Cell(10);
-            $pdf->MultiCell(0, 6, "iv.Four passport size photographs.");
+            $pdf->MultiCell(0, 6, "iv.  Three recent passport size photographs.");
 
             $pdf->Ln(4);
             $pdf->Cell(6);
@@ -259,7 +259,7 @@ if ($_REQUEST['action'] == "getPDF") {
 
             $pdf->Ln(4);
             $pdf->Cell(6);
-            $pdf->MultiCell(0, 6, "2. Apart from the fee structure herein attached, you will have to bear some other costs related to Immigration such as the living permit (for foreign students) as well as the Health Insurance (for all) as per the relevant institutions’ policies.");
+            $pdf->MultiCell(0, 6, "2. Apart from the fee structure herein attached, you will have to bear some other costs related to living and accommodation.");
 
             $pdf->Ln(4);
             $pdf->Cell(6);

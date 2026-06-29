@@ -13,3 +13,6 @@ docker-compose.yml
 jwt_firebase/
 license.txt
 workshop/
+
+# Remote DB dumps (contain applicant PII)
+db/lsz_admission_*.sql

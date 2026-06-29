@@ -47,9 +47,6 @@ $db = new DBHelper();
                     echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
                         <strong>Data saved successfully</strong>.
                     </div>";
-                    echo "<div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a>
-                        <strong>TCU Status: " . $_SESSION['output'] . "</strong>.
-                    </div>";
                 }
             }
             /* if(!empty($_REQUEST['msg']))
@@ -367,14 +364,17 @@ $db = new DBHelper();
                                 }
 
 
-                               /*  $four = array();
-                                for ($x = 1; $x < count($formfour); $x++) {
-                                    $four[] = $formfour[$x];
-                                } */
-
+                                $four = array();
+                                if (is_array($formfour ?? null)) {
+                                    for ($x = 1; $x < count($formfour); $x++) {
+                                        $four[] = $formfour[$x];
+                                    }
+                                }
                                 $six = array();
-                                for ($x = 1; $x < count($formsix); $x++) {
-                                    $six[] = $formsix[$x];
+                                if (is_array($formsix ?? null)) {
+                                    for ($x = 1; $x < count($formsix); $x++) {
+                                        $six[] = $formsix[$x];
+                                    }
                                 }
                                 $fourfour = implode(",", $four);
                                 $sixsix = implode(",", $six);
