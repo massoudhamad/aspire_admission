@@ -14,17 +14,36 @@ if ($_REQUEST['action'] == "getPDF") {
         foreach ($organization as $org) {
             $organizationName = $org['organizationName'];
             $organizationCode = $org['organizationCode'];
-            // Absolute paths — `file_exists()` should resolve regardless of CWD on prod vs dev.
-            $organizationPicture = dirname(__DIR__) . "/img/" . $org['organizationPicture'];
-            $organizationBanner  = dirname(__DIR__) . "/img/banner.png";
+
+            // Resolve image paths against both layouts:
+            //   prod  → app/images/letterhead.png  (and similar)
+            //   dev   → img/banner.png  (legacy convention)
+            $pickFirstFile = static function (...$candidates) {
+                foreach ($candidates as $c) {
+                    if (!empty($c) && @file_exists($c)) return $c;
+                }
+                return null;
+            };
+            $organizationBanner = $pickFirstFile(
+                __DIR__ . "/images/letterhead.png",
+                dirname(__DIR__) . "/img/banner.png"
+            );
+            $organizationPicture = $pickFirstFile(
+                __DIR__ . "/images/logo.png",
+                dirname(__DIR__) . "/img/" . $org['organizationPicture']
+            );
+            $signature = $pickFirstFile(
+                __DIR__ . "/images/signature.png",
+                dirname(__DIR__) . "/img/" . ($org['signature'] ?? '')
+            );
+
             $studentSupport = $org['student_support'];
-            $orgAddress = $org['organizationAddress'];
-            $orgPhone = $org['organizationPhone'];
-            $orgEmail = $org['organizationEmail'];
+            $orgAddress     = $org['organizationAddress'];
+            $orgPhone       = $org['organizationPhone'];
+            $orgEmail       = $org['organizationEmail'];
             $contact_person = $org['contact_person'];
-            $office_name = $org['office_name'];
-            $title = $org['title'];
-            $signature = __DIR__ . "/images/signature.png";
+            $office_name    = $org['office_name'];
+            $title          = $org['title'];
         }
     } else {
         $organizationName = "Soft Dev Academy";
