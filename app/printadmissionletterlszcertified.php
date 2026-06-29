@@ -78,8 +78,14 @@ if ($_REQUEST['action'] == "getPDF") {
             $topY   = 10;
 
             // Centre crest
-            $crestPath = __DIR__ . "/images/logo.png";
-            if (@file_exists($crestPath)) {
+            // Prefer the LSZ logo we ship in-repo so the prod centre crest
+            // doesn't fall back to whatever app/images/logo.png happens to be
+            // from a previous tenant's deploy.
+            $crestPath = null;
+            foreach ([__DIR__ . "/images/lsz_logo.png", __DIR__ . "/images/logo.png"] as $cand) {
+                if (@file_exists($cand)) { $crestPath = $cand; break; }
+            }
+            if ($crestPath) {
                 $this->Image($crestPath, $crestX, $topY, 26, 28);
             }
 
