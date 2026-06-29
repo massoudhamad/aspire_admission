@@ -143,13 +143,13 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php
     if ($_SESSION['role_session'] == 3 || $_SESSION['role_session'] == 1) {
     ?>
+        <!-- TCU Integration disabled on LSZ — Law School of Zanzibar does not submit to TCU.
         <li class="treeview">
             <a href="#"><i class="glyphicon glyphicon-th-large"></i> <span>TCU Integration</span> <i class="fa fa-angle-left pull-right"></i></a>
             <ul class="treeview-menu">
                 <li><a href="index3.php?sp=check_status">Check Status</a></li>
                 <li><a href="index3.php?sp=add_applicant_tcu">Add Applicant</a></li>
-                <li><a href="index3.php?sp=submit_selected_tcu" title="Submit Applicant Programme Choices">Submit
-                        Applicant</a></li>
+                <li><a href="index3.php?sp=submit_selected_tcu" title="Submit Applicant Programme Choices">Submit Applicant</a></li>
                 <li><a href="index3.php?sp=resubmit_applicant_tcu">Resubmit Applicant</a></li>
                 <li><a href="index3.php?sp=submit_unselected_tcu">Submit Unselected Applicant</a></li>
                 <li><a href="index3.php?sp=populate_dashboard_tcu">Populate Dashboard</a></li>
@@ -160,7 +160,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a href="index3.php?sp=un_confirm_app_individual">UnConfirm Individual Applicant</a></li>
                 <li><a href="index3.php?sp=cancel_applicant">Cance/Reject Applicant</a></li>
                 <li><a href="index3.php?sp=request_confirmation_code">Request Confirmation Code</a></li>
-                <!-- <li><a href="index3.php?sp=confirm_app_list_tcu">Confirm Applicant</a></li> -->
                 <li><a href="index3.php?sp=get_list_of_confirmed_tcu">Get List of Confirmed</a></li>
                 <li><a href="index3.php?sp=get_verification_list">Get Verification List</a></li>
                 <li><a href="index3.php?sp=internal_transfer">Internal Transfer</a></li>
@@ -170,10 +169,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a href="index3.php?sp=get_admitted_non_degree">Get Admitted Non-Degree</a></li>
                 <li><a href="index3.php?sp=enrollment_submission">Enrollment Submission</a></li>
                 <li><a href="index3.php?sp=uploaded_enrollment_submission">Uploaded Enrollment Submission</a></li>
-
             </ul>
         </li>
+        -->
 
+        <!-- NACTE Integration disabled on LSZ — Law School of Zanzibar does not submit to NACTE.
         <li class="treeview">
             <a href="#">
                 <i class="glyphicon glyphicon-th-large"></i> <span>NACTE Integration</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -188,7 +188,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a href="index3.php?sp=balance_payment">Balance Payment</a></li>
             </ul>
         </li>
-
+        -->
     <?php
     }
     ?>
