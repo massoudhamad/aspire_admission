@@ -31,8 +31,12 @@ if ($_REQUEST['action'] == "getPDF") {
                 dirname(__DIR__) . "/img/banner.png",
                 __DIR__ . "/images/letterhead.png"
             );
+            // Prefer (1) admin-uploaded logo at img/<organizationPicture>, then
+            // (2) the LSZ logo we ship in-repo, finally (3) the generic
+            // app/images/logo.png (may be a previous tenant's file on prod).
             $organizationPicture = $pickFirstFile(
                 dirname(__DIR__) . "/img/" . ($org['organizationPicture'] ?? ''),
+                __DIR__ . "/images/lsz_logo.png",
                 __DIR__ . "/images/logo.png"
             );
             $signature = $pickFirstFile(
