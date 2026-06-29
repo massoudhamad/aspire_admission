@@ -54,13 +54,82 @@ if ($_REQUEST['action'] == "getPDF") {
     {
         function Banner($organizationName, $image)
         {
-            $this->setFont('Arial', 'B', 13);
-            $this->Text(70, 30, $organizationName);
-            if (!empty($image) && @file_exists($image)) {
+            // Tenant letterhead: if a pre-rendered full-width banner exists
+            // (e.g. /app/images/letterhead.png), use it. Otherwise build the
+            // official 3-column LSZ letterhead: English | crest | Swahili.
+            $letterhead = __DIR__ . "/images/letterhead.png";
+            if (!empty($image) && @file_exists($image) && $image !== $letterhead) {
                 $this->Image($image, 12, 10, 190, 50);
+                $this->setFont('Arial', 'B', 14);
+                return;
             }
-            $this->setFont('Arial', 'B', 14);
-            /* $this->Text(75, 40, 'Admission Letter'); */
+
+            // Geometry (mm). A4 width = 210, margins 10 each side -> 190 usable.
+            $leftX  = 10;
+            $crestX = 92;   // crest sits centred in the page
+            $rightX = 130;
+            $topY   = 10;
+
+            // Centre crest
+            $crestPath = __DIR__ . "/images/logo.png";
+            if (@file_exists($crestPath)) {
+                $this->Image($crestPath, $crestX, $topY, 26, 28);
+            }
+
+            // --- Left column (English) ---
+            $this->SetTextColor(60, 60, 60);
+            $this->SetXY($leftX, $topY);
+            $this->SetFont('Arial', 'B', 10);
+            $this->Cell(80, 4.5, "THE LAW SCHOOL OF ZANZIBAR", 0, 2, 'L');
+
+            $this->SetFont('Arial', '', 9);
+            $lines = [
+                "P.O. Box 1418",
+                "Zanzibar - Tanzania",
+                "Mobile: +255 659 744557",
+                "Website: www.lsz.ac.tz",
+                "Email: info@lsz.ac.tz",
+                "7 A. A. Karume Road",
+                "71104 Urban West, Zanzibar",
+            ];
+            foreach ($lines as $ln) {
+                $this->SetX($leftX);
+                $this->Cell(80, 3.7, $ln, 0, 2, 'L');
+            }
+
+            // --- Right column (Swahili) ---
+            $this->SetXY($rightX, $topY);
+            $this->SetFont('Arial', 'B', 10);
+            $this->Cell(70, 4.5, "SKULI YA SHERIA ZANZIBAR", 0, 2, 'L');
+
+            $this->SetFont('Arial', '', 9);
+            $lines_sw = [
+                "S.L.P 1418",
+                "Zanzibar - Tanzania",
+                "Simu: +255 659 744557",
+                "Tovuti: www.lsz.ac.tz",
+                "Barua pepe: info@lsz.ac.tz",
+                "7 Barabara ya A. A. Karume",
+                "71104 Mjini Magharibi, Zanzibar",
+            ];
+            foreach ($lines_sw as $ln) {
+                $this->SetX($rightX);
+                $this->Cell(70, 3.7, $ln, 0, 2, 'L');
+            }
+
+            // Tagline + horizontal rule under the whole letterhead block
+            $this->SetXY(0, 46);
+            $this->SetFont('Arial', 'B', 10);
+            $this->SetTextColor(30, 30, 30);
+            $this->Cell(0, 5, 'Michenzani Mall, Block "A", Third Floor', 0, 1, 'C');
+
+            $this->SetDrawColor(110, 110, 110);
+            $this->SetLineWidth(0.4);
+            $this->Line(10, 53, 200, 53);
+
+            // Reset text colour + font for the rest of the document
+            $this->SetTextColor(0, 0, 0);
+            $this->SetFont('Arial', '', 11);
         }
         function BasicTable($header)
         {
@@ -203,7 +272,8 @@ if ($_REQUEST['action'] == "getPDF") {
             }*/
 
             $pdf->Banner($organizationName, $organizationBanner);
-            $pdf->Ln(43);
+            // Move cursor below the letterhead block (banner image OR text-banner).
+            $pdf->SetY(56);
             $pdf->setFont('Arial', 'B', 11);
             $pdf->Cell(6);
             $pdf->Cell(120, 5, "Ref.Number: " . $db->getData("applicants", "refNumber", "applicantID", $applicantID), 0, 0, 'L');
