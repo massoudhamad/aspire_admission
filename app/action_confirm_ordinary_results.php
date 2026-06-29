@@ -98,5 +98,6 @@ try {
         header("Location:index.php?sz=education_background");
     }*/
 } catch (PDOException $ex) {
+    error_log('[action_confirm_ordinary_results] PDO error: ' . $ex->getMessage() . ' at ' . $ex->getFile() . ':' . $ex->getLine());
     $db->redirect("index.php?sz=confirm_ordinary_results&msg=error");
 }

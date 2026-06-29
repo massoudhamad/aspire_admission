@@ -79,13 +79,17 @@
 
                   <div class="col-sm-8">
                       <select name="studyLevelID" id="studyLevelID" class="form-control" required="required">
-                          <?php 
-                         if(!empty($level)){
-                         ?>
-                          <option value="<?php echo $studyLevelID;?>" selected="selected"><?php echo $db->getData("studylevels", "studyLevelName", "studyLevelID", $studyLevelID) ?></option>
-                          <?php } else {?>  
-                          <option value="">--Select Study Year--</option>
-                          <?php }?>
+                          <?php if (!empty($level)) { ?>
+                              <option value="<?php echo $studyLevelID; ?>" selected="selected"><?php echo $db->getData("studylevels", "studyLevelName", "studyLevelID", $studyLevelID); ?></option>
+                          <?php } else { ?>
+                              <option value="">-- Select Study Level --</option>
+                          <?php }
+                          $studyLevels = $db->getRows('studylevels', array('where' => array('status' => 1), 'order_by' => 'studyLevelID ASC'));
+                          if (!empty($studyLevels)) {
+                              foreach ($studyLevels as $sl) { ?>
+                                  <option value="<?php echo $sl['studyLevelID']; ?>"><?php echo htmlspecialchars($sl['studyLevelName']); ?></option>
+                          <?php }
+                          } ?>
                       </select>
                   </div>
                 </div>
