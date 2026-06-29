@@ -301,10 +301,12 @@ if ($_REQUEST['action'] == "getPDF") {
             $pdf->Cell(6);
             $pdf->Cell(180, 0, '', 'T', 1, 'C');
 
-            // Light watermark (faded org logo behind text) — skip if file is missing
+            // Faded LSZ crest as a centred watermark behind the letter body.
+            // Pass width only so FPDF keeps the original aspect ratio
+            // (the crest is taller than wide; specifying both warps it).
             if (!empty($organizationPicture) && @file_exists($organizationPicture)) {
-                $pdf->SetAlpha(0.08);
-                $pdf->Image($organizationPicture, 50, 100, 120, 80);
+                $pdf->SetAlpha(0.15);
+                $pdf->Image($organizationPicture, 65, 100, 80);  // 80 mm wide, centred
                 $pdf->SetAlpha(1);
             }
 
