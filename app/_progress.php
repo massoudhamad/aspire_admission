@@ -52,7 +52,12 @@ try {
 } catch (Throwable $e) {}
 
 try {
-    $r = $db->getRows('applicantresults', ['where' => ['applicantID' => $applicantID, 'applicantResultStatus' => 1]]);
+    /* "Education" counts as done if the applicant has any applicantresults
+       row — older accounts pre-date the applicantResultStatus column so
+       gating on status=1 only would hide their progress. The status field
+       is still respected via a more nuanced check elsewhere (e.g. the
+       admit-applicants UI). */
+    $r = $db->getRows('applicantresults', ['where' => ['applicantID' => $applicantID]]);
     if (!empty($r)) { $done['education'] = true; }
 } catch (Throwable $e) {}
 

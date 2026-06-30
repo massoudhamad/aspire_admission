@@ -158,7 +158,7 @@ $db=new DBHelper();
                                     $elevel = $st['examinationLevel'];
                                     if ($elevel == "Ordinary") {
                                         if (!in_array("3", $level))
-                                            $leve   l[] = "3";
+                                            $level[] = "3";
                                     } else if ($elevel == "Advance") {
                                         if (!in_array("2", $level))
                                             $level[] = "2";
