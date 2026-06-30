@@ -142,6 +142,9 @@
                   <?php include 'menu.php'; ?>
               </aside>
               <div class="content-wrapper">
+                  <div class="container-fluid" style="padding-top:14px;">
+                      <?php include __DIR__ . '/_progress.php'; ?>
+                  </div>
                   <?php include 'main_index.php'; ?>
                   <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1" role="dialog"
                        aria-hidden="true" data-backdrop="static">
