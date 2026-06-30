@@ -80,7 +80,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $curl = curl_init();
 
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://api.necta.go.tz/api/particulars/individual',
+                    CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -161,7 +161,7 @@ if (isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])) {
                     $curl = curl_init();
 
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://api.necta.go.tz/api/particulars/individual',
+                    CURLOPT_URL => 'https://api.necta.go.tz/api/results/individual',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
