@@ -75,6 +75,7 @@ require_once("session.php");
     <link rel="stylesheet" href="css/chosen.css">
     <link rel="stylesheet" href="css/chosen.min.css">
     <link rel="stylesheet" href="css/bootstrap-chosen.css">
+    <link rel="stylesheet" href="assets/css/lsz-brand.css?v=<?php echo @filemtime(__DIR__ . '/assets/css/lsz-brand.css'); ?>">
 
 <script type="text/javascript">
 /*$(document).ready(function () {

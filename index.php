@@ -58,6 +58,7 @@ if (isset($_POST["doLogin"]) == "Sign In") {
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/form-elements.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/lsz-brand.css?v=<?php echo @filemtime(__DIR__ . '/assets/css/lsz-brand.css'); ?>">
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="js/jquery-1.4.2.min.js"></script>
