@@ -108,6 +108,32 @@ $db=new DBHelper();
     </div>
 
     <?php
+    /* Sanity check: a Programmes page only works once the applicant has
+       (a) chosen a study level, and (b) entered some education data so
+       getProgrammeChoice() can filter on it. If either is missing, surface
+       a friendly "Go to step X" link so the applicant has a clear path
+       forward instead of staring at an empty dropdown. */
+    $_haveStudyLevel = $db->getRows('applicantstudylevel',
+        array('where' => array('applicantID' => $_SESSION['applicantID'])));
+    $_haveResults = $db->getRows('applicantresults',
+        array('where' => array('applicantID' => $_SESSION['applicantID'])));
+
+    if (empty($_haveStudyLevel) || empty($_haveResults)) {
+        echo '<div class="alert alert-warning" style="margin:14px 0;">';
+        echo '<h4 style="margin-top:0;"><i class="fa fa-info-circle"></i> Before choosing a programme</h4>';
+        echo '<p style="margin:8px 0;">You must complete the previous steps first:</p>';
+        echo '<ul style="margin:8px 0 12px 18px;">';
+        if (empty($_haveStudyLevel)) {
+            echo '<li><strong>Study Level not set.</strong> <a href="index.php?sz=level" class="btn btn-sm btn-warning" style="margin-left:6px;">Set Study Level &rarr;</a></li>';
+        }
+        if (empty($_haveResults)) {
+            echo '<li><strong>Education Background not entered.</strong> <a href="index.php?sz=education_background" class="btn btn-sm btn-warning" style="margin-left:6px;">Enter Results &rarr;</a></li>';
+        }
+        echo '</ul>';
+        echo '<p style="margin:8px 0 0;">Once both are saved, return to this page to pick your programme.</p>';
+        echo '</div>';
+    }
+
     //$applicantResultStatus=$db->getData("applicantresults","applicantResultStatus","applicantID",$_SESSION['applicantID']);
     $applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
     foreach($applicantResult as $ars)
