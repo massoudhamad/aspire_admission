@@ -143,6 +143,94 @@ if (isset($_POST["doLogin"]) == "Sign In") {
             }).change();
         });
     </script>
+
+    <!-- Inline registration validation: catches malformed input client-side
+         so the applicant gets instant feedback instead of waiting for
+         NECTA to reject it. Non-blocking — server still validates everything. -->
+    <style>
+        .lsz-field-error  { color:#7A1F16; font-size:13px; font-weight:600; margin-top:4px; display:none; }
+        .lsz-field-ok     { border-color:#2D6A4F !important; }
+        .lsz-field-bad    { border-color:#C0392B !important; box-shadow:0 0 0 3px rgba(192,57,43,0.18) !important; }
+        .lsz-field-error.is-shown { display:block; }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var $form = $('#register');
+            if ($form.length === 0) return;
+
+            // Patterns
+            var INDEX_RE = /^[A-Za-z][0-9]{4}\/[0-9]{4}\/[0-9]{4}$/;     // e.g. S1291/0020/2020
+            var PHONE_RE = /^(\+?255|0)?7\d{8}$/;                       // TZ mobile, 9 or 10 digits
+            var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            function attachError($input, msg) {
+                if ($input.next('.lsz-field-error').length === 0) {
+                    $input.after('<div class="lsz-field-error" data-for="' + $input.attr('id') + '"></div>');
+                }
+                $input.next('.lsz-field-error').text(msg).addClass('is-shown');
+                $input.removeClass('lsz-field-ok').addClass('lsz-field-bad');
+            }
+            function clearError($input) {
+                $input.next('.lsz-field-error').removeClass('is-shown').text('');
+                $input.removeClass('lsz-field-bad').addClass('lsz-field-ok');
+            }
+
+            function validateIndex() {
+                var $f = $('#indexNumber');
+                if ($f.length === 0 || $f.is(':hidden')) return true;
+                var v = ($f.val() || '').trim().toUpperCase();
+                if (!v) { clearError($f); return true; }
+                if (!INDEX_RE.test(v)) {
+                    attachError($f, 'Use the format S0000/0000/YYYY (e.g. S1291/0020/2020).');
+                    return false;
+                }
+                clearError($f); return true;
+            }
+            function validatePhone() {
+                var $f = $('#phoneNumber');
+                if ($f.length === 0) return true;
+                var v = ($f.val() || '').replace(/\s+/g, '');
+                if (!v) { clearError($f); return true; }
+                if (!PHONE_RE.test(v)) {
+                    attachError($f, 'Enter a valid Tanzania mobile number (e.g. 0777020304 or 255777020304).');
+                    return false;
+                }
+                clearError($f); return true;
+            }
+            function validateEmail() {
+                var $f = $('#email');
+                if ($f.length === 0) return true;
+                var v = ($f.val() || '').trim();
+                if (!v) { clearError($f); return true; }
+                if (!EMAIL_RE.test(v)) {
+                    attachError($f, 'Please enter a valid email address.');
+                    return false;
+                }
+                clearError($f); return true;
+            }
+
+            // Live validation on blur + on submit
+            $('#indexNumber').on('blur change', validateIndex);
+            $('#phoneNumber').on('blur change', validatePhone);
+            $('#email').on('blur change', validateEmail);
+
+            $form.on('submit', function (e) {
+                var ok = true;
+                if (!validateIndex())  ok = false;
+                if (!validatePhone())  ok = false;
+                if (!validateEmail())  ok = false;
+                if (!ok) {
+                    e.preventDefault();
+                    var $first = $form.find('.lsz-field-bad').first();
+                    if ($first.length) {
+                        $('html,body').animate({scrollTop: $first.offset().top - 100}, 200);
+                        $first.focus();
+                    }
+                    return false;
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -287,38 +375,36 @@ if(!empty($activeInTake)) {
                                     <div class="col-lg-12">
                                         <div id="result">
                                             <?php
-                                            if (!empty($_REQUEST['msg'])) {
-                                                if ($_REQUEST['msg'] == "index") {
-                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Invalid Index Number</strong>.
-                                        </div>";
-                                                }
-
-                                                if ($_REQUEST['msg'] == "details") {
-                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sorry,Your Index Number and Personal Details does not match</strong>.
-                                        </div>";
-                                                }
-
-                                                if ($_REQUEST['msg'] == "emailexists") {
-                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sorry, Your Email exist</strong>.
-                                        </div>";
-                                                }
-
-                                                if ($_REQUEST['msg'] == "exists") {
-                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sorry, Your Index Number already exist</strong>.
-                                        </div>";
-                                                } else if ($_REQUEST['msg'] == "error") {
-                                                    echo "<div class='alert alert-danger fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Sorry, Error-Something wrong happen,Contact System Administrator</strong>.
-                                        </div>";
-                                                } else if ($_REQUEST['msg'] == "succ") {
-                                                    echo "<div class='alert alert-success fade in'><a href='index.php' class='close' data-dismiss='alert'>&times;</a>
-                                            <strong>Congratulations,Your account has been created successfully, Please login to your email to see your username and password</strong>.
-                                        </div>";
-                                                }
+                                            /* Friendly flash messages — each ?msg=<code> maps to a
+                                               human-readable message with a clear next action.
+                                               Title + body + optional CTA. severity = success | danger | warning | info */
+                                            $FLASH = [
+                                                'succ'              => ['s' => 'success', 't' => 'Account created',                  'b' => 'Your account is ready. Check your email for your username and password, then sign in.'],
+                                                'apierror'          => ['s' => 'danger',  't' => 'We could not verify your details with NECTA',
+                                                                        'b' => 'NECTA returned an error for this index number. Please double-check that you typed the index number exactly as it appears on your Form IV certificate (e.g. S1291/0020/2020).'],
+                                                'neta_unreachable'  => ['s' => 'warning', 't' => 'NECTA service unavailable',         'b' => 'We could not reach NECTA right now. Please try again in a few minutes.'],
+                                                'index'             => ['s' => 'danger',  't' => 'Invalid index number format',      'b' => 'Use the format <strong>S0000/0000/YYYY</strong>, e.g. <strong>S1291/0020/2020</strong>.'],
+                                                'details'           => ['s' => 'danger',  't' => 'Your details do not match NECTA',  'b' => 'The index number you entered does not match the name on the NECTA record. Please check the index and try again.'],
+                                                'emailexists'       => ['s' => 'warning', 't' => 'Email already registered',          'b' => 'An account already exists with that email address. <a href="index.php">Sign in instead</a>, or use a different email.'],
+                                                'exists'            => ['s' => 'warning', 't' => 'You already have an account',       'b' => 'This index number is already registered. Please <a href="index.php">sign in</a> using your index number and your last name as the initial password.'],
+                                                'indexexists'       => ['s' => 'warning', 't' => 'You already have an account',       'b' => 'This index number is already registered. Please <a href="index.php">sign in</a> using your index number and your last name as the initial password.'],
+                                                '111'               => ['s' => 'danger',  't' => 'Missing required information',     'b' => 'Please fill in every field on the registration form before submitting.'],
+                                                'error'             => ['s' => 'danger',  't' => 'Something went wrong',              'b' => 'A temporary error stopped us from completing your request. Please try again. If it keeps happening, contact the admissions office.'],
+                                            ];
+                                            $msg = isset($_REQUEST['msg']) ? trim((string)$_REQUEST['msg']) : '';
+                                            if ($msg !== '' && isset($FLASH[$msg])) {
+                                                $f = $FLASH[$msg];
+                                                echo '<div class="alert alert-' . $f['s'] . ' fade in" role="alert" style="margin:14px 0;">';
+                                                echo   '<button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>';
+                                                echo   '<strong style="display:block;font-size:15px;margin-bottom:4px;">' . htmlspecialchars($f['t']) . '</strong>';
+                                                echo   '<span style="font-size:14px;">' . $f['b'] . '</span>';
+                                                echo '</div>';
+                                            } elseif ($msg !== '') {
+                                                /* Unknown code — render the raw msg so admins can still see something. */
+                                                echo '<div class="alert alert-info fade in" style="margin:14px 0;">';
+                                                echo   '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+                                                echo   htmlspecialchars($msg);
+                                                echo '</div>';
                                             }
                                             ?>
                                         </div>
@@ -474,7 +560,7 @@ if(!empty($activeInTake)) {
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="sr-only" for="form-telephone">Email Address</label>
-                                                    <input type="text" name="email" placeholder="Valid email address..." class="form-control required email">
+                                                    <input type="email" name="email" id="email" placeholder="Valid email address..." class="form-control required email">
                                                 </div>
                                             </div>
 
