@@ -139,6 +139,10 @@ case 'zalongwareport':
       case 'pmapping':
       include('programmerequirements.php');
       break;
+
+      case 'rule_builder':
+      include('rule_builder.php');
+      break;
 		  
       //Registration Form
       case 'rform':
