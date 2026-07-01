@@ -140,6 +140,8 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
 <style>
   .rb-group { border:1px solid #CBD5E1; border-radius:6px; padding:14px; margin-bottom:14px; background:#F8FAFC; }
   .rb-group-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .rb-group-actions { display:flex; gap:6px; }
+  .rb-group-actions .btn-link { padding: 4px 8px; }
   .rb-group-title { font-weight:700; color:#1B3A5C; }
   .rb-rule { display:grid; grid-template-columns:170px repeat(4, 1fr) 44px; gap:8px; align-items:center; margin:6px 0; }
   .rb-and-label { text-align:center; color:#6B7280; font-size:12px; font-weight:700; margin:4px 0; }
@@ -279,6 +281,29 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
     return row;
   }
 
+  /** Read a group DIV back into a JS object (mirrors the submit serialiser). */
+  function readGroup(g) {
+    var out = { match: 'all', rules: [] };
+    g.querySelectorAll('.rb-rule').forEach(function (row) {
+      var t = row.querySelector('.rb-type').value;
+      if (t === 'subject_grade') {
+        var sub = row.querySelector('.rb-subject').value;
+        var grd = row.querySelector('.rb-min-grade').value;
+        if (sub && grd) out.rules.push({ type: 'subject_grade', subject: sub, min_grade: grd });
+      } else if (t === 'gpa') {
+        var g1 = parseFloat(row.querySelector('.rb-min-gpa').value);
+        if (!isNaN(g1)) out.rules.push({ type: 'gpa', min_gpa: g1 });
+      } else if (t === 'subject_list') {
+        var subjects = [];
+        row.querySelectorAll('.rb-subj-chk:checked').forEach(function (c) { subjects.push(c.value); });
+        var n = parseInt(row.querySelector('.rb-min-count').value, 10);
+        var grd2 = row.querySelector('.rb-list-grade').value;
+        if (subjects.length && n && grd2) out.rules.push({ type: 'subject_list', subjects: subjects, min_count: n, min_grade: grd2 });
+      }
+    });
+    return out;
+  }
+
   function renderGroup(group, index, total) {
     var g = document.createElement('div'); g.className = 'rb-group';
     var h = document.createElement('div'); h.className = 'rb-group-header';
@@ -286,10 +311,70 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
     t.textContent = 'Group ' + (index + 1) + ' — all rules must match (AND)';
     h.appendChild(t);
 
+    // Right-side action buttons in the group header
+    var headerBtns = document.createElement('div'); headerBtns.className = 'rb-group-actions';
+
+    // Duplicate-with-alternative button — express OR-inside-AND by
+    // duplicating this group and swapping one subject_grade rule for
+    // an alternative subject the admin picks.
+    var dup = document.createElement('button'); dup.type = 'button'; dup.className = 'btn btn-link';
+    dup.style.color = '#1D3557';
+    dup.innerHTML = '<i class="fa fa-clone"></i> OR with alternative';
+    dup.title = 'Duplicate this group but swap one subject for an alternative — expresses "…AND (A OR B)…"';
+    dup.addEventListener('click', function () {
+      var snapshot = readGroup(g);
+      var subjectRules = snapshot.rules.filter(function (r) { return r.type === 'subject_grade'; });
+      if (subjectRules.length === 0) {
+        alert('Add at least one Subject-grade rule first — the "alternative" swaps a specific subject.');
+        return;
+      }
+      // Ask which subject to replace, then what to replace it with.
+      var pickLabel = 'Which subject in this group should the alternative replace?\n\n' +
+        subjectRules.map(function (r, i) { return (i + 1) + '. ' + r.subject + ' ≥ ' + r.min_grade; }).join('\n');
+      var pick = prompt(pickLabel + '\n\nEnter the number (1-' + subjectRules.length + '):');
+      var pickIdx = parseInt(pick, 10);
+      if (!pickIdx || pickIdx < 1 || pickIdx > subjectRules.length) return;
+      var toReplace = subjectRules[pickIdx - 1];
+
+      var replacement = prompt('Alternative subject (will inherit the same min grade "' + toReplace.min_grade + '"):', '');
+      if (!replacement) return;
+      replacement = replacement.trim();
+      if (SUBJECTS.indexOf(replacement) === -1) {
+        var yes = confirm('"' + replacement + '" isn\'t in the subject list. Add it as an alternative anyway?');
+        if (!yes) return;
+      }
+
+      // Clone the group tree, swap the picked subject_grade rule
+      var clone = JSON.parse(JSON.stringify(snapshot));
+      var swapped = 0;
+      clone.rules = clone.rules.map(function (r) {
+        if (r.type === 'subject_grade' && r.subject === toReplace.subject && swapped === 0) {
+          swapped = 1;
+          return { type: 'subject_grade', subject: replacement, min_grade: toReplace.min_grade };
+        }
+        return r;
+      });
+
+      // Insert an OR label + new group DIV right after this one
+      var orLbl = document.createElement('div'); orLbl.className = 'rb-or-label'; orLbl.textContent = '— OR —';
+      var newIdx = $wrap.querySelectorAll('.rb-group').length;
+      var newGroup = renderGroup(clone, newIdx, 0);
+      g.parentNode.insertBefore(orLbl, g.nextSibling);
+      g.parentNode.insertBefore(newGroup, orLbl.nextSibling);
+    });
+    headerBtns.appendChild(dup);
+
     var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'btn btn-link';
     rm.style.color = '#C0392B'; rm.innerHTML = '<i class="fa fa-trash"></i> Remove group';
-    rm.addEventListener('click', function () { g.parentNode.removeChild(g); });
-    h.appendChild(rm);
+    rm.addEventListener('click', function () {
+      // Also remove the immediately preceding OR label if any
+      var prev = g.previousSibling;
+      if (prev && prev.className === 'rb-or-label') prev.parentNode.removeChild(prev);
+      g.parentNode.removeChild(g);
+    });
+    headerBtns.appendChild(rm);
+    h.appendChild(headerBtns);
+
     g.appendChild(h);
 
     var rules = (group && group.rules) ? group.rules : [];
