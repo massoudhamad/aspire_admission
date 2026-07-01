@@ -360,3 +360,87 @@ a:hover, a:focus { color: var(--ichas-navy-light); }
   .ichas-progress { font-size: 11.5px; }
   .ichas-progress-step { padding: 6px 4px; }
 }
+
+/* =========================================================
+   EDUCATION BACKGROUND PAGE — restyle the three legacy
+   "Add other school / A-level / Equivalent" CTA sections
+   into flexbox cards so the label + button read as one row.
+   No markup changes required.
+   ========================================================= */
+
+/* Wrap page section titles (fieldset legends) with a card look */
+.content-wrapper fieldset > legend {
+  display: block;
+  padding: 10px 14px;
+  margin: 24px 0 12px 0;
+  background: var(--ichas-navy);
+  color: #fff !important;
+  border-radius: 6px 6px 0 0;
+  border: 0;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+.content-wrapper fieldset > legend:first-of-type { margin-top: 0; }
+
+/* Inline label + CTA button for the three add-more prompts.
+   Legacy markup: <label>text</label><a><span class="btn btn-primary">Action</span></a> */
+.content-wrapper .col-lg-12 > label + a[href*="index.php?sz="] {
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.content-wrapper .col-lg-12 > label {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 500;
+  color: var(--ichas-ink);
+  font-size: 14.5px;
+  margin: 0 8px 0 0;
+}
+.content-wrapper .col-lg-12 > label + a .btn,
+.content-wrapper .col-lg-12 > label + a[href*="sz="] .btn {
+  padding: 8px 16px !important;
+  font-size: 13.5px;
+  min-width: 0;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Give the whole prompt a subtle card background so it's visually
+   distinct from the tables above. */
+.content-wrapper .col-lg-12:has(> label + a[href*="sz="]) {
+  background: #F1F4F8;
+  border-left: 4px solid var(--ichas-gold);
+  border-radius: 6px;
+  padding: 14px 18px !important;
+  margin: 12px 0 !important;
+}
+
+/* "Proceed to Application" — make it a prominent bottom CTA */
+.content-wrapper input[type="submit"][value*="Proceed"],
+.content-wrapper button[name="doProceed"],
+.content-wrapper a.btn.btn-success[href*="programmechoice"] {
+  font-size: 15px;
+  padding: 12px 24px;
+  font-weight: 700;
+}
+
+/* Fix the top education page heading — it currently has an <i> icon
+   directly next to text with no space and a graduation-cap that scales oddly. */
+.content-wrapper .page-title h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.content-wrapper .page-title h1 > i {
+  margin-right: 8px;
+  color: var(--ichas-navy);
+}
+.content-wrapper .page-title p {
+  color: var(--ichas-muted);
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+/* Tighten data tables in Education */
+.content-wrapper .table thead > tr > th { background: var(--ichas-navy) !important; }
+.content-wrapper hr { border-color: #E5E7EB; margin: 20px 0; }
