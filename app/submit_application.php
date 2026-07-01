@@ -59,6 +59,7 @@ $applicantID = $_SESSION['applicantID'];
         <p>Please review your application before submitting</p>
     </div>
 </div>
+<?php $LSZ_STEP = 'submit'; include __DIR__ . '/_lsz_guide.php'; ?>
 <div class="row">
     <div class="col-lg-12">
         <div class="card">

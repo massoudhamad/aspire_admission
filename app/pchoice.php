@@ -106,6 +106,7 @@ $db=new DBHelper();
             <p>Please choose your study programme</p>
         </div>
     </div>
+    <?php $LSZ_STEP = 'programmes'; include __DIR__ . '/_lsz_guide.php'; ?>
 
     <?php
     /* Sanity check: a Programmes page only works once the applicant has

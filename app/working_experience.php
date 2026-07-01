@@ -14,6 +14,7 @@
             <p>Add your working experince based on the instruction from form</p>
         </div>
     </div>
+    <?php $LSZ_STEP = 'working'; include __DIR__ . '/_lsz_guide.php'; ?>
     <div class="col-lg-12">
         <div class="col-lg-12">
             <?php

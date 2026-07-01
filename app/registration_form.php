@@ -113,6 +113,7 @@ $db = new DBHelper();
                                 <p>Please fill your personal information</p>
                             </div>
                         </div>
+                        <?php $LSZ_STEP = 'personal'; include __DIR__ . '/_lsz_guide.php'; ?>
                         <div class="row">
                             <div class="col-lg-3">
                                 <label for="FirstName">First Name</label>

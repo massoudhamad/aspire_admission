@@ -10,10 +10,11 @@
 <div class="row">
     <div class="page-title">
         <div>
-            <h1><i class="fa fa-graduation-cap"></i>Refrees</h1>
+            <h1><i class="fa fa-graduation-cap"></i>Referees</h1>
             <p>Please give the names of <b><span style="color:red;"> two</span></b> academic referees</p>
         </div>
     </div>
+    <?php $LSZ_STEP = 'referees'; include __DIR__ . '/_lsz_guide.php'; ?>
     <div class="col-lg-12">
         <div class="col-lg-12">
             <?php

@@ -1,9 +1,10 @@
 <div class="page-title">
     <div>
         <h1><i class="fa fa-graduation-cap"></i>Documents Upload</h1>
-        <p>Please upload your <span style="color: red;">certifiated certificates in pdf format and  personal photo in jpg,png format</span></p>
+        <p>Please upload your <span style="color: red;">certified certificates in pdf format and personal photo in jpg, png format</span></p>
     </div>
 </div>
+<?php $LSZ_STEP = 'documents'; include __DIR__ . '/_lsz_guide.php'; ?>
 <div class="row">
     <div class="col-md-12">
         <div class="pull-right">

@@ -11,9 +11,10 @@ $db=new DBHelper();
  <div class="page-title">
           <div>
             <h1><i class="fa fa-th-list"></i> Application Payment</h1>
-            <p>Pay your application</p>
+            <p>Pay your application fee.</p>
           </div>
         </div>
+<?php $LSZ_STEP = 'payments'; include __DIR__ . '/_lsz_guide.php'; ?>
 
 <div class="row">
           <div class="col-md-10">
