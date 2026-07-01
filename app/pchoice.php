@@ -150,7 +150,12 @@ $db=new DBHelper();
                         <?php
                         $applicantID = $_SESSION['applicantID'];
                         $admissionLevel = $_SESSION['admissionLevel'];
-                        if ($admissionLevel == "UG") {
+                        // ICHAS admissionLevel values (BC / OD / TC) follow the same UG
+                        // NECTA-driven flow as the legacy "UG" -- widen the branch so
+                        // Basic/Ordinary/Technician applicants also get the study-level
+                        // and programme dropdowns.
+                        $__UG_LIKE = in_array($admissionLevel, array('UG','BC','OD','TC'), true);
+                        if ($__UG_LIKE) {
                             $study = $db->getStudyLevels($applicantID);
                             if (!empty($study)) {
                                 $level = array();
@@ -225,7 +230,7 @@ $db=new DBHelper();
                         <input type="hidden" name="applicantID" id="applicantID" value="<?php echo $applicantID;?>">
 
                         <?php
-                       if ($admissionLevel == "UG") {
+                       if ($__UG_LIKE) {
                             ?>
                             <div class="row">
                                 <div class="col-md-6">
