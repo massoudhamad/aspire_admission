@@ -146,13 +146,25 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
   .rb-or-label  { text-align:center; color:#C9A227; font-size:13px; font-weight:700; margin:8px 0; }
   .rb-rm { color:#C0392B; background:transparent; border:0; font-size:18px; }
   .rb-actions { display:flex; gap:6px; }
-  /* subject_list multi-select: keep it in the rule row without stretching height */
-  select.rb-subjects[multiple] {
-    min-height: 100px;
-    padding: 4px 8px;
-    font-size: 13px;
-    height: auto;
+  /* subject_list checkbox list: click each subject to toggle. */
+  .rb-subject-checklist {
+    height: 140px;
+    overflow-y: auto;
+    padding: 8px 10px !important;
+    background: #fff;
   }
+  .rb-subj-item {
+    display: block;
+    margin: 0;
+    padding: 3px 0;
+    font-weight: 400 !important;
+    font-size: 13px;
+    color: var(--ichas-ink);
+    cursor: pointer;
+    user-select: none;
+  }
+  .rb-subj-item:hover { color: var(--ichas-navy); }
+  .rb-subj-chk { margin-right: 6px; vertical-align: middle; }
 </style>
 
 <script type="text/javascript">
@@ -218,19 +230,23 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
         for (var j = 0; j < 3; j++) { var sp2 = document.createElement('span'); row.insertBefore(sp2, row.children[2 + j]); }
       }
       else { // subject_list
-        // Multi-select subject picker (Cmd/Ctrl-click to pick several).
-        var sList = document.createElement('select');
-        sList.multiple = true;
-        sList.size = 5;   // show 5 rows before scrolling
-        sList.className = 'form-control rb-subjects';
-        sList.title = 'Cmd-click (Mac) / Ctrl-click (PC) to pick multiple subjects';
+        // Click-to-toggle checkbox list (no Cmd/Ctrl needed).
+        // Presented in a scrollable card so the row height stays tidy.
+        var sList = document.createElement('div');
+        sList.className = 'form-control rb-subjects rb-subject-checklist';
+        sList.setAttribute('role', 'group');
         var preSelected = (rule && Array.isArray(rule.subjects)) ? rule.subjects : [];
         SUBJECTS.forEach(function (s) {
-          var o = document.createElement('option');
-          o.value = s;
-          o.textContent = s;
-          if (preSelected.indexOf(s) !== -1) o.selected = true;
-          sList.appendChild(o);
+          var lab = document.createElement('label');
+          lab.className = 'rb-subj-item';
+          var chk = document.createElement('input');
+          chk.type  = 'checkbox';
+          chk.value = s;
+          chk.className = 'rb-subj-chk';
+          if (preSelected.indexOf(s) !== -1) chk.checked = true;
+          lab.appendChild(chk);
+          lab.appendChild(document.createTextNode(' ' + s));
+          sList.appendChild(lab);
         });
         row.insertBefore(sList, row.children[1]);
 
@@ -332,14 +348,9 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
           var g1 = parseFloat(row.querySelector('.rb-min-gpa').value);
           if (!isNaN(g1)) rules.push({ type: 'gpa', min_gpa: g1 });
         } else if (t === 'subject_list') {
-          // <select multiple> — collect only the .selected options
-          var sel = row.querySelector('.rb-subjects');
+          // Checkbox list — collect checked inputs.
           var subjects = [];
-          if (sel && sel.options) {
-            for (var i = 0; i < sel.options.length; i++) {
-              if (sel.options[i].selected) subjects.push(sel.options[i].value);
-            }
-          }
+          row.querySelectorAll('.rb-subj-chk:checked').forEach(function (c) { subjects.push(c.value); });
           var n = parseInt(row.querySelector('.rb-min-count').value, 10);
           var grd2 = row.querySelector('.rb-list-grade').value;
           if (subjects.length && n && grd2) rules.push({ type: 'subject_list', subjects: subjects, min_count: n, min_grade: grd2 });
