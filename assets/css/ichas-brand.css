@@ -75,27 +75,48 @@ body {
   outline: none;
 }
 
-/* Primary Sign-in button — gold for visibility against the navy/green wash */
-.btn,
-.btn-link-2 {
+/* Primary Sign-in button — gold for visibility against the navy/green wash.
+   Scoped to the LOGIN PAGE ONLY (top-content section) so we don't force
+   every .btn in the app to be 44px tall with padding:0. */
+.top-content .btn,
+.top-content .btn-link-2 {
   background: var(--ichas-gold) !important;
   border: 1px solid var(--ichas-gold) !important;
   color: #1F2937 !important;
   font-weight: 700 !important;
   letter-spacing: 0.4px;
-  height: 44px;
-  padding: 0 22px !important;
+  min-height: 44px;
+  padding: 10px 22px !important;
   border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
   transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
 }
-.btn:hover, .btn:focus,
-.btn-link-2:hover, .btn-link-2:focus {
+.top-content .btn:hover, .top-content .btn:focus,
+.top-content .btn-link-2:hover, .top-content .btn-link-2:focus {
   background: #E0B83A !important;
   color: #1F2937 !important;
   box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
   transform: translateY(-1px);
 }
-.btn:active { transform: translateY(0); }
+.top-content .btn:active { transform: translateY(0); }
+
+/* App-wide button baseline — restore Bootstrap 3 vertical rhythm so text
+   sits in the middle of the button. Doesn't touch background/colour so
+   Bootstrap variants (btn-primary/success/danger/warning) still show. */
+.btn {
+  line-height: 1.42857143;
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.btn-sm { padding: 5px 12px; font-size: 12.5px; }
+.btn-lg { padding: 12px 22px; font-size: 16px; }
 
 /* Selection highlight */
 ::-moz-selection { background: var(--ichas-gold); color: var(--ichas-navy); }
