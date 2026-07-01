@@ -130,7 +130,12 @@ switch((isset($_GET['sz'])?$_GET['sz'] : ''))
 
 
         case 'pg_education':
-            include 'pg_education.php';
+            /* ICHAS does not use the University-style Academic Background form
+               (Programme Name / Institution / CGPA). Applicants come in via
+               NECTA (Form IV / Form VI) or NACTE (AVN equivalence). Route any
+               pg_education hits to the normal education_background page so
+               nobody lands on the wrong form. */
+            include 'education_background.php';
             break;
 
     case 'check_status':

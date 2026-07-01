@@ -46,20 +46,15 @@
                   <?php
                   if($login==1) {
                       if($_SESSION['remarkID']==7 || $_SESSION['remarkID']==5 || $_SESSION['remarkID']==1) {
-                          if ($_SESSION['admissionLevel'] == "PG") {
-                              ?>
-                              <li class="<?php echo $pgstatus; ?>"><a href="index.php?sz=pg_education"><i
-                                              class="fa fa-graduation-cap"></i><span>Educational Background</span><i
-                                              class="fa fa-angle-right"></i></a></li>
-                              <?php
-                          } else {
-                              ?>
-
-                              <li class="<?php echo $estatus; ?>"><a href="index.php?sz=education_background"><i
-                                              class="fa fa-graduation-cap"></i><span>Educational Background</span><i
-                                              class="fa fa-angle-right"></i></a></li>
-                              <?php
-                          }
+                          /* ICHAS uses the same NECTA/NACTE-driven Educational
+                             Background page for every admissionLevel. The old PG
+                             branch pointed to pg_education.php (University-style
+                             CGPA form) which does not apply to ICHAS applicants. */
+                          ?>
+                          <li class="<?php echo $estatus; ?>"><a href="index.php?sz=education_background"><i
+                                          class="fa fa-graduation-cap"></i><span>Educational Background</span><i
+                                          class="fa fa-angle-right"></i></a></li>
+                          <?php
                           ?>
 
                           <li class="<?php echo $pstatus; ?>"><a href="index.php?sz=programmechoice"><i
