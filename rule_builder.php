@@ -146,6 +146,13 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
   .rb-or-label  { text-align:center; color:#C9A227; font-size:13px; font-weight:700; margin:8px 0; }
   .rb-rm { color:#C0392B; background:transparent; border:0; font-size:18px; }
   .rb-actions { display:flex; gap:6px; }
+  /* subject_list multi-select: keep it in the rule row without stretching height */
+  select.rb-subjects[multiple] {
+    min-height: 100px;
+    padding: 4px 8px;
+    font-size: 13px;
+    height: auto;
+  }
 </style>
 
 <script type="text/javascript">
@@ -211,9 +218,20 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
         for (var j = 0; j < 3; j++) { var sp2 = document.createElement('span'); row.insertBefore(sp2, row.children[2 + j]); }
       }
       else { // subject_list
-        var sList = document.createElement('input'); sList.type = 'text';
-        sList.className = 'form-control rb-subjects'; sList.placeholder = 'Subjects (comma-separated)';
-        if (rule && rule.subjects) sList.value = rule.subjects.join(', ');
+        // Multi-select subject picker (Cmd/Ctrl-click to pick several).
+        var sList = document.createElement('select');
+        sList.multiple = true;
+        sList.size = 5;   // show 5 rows before scrolling
+        sList.className = 'form-control rb-subjects';
+        sList.title = 'Cmd-click (Mac) / Ctrl-click (PC) to pick multiple subjects';
+        var preSelected = (rule && Array.isArray(rule.subjects)) ? rule.subjects : [];
+        SUBJECTS.forEach(function (s) {
+          var o = document.createElement('option');
+          o.value = s;
+          o.textContent = s;
+          if (preSelected.indexOf(s) !== -1) o.selected = true;
+          sList.appendChild(o);
+        });
         row.insertBefore(sList, row.children[1]);
 
         var n = document.createElement('input'); n.type = 'number'; n.min = '1'; n.max = '10';
@@ -314,7 +332,14 @@ $grades = array('A', 'B+', 'B', 'C', 'D');
           var g1 = parseFloat(row.querySelector('.rb-min-gpa').value);
           if (!isNaN(g1)) rules.push({ type: 'gpa', min_gpa: g1 });
         } else if (t === 'subject_list') {
-          var subjects = (row.querySelector('.rb-subjects').value || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+          // <select multiple> — collect only the .selected options
+          var sel = row.querySelector('.rb-subjects');
+          var subjects = [];
+          if (sel && sel.options) {
+            for (var i = 0; i < sel.options.length; i++) {
+              if (sel.options[i].selected) subjects.push(sel.options[i].value);
+            }
+          }
           var n = parseInt(row.querySelector('.rb-min-count').value, 10);
           var grd2 = row.querySelector('.rb-list-grade').value;
           if (subjects.length && n && grd2) rules.push({ type: 'subject_list', subjects: subjects, min_count: n, min_grade: grd2 });
