@@ -2094,6 +2094,14 @@ where
                     }
                 }
             }
+            // ICHAS rule-engine post-filter: drop programmes whose ruleGroups
+            // the applicant doesn't satisfy. Programmes without a ruleGroups
+            // row PASS by default (backward compat with unmigrated programmes).
+            if (!empty($data) && method_exists($this, 'meetsRequirements')) {
+                $data = array_values(array_filter($data, function ($row) use ($applicantID) {
+                    return $this->meetsRequirements($applicantID, (int)$row['programmeMajorID']);
+                }));
+            }
             return $data;
         } catch (PDOException $exception) {
             echo "Getting Data error: " . $exception->getMessage();
@@ -3111,6 +3119,198 @@ WHERE
         } catch (PDOException $exception) {
             echo "Getting Data error: " . $exception->getMessage();
         }
+    }
+
+    // =========================================================
+    //  ICHAS admission rule engine
+    // =========================================================
+
+    /**
+     * Check whether an applicant meets the ruleGroups tree of a programme major.
+     *
+     * Rule tree shape (in programrequirements.ruleGroups):
+     *   [
+     *     { match: "all", rules: [ ...rules ] },   // AND-group
+     *     ...                                       // groups OR-joined
+     *   ]
+     *
+     * Rule types:
+     *   subject_grade  { subject: str, min_grade: str }
+     *   gpa            { min_gpa: float }
+     *   subject_list   { subjects: [str], min_count: int, min_grade: str }
+     *
+     * requiresPriorLevel gates the whole tree behind a prior-qualification
+     * check (BC | TC). When null / "None", no ladder gate is applied.
+     *
+     * If NO ruleGroups row exists for the programme, the applicant PASSES
+     * (backward compat with programmes not migrated yet).
+     *
+     * @return bool
+     */
+    public function meetsRequirements($applicantID, $programmeMajorID)
+    {
+        try {
+            $req = $this->getRows('programrequirements', array(
+                'where' => array('programmeMajorID' => (int)$programmeMajorID),
+                'order_by' => 'programRequirementID DESC'
+            ));
+            if (empty($req)) return true;
+            $r = $req[0];
+
+            // 1. Ladder gate
+            if (!empty($r['requiresPriorLevel']) && $r['requiresPriorLevel'] !== 'None') {
+                if (!$this->applicantHasPriorLevel($applicantID, $r['requiresPriorLevel'])) {
+                    return false;
+                }
+            }
+
+            // 2. Rule tree — if not defined, PASS.
+            if (empty($r['ruleGroups'])) return true;
+            $groups = json_decode($r['ruleGroups'], true);
+            if (!is_array($groups) || empty($groups)) return true;
+
+            // Groups OR-joined: at least one must match.
+            foreach ($groups as $group) {
+                if ($this->_ruleGroupMatches($applicantID, $group)) return true;
+            }
+            return false;
+        } catch (Throwable $e) {
+            // Defensive: don't hide programmes if evaluator crashes.
+            return true;
+        }
+    }
+
+    /**
+     * Whether the applicant has a saved BC or TC row (via applicantresults
+     * examinationLevel = Equivalent + qualification match). Loose match by
+     * qualification name so admins have some naming flexibility.
+     */
+    public function applicantHasPriorLevel($applicantID, $level)
+    {
+        $rows = $this->getRows('applicantresults', array(
+            'where' => array('applicantID' => (int)$applicantID, 'examinationLevel' => 'Equivalent')
+        ));
+        if (empty($rows)) return false;
+        $needle = strtoupper((string)$level); // 'BC' or 'TC'
+        foreach ($rows as $r) {
+            $award = strtoupper((string)($r['award'] ?? ''));
+            if ($needle === 'BC' && (strpos($award, 'BASIC') !== false || $award === 'BC')) return true;
+            if ($needle === 'TC' && (strpos($award, 'TECH')  !== false || $award === 'TC')) return true;
+        }
+        return false;
+    }
+
+    /**
+     * AND-group: every rule must match.
+     */
+    protected function _ruleGroupMatches($applicantID, $group)
+    {
+        if (!is_array($group) || empty($group['rules'])) return false;
+        foreach ($group['rules'] as $rule) {
+            if (!$this->_ruleMatches($applicantID, $rule)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Single-rule evaluator. Returns true iff the applicant meets the rule.
+     */
+    protected function _ruleMatches($applicantID, $rule)
+    {
+        if (!is_array($rule) || empty($rule['type'])) return false;
+        switch ($rule['type']) {
+            case 'subject_grade':
+                return $this->_subjectMeetsMinGrade(
+                    $applicantID,
+                    $rule['subject'] ?? '',
+                    $rule['min_grade'] ?? 'F'
+                );
+
+            case 'gpa':
+                $min = (float)($rule['min_gpa'] ?? 0);
+                $gpa = (float)$this->getApplicantGPA($applicantID);
+                return $gpa >= $min;
+
+            case 'subject_list':
+                $needed  = (int)($rule['min_count'] ?? 1);
+                $minGrd  = $rule['min_grade'] ?? 'D';
+                $whitel  = is_array($rule['subjects'] ?? null) ? $rule['subjects'] : array();
+                $hits = 0;
+                foreach ($whitel as $subj) {
+                    if ($this->_subjectMeetsMinGrade($applicantID, $subj, $minGrd)) $hits++;
+                    if ($hits >= $needed) return true;
+                }
+                return $hits >= $needed;
+        }
+        return false;
+    }
+
+    /**
+     * Compare an applicant's grade for a named subject against a minimum.
+     *
+     * In the ICHAS/NECTA scoring model, HIGHER gradePoint = BETTER grade:
+     *   A=5, B+=4, B=3/4, C=2/3, D=1/2, F=0
+     * So "meets min D" means applicant's stored points >= D's minimum points.
+     *
+     * Returns false if any lookup fails, so unknown subjects don't accidentally
+     * pass the check.
+     */
+    protected function _subjectMeetsMinGrade($applicantID, $subjectName, $minGrade)
+    {
+        if ($subjectName === '' || $minGrade === '') return false;
+
+        // Find subjectID by name (loose match — subjects table has variations
+        // like "BIOLOGY" vs "Biology").
+        $s = $this->getRows('subjects', array(
+            'where' => array('subjectName' => $subjectName)
+        ));
+        if (empty($s)) {
+            $all = $this->getRows('subjects');
+            foreach ((array)$all as $row) {
+                if (strcasecmp($row['subjectName'] ?? '', $subjectName) === 0) { $s = array($row); break; }
+            }
+        }
+        if (empty($s)) return false;
+        $subjectID = (int)$s[0]['subjectID'];
+
+        // Applicant's saved grade for that subject
+        $sub = $this->getRows('applicantsubjects', array(
+            'where' => array('subjectID' => $subjectID)
+        ));
+        if (empty($sub)) return false;
+
+        // Which of those belongs to *this* applicant's applicantresults?
+        $applicantPoints = null;
+        foreach ($sub as $row) {
+            $applicantResultID = (int)$row['applicantResultID'];
+            $r = $this->getRows('applicantresults', array(
+                'where' => array('applicantResultID' => $applicantResultID, 'applicantID' => (int)$applicantID)
+            ));
+            if (!empty($r)) {
+                $applicantPoints = (int)$row['points'];
+                break;
+            }
+        }
+        if ($applicantPoints === null) return false;
+
+        // Look up the min-grade threshold. The column is gradeCode (not "grade");
+        // multiple years/levels may share the same code, so pick the max
+        // gradePoint for the code as the canonical threshold.
+        $g = $this->getRows('grades', array(
+            'where' => array('gradeCode' => $minGrade, 'status' => 1)
+        ));
+        if (empty($g)) return false;
+
+        $minPoints = 0;
+        foreach ($g as $gr) {
+            $p = (int)($gr['gradePoint'] ?? 0);
+            if ($p > $minPoints) $minPoints = $p;
+        }
+        if ($minPoints === 0) return false;
+
+        // Higher gradePoint = better grade, so applicant PASSES when their
+        // stored points >= threshold.
+        return $applicantPoints >= $minPoints;
     }
 
 //Programme Batch
