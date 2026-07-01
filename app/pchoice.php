@@ -107,6 +107,63 @@ $db=new DBHelper();
         </div>
     </div>
 
+    <!-- Priority explainer + colour-coded card frames for the two choice columns. -->
+    <div class="col-lg-12" style="margin-bottom:14px;">
+        <div class="alert alert-info" style="border-left:4px solid #C9A227; margin-bottom:0;">
+            <strong><i class="fa fa-info-circle"></i> How your choices are considered</strong>
+            <p style="margin:6px 0 0;">Pick the programme you want most as <strong>First Choice</strong>. Your <strong>Second Choice</strong> is used only if you don't qualify for your first. You can change these anytime before you submit your application.</p>
+        </div>
+    </div>
+    <style>
+        /* Frame the two side-by-side columns as numbered priority cards. */
+        .pc-priority-styles .col-md-6:nth-of-type(1) > .row {
+            border-left: 4px solid #1B3A5C;
+            background: #fff;
+            border-radius: 6px;
+            padding: 14px 16px 4px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .pc-priority-styles .col-md-6:nth-of-type(2) > .row {
+            border-left: 4px solid #2D6A4F;
+            background: #fff;
+            border-radius: 6px;
+            padding: 14px 16px 4px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .pc-priority-styles .col-md-6:nth-of-type(1) > .row::before {
+            content: "① Priority";
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background: #1B3A5C;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+        .pc-priority-styles .col-md-6:nth-of-type(2) > .row::before {
+            content: "② Fallback";
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background: #2D6A4F;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+        /* Stack the two columns on small screens for readability */
+        @media (max-width: 768px) {
+            .pc-priority-styles .col-md-6 { width: 100% !important; margin-bottom: 14px; }
+        }
+    </style>
+
     <?php
     //$applicantResultStatus=$db->getData("applicantresults","applicantResultStatus","applicantID",$_SESSION['applicantID']);
     $applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
@@ -216,7 +273,10 @@ $db=new DBHelper();
                                 $firstMajor = $pChoice['programmeMajorID'];
                             }
                         }
-                        $stduyLevelID1 = $db->getStudyLevelID($firstMajor);
+                        /* getStudyLevelID() returns an array of rows; we need
+                           the scalar studyLevelID for the <option value=>. */
+                        $_slRows1 = $db->getStudyLevelID($firstMajor);
+                        $stduyLevelID1 = !empty($_slRows1[0]['studyLevelID']) ? $_slRows1[0]['studyLevelID'] : '';
 
                         $programmeChoice2 = $db->getRows("applicantapplication", array('where' => array('applicantID' => $_SESSION['applicantID'], 'choice' => 2), 'order_by applicantID ASC'));
                         if (!empty($programmeChoice2)) {
@@ -225,14 +285,15 @@ $db=new DBHelper();
                                 $secondMajor = $pChoice2['programmeMajorID'];
                             }
                         }
-                        $stduyLevelID2 = $db->getStudyLevelID($secondMajor);
+                        $_slRows2 = $db->getStudyLevelID($secondMajor);
+                        $stduyLevelID2 = !empty($_slRows2[0]['studyLevelID']) ? $_slRows2[0]['studyLevelID'] : '';
                         ?>
                         <input type="hidden" name="applicantID" id="applicantID" value="<?php echo $applicantID;?>">
 
                         <?php
                        if ($__UG_LIKE) {
                             ?>
-                            <div class="row">
+                            <div class="row pc-priority-styles">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -244,7 +305,7 @@ $db=new DBHelper();
                                                     if (!empty($programmeChoice)) {
 
                                                         ?>
-                                                        <option value="<?php echo $studyLevelID1; ?>"
+                                                        <option value="<?php echo $stduyLevelID1; ?>"
                                                                 selected="selected"><?php echo $db->getData("studylevels", "studyLevelName", "studyLevelID", $stduyLevelID1); ?>
                                                         </option>
 
@@ -301,7 +362,7 @@ $db=new DBHelper();
                                                     if (!empty($programmeChoice)) {
 
                                                         ?>
-                                                        <option value="<?php echo $studyLevelID2; ?>"
+                                                        <option value="<?php echo $stduyLevelID2; ?>"
                                                                 selected="selected"><?php echo $db->getData("studylevels", "studyLevelName", "studyLevelID", $stduyLevelID2); ?>
                                                         </option>
 
