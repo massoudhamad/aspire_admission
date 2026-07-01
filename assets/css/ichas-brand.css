@@ -465,3 +465,61 @@ a:hover, a:focus { color: var(--ichas-navy-light); }
 /* Tighten data tables in Education */
 .content-wrapper .table thead > tr > th { background: var(--ichas-navy) !important; }
 .content-wrapper hr { border-color: #E5E7EB; margin: 20px 0; }
+
+/* =========================================================
+   FORM SPACING — give labels breathing room from their inputs
+   so headings don't visually collide with the textbox below.
+   Applies inside the applicant portal + admin content areas.
+   ========================================================= */
+.content-wrapper label,
+.content-wrapper .control-label,
+#page-top.index label,
+#page-top.index .control-label {
+  display: inline-block;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+/* Standard Bootstrap 3 pattern: <div class="form-group"> wraps a label + input.
+   Ensure a healthy gap around each group. */
+.content-wrapper .form-group,
+#page-top.index .form-group {
+  margin-bottom: 16px;
+}
+
+/* When a label is followed directly by a form-control (no wrapper),
+   push the input down so it doesn't hug the label. */
+.content-wrapper label + .form-control,
+.content-wrapper label + input,
+.content-wrapper label + select,
+.content-wrapper label + textarea,
+#page-top.index label + .form-control,
+#page-top.index label + input,
+#page-top.index label + select,
+#page-top.index label + textarea {
+  margin-top: 4px;
+}
+
+/* Give a section heading (h1/h2/h3) some space before the first form group */
+.content-wrapper .page-title + .row,
+.content-wrapper .page-title + .box,
+.content-wrapper .page-title + .form-group,
+.content-wrapper h1 + .form-group,
+.content-wrapper h2 + .form-group,
+.content-wrapper h3 + .form-group,
+.content-wrapper h4 + .form-group,
+.content-wrapper legend + .form-group,
+.content-wrapper legend + .row { margin-top: 12px; }
+
+/* Fieldset legends already get a navy card treatment earlier in the file;
+   give them a little air below too. */
+.content-wrapper fieldset > legend { margin-bottom: 14px; }
+
+/* Well cards (used by pchoice.php etc.) — inner padding + spacing */
+.content-wrapper .well {
+  padding: 20px 24px;
+  border: 0;
+  background: #F8FAFC;
+  border-radius: 8px;
+}
+.content-wrapper .well > .form-group:not(:last-child) { margin-bottom: 20px; }
