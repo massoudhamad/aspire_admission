@@ -167,11 +167,14 @@ $db=new DBHelper();
     <?php
     //$applicantResultStatus=$db->getData("applicantresults","applicantResultStatus","applicantID",$_SESSION['applicantID']);
     $applicantResult=$db->getRows('applicantresults',array('where'=>array('applicantID'=>$_SESSION['applicantID'],'levelStatus'=>1)));
-    foreach($applicantResult as $ars)
+    $applicantResultStatus = 1;   // default: assume verified, hide the warning banner
+    foreach((array)$applicantResult as $ars)
     {
         $applicantResultStatus=$ars['applicantResultStatus'];
     }
-    if($applicantResultStatus==0 && $admissionLevel=="UG")
+    // $admissionLevel is hydrated later at line 210+; read it directly from session here.
+    $__adm = isset($_SESSION['admissionLevel']) ? $_SESSION['admissionLevel'] : '';
+    if($applicantResultStatus==0 && $__adm=="UG")
     {
         //echo $applicantResultStatus;
         ?>
@@ -248,6 +251,33 @@ $db=new DBHelper();
                                     }
                                 }
                             }
+                            /* ICHAS: for the current intake only Ordinary Diplomas
+                               are open. Regardless of what qualifications the
+                               applicant has, restrict the Study Level dropdown to
+                               levels that actually have at least one published
+                               programme. This way the applicant can pick OD (8)
+                               and the rule engine downstream filters the specific
+                               programmes they qualify for. */
+                            try {
+                                $_publishedLevels = array();
+                                $stmt = (new Database())->dbConnection()->query(
+                                    "SELECT DISTINCT p.studyLevelID
+                                     FROM programs p
+                                     JOIN programmemajor pm ON pm.programmeID = p.programID
+                                     WHERE pm.publishStatus = 1 AND p.programStatus = 1"
+                                );
+                                if ($stmt) {
+                                    while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        $_publishedLevels[] = (string)$r['studyLevelID'];
+                                    }
+                                }
+                                if (!empty($_publishedLevels)) {
+                                    // Merge published levels into the applicant's derived list.
+                                    $level = array_values(array_unique(array_merge((array)$level, $_publishedLevels)));
+                                    // And drop any level that has no published programme.
+                                    $level = array_values(array_intersect($level, $_publishedLevels));
+                                }
+                            } catch (Throwable $e) {}
                        } else if ($admissionLevel == "PG") {
                             $study = $db->getPGStudyLevels($applicantID);
                             if (!empty($study)) {
