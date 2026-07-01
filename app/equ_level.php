@@ -1,4 +1,35 @@
 <?php $db = new DBHelper();
+
+/* LSZ mode: relabel this page and add a tab bar mirroring
+   education_background.php so applicants can jump back to Form IV. */
+$LSZ_MODE = false;
+$LSZ_STUDY_LEVEL_ID = null;
+try {
+    $org = $db->getRows("organization");
+    if (!empty($org[0]['organizationCode']) && strtoupper($org[0]['organizationCode']) === 'LSZ') {
+        $LSZ_MODE = true;
+    }
+    $lvlRow = $db->getRows('applicantstudylevel', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'])
+    ));
+    if (!empty($lvlRow[0])) $LSZ_STUDY_LEVEL_ID = (int)$lvlRow[0]['studyLevelID'];
+} catch (Throwable $e) {}
+
+$hasOLevel = false; $hasEquivRow = false;
+try {
+    $r = $db->getRows('applicantresults', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Ordinary', 'applicantResultStatus' => 1)
+    ));
+    if (!empty($r)) $hasOLevel = true;
+    $r2 = $db->getRows('applicantresults', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Equivalent')
+    ));
+    if (!empty($r2)) $hasEquivRow = true;
+} catch (Throwable $e) {}
+
+$LSZ_TAB_LABEL = 'Professional Qualification';
+if ($LSZ_STUDY_LEVEL_ID === 4)     $LSZ_TAB_LABEL = 'Bachelor Degree of Law';
+elseif ($LSZ_STUDY_LEVEL_ID === 5) $LSZ_TAB_LABEL = 'Diploma in Law';
 ?>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/jquery-1.4.2.min.js"></script>
@@ -8,10 +39,34 @@
 
 <div class="page-title">
     <div>
-        <h1><i class="fa fa-graduation-cap"></i>Equivalent Results</h1>
-        <p>Please fill Equivalent Level Results (Certificates,NTAs, Diploma, Advanced Diploma etc)</p>
+        <?php if ($LSZ_MODE): ?>
+            <h1><i class="fa fa-university"></i> <?php echo htmlspecialchars($LSZ_TAB_LABEL); ?></h1>
+            <p>Enter the details of your <?php echo htmlspecialchars($LSZ_TAB_LABEL); ?> certificate.</p>
+        <?php else: ?>
+            <h1><i class="fa fa-graduation-cap"></i>Equivalent Results</h1>
+            <p>Please fill Equivalent Level Results (Certificates,NTAs, Diploma, Advanced Diploma etc)</p>
+        <?php endif; ?>
     </div>
 </div>
+
+<?php if ($LSZ_MODE): ?>
+<div class="col-lg-12" style="margin-bottom:12px;">
+    <ul class="nav nav-tabs lsz-edu-tabs" style="border-bottom:2px solid #1D3557; margin-bottom:16px;">
+        <li style="margin-bottom:-2px;">
+            <a href="index.php?sz=education_background" style="border-radius:6px 6px 0 0;">
+                <i class="fa fa-graduation-cap"></i> Form IV (NECTA)
+                <?php if ($hasOLevel): ?><span class="label label-success" style="margin-left:6px;">✓ Saved</span><?php endif; ?>
+            </a>
+        </li>
+        <li class="active" style="margin-bottom:-2px;">
+            <a href="index.php?sz=equivalent" style="border-radius:6px 6px 0 0;">
+                <i class="fa fa-university"></i> <?php echo htmlspecialchars($LSZ_TAB_LABEL); ?>
+                <?php if ($hasEquivRow): ?><span class="label label-success" style="margin-left:6px;">✓ Saved</span><?php endif; ?>
+            </a>
+        </li>
+    </ul>
+</div>
+<?php endif; ?>
 <div class="row" style="padding-bottom: 15.5%;">
     <div class="col-lg-12">
     </div>

@@ -61,25 +61,49 @@ if ($LSZ_MODE) {
         </div>
     </div>
 
-    <?php if ($LSZ_MODE && $LSZ_NEXT_CTA_LABEL): ?>
+    <?php if ($LSZ_MODE): ?>
     <div class="col-lg-12" style="margin-bottom:12px;">
-        <?php if ($hasEquivRow): ?>
-            <div class="alert alert-success" style="margin-bottom:8px;">
-                <strong><i class="fa fa-check-circle"></i> Your professional qualification is on file.</strong>
-                <span> Review it below or continue to the next step.</span>
-            </div>
-        <?php elseif ($hasOLevel): ?>
-            <div class="alert alert-info" style="border-left:4px solid #C9A227;">
-                <h4 style="margin-top:0;"><i class="fa fa-graduation-cap"></i> Next: <?php echo htmlspecialchars($LSZ_NEXT_CTA_LABEL); ?></h4>
-                <p style="margin:6px 0 10px;"><?php echo htmlspecialchars($LSZ_NEXT_CTA_HINT); ?></p>
-                <a href="index.php?sz=equivalent" class="btn btn-warning">
-                    <i class="fa fa-plus-circle"></i> <?php echo htmlspecialchars($LSZ_NEXT_CTA_LABEL); ?>
+        <!-- Tabbed navigation between Form IV (NECTA) and the manually-entered
+             professional qualification. Each tab is its own route in
+             main_index.php so both pages keep their own JS + validation. -->
+        <ul class="nav nav-tabs lsz-edu-tabs" style="border-bottom:2px solid #1D3557; margin-bottom:16px;">
+            <li class="active" style="margin-bottom:-2px;">
+                <a href="index.php?sz=education_background" style="border-radius:6px 6px 0 0;">
+                    <i class="fa fa-graduation-cap"></i> Form IV (NECTA)
+                    <?php if ($hasOLevel): ?><span class="label label-success" style="margin-left:6px;">✓ Saved</span><?php endif; ?>
                 </a>
+            </li>
+            <li style="margin-bottom:-2px;">
+                <a href="index.php?sz=equivalent" style="border-radius:6px 6px 0 0;">
+                    <i class="fa fa-university"></i>
+                    <?php
+                    if ($LSZ_STUDY_LEVEL_ID === 4)      echo 'Bachelor Degree of Law';
+                    elseif ($LSZ_STUDY_LEVEL_ID === 5)  echo 'Diploma in Law';
+                    else                                echo 'Professional Qualification';
+                    ?>
+                    <?php if ($hasEquivRow): ?><span class="label label-success" style="margin-left:6px;">✓ Saved</span><?php endif; ?>
+            </a>
+            </li>
+        </ul>
+
+        <?php if ($LSZ_NEXT_CTA_LABEL && !$hasEquivRow && $hasOLevel): ?>
+            <div class="alert alert-info" style="border-left:4px solid #C9A227;">
+                <strong><i class="fa fa-info-circle"></i>
+                    <?php echo htmlspecialchars($LSZ_NEXT_CTA_HINT); ?>
+                </strong>
+                <span> Switch to the "<?php echo $LSZ_STUDY_LEVEL_ID === 4 ? 'Bachelor Degree of Law' : 'Diploma in Law'; ?>" tab above to add it.</span>
             </div>
-        <?php else: ?>
+        <?php elseif ($hasEquivRow && $hasOLevel): ?>
+            <div class="alert alert-success">
+                <strong><i class="fa fa-check-circle"></i> Both your Form IV and your professional qualification are on file.</strong>
+                <span> You can continue to the next step.</span>
+            </div>
+        <?php elseif (!$hasOLevel): ?>
             <div class="alert alert-info">
-                <strong><i class="fa fa-info-circle"></i> First, confirm your Form IV (O-level) results below.</strong>
-                <span> After that we'll ask for your <?php echo $LSZ_STUDY_LEVEL_ID === 4 ? 'Bachelor Degree of Law' : 'Diploma in Law'; ?>.</span>
+                <strong><i class="fa fa-info-circle"></i> Confirm your Form IV results below first.</strong>
+                <?php if ($LSZ_NEXT_CTA_LABEL): ?>
+                    <span> After that switch to the "<?php echo $LSZ_STUDY_LEVEL_ID === 4 ? 'Bachelor Degree of Law' : 'Diploma in Law'; ?>" tab to add your professional qualification.</span>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
