@@ -12,6 +12,12 @@
        {
            $applicantID=$apps['applicantID'];
            $_SESSION['applicantID']=$applicantID;
+           // Hydrate exam authority + level into the session so downstream
+           // pages (e.g. confirm_ordinary_results.php) can branch on them
+           // without re-querying the DB.
+           $_SESSION['eauthority']     = isset($apps['eauthority'])     ? $apps['eauthority']     : '';
+           $_SESSION['admissionLevel'] = isset($apps['admissionLevel']) ? $apps['admissionLevel'] : '';
+           $_SESSION['formfour']       = isset($apps['formfour'])       ? $apps['formfour']       : '';
            $fname=$apps['firstName'];
            $mname=$apps['middleName'];
            $lname=$apps['lastName'];
