@@ -20,17 +20,15 @@ if (!isset($db) || empty($_SESSION['applicantID'])) {
 $applicantID = (int) $_SESSION['applicantID'];
 $currentSz   = $_GET['sz'] ?? 'home';
 
-/* ICHAS flow — 7 steps only. No Working Experience, no Referees, no Documents.
-   `keys` groups multiple sub-routes into one visible step. */
+/* ICHAS flow — 6 steps. No Working Experience, no Referees, no Documents,
+   no Study Level (the applicant already picked their level at registration
+   via admission_level = BC/OD/TC).
+   `keys` groups multiple sub-routes into one visible step, INCLUDING the
+   legacy sz=level route so any old link still counts as the Education step
+   for progress-bar highlighting purposes. */
 $STEPS = [
-    /* Empty string first so the canonical URL is plain "index.php" — the
-       same target the sidebar's "Welcome Page" link uses (which falls through
-       to applicationindex.php via main_index.php's default case). Sending
-       applicants to ?sz=home instead loads home.php (a thinner dashboard) and
-       looks empty because it has fewer widgets. */
     ['key' => 'home',      'label' => 'Dashboard',   'keys' => ['', 'home']],
-    ['key' => 'level',     'label' => 'Study Level', 'keys' => ['level']],
-    ['key' => 'education', 'label' => 'Education',   'keys' => ['education_background','olevel','equivalent','newsubject','alevel','confirm_ordinary_results','other_ordinary','other_ordinary_results','ordinary_results','pg_education']],
+    ['key' => 'education', 'label' => 'Education',   'keys' => ['education_background','olevel','equivalent','newsubject','alevel','confirm_ordinary_results','other_ordinary','other_ordinary_results','ordinary_results','pg_education','level']],
     ['key' => 'programme', 'label' => 'Programmes',  'keys' => ['programmechoice','programme_choice_verification']],
     ['key' => 'personal',  'label' => 'Personal',    'keys' => ['personalinfo','changepwd']],
     ['key' => 'payments',  'label' => 'Payments',    'keys' => ['payments','payment']],
