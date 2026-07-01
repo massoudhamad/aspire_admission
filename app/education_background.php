@@ -1,13 +1,89 @@
 <?php $db = new DBHelper();
+
+/* Detect LSZ tenant + the applicant's chosen study level so we can
+   render an LSZ-specific guide card at the top of the page. */
+$LSZ_MODE = false;
+$LSZ_STUDY_LEVEL_ID = null;
+$LSZ_QUALIFICATION_ID = null;
+try {
+    $org = $db->getRows("organization");
+    if (!empty($org[0]['organizationCode']) && strtoupper($org[0]['organizationCode']) === 'LSZ') {
+        $LSZ_MODE = true;
+    }
+    $lvlRow = $db->getRows('applicantstudylevel', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'])
+    ));
+    if (!empty($lvlRow[0])) {
+        $LSZ_STUDY_LEVEL_ID   = (int)$lvlRow[0]['studyLevelID'];
+        $LSZ_QUALIFICATION_ID = (int)$lvlRow[0]['qualificationTypeID'];
+    }
+} catch (Throwable $e) {}
+
+/* Has the applicant already saved a qualification (Equivalent) row? */
+$hasEquivRow = false;
+try {
+    $r = $db->getRows('applicantresults', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Equivalent')
+    ));
+    if (!empty($r)) $hasEquivRow = true;
+} catch (Throwable $e) {}
+
+/* Has the applicant saved O-level (Form IV)? */
+$hasOLevel = false;
+try {
+    $r = $db->getRows('applicantresults', array(
+        'where' => array('applicantID' => $_SESSION['applicantID'], 'examinationLevel' => 'Ordinary', 'applicantResultStatus' => 1)
+    ));
+    if (!empty($r)) $hasOLevel = true;
+} catch (Throwable $e) {}
+
+/* Map LSZ study levels to the next-form CTA the applicant needs.
+   studyLevelID 4 = Professional of Law (CLP)   -> need Degree of Law
+   studyLevelID 5 = Vakil Course                -> need Diploma in Law */
+$LSZ_NEXT_CTA_LABEL = null;
+$LSZ_NEXT_CTA_HINT  = null;
+if ($LSZ_MODE) {
+    if ($LSZ_STUDY_LEVEL_ID === 4) {
+        $LSZ_NEXT_CTA_LABEL = 'Add Your Bachelor Degree of Law';
+        $LSZ_NEXT_CTA_HINT  = 'The Certified Legal Professional (CLP) programme requires a Bachelor Degree of Law (or higher). Add the certificate details now.';
+    } elseif ($LSZ_STUDY_LEVEL_ID === 5) {
+        $LSZ_NEXT_CTA_LABEL = 'Add Your Diploma in Law';
+        $LSZ_NEXT_CTA_HINT  = 'The Vakil Course requires a Diploma in Law (or equivalent). Add the diploma details now.';
+    }
+}
 ?>
 <!--<script src="js/jquery-1.4.2.min.js"></script>-->
 <div class="row">
     <div class="page-title">
         <div>
             <h1><i class="fa fa-graduation-cap"></i>Educational Background</h1>
-            <p>Add your results based on the instruction from form</p>
+            <p><?php echo $LSZ_MODE ? 'Confirm your Form IV results, then add your professional qualification.' : 'Add your results based on the instruction from form'; ?></p>
         </div>
     </div>
+
+    <?php if ($LSZ_MODE && $LSZ_NEXT_CTA_LABEL): ?>
+    <div class="col-lg-12" style="margin-bottom:12px;">
+        <?php if ($hasEquivRow): ?>
+            <div class="alert alert-success" style="margin-bottom:8px;">
+                <strong><i class="fa fa-check-circle"></i> Your professional qualification is on file.</strong>
+                <span> Review it below or continue to the next step.</span>
+            </div>
+        <?php elseif ($hasOLevel): ?>
+            <div class="alert alert-info" style="border-left:4px solid #C9A227;">
+                <h4 style="margin-top:0;"><i class="fa fa-graduation-cap"></i> Next: <?php echo htmlspecialchars($LSZ_NEXT_CTA_LABEL); ?></h4>
+                <p style="margin:6px 0 10px;"><?php echo htmlspecialchars($LSZ_NEXT_CTA_HINT); ?></p>
+                <a href="index.php?sz=equivalent" class="btn btn-warning">
+                    <i class="fa fa-plus-circle"></i> <?php echo htmlspecialchars($LSZ_NEXT_CTA_LABEL); ?>
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-info">
+                <strong><i class="fa fa-info-circle"></i> First, confirm your Form IV (O-level) results below.</strong>
+                <span> After that we'll ask for your <?php echo $LSZ_STUDY_LEVEL_ID === 4 ? 'Bachelor Degree of Law' : 'Diploma in Law'; ?>.</span>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
     <div class="col-lg-12">
         <div class="col-lg-12">
             <?php

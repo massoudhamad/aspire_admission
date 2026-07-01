@@ -73,7 +73,6 @@ if ($indexNumber) {
 
         curl_close($curl);
         $data = json_decode($response_json, true);
-        var_dump($data);
 
 ?>
         <form name="" action="action_save_equivalence_results.php" method="post">

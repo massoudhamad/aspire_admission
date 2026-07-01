@@ -25,7 +25,7 @@ if($avn) {
         $fname=$db->getData("applicants","firstName","applicantID",$applicantID);
         $mname=$db->getData("applicants","middleName","applicantID",$applicantID);
         $lname=$db->getData("applicants","lastName","applicantID",$applicantID);
-        var_dump($data);
+        // var_dump removed (leftover debug)
 if ($data['status']['code'] == 200) {
     foreach($data['params'] as $value)
     {
