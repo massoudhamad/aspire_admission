@@ -77,6 +77,16 @@ $db = new DBHelper();
     </div>
     <div class="row">
         <div class="col-md-12">
+            <div class="alert alert-info" style="border-left:4px solid #C9A227;margin-bottom:16px;">
+                <strong><i class="fa fa-info-circle"></i> This is the legacy view — read-only summary.</strong>
+                <p style="margin:6px 0 0;">
+                    New rules with AND/OR logic (compulsory subjects, alternatives, GPA, prior-level gates)
+                    are managed in
+                    <a href="index3.php?sp=rule_builder" class="btn btn-sm btn-primary" style="margin-left:6px;">
+                        <i class="fa fa-sitemap"></i> Program Rules (AND/OR)
+                    </a>
+                </p>
+            </div>
             <?php
 
             $db = new DBHelper();

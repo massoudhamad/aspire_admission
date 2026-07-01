@@ -26,8 +26,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 <li><a href="index3.php?sp=publish">Publish/Unpublish Programmes</a></li>
                 <li><a href="index3.php?sp=subjects">Subjects</a></li>
                 <li><a href="index3.php?sp=grades">Grades</a></li>
-                <li><a href="index3.php?sp=pmapping">Program Requirements</a></li>
-                <li><a href="index3.php?sp=rule_builder"><i class="fa fa-sitemap"></i> Program Rules (AND/OR)</a></li>
+                <li><a href="index3.php?sp=rule_builder"><i class="fa fa-sitemap"></i> <strong>Program Rules (AND/OR)</strong></a></li>
+                <li><a href="index3.php?sp=pmapping" title="Legacy view — use Program Rules (AND/OR) instead"><small>Program Requirements (legacy)</small></a></li>
                 <li><a href="index3.php?sp=applicationfees">Application Fees</a></li>
                 <li><a href="index3.php?sp=feestype">Fees Type</a></li>
                 <li><a href="index3.php?sp=programmefees">Programme Fees</a></li>
